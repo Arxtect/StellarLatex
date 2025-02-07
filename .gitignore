@@ -8,3 +8,5 @@ swiftlatexdvipdfm.wasm
 *.Identifier
 .texlive_tmp
 .DS_Store
+3rdparty
+build

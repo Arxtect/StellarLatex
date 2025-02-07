@@ -63,39 +63,21 @@ If you host your own texlive server, you may wanna generate the tex engine forma
 SwiftLaTeX compiles XeTeX and PdfTeX engines into WebAssembly. We recommend the XeTeX engine as it supports UTF-8 and Opentype fonts out of box.
 The engine is almost 100% identical to XeTeX except SwiftLaTeX does not include a full ICU dataset. As a result, the locale linebreaking may not function as expected. This issue is easy to fix: we just need to initialize the ICU library with the correct dataset.  If you just need to handle English, the PdfTeX is also a nice option. It is less compilcated, thus faster and less buggy.
 
-1. Get the emsdk repo
-```
-git clone https://github.com/emscripten-core/emsdk.git
-```
-2. Enter that directory
-```
-cd emsdk
-```
-3. Fetch the latest version of the emsdk (not needed the first time you clone)
-```
-git pull
-```
-4. Download and install the latest SDK tools.
-```
-./emsdk install latest
-```
-5. Make the latest" SDK "active" for the current user. (writes .emscripten file)
-```
-./emsdk activate latest
-```
-6. Activate PATH and other environment variables in the current terminal
-```
-source ./emsdk_env.sh
-```
-7. Compile XeTeX or PdfTeX
-```
-cd pdftex.wasm or xetex.wasm
-make
-```
+1. If you have already installed emsdk toolchain, then run
 
+   ```bash
+   EMSDK_PATH=/path/to/emsdk cmake -B build
+   cmake --build build
+   ```
 
+2. If you have not installed emsdk toolchain, don't worry: run this will complete both download emsdk and compile the engine.
 
+   ```bash
+   cmake -B build
+   cmake --build build
+   ```
 
+The first time you run the commands, CMake will download and compile third-party libraries before compiling this repository. After the compilation is complete, you can find the `.js` and `.wasm` files in the `build/xxx.wasm` directory.
 
 ## CTAN files
 LaTeX is not a stand-alone typesetting program in itself, but document preparation software that runs on top of Donald E. Knuth's TeX typesetting system. TeX distributions usually bundle together all the parts needed for a working TeX system and they generally add to this both configuration and maintenance utilities. Nowadays LaTeX, and many of the packages built on it, form an important component of any major TeX distribution. 
