@@ -1,10 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 project(swiftlatexxetex)
 
-#  COMPILER
-set(CMAKE_C_COMPILER emcc)
-set(CMAKE_CXX_COMPILER em++)
-
 #  COMPILE FLAGS
 ## set flags
 set(COMMON_FLAGS
@@ -88,7 +84,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/teckit
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/xpdf/xpdf.a
+    ${CMAKE_CURRENT_SOURCE_DIR}/../pdftex.wasm/xpdf/xpdf.a
     ${CMAKE_CURRENT_SOURCE_DIR}/graphite2/libgraphite2.a
     ${CMAKE_CURRENT_SOURCE_DIR}/harfbuzz/libharfbuzz.a
 )

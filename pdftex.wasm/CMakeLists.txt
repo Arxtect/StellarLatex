@@ -1,10 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 project(swiftlatexpdftex)
 
-#  COMPILER
-set(CMAKE_C_COMPILER emcc)
-set(CMAKE_CXX_COMPILER em++)
-
 #  COMPILE FLAGS
 ## set flags
 set(COMMON_FLAGS

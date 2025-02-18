@@ -720,7 +720,7 @@ read_pdf_info(char *image_name, char *page_name, int page_num,
     float pdf_version_found, pdf_version_wanted;
     // initialize
     if (!isInit) {
-        globalParams = new GlobalParams();
+        globalParams = new GlobalParams(nullptr);
         globalParams->setErrQuiet(gFalse);
         isInit = gTrue;
     }

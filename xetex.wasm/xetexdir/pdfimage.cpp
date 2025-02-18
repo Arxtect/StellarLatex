@@ -53,7 +53,7 @@ int
 pdf_get_rect(char* filename, int page_num, int pdf_box, realrect* box)
 	/* return the box converted to TeX points */
 {
-	GooString*	name = new GooString(filename);
+	GString*	name = new GString(filename);
 	PDFDoc*		doc = new PDFDoc(name);
 
 	if (!doc) {
@@ -121,7 +121,7 @@ int
 pdf_count_pages(char* filename)
 {
 	int			pages = 0;
-	GooString*	name = new GooString(filename);
+	GString*	name = new GString(filename);
 	PDFDoc*		doc = new PDFDoc(name);
 
 	if (!doc) {

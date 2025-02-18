@@ -8,5 +8,7 @@ swiftlatexdvipdfm.wasm
 *.Identifier
 .texlive_tmp
 .DS_Store
-3rdparty
+3rdparty/emsdk
+3rdparty/libxpdf/repo
+3rdparty/libgraphite2/repo
 build
