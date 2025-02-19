@@ -83,10 +83,11 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/tex
     ${CMAKE_CURRENT_SOURCE_DIR}/pdftexdir
-    ${CMAKE_CURRENT_SOURCE_DIR}/xpdf
-    ${CMAKE_CURRENT_SOURCE_DIR}/xpdf/goo
-	${CMAKE_CURRENT_SOURCE_DIR}/xpdf/xpdf
+    ${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty/libxpdf/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty/libxpdf/repo
+    ${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty/libxpdf/repo/goo
+    ${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty/libxpdf/repo/xpdf
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/xpdf/xpdf.a
+    ${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty/libxpdf/build/libxpdf.a
 )

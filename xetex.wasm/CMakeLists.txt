@@ -78,13 +78,14 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/tex
     ${CMAKE_CURRENT_SOURCE_DIR}/xetexdir
     ${CMAKE_CURRENT_SOURCE_DIR}/harfbuzz
-    ${CMAKE_CURRENT_SOURCE_DIR}/../pdftex.wasm/xpdf
-    ${CMAKE_CURRENT_SOURCE_DIR}/../pdftex.wasm/xpdf/goo
-    ${CMAKE_CURRENT_SOURCE_DIR}/../pdftex.wasm/xpdf/xpdf
+    ${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty/libxpdf/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty/libxpdf/repo
+    ${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty/libxpdf/repo/goo
+    ${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty/libxpdf/repo/xpdf
     ${CMAKE_CURRENT_SOURCE_DIR}/teckit
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/../pdftex.wasm/xpdf/xpdf.a
+    ${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty/libxpdf/build/libxpdf.a
     ${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty/libgraphite2/build/src/libgraphite2.a
     ${CMAKE_CURRENT_SOURCE_DIR}/harfbuzz/libharfbuzz.a
 )
