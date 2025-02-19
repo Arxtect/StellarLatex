@@ -8,15 +8,13 @@ set(COMMON_FLAGS
     -Wno-parentheses-equality
     -Wno-pointer-sign
     -DWEBASSEMBLY_BUILD
-    -sUSE_FREETYPE=1
-    -sUSE_ICU=1
-    -sUSE_LIBPNG=1
+    -sUSE_FREETYPE
+    -sUSE_ICU
+    -sUSE_LIBPNG
     -fno-rtti
     -fno-exceptions
 )
-## convert to string
 string(REPLACE ";" " " COMMON_FLAGS_STR "${COMMON_FLAGS}")
-## set to cmake variable
 set(CMAKE_C_FLAGS "${COMMON_FLAGS_STR}")
 set(CMAKE_CXX_FLAGS "${COMMON_FLAGS_STR}")
 
@@ -54,17 +52,17 @@ file(GLOB_RECURSE TEXSOURCES
     xetexdir/XeTeX_ext.c
     xetexdir/XeTeX_pic.c
     xetexdir/image/bmpimage.c
-	xetexdir/image/jpegimage.c
-	xetexdir/image/pngimage.c
+    xetexdir/image/jpegimage.c
+    xetexdir/image/pngimage.c
     xetexdir/trans.c
 )
 ## xetex
 file(GLOB_RECURSE XETEXSOURCES
-	xetexdir/XeTeXOTMath.cpp
-	xetexdir/XeTeXLayoutInterface.cpp
-	xetexdir/XeTeXFontMgr.cpp xetexdir/XeTeXFontInst.cpp
-	xetexdir/XeTeXFontMgr_FC.cpp xetexdir/hz.cpp
-	xetexdir/pdfimage.cpp
+    xetexdir/XeTeXOTMath.cpp
+    xetexdir/XeTeXLayoutInterface.cpp
+    xetexdir/XeTeXFontMgr.cpp xetexdir/XeTeXFontInst.cpp
+    xetexdir/XeTeXFontMgr_FC.cpp xetexdir/hz.cpp
+    xetexdir/pdfimage.cpp
 )
 ## teckit
 file(GLOB_RECURSE TECKITSOURCES
@@ -73,19 +71,20 @@ file(GLOB_RECURSE TECKITSOURCES
 
 #  SET CMAKE PROJECT
 add_executable(${PROJECT_NAME} ${TEXSOURCES} ${XETEXSOURCES} ${TECKITSOURCES})
+
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/tex
     ${CMAKE_CURRENT_SOURCE_DIR}/xetexdir
-    ${CMAKE_CURRENT_SOURCE_DIR}/harfbuzz
-    ${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty/libxpdf/inc
-    ${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty/libxpdf/repo
-    ${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty/libxpdf/repo/goo
-    ${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty/libxpdf/repo/xpdf
     ${CMAKE_CURRENT_SOURCE_DIR}/teckit
+    ${THIRD_PARTY_DIR}/libharfbuzz/repo/src
+    ${THIRD_PARTY_DIR}/libxpdf/inc
+    ${THIRD_PARTY_DIR}/libxpdf/repo
+    ${THIRD_PARTY_DIR}/libxpdf/repo/goo
+    ${THIRD_PARTY_DIR}/libxpdf/repo/xpdf
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty/libxpdf/build/libxpdf.a
-    ${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty/libgraphite2/build/src/libgraphite2.a
-    ${CMAKE_CURRENT_SOURCE_DIR}/harfbuzz/libharfbuzz.a
+    ${THIRD_PARTY_DIR}/libxpdf/build/libxpdf.a
+    ${THIRD_PARTY_DIR}/libgraphite2/build/src/libgraphite2.a
+    ${THIRD_PARTY_DIR}/libharfbuzz/build/libharfbuzz.a
 )

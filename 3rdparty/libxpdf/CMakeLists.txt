@@ -1,12 +1,9 @@
 cmake_minimum_required(VERSION 3.13)
 project(libxpdf)
 
-# 设置编译器
-# 设置编译选项
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -emit-llvm -O3")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -emit-llvm -O3")
 
-# 定义源文件
 set(XPDF_SOURCES
     repo/goo/FixedPoint.cc
     repo/goo/GHash.cc
@@ -59,10 +56,8 @@ set(XPDF_SOURCES
     repo/xpdf/Zoox.cc
 )
 
-# 添加库
 add_library(xpdf STATIC ${XPDF_SOURCES})
 
-# 设置包含目录
 target_include_directories(xpdf PUBLIC
     ${CMAKE_SOURCE_DIR}/inc
     ${CMAKE_SOURCE_DIR}/repo/fofi

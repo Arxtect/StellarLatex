@@ -16,6 +16,7 @@ if(NOT RESULT EQUAL 0)
     message(FATAL_ERROR "Failed to build emscripten libraries")
 endif()
 set(CMAKE_TOOLCHAIN_FILE "${EMSDK_PATH}/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake")
+set(THIRD_PARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty)
 
 # then, we need some 3rd libraries
 ExternalProject_Add(
@@ -26,6 +27,16 @@ ExternalProject_Add(
     BINARY_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/libgraphite2/build
     CONFIGURE_COMMAND ${CMAKE_COMMAND} -S <SOURCE_DIR> -B <BINARY_DIR> -DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
     BUILD_COMMAND     ${CMAKE_COMMAND} --build <BINARY_DIR>
+)
+ExternalProject_Add(
+    libharfbuzz
+    GIT_REPOSITORY git@github.com:harfbuzz/harfbuzz.git
+    GIT_TAG        main
+    SOURCE_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/libharfbuzz/repo
+    BINARY_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/libharfbuzz/build
+    CONFIGURE_COMMAND ${CMAKE_COMMAND} -S <SOURCE_DIR>/.. -B <BINARY_DIR> -DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+    BUILD_COMMAND     ${CMAKE_COMMAND} --build <BINARY_DIR>
+    INSTALL_COMMAND ""
 )
 ExternalProject_Add(
     libxpdf

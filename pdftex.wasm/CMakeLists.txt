@@ -2,11 +2,10 @@ cmake_minimum_required(VERSION 3.10)
 project(swiftlatexpdftex)
 
 #  COMPILE FLAGS
-## set flags
 set(COMMON_FLAGS
     -O3
-	-sUSE_ZLIB=1
-    -sUSE_LIBPNG=1
+    -sUSE_ZLIB
+    -sUSE_LIBPNG
     -Wno-parentheses-equality
     -Wno-pointer-sign
     -DWEBASSEMBLY_BUILD
@@ -31,8 +30,8 @@ set(LINKER_FLAGS
     -sNO_EXIT_RUNTIME=1
     -sEXPORTED_RUNTIME_METHODS=["cwrap"]
     -sALLOW_MEMORY_GROWTH=1
-	-sUSE_ZLIB=1
-    -sUSE_LIBPNG=1
+    -sUSE_ZLIB
+    -sUSE_LIBPNG
 )
 string(REPLACE ";" " " LINKER_FLAGS_STR "${LINKER_FLAGS}")
 set(CMAKE_EXE_LINKER_FLAGS "${LINKER_FLAGS_STR}")
@@ -83,11 +82,11 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/tex
     ${CMAKE_CURRENT_SOURCE_DIR}/pdftexdir
-    ${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty/libxpdf/inc
-    ${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty/libxpdf/repo
-    ${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty/libxpdf/repo/goo
-    ${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty/libxpdf/repo/xpdf
+    ${THIRD_PARTY_DIR}/libxpdf/inc
+    ${THIRD_PARTY_DIR}/libxpdf/repo
+    ${THIRD_PARTY_DIR}/libxpdf/repo/goo
+    ${THIRD_PARTY_DIR}/libxpdf/repo/xpdf
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty/libxpdf/build/libxpdf.a
+    ${THIRD_PARTY_DIR}/libxpdf/build/libxpdf.a
 )

@@ -2,11 +2,10 @@ cmake_minimum_required(VERSION 3.10)
 project(swiftlatexdvipdfm)
 
 # COMPILE FLAGS
-set(DEBUGFLAGS -O3)
 set(COMMON_FLAGS
-    ${DEBUGFLAGS}
+    -O3
     -DHAVE_ZLIB
-    -sUSE_LIBPNG=1
+    -sUSE_LIBPNG
     -fno-rtti
     -fno-exceptions
 )
@@ -16,10 +15,9 @@ set(CMAKE_CXX_FLAGS "${COMMON_FLAGS_STR}")
 
 # LINK FLAGS
 set(LINKER_FLAGS
-    ${DEBUGFLAGS}
     --js-library=${CMAKE_CURRENT_SOURCE_DIR}/library.js
     -sENVIRONMENT="web"
-    -sUSE_LIBPNG=1
+    -sUSE_LIBPNG
     --pre-js=${CMAKE_CURRENT_SOURCE_DIR}/pre.js
     -sEXPORTED_FUNCTIONS='["_compilePDF","_setMainEntry","_main","_malloc" ]'
     -sNO_EXIT_RUNTIME=1

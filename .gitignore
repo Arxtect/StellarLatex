@@ -11,4 +11,5 @@ swiftlatexdvipdfm.wasm
 3rdparty/emsdk
 3rdparty/libxpdf/repo
 3rdparty/libgraphite2/repo
+3rdparty/libharfbuzz/repo
 build
