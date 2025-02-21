@@ -63,6 +63,8 @@ If you host your own texlive server, you may wanna generate the tex engine forma
 SwiftLaTeX compiles XeTeX and PdfTeX engines into WebAssembly. We recommend the XeTeX engine as it supports UTF-8 and Opentype fonts out of box.
 The engine is almost 100% identical to XeTeX except SwiftLaTeX does not include a full ICU dataset. As a result, the locale linebreaking may not function as expected. This issue is easy to fix: we just need to initialize the ICU library with the correct dataset.  If you just need to handle English, the PdfTeX is also a nice option. It is less compilcated, thus faster and less buggy.
 
+This repo requires to be built on Linux, and you should run `sudo npm install -g prettier` first.
+
 1. If you have already installed emsdk toolchain, then run
 
    ```bash
