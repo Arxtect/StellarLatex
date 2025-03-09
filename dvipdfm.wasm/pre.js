@@ -3,7 +3,7 @@ const WORKROOT = "/work";
 var Module = {};
 self.memlog = "";
 self.mainfile = "main.tex";
-self.texlive_endpoint = "https://texlive2.swiftlatex.com/";
+self.texlive_endpoint = "https://magic.pointer.ai/latex/";
 Module['print'] = function(a) {
     self.memlog += (a + "\n");
     console.log(a);

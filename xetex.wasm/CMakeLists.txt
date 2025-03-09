@@ -82,9 +82,13 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${THIRD_PARTY_DIR}/libxpdf/repo
     ${THIRD_PARTY_DIR}/libxpdf/repo/goo
     ${THIRD_PARTY_DIR}/libxpdf/repo/xpdf
+    ${THIRD_PARTY_DIR}/libpplib/repo/src
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE
     ${THIRD_PARTY_DIR}/libxpdf/build/libxpdf.a
     ${THIRD_PARTY_DIR}/libgraphite2/build/src/libgraphite2.a
     ${THIRD_PARTY_DIR}/libharfbuzz/build/libharfbuzz.a
+    ${THIRD_PARTY_DIR}/libpplib/build/libpplib.a
+    ${THIRD_PARTY_DIR}/libpplib/build/libpplib_utils.a
+    ${THIRD_PARTY_DIR}/libpplib/build/libpplib_filters.a
 )
