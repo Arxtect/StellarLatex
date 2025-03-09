@@ -38,10 +38,12 @@ authorization from the copyright holders.
 
 #include <w2c/config.h>
 
+/* 
+ * From TeX Live 2021, we use pplib by Pawe\l Jackowski instead of
+ * libpoppler
+ */
 #ifndef WEBASSEMBLY_BUILD
-#ifndef POPPLER_VERSION
-#include <poppler-config.h>
-#endif
+#include <ppapi.h>
 #include <zlib.h>
 #endif
 
@@ -189,7 +191,7 @@ void initversionstring(char **versions)
         "Compiled with Graphite2 version %d.%d.%d; using %d.%d.%d\n"
         "Compiled with HarfBuzz version %s; using %s\n"
         "Compiled with libpng version %s; using %s\n"
-        "Compiled with poppler version %s\n"
+        "Compiled with pplib version %s\n"
 #ifdef XETEX_MAC
         "Using Mac OS X Core Text and Cocoa frameworks\n"
 #else
@@ -206,7 +208,7 @@ void initversionstring(char **versions)
             + strlen(hb_version_string())
             + strlen(PNG_LIBPNG_VER_STRING)
             + strlen(png_libpng_ver)
-            + strlen(POPPLER_VERSION)
+            + strlen(pplib_version)
 #ifndef XETEX_MAC
             + 6 * 3 /* for fontconfig version #s (won't really need 3 digits per field!) */
 #endif
@@ -236,7 +238,7 @@ void initversionstring(char **versions)
         GR2_VERSION_MAJOR, GR2_VERSION_MINOR, GR2_VERSION_BUGFIX,
         grMajor, grMinor, grBugfix,
         HB_VERSION_STRING, hb_version_string(),
-        PNG_LIBPNG_VER_STRING, png_libpng_ver, POPPLER_VERSION
+        PNG_LIBPNG_VER_STRING, png_libpng_ver, pplib_version
 #ifndef XETEX_MAC
         ,
         FC_VERSION / 10000, (FC_VERSION % 10000) / 100, FC_VERSION % 100,
@@ -333,6 +335,7 @@ apply_normalization(uint32_t* buf, int len, int norm)
 
     status = TECkit_ConvertBuffer(*normPtr, (Byte*)buf, len * sizeof(UInt32), &inUsed,
                 (Byte*)&buffer[first], sizeof(*buffer) * (bufsize - first), &outUsed, 1);
+    TECkit_ResetConverter(*normPtr);
     if (status != kStatus_NoError)
         buffer_overflow();
     last = first + outUsed / sizeof(*buffer);
@@ -711,6 +714,7 @@ applytfmfontmapping(void* cnv, int c)
     /* TECkit_Status status; */
     /* status = */ TECkit_ConvertBuffer((TECkit_Converter)cnv,
             (const Byte*)&in, sizeof(in), &inUsed, out, sizeof(out), &outUsed, 1);
+    TECkit_ResetConverter((TECkit_Converter)cnv);
     if (outUsed < 1)
         return 0;
     else
@@ -1753,6 +1757,7 @@ retry:
     status = TECkit_ConvertBuffer(cnv,
             (Byte*)txtPtr, txtLen * sizeof(UniChar), &inUsed,
             (Byte*)mappedtext, outLength, &outUsed, true);
+    TECkit_ResetConverter(cnv);
 
     switch (status) {
         case kStatus_NoError:
