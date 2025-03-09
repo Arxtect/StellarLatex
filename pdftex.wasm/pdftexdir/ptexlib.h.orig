@@ -356,10 +356,6 @@ static const key_entry font_key[FONT_KEYS_NUM] = {
     , {"FontName", "FontName"}
 };
 
-extern void outputfileinfo();
-extern void fillcsinfo(int n);
-extern void outputloc(int p, int style);
-extern unsigned long long getcharsigslot(int index, int line, int column, int group, int cs);
 /**********************************************************************/
 #endif                          /* PDFTEXLIB */
 // vim: ts=4
