@@ -146,8 +146,8 @@ function compileLaTeXRoutine() {
         }, [pdfArrayBuffer.buffer]);
     } else {
         let pdfArrayBuffer = null;
+        let pdfurl = WORKROOT + "/" + self.mainfile.substr(0, self.mainfile.length - 4) + ".xdv";
         try {
-            let pdfurl = WORKROOT + "/" + self.mainfile.substr(0, self.mainfile.length - 4) + ".xdv";
             _compileBibtex();
             pdfArrayBuffer = FS.readFile(pdfurl, {
                 encoding: 'binary'
@@ -178,13 +178,13 @@ function compileFormatRoutine() {
     prepareExecutionContext();
     let status = _compileFormat();
     let pdfArrayBuffer = null;
+    let pdfurl = WORKROOT + "/xelatex.fmt";
     try {
-        let pdfurl = WORKROOT + "/xelatex.fmt";
         pdfArrayBuffer = FS.readFile(pdfurl, {
             encoding: 'binary'
         });
     } catch (err) {
-        console.error("Fetch content failed.");
+        console.error("Fetch content failed." + pdfurl);
         status = -253;
         self.postMessage({
             'result': 'failed',

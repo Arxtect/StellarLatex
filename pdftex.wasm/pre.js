@@ -120,13 +120,13 @@ function compileLaTeXRoutine() {
     if (status === 0) {
         let pdfArrayBuffer = null;
         _compileBibtex();
+        let pdfurl = WORKROOT + "/" + self.mainfile.substr(0, self.mainfile.length - 4) + ".pdf";
         try {
-            let pdfurl = WORKROOT + "/" + self.mainfile.substr(0, self.mainfile.length - 4) + ".pdf";
             pdfArrayBuffer = FS.readFile(pdfurl, {
                 encoding: 'binary'
             });
         } catch (err) {
-            console.error("Fetch content failed.");
+            console.error("Fetch content failed." + pdfurl);
             status = -253;
             self.postMessage({
                 'result': 'failed',
@@ -145,14 +145,14 @@ function compileLaTeXRoutine() {
         }, [pdfArrayBuffer.buffer]);
     } else {
         let pdfArrayBuffer = null;
+        let pdfurl = WORKROOT + "/" + self.mainfile.substr(0, self.mainfile.length - 4) + ".pdf";
         try {
             _compileBibtex();
-            let pdfurl = WORKROOT + "/" + self.mainfile.substr(0, self.mainfile.length - 4) + ".pdf";
             pdfArrayBuffer = FS.readFile(pdfurl, {
                 encoding: 'binary'
             });
         } catch (err) {
-            console.error("Fetch content failed.");
+            console.error("Fetch content failed." + pdfurl);
             status = -253;
             self.postMessage({
                 'result': 'failed',
@@ -177,13 +177,13 @@ function compileFormatRoutine() {
     prepareExecutionContext();
     let status = _compileFormat();
     let pdfArrayBuffer = null;
+    let pdfurl = WORKROOT + "/pdflatex.fmt";
     try {
-        let pdfurl = WORKROOT + "/pdflatex.fmt";
         pdfArrayBuffer = FS.readFile(pdfurl, {
             encoding: 'binary'
         });
     } catch (err) {
-        console.error("Fetch content failed.");
+        console.error("Fetch content failed." + pdfurl);
         status = -253;
         self.postMessage({
             'result': 'failed',
