@@ -187,11 +187,8 @@ int xfclose(FILE *stream, const_string filename) {
   return 0;
 }
 
-
-
 extern char* kpse_find_file_js(const char* name, kpse_file_format_type format,
                      boolean must_exist);
-
 static void fix_extension(char *local_name, int format) {
 #define SUFFIX(suf) strcat(local_name, suf);
 
@@ -352,6 +349,27 @@ char* kpse_find_file(const char* name, kpse_file_format_type format,
   if (access(local_name, F_OK) != -1) {
     return local_name;
   }
+    char* base = NULL;
+  // try lower case path
+  char *lower_path = strdup(local_name);
+  base = basename(lower_path);
+  for (char *p = base; *p; p++) 
+    *p = tolower((unsigned char)*p);
+  if (access(lower_path, F_OK) != -1) {
+    free(local_name);
+    return lower_path;
+  }
+  free(lower_path);
+  // try upper case path
+  char *upper_path = strdup(local_name);
+  base = basename(upper_path);
+  for (char *p = base; *p; p++)
+    *p = toupper((unsigned char)*p); // 转为大写
+  if (access(upper_path, F_OK) != -1) {
+    free(local_name);
+    return upper_path;
+  }
+  free(upper_path);
 
   // Append extension and search again
   const char *basePath = basename(local_name);
@@ -361,6 +379,27 @@ char* kpse_find_file(const char* name, kpse_file_format_type format,
     if (access(local_name, F_OK) != -1) {
       return local_name;
     }
+        char* base = NULL;
+    // try lower case
+    char *lower_path = strdup(local_name);
+    base = basename(lower_path);
+    for (char *p = base; *p; p++) 
+      *p = tolower((unsigned char)*p);
+    if (access(lower_path, F_OK) != -1) {
+      free(local_name);
+      return lower_path;
+    }
+    free(lower_path);
+    // try upper case path
+    char *upper_path = strdup(local_name);
+    base = basename(upper_path);
+    for (char *p = base; *p; p++)
+      *p = toupper((unsigned char)*p); // 转为大写
+    if (access(upper_path, F_OK) != -1) {
+      free(local_name);
+      return upper_path;
+    }
+    free(upper_path);
   }
 
   // End local Search
