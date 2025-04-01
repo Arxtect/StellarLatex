@@ -6,12 +6,18 @@
 #include <string_view>
 #include <vector>
 
+// TO BE FINISHED:
+// optimise: AST Tree
+// how .sty file is built
+// optimize depend to number
+// in addition of texlive tlcontrib
+
 class CTANFileManager {
 public:
 	CTANFileManager() = delete;
 	/**
 	 * @brief build a new CTANFileManager from texlive.tlpdb
-	 * 
+	 *
 	 * @param content file content of texlive.tlpdb
 	 */
 	CTANFileManager(std::string_view content) {
@@ -23,7 +29,19 @@ public:
 			if (chunk_end == std::string_view::npos) chunk_end = content.size();
 			std::string_view chunk = content.substr(chunk_start, chunk_end - chunk_start);
 			if (!chunk.empty()) {
-				nodes.emplace_back(std::move(tlpobjNode(chunk)));  // 传递string_view
+				// this can be optimized
+				// filter invalid name. Now is: name begin with 'scheme-' or with dot in
+				// it, do false
+				auto check_valid_name = [](std::string_view nodeContent) {
+					if (nodeContent.substr(5, 7) == "scheme-") { return false; }
+					for (auto i : nodeContent) {
+						if (i == '\n') return true;
+						if (i == '.') return false;
+					}
+					return true;
+				};
+				if (check_valid_name(chunk) == true)
+					nodes.emplace_back(std::move(tlpobjNode(chunk)));
 			}
 			chunk_start = (chunk_end == content.size()) ? chunk_end : chunk_end + 2;
 		}
@@ -36,7 +54,7 @@ public:
 private:
 	/**
 	 * @brief one tlpobj node contains one module information
-	 * 
+	 *
 	 */
 	class tlpobjNode {
 	public:
@@ -50,7 +68,7 @@ private:
 		std::vector<std::string> binfiles;
 		/**
 		 * @brief build node from content
-		 * 
+		 *
 		 * @param configContent content of one node
 		 */
 		tlpobjNode(std::string_view configContent) {
@@ -107,9 +125,9 @@ private:
 		}
 		/**
 		 * @brief get query of file in which category
-		 * 
-		 * @param filename 
-		 * @return KeyType 
+		 *
+		 * @param filename
+		 * @return KeyType
 		 */
 		KeyType FindFile(const std::string& filename) const {
 			// Lambda to extract filename from path
