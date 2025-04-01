@@ -21,7 +21,9 @@ public:
 	 * @param content file content of texlive.tlpdb
 	 */
 	CTANFileManager(std::string_view content) {
+		std::vector<std::vector<std::string>> temp_dependencies;
 		nodes.reserve(5120);  // we have 4846 tlpobj files when commit
+		temp_dependencies.reserve(5120);
 		size_t chunk_start = 0;
 		// separate tlpobj content
 		while (chunk_start < content.size()) {
@@ -30,24 +32,39 @@ public:
 			std::string_view chunk = content.substr(chunk_start, chunk_end - chunk_start);
 			if (!chunk.empty()) {
 				// this can be optimized
-				// filter invalid name. Now is: name begin with 'scheme-' or with dot in
-				// it, do false
+				// filter invalid name. Now is: name begin with 'scheme-', or
+				// 'collection-', or with dot in it, do false
 				auto check_valid_name = [](std::string_view nodeContent) {
 					if (nodeContent.substr(5, 7) == "scheme-") { return false; }
-					for (auto i : nodeContent) {
-						if (i == '\n') return true;
-						if (i == '.') return false;
+					if (nodeContent.substr(5, 11) == "collection-") { return false; }
+					for (int index = 6; index< nodeContent.size(); ++index) {
+						if (nodeContent[index] == '\n') return true;
+						if (nodeContent[index] == '.') return false;
 					}
 					return true;
 				};
 				if (check_valid_name(chunk) == true)
-					nodes.emplace_back(std::move(tlpobjNode(chunk)));
+					nodes.emplace_back(std::move(tlpobjNode(chunk, temp_dependencies)));
 			}
 			chunk_start = (chunk_end == content.size()) ? chunk_end : chunk_end + 2;
 		}
+		// build dependency
+		std::vector<std::string_view> name_index;
+		name_index.reserve(nodes.size());
+		for (const auto& node : nodes) { name_index.push_back(node.name); }
+		for (size_t i = 0; i < nodes.size(); ++i) {
+			for (const auto& dep_name : temp_dependencies[i]) {
+				auto it =
+					std::lower_bound(name_index.begin(), name_index.end(), dep_name);
+				if (it != name_index.end() && *it == dep_name) {
+					nodes[i].depend.push_back(
+						static_cast<int>(std::distance(name_index.begin(), it)));
+				}
+			}
+		}
 	}
 	friend std::ostream& operator<<(std::ostream& os, const CTANFileManager& m) {
-		for (auto& node : m.nodes) { os << node << std::endl; }
+		for (auto& node : m.nodes) { node.print_output(os, m.nodes); }
 		return os;
 	}
 
@@ -59,20 +76,23 @@ private:
 	class tlpobjNode {
 	public:
 		enum class KeyType { None, Name, Depend, Docfiles, Runfiles, Srcfiles, Binfiles };
-		std::string				 name;
-		std::string				 catalogue_ctan;
-		std::vector<std::string> depend;
-		std::vector<std::string> docfiles;
-		std::vector<std::string> runfiles;
-		std::vector<std::string> srcfiles;
-		std::vector<std::string> binfiles;
+		std::string				  name;
+		std::string				  catalogue_ctan;
+		std::vector<unsigned int> depend;
+		std::vector<std::string>  docfiles;
+		std::vector<std::string>  runfiles;
+		std::vector<std::string>  srcfiles;
+		std::vector<std::string>  binfiles;
 		/**
 		 * @brief build node from content
 		 *
 		 * @param configContent content of one node
 		 */
-		tlpobjNode(std::string_view configContent) {
-			size_t line_start = 0;
+		tlpobjNode(
+			std::string_view					   configContent,
+			std::vector<std::vector<std::string>>& temp_dependencies) {
+			size_t					 line_start = 0;
+			std::vector<std::string> local_depend;
 
 			// get next line from configContent
 			auto next_line = [&]() -> std::string_view {
@@ -97,15 +117,14 @@ private:
 				std::string		 value = std::string(line.substr(spacePos + 1));
 
 				if (key == "name") { name = value; }
-				else if (key == "depend") { depend.push_back(value); }
+				else if (key == "depend") { local_depend.push_back(value); }
 				else if (key == "catalogue-ctan") { catalogue_ctan = value; }
 				else if (key == "docfiles") { currentKey = KeyType::Docfiles; }
 				else if (key == "runfiles") { currentKey = KeyType::Runfiles; }
 				else if (key == "srcfiles") { currentKey = KeyType::Srcfiles; }
 				else if (key == "binfiles") { currentKey = KeyType::Binfiles; }
-				else if (currentKey != KeyType::None && line[0] == ' ') {  // Process
-																		   // indented
-																		   // lines
+				else if (currentKey != KeyType::None && line[0] == ' ') {
+					// Process indented lines
 					// Check for optional details parameter
 					size_t detailsPos = value.find(" details=");
 					if (detailsPos != std::string::npos) {
@@ -122,6 +141,7 @@ private:
 				}
 				else { currentKey = KeyType::None; }  // Reset context if invalid format
 			}
+			temp_dependencies.push_back(std::move(local_depend));
 		}
 		/**
 		 * @brief get query of file in which category
@@ -172,6 +192,25 @@ private:
 			for (const auto& file : node.binfiles) { os << " " << file; }
 			os << "\n";
 			return os;
+		}
+		void print_output(std::ostream& os, const std::vector<tlpobjNode>& nodes) const {
+			os << "Name: " << name << "\n";	 // Project name
+			os << "Catalogue CTAN: " << catalogue_ctan << "\n";
+			os << "Depend (" << depend.size() << "):";	// Dependencies list
+			for (const auto& dep : depend) { os << " " << nodes[dep].name; }
+			os << "\n";
+			os << "Docfiles (" << docfiles.size() << "):";	// Documentation files list
+			for (const auto& file : docfiles) { os << " " << file; }
+			os << "\n";
+			os << "Runfiles (" << runfiles.size() << "):";	// Runtime files list
+			for (const auto& file : runfiles) { os << " " << file; }
+			os << "\n";
+			os << "Srcfiles (" << srcfiles.size() << "):";	// Source files list
+			for (const auto& file : srcfiles) { os << " " << file; }
+			os << "\n";
+			os << "Binfiles (" << binfiles.size() << "):";	// Binary files list
+			for (const auto& file : binfiles) { os << " " << file; }
+			os << "\n";
 		}
 	};
 	std::vector<tlpobjNode> nodes;
