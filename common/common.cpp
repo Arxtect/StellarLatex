@@ -17,52 +17,7 @@ public:
 	std::vector<std::string> runfiles;
 	std::vector<std::string> srcfiles;
 	std::vector<std::string> binfiles;
-
-	tlpobjNode(const std::string& configContent) {
-		std::istringstream stream(configContent);
-		std::string		   line;
-		KeyType			   currentKey = KeyType::None;	// Track current parsing context
-
-		while (std::getline(stream, line)) {
-			if (line.empty()) continue;
-
-			size_t spacePos = line.find(' ');  // Find key-value separator
-			if (spacePos == std::string::npos) continue;
-
-			std::string key	  = line.substr(0, spacePos);
-			std::string value = line.substr(spacePos + 1);
-
-			if (key == "name") { name = value; }  // Store project name
-			else if (key == "catalogue-ctan") {
-				catalogue_ctan = value;
-			}  // Store project name
-			else if (key == "depend") {
-				depend.push_back(value);
-			}  // Add dependency entry
-			else if (key == "docfiles") { currentKey = KeyType::Docfiles; }
-			else if (key == "runfiles") { currentKey = KeyType::Runfiles; }
-			else if (key == "srcfiles") { currentKey = KeyType::Srcfiles; }
-			else if (key == "binfiles") { currentKey = KeyType::Binfiles; }
-			else if (currentKey != KeyType::None && line[0] == ' ') {  // Process indented
-																	   // lines
-				// Check for optional details parameter
-				size_t detailsPos = value.find(" details=");
-				if (detailsPos != std::string::npos) {
-					value = value.substr(0, detailsPos);  // Strip details part
-				}
-				// Append to corresponding vector
-				switch (currentKey) {
-					case KeyType::Docfiles: docfiles.push_back(value); break;
-					case KeyType::Runfiles: runfiles.push_back(value); break;
-					case KeyType::Srcfiles: srcfiles.push_back(value); break;
-					case KeyType::Binfiles: binfiles.push_back(value); break;
-					default: break;
-				}
-			}
-			else { currentKey = KeyType::None; }  // Reset context if invalid format
-		}
-	}
-
+	// build node from content
 	tlpobjNode(std::string_view configContent) {
 		size_t line_start = 0;
 
@@ -113,7 +68,8 @@ public:
 			else { currentKey = KeyType::None; }  // Reset context if invalid format
 		}
 	}
-	KeyType FindFile(const std::string& filename) const {  // Find file's category
+	// Find file's category
+	KeyType FindFile(const std::string& filename) const {
 		// Lambda to extract filename from path
 		auto match = [&filename](const std::string& path) {
 			size_t		lastSlash = path.find_last_of('/');
@@ -160,33 +116,6 @@ std::ostream& operator<<(std::ostream& os, const tlpobjNode& config) {
 	return os;
 }
 
-const std::vector<tlpobjNode> parseTexliveTlpdb(const std::string& filename) {
-	std::vector<tlpobjNode> nodes;
-	std::ifstream			file(filename);
-	std::string				current_block;
-	std::string				line;
-
-	// reserve enough space
-	nodes.reserve(5120);  // we have 4846 tlpobj files when commit
-
-	while (std::getline(file, line)) {
-		if (line.empty()) {
-			if (!current_block.empty()) {
-				nodes.emplace_back(std::move(current_block));
-				current_block.clear();
-			}
-		}
-		else {
-			current_block += line;
-			current_block += "\n";
-		}
-	}
-
-	if (!current_block.empty()) { nodes.emplace_back(std::move(current_block)); }
-	nodes.reserve(nodes.size());
-	return nodes;
-}
-
 const std::vector<tlpobjNode> parseTexliveTlpdb(std::string_view content) {
 	std::vector<tlpobjNode> nodes;
 	nodes.reserve(5120);  // we have 4846 tlpobj files when commit
@@ -203,46 +132,6 @@ const std::vector<tlpobjNode> parseTexliveTlpdb(std::string_view content) {
 	}
 	return nodes;
 }
-
-// const std::vector<tlpobjNode> parseTexliveTlpdb(const std::string& filename) {
-// 	std::vector<tlpobjNode> nodes;
-// 	std::ifstream			file(filename, std::ios::binary);
-// 	constexpr size_t		BUFFER_SIZE = 20 * (1 << 20);  // 1MB缓冲区
-// 	char					buffer[BUFFER_SIZE];
-
-// 	std::string leftover;  // 保存跨缓冲区未处理的数据
-// 	nodes.reserve(5120);
-
-// 	while (file) {
-// 		file.read(buffer, BUFFER_SIZE);
-// 		const size_t	 bytes_read = file.gcount();
-// 		std::string_view chunk(buffer, bytes_read);
-
-// 		// 合并遗留数据和当前块
-// 		std::string combined = std::move(leftover);
-// 		combined.append(chunk);
-
-// 		size_t start_pos = 0;
-// 		while (true) {
-// 			size_t end_pos = combined.find("\n\n", start_pos);
-// 			if (end_pos == std::string::npos) break;
-
-// 			// 提取有效块（不包含结尾的\n\n）
-// 			std::string block = combined.substr(start_pos, end_pos - start_pos);
-// 			nodes.emplace_back(std::move(block));
-
-// 			start_pos = end_pos + 2;  // 跳过两个换行符
-// 		}
-
-// 		// 保存未处理完的数据
-// 		leftover = combined.substr(start_pos);
-// 	}
-
-// 	// 处理最后一个块（无结尾\n\n的情况）
-// 	if (!leftover.empty()) { nodes.emplace_back(std::move(leftover)); }
-
-// 	return nodes;
-// }
 
 int main(int argc, char* argv[]) {
 	std::ifstream file(argv[1]);
