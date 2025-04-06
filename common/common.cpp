@@ -64,7 +64,7 @@ public:
 		}
 	}
 	friend std::ostream& operator<<(std::ostream& os, const CTANFileManager& m) {
-		for (auto& node : m.nodes) { node.print_output(os, m.nodes); }
+		for (auto& node : m.nodes) { node.print_output(os, m.nodes); os << '\n'; }
 		return os;
 	}
 
@@ -75,14 +75,12 @@ private:
 	 */
 	class tlpobjNode {
 	public:
-		enum class KeyType { None, Name, Depend, Docfiles, Runfiles, Srcfiles, Binfiles };
+		enum class KeyType { None, Name, Depend, Runfiles, Srcfiles };
 		std::string				  name;
 		std::string				  catalogue_ctan;
 		std::vector<unsigned int> depend;
-		std::vector<std::string>  docfiles;
 		std::vector<std::string>  runfiles;
 		std::vector<std::string>  srcfiles;
-		std::vector<std::string>  binfiles;
 		/**
 		 * @brief build node from content
 		 *
@@ -119,10 +117,8 @@ private:
 				if (key == "name") { name = value; }
 				else if (key == "depend") { local_depend.push_back(value); }
 				else if (key == "catalogue-ctan") { catalogue_ctan = value; }
-				else if (key == "docfiles") { currentKey = KeyType::Docfiles; }
 				else if (key == "runfiles") { currentKey = KeyType::Runfiles; }
 				else if (key == "srcfiles") { currentKey = KeyType::Srcfiles; }
-				else if (key == "binfiles") { currentKey = KeyType::Binfiles; }
 				else if (currentKey != KeyType::None && line[0] == ' ') {
 					// Process indented lines
 					// Check for optional details parameter
@@ -132,10 +128,8 @@ private:
 					}
 					// Append to corresponding vector
 					switch (currentKey) {
-						case KeyType::Docfiles: docfiles.push_back(value); break;
 						case KeyType::Runfiles: runfiles.push_back(value); break;
 						case KeyType::Srcfiles: srcfiles.push_back(value); break;
-						case KeyType::Binfiles: binfiles.push_back(value); break;
 						default: break;
 					}
 				}
@@ -158,17 +152,11 @@ private:
 				return fileInPath == filename;
 			};
 
-			for (const auto& file : docfiles) {
-				if (match(file)) return KeyType::Docfiles;
-			}
 			for (const auto& file : runfiles) {
 				if (match(file)) return KeyType::Runfiles;
 			}
 			for (const auto& file : srcfiles) {
 				if (match(file)) return KeyType::Srcfiles;
-			}
-			for (const auto& file : binfiles) {
-				if (match(file)) return KeyType::Binfiles;
 			}
 			return KeyType::None;
 		}
@@ -178,18 +166,11 @@ private:
 			os << "Depend (" << node.depend.size() << "):";	 // Dependencies list
 			for (const auto& dep : node.depend) { os << " " << dep; }
 			os << "\n";
-			os << "Docfiles (" << node.docfiles.size()
-			   << "):";	 // Documentation files list
-			for (const auto& file : node.docfiles) { os << " " << file; }
-			os << "\n";
 			os << "Runfiles (" << node.runfiles.size() << "):";	 // Runtime files list
 			for (const auto& file : node.runfiles) { os << " " << file; }
 			os << "\n";
 			os << "Srcfiles (" << node.srcfiles.size() << "):";	 // Source files list
 			for (const auto& file : node.srcfiles) { os << " " << file; }
-			os << "\n";
-			os << "Binfiles (" << node.binfiles.size() << "):";	 // Binary files list
-			for (const auto& file : node.binfiles) { os << " " << file; }
 			os << "\n";
 			return os;
 		}
@@ -199,17 +180,11 @@ private:
 			os << "Depend (" << depend.size() << "):";	// Dependencies list
 			for (const auto& dep : depend) { os << " " << nodes[dep].name; }
 			os << "\n";
-			os << "Docfiles (" << docfiles.size() << "):";	// Documentation files list
-			for (const auto& file : docfiles) { os << " " << file; }
-			os << "\n";
 			os << "Runfiles (" << runfiles.size() << "):";	// Runtime files list
 			for (const auto& file : runfiles) { os << " " << file; }
 			os << "\n";
 			os << "Srcfiles (" << srcfiles.size() << "):";	// Source files list
 			for (const auto& file : srcfiles) { os << " " << file; }
-			os << "\n";
-			os << "Binfiles (" << binfiles.size() << "):";	// Binary files list
-			for (const auto& file : binfiles) { os << " " << file; }
 			os << "\n";
 		}
 	};
