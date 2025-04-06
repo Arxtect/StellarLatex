@@ -64,3 +64,66 @@ typedef enum {
 	kpse_last_format /* one past last index */
 } kpse_file_format_type;
 
+class CTANFileManager {
+public:
+	CTANFileManager() = delete;
+	/**
+	 * @brief build a new CTANFileManager from texlive.tlpdb
+	 *
+	 * @param content file content of texlive.tlpdb
+	 */
+	CTANFileManager(std::string_view content);
+	friend std::ostream& operator<<(std::ostream& os, const CTANFileManager& m);
+	/**
+	 * @brief find where the query file is
+	 *
+	 * @param request_name query file name
+	 * @param type query file type
+	 * @return catagory name & relative path, catagory name "" for fail
+	 */
+	std::pair<std::string, std::string>
+	query_file(const std::string& request_name, const kpse_file_format_type type);
+
+private:
+	/**
+	 * @brief one tlpobj node contains one module information
+	 *
+	 */
+	class tlpobjNode {
+	public:
+		enum class KeyType { None, Name, Depend, Runfiles, Srcfiles };
+		std::string				  name;
+		std::string				  catalogue_ctan;
+		std::vector<unsigned int> depend;
+		std::vector<std::string>  runfiles;
+		std::vector<std::string>  srcfiles;
+		/**
+		 * @brief build node from content
+		 *
+		 * @param configContent content of one node
+		 */
+		tlpobjNode(
+			std::string_view					   configContent,
+			std::vector<std::vector<std::string>>& temp_dependencies);
+		/**
+		 * @brief get query of file in which category
+		 *
+		 * @param filename
+		 * @return KeyType
+		 */
+		KeyType FindFile(const std::string& filename) const;
+		bool query_file(const std::string& filename, std::string& query_result) const;
+		friend std::ostream& operator<<(std::ostream& os, const tlpobjNode& node);
+		void print_output(std::ostream& os, const std::vector<tlpobjNode>& nodes) const;
+	};
+	/**
+	 * @brief give a correct format of the query file
+	 *
+	 * @param name file name, may be changed
+	 * @param type file type
+	 * @return nullptr for no more handle, else the suffix list
+	 */
+	std::vector<const char*>
+	handle_kpse_format(std::string& name, const kpse_file_format_type type);
+	std::vector<tlpobjNode> nodes;
+};
