@@ -2,15 +2,27 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#include <string>
 #include <string_view>
 #include <vector>
+
+#include "common.hpp"
 
 // TO BE FINISHED:
 // optimise: AST Tree
 // how .sty file is built
 // optimize depend to number
 // in addition of texlive tlcontrib
+
+inline bool end_up_with(const std::string& str, const char* suffix) {
+	const size_t str_length	   = str.size();
+	const size_t suffix_length = strlen(suffix);
+	return str_length >= suffix_length &&
+		   str.compare(str_length - suffix_length, suffix_length, suffix) == 0;
+}
+inline bool end_up_with(const std::string& str, const std::string& suffix) {
+	if (str.size() < suffix.size()) return false;
+	return str.substr(str.size() - suffix.size()) == suffix;
+}
 
 class CTANFileManager {
 public:
@@ -37,7 +49,7 @@ public:
 				auto check_valid_name = [](std::string_view nodeContent) {
 					if (nodeContent.substr(5, 7) == "scheme-") { return false; }
 					if (nodeContent.substr(5, 11) == "collection-") { return false; }
-					for (int index = 6; index< nodeContent.size(); ++index) {
+					for (int index = 6; index < nodeContent.size(); ++index) {
 						if (nodeContent[index] == '\n') return true;
 						if (nodeContent[index] == '.') return false;
 					}
@@ -64,8 +76,41 @@ public:
 		}
 	}
 	friend std::ostream& operator<<(std::ostream& os, const CTANFileManager& m) {
-		for (auto& node : m.nodes) { node.print_output(os, m.nodes); os << '\n'; }
+		for (auto& node : m.nodes) {
+			node.print_output(os, m.nodes);
+			os << '\n';
+		}
 		return os;
+	}
+	/**
+	 * @brief find where the query file is
+	 *
+	 * @param request_name query file name
+	 * @param type query file type
+	 * @return catagory name & relative path, catagory name "" for fail
+	 */
+	std::pair<std::string, std::string>
+	query_file(const std::string& request_name, const kpse_file_format_type type) {
+		std::string query_name	= '/' + request_name;
+		const auto	suffix_list = handle_kpse_format(query_name, type);
+		// get result of one filename
+		auto traverse_file = [&](const std::string& filename) {
+			std::string query_result;
+			for (auto node : nodes) {
+				if (node.query_file(filename, query_result))
+					return std::pair<std::string, std::string>(node.name, query_result);
+			}
+			return std::pair<std::string, std::string>("", "");
+		};
+		if (suffix_list.size() == 0) { return traverse_file(query_name); }
+		else {
+			for (const auto& suffix: suffix_list) {
+				std::string query_name_for_suffix = query_name + suffix;
+				auto		query_result		  = traverse_file(query_name_for_suffix);
+				if (query_result.first != "") return query_result;
+			}
+			return std::pair<std::string, std::string>("", "");
+		}
 	}
 
 private:
@@ -160,6 +205,21 @@ private:
 			}
 			return KeyType::None;
 		}
+		bool query_file(const std::string& filename, std::string& query_result) const {
+			for (const auto& file : srcfiles) {
+				if (end_up_with(file, filename)) {
+					query_result = file;
+					return true;
+				}
+			}
+			for (const auto& file : runfiles) {
+				if (end_up_with(file, filename)) {
+					query_result = file;
+					return true;
+				}
+			}
+			return false;
+		}
 		friend std::ostream& operator<<(std::ostream& os, const tlpobjNode& node) {
 			os << "Name: " << node.name << "\n";  // Project name
 			os << "Catalogue CTAN: " << node.catalogue_ctan << "\n";
@@ -188,11 +248,269 @@ private:
 			os << "\n";
 		}
 	};
+	/**
+	 * @brief give a correct format of the query file
+	 *
+	 * @param name file name, may be changed
+	 * @param type file type
+	 * @return nullptr for no more handle, else the suffix list
+	 */
+	std::vector<const char*> handle_kpse_format(std::string& name, const kpse_file_format_type type) {
+		const size_t name_length = name.length();
+		// retur suffix result
+		// if name end with one of suffix list, return; if suffix list contains only one,
+		// add it and return; else return suffix list
+		auto handle_suffixes = [&name,
+								&name_length](std::vector<const char*> suffix_list) -> std::vector<const char*> {
+			for (auto s:suffix_list) {
+				if (end_up_with(name, s)) return std::vector<const char*>{};
+			}
+			if (suffix_list.size() == 1) {
+				name += suffix_list[0];
+				return std::vector<const char*>{};
+			}
+			return suffix_list;
+		};
+		switch (type) {
+			case kpse_gf_format: {
+				std::vector<const char*> suffix_list = {"gf"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_pk_format: {
+				std::vector<const char*> suffix_list = {"pk"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_any_glyph_format: {  // TODO: not completed yet
+				return std::vector<const char*>{};
+			}
+			case kpse_tfm_format: {
+				std::vector<const char*> suffix_list = {".tfm"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_afm_format: {
+				std::vector<const char*> suffix_list = {".afm"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_base_format: {
+				std::vector<const char*> suffix_list = {".base"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_bib_format: {
+				std::vector<const char*> suffix_list = {".bib"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_bst_format: {
+				std::vector<const char*> suffix_list = {".bst"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_cnf_format: {
+				std::vector<const char*> suffix_list = {".cnf"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_db_format: {
+				std::vector<const char*> suffix_list = {"ls-R", "ls-r"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_fmt_format: {
+				std::vector<const char*> suffix_list = {".fmt"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_fontmap_format: {
+				std::vector<const char*> suffix_list = {".map"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_mem_format: {
+				std::vector<const char*> suffix_list = {".mem"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_mf_format: {
+				std::vector<const char*> suffix_list = {".mf"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_mft_format: {
+				std::vector<const char*> suffix_list = {".mft"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_mfpool_format: {
+				std::vector<const char*> suffix_list = {".pool"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_mp_format: {
+				std::vector<const char*> suffix_list = {".mp"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_mppool_format: {
+				std::vector<const char*> suffix_list = {".pool"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_mpsupport_format: {  // TODO: not completed yet
+				return std::vector<const char*>{};
+			}
+			case kpse_ocp_format: {
+				std::vector<const char*> suffix_list = {".ocp"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_ofm_format: {
+				std::vector<const char*> suffix_list = {".ofm"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_opl_format: {
+				std::vector<const char*> suffix_list = {".opl"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_otp_format: {
+				std::vector<const char*> suffix_list = {".otp"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_ovf_format: {
+				std::vector<const char*> suffix_list = {".ovf", ".vf"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_ovp_format: {
+				std::vector<const char*> suffix_list = {".ovp", ".vpl"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_pict_format: {
+				std::vector<const char*> suffix_list = {".eps", ".epsi"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_tex_format: {
+				// std::vector<const char*> suffix_list = {".tex", ".sty", ".cls", ".fd",	 ".aux",
+				// 							 ".bbl", ".def", ".clo", ".ldf"};
+				std::vector<const char*> suffix_list = {".tex", ".sty", ".cls", ".fd",	 ".aux",
+											 ".bbl", ".def", ".clo", ".ldf"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_tex_ps_header_format: {
+				std::vector<const char*> suffix_list = {".pro"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_texdoc_format: {	// TODO: not completed yet, see tex-file.c
+				return std::vector<const char*>{};
+			}
+			case kpse_texpool_format: {
+				std::vector<const char*> suffix_list = {".pool"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_texsource_format: {
+				std::vector<const char*> suffix_list = {".dtx", ".ins"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_troff_font_format: {	// TODO: not completed yet, see tex-file.c
+				return std::vector<const char*>{};
+			}
+			case kpse_type1_format: {
+				std::vector<const char*> suffix_list = {".pfa", ".pfb"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_vf_format: {
+				std::vector<const char*> suffix_list = {".vf"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_dvips_config_format: {
+				return std::vector<const char*>{};
+			}
+			case kpse_ist_format: {
+				std::vector<const char*> suffix_list = {".ist"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_truetype_format: {
+				std::vector<const char*> suffix_list = {".ttf", ".ttc",   ".TTF",
+											 ".TTC", ".dfont"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_type42_format: {
+				std::vector<const char*> suffix_list = {".t42", ".T42"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_web2c_format: {
+				return std::vector<const char*>{};
+			}
+			case kpse_program_text_format: {  // we don't need it
+				return std::vector<const char*>{};
+			}
+			case kpse_program_binary_format: {	// we don't need it
+				return std::vector<const char*>{};
+			}
+			case kpse_miscfonts_format: {
+				return std::vector<const char*>{};
+			}
+			case kpse_web_format: {
+				std::vector<const char*> suffix_list = {".web", ".ch"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_cweb_format: {
+				std::vector<const char*> suffix_list = {".w", ".web", ".ch"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_enc_format: {
+				std::vector<const char*> suffix_list = {".enc"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_cmap_format: {
+				return std::vector<const char*>{};
+			}
+			case kpse_sfd_format: {
+				std::vector<const char*> suffix_list = {".sfd"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_opentype_format: {
+				std::vector<const char*> suffix_list = {".otf", ".OTF"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_pdftex_config_format: {
+				return std::vector<const char*>{};
+			}
+			case kpse_lig_format: {
+				std::vector<const char*> suffix_list = {".lig"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_texmfscripts_format: {
+				return std::vector<const char*>{};
+			}
+			case kpse_lua_format: {
+				std::vector<const char*> suffix_list = {".lua",	".luatex", ".luc", ".luctex",
+											 ".texlua", ".texluc", ".tlu"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_fea_format: {
+				std::vector<const char*> suffix_list = {".fea"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_cid_format: {
+				std::vector<const char*> suffix_list = {".cid", ".cidmap"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_mlbib_format: {
+				std::vector<const char*> suffix_list = {".mlbib", ".bib"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_mlbst_format: {
+				std::vector<const char*> suffix_list = {".mlbst", ".bst"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_clua_format: {
+				std::vector<const char*> suffix_list = {".dll", ".so"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_ris_format: {
+				std::vector<const char*> suffix_list = {".ris"};
+				return handle_suffixes(suffix_list);
+			}
+			case kpse_bltxml_format: {
+				std::vector<const char*> suffix_list = {".bltxml"};
+				return handle_suffixes(suffix_list);
+			}
+			default: return std::vector<const char*>{};
+		}
+		return std::vector<const char*>{};
+	}
+
 	std::vector<tlpobjNode> nodes;
 };
 
 int main(int argc, char* argv[]) {
-	std::ifstream file(argv[1]);
+	std::ifstream file("/home/kali/desktop/demo/texlive.tlpdb");
 	if (!file.is_open()) {
 		std::cerr << "Failed to open config file!" << std::endl;
 		return 1;
@@ -200,6 +518,15 @@ int main(int argc, char* argv[]) {
 	std::string fileContent(
 		(std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 	CTANFileManager texlive_tlpdb{std::string_view(fileContent)};
-	std::cout << texlive_tlpdb;
+	file.close();
+	while (std::cin.good()) {
+		std::string filename;
+		int			format_number;
+		std::cin >> filename >> format_number;
+		if (std::cin.eof()) return 0;
+		auto query_result =
+			texlive_tlpdb.query_file(filename, kpse_file_format_type(format_number));
+		std::cout << query_result.first << "," << query_result.second << "." << std::endl;
+	}
 	return 0;
 }
