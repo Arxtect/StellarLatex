@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "common.hpp"
+using std::map;
 using std::ostream;
 using std::pair;
 using std::string;
@@ -30,7 +31,7 @@ inline bool end_up_with(const string& str, const string& suffix) {
 	return str.substr(str.size() - suffix.size()) == suffix;
 }
 
-std::map<kpse_file_format_type, vector<cstr>> CTANFileManager::format_to_suffix = {
+map<kpse_file_format_type, vector<cstr>> CTANFileManager::format_to_suffix = {
 	{kpse_gf_format, {"gf"}},
 	{kpse_pk_format, {"pk"}},
 	{kpse_tfm_format, {".tfm"}},
@@ -154,9 +155,6 @@ CTANFileManager::tlpobjNode CTANFileManager::createNode(string_view chunk) {
 	}
 	return new_node;
 }
-ostream& operator<<(ostream& os, const CTANFileManager& m) {
-	return os;
-}
 pair<string, string> CTANFileManager::query_file(
 	const string&				request_name,
 	const kpse_file_format_type type) {
@@ -201,4 +199,13 @@ bool CTANFileManager::handle_kpse_format(string& name, const kpse_file_format_ty
 	}
 	else
 		return true;
+}
+
+ostream& operator<<(ostream& os, const CTANFileManager& message) {
+	for (const auto& fileQuery : message.name_to_index) {
+		const auto& node = message.nodes[fileQuery.second.second];
+		os << fileQuery.first << " " << fileQuery.second.first << " " << node.name << " "
+		   << node.catalogue_ctan << std::endl;
+	}
+	return os;
 }

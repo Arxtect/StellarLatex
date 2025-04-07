@@ -85,6 +85,7 @@ public:
 	 */
 	std::pair<std::string, std::string>
 	query_file(const std::string& request_name, const kpse_file_format_type type);
+	friend std::ostream& operator<<(std::ostream& os, const CTANFileManager& manager);
 
 private:
 	/**
