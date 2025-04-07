@@ -1,6 +1,8 @@
 #pragma once
 #include <cstring>
+#include <map>
 #include <string>
+#include <vector>
 typedef enum {
 	kpse_gf_format,
 	kpse_pk_format,
@@ -92,29 +94,9 @@ private:
 	class tlpobjNode {
 	public:
 		enum class KeyType { None, Name, Depend, Runfiles, Srcfiles };
-		std::string				  name;
-		std::string				  catalogue_ctan;
-		std::vector<unsigned int> depend;
-		std::vector<std::string>  runfiles;
-		std::vector<std::string>  srcfiles;
-		/**
-		 * @brief build node from content
-		 *
-		 * @param configContent content of one node
-		 */
-		tlpobjNode(
-			std::string_view					   configContent,
-			std::vector<std::vector<std::string>>& temp_dependencies);
-		/**
-		 * @brief get query of file in which category
-		 *
-		 * @param filename
-		 * @return KeyType
-		 */
-		KeyType FindFile(const std::string& filename) const;
-		bool query_file(const std::string& filename, std::string& query_result) const;
-		friend std::ostream& operator<<(std::ostream& os, const tlpobjNode& node);
-		void print_output(std::ostream& os, const std::vector<tlpobjNode>& nodes) const;
+		std::string name;
+		std::string catalogue_ctan;
+		tlpobjNode() = default;
 	};
 	/**
 	 * @brief give a correct format of the query file
@@ -123,7 +105,15 @@ private:
 	 * @param type file type
 	 * @return nullptr for no more handle, else the suffix list
 	 */
-	std::vector<const char*>
-	handle_kpse_format(std::string& name, const kpse_file_format_type type);
+	bool handle_kpse_format(std::string& name, const kpse_file_format_type type);
+	/**
+	 * @brief create a new node from a chunk given
+	 *
+	 * @param chunk
+	 * @return tlpobjNode
+	 */
+	tlpobjNode				createNode(std::string_view chunk);
 	std::vector<tlpobjNode> nodes;
+	std::map<std::string, std::pair<std::string, size_t>>			 name_to_index;
+	static std::map<kpse_file_format_type, std::vector<const char*>> format_to_suffix;
 };
