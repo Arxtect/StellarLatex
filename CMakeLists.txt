@@ -17,6 +17,7 @@ if(NOT RESULT EQUAL 0)
 endif()
 set(CMAKE_TOOLCHAIN_FILE "${EMSDK_PATH}/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake")
 set(THIRD_PARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty)
+set(COMMON_CODE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/common)
 
 # then, we need some 3rd libraries
 ExternalProject_Add(
@@ -66,6 +67,28 @@ ExternalProject_Add(
     BUILD_ALWAYS   OFF
     BUILD_COMMAND     ${CMAKE_COMMAND} --build <BINARY_DIR>
     INSTALL_COMMAND ""
+)
+ExternalProject_Add(
+    liblzma
+    GIT_REPOSITORY git@github.com:tukaani-project/xz.git
+    GIT_TAG        master # TAG a69fbd3aaebc15dc5912e64724e5abfcef09bcdf is avaliable
+    SOURCE_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/liblzma/repo
+    BINARY_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/liblzma/build
+    CONFIGURE_COMMAND ${CMAKE_COMMAND} -S <SOURCE_DIR> -B <BINARY_DIR> -DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+    UPDATE_COMMAND ""
+    BUILD_ALWAYS   OFF
+    BUILD_COMMAND     ${CMAKE_COMMAND} --build <BINARY_DIR>
+)
+ExternalProject_Add(
+    libarchive
+    GIT_REPOSITORY git@github.com:libarchive/libarchive.git
+    GIT_TAG        master # TAG 8f49a18f64b42651fac9e7b210a779c076184c53 is avaliable
+    SOURCE_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/libarchive/repo
+    BINARY_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/libarchive/build
+    CONFIGURE_COMMAND ${CMAKE_COMMAND} -S <SOURCE_DIR> -B <BINARY_DIR> -DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+    UPDATE_COMMAND ""
+    BUILD_ALWAYS   OFF
+    BUILD_COMMAND     ${CMAKE_COMMAND} --build <BINARY_DIR>
 )
 
 # THEN the projects go

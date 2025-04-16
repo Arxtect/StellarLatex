@@ -91,8 +91,7 @@ public:
 	 *
 	 * @param request_name query file name
 	 * @param type query file type
-	 * @return true get file success
-	 * @return false failed
+	 * @return null for failed else file path
 	 */
 	char*
 	get_file(const std::string& request_name, const kpse_file_format_type type) const;

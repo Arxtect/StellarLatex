@@ -49,6 +49,11 @@ file(GLOB_RECURSE TEXSOURCES
     main.c
     bibtex.c
 )
+## ctan
+file(GLOB_RECURSE CTANSOURCES
+    ${COMMON_CODE_DIR}/ctan/ctanFileManager.cpp
+    ${COMMON_CODE_DIR}/ctan/extractFile.cpp
+)
 ## pdftex
 file(GLOB_RECURSE PDFTEXSOURCES
     pdftexdir/avl.c
@@ -77,7 +82,7 @@ file(GLOB_RECURSE EPDFSOURCES
 )
 
 #  SET CMAKE PROJECT
-add_executable(${PROJECT_NAME} ${TEXSOURCES} ${PDFTEXSOURCES} ${EPDFSOURCES})
+add_executable(${PROJECT_NAME} ${TEXSOURCES} ${CTANSOURCES} ${PDFTEXSOURCES} ${EPDFSOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/tex
@@ -86,7 +91,10 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${THIRD_PARTY_DIR}/libxpdf/repo
     ${THIRD_PARTY_DIR}/libxpdf/repo/goo
     ${THIRD_PARTY_DIR}/libxpdf/repo/xpdf
+    ${COMMON_CODE_DIR}
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE
     ${THIRD_PARTY_DIR}/libxpdf/build/libxpdf.a
+    ${THIRD_PARTY_DIR}/libarchive/build/libarchive/libarchive.a
+    ${THIRD_PARTY_DIR}/liblzma/build/liblzma.a
 )

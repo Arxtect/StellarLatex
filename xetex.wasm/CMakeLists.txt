@@ -56,6 +56,11 @@ file(GLOB_RECURSE TEXSOURCES
     xetexdir/image/pngimage.c
     xetexdir/trans.c
 )
+## ctan
+file(GLOB_RECURSE CTANSOURCES
+    ${COMMON_CODE_DIR}/ctan/ctanFileManager.cpp
+    ${COMMON_CODE_DIR}/ctan/extractFile.cpp
+)
 ## xetex
 file(GLOB_RECURSE XETEXSOURCES
     xetexdir/XeTeXOTMath.cpp
@@ -70,7 +75,7 @@ file(GLOB_RECURSE TECKITSOURCES
 )
 
 #  SET CMAKE PROJECT
-add_executable(${PROJECT_NAME} ${TEXSOURCES} ${XETEXSOURCES} ${TECKITSOURCES})
+add_executable(${PROJECT_NAME} ${TEXSOURCES} ${CTANSOURCES} ${XETEXSOURCES} ${TECKITSOURCES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -83,6 +88,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${THIRD_PARTY_DIR}/libxpdf/repo/goo
     ${THIRD_PARTY_DIR}/libxpdf/repo/xpdf
     ${THIRD_PARTY_DIR}/libpplib/repo/src
+    ${COMMON_CODE_DIR}
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE
     ${THIRD_PARTY_DIR}/libxpdf/build/libxpdf.a
@@ -91,4 +97,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     ${THIRD_PARTY_DIR}/libpplib/build/libpplib.a
     ${THIRD_PARTY_DIR}/libpplib/build/libpplib_utils.a
     ${THIRD_PARTY_DIR}/libpplib/build/libpplib_filters.a
+    ${THIRD_PARTY_DIR}/libarchive/build/libarchive/libarchive.a
+    ${THIRD_PARTY_DIR}/liblzma/build/liblzma.a
 )

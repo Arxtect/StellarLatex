@@ -10,9 +10,6 @@ swiftlatexdvipdfm.wasm
 .DS_Store
 .vscode
 3rdparty/emsdk
-3rdparty/libxpdf/repo
-3rdparty/libgraphite2/repo
-3rdparty/libharfbuzz/repo
-3rdparty/libpplib/repo
+3rdparty/*/repo
 build
 texlive

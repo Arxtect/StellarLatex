@@ -7,7 +7,7 @@
 #include "extractFile.hpp"
 namespace extractor {
 bool tar_xz(const char* archive_path, const char* target_file, const char* output_path) {
-	std::cerr << "extracting " << target_file << " from " << archive_path << std::endl;
+	// std::cerr << "extracting " << target_file << " from " << archive_path << std::endl;
 	struct archive*		  a = archive_read_new();
 	struct archive_entry* entry;
 	archive_read_support_filter_xz(a);
@@ -21,12 +21,12 @@ bool tar_xz(const char* archive_path, const char* target_file, const char* outpu
 		if (strcmp(current_file, target_file) == 0) {
 			archive_entry_set_pathname(entry, output_path);
 			if (archive_read_extract(a, entry, 0) != ARCHIVE_OK) {
-				std::cerr << "Extraction failed: " << archive_error_string(a)
-						  << std::endl;
+				// std::cerr << "Extraction failed: " << archive_error_string(a)
+				// 		  << std::endl;
 				archive_read_free(a);
 				return -1;
 			}
-			std::cerr << "Successfully extracted: " << current_file << std::endl;
+			// std::cerr << "Successfully extracted: " << current_file << std::endl;
 			archive_read_free(a);
 			return true;
 		}

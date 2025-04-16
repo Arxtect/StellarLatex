@@ -40,7 +40,13 @@ extern "C" char* ctan_get_file(const char* request_name, kpse_file_format_type t
 		fileContent.clear();
 		remove("/tex/texlive.tlpdb");
 	}
-	return globalManager->get_file(request_name, type);
+	auto ret = globalManager->get_file(request_name, type);
+	if (ret == nullptr) {
+		fprintf(stderr, "ctan_get_file: %s type: %d failed\n", request_name, int(type));
+	} else {
+		fprintf(stderr, "ctan_get_file: %s type: %d into %s\n", request_name, int(type), ret);
+	}
+	return ret;
 }
 
 // TO BE FINISHED:
@@ -219,7 +225,6 @@ vector<_string> CTANFileManager::query_file(
 char* CTANFileManager::get_file(
 	const _string&				request_name,
 	const kpse_file_format_type type) const {
-	// std::cerr << "ctan_get_file: " << request_name << std::endl;
 	if (end_up_with(request_name, ".fmt")) {
 		// for .fmt files, or font map, go to see our file server.
 		return kpse_find_file_js(request_name.c_str(), type, false);
