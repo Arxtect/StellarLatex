@@ -87,8 +87,6 @@ public:
 	 */
 	std::vector<std::string>
 	query_file(const std::string& request_name, const kpse_file_format_type type, bool& exist_in_fs) const;
-	std::vector<std::string>
-	query_file(const std::string& request_name, const kpse_file_format_type type) const;
 	/**
 	 * @brief Get file, no matter from network or local cache
 	 *

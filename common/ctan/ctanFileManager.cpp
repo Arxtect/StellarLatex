@@ -237,8 +237,12 @@ CTANFileManager::tlpobjNode CTANFileManager::createNode(string_view chunk) {
 }
 vector<cppstr> CTANFileManager::query_file(
 	const cppstr&				request_name,
-	const kpse_file_format_type type) const {
+	const kpse_file_format_type type,
+	bool&						exist_in_fs) const {
+	exist_in_fs = false;
 	// get result of one filename
+	cppstr	   query_name	   = request_name;
+	const auto only_one_suffix = handle_kpse_format(query_name, type);
 	auto traverse_file = [&](const cppstr& filename) -> vector<cppstr> {
 		auto it = name_to_index.find(filename);
 		if (it != name_to_index.end()) {
@@ -248,8 +252,6 @@ vector<cppstr> CTANFileManager::query_file(
 		else
 			return {};
 	};
-	cppstr	   query_name	   = request_name;
-	const auto only_one_suffix = handle_kpse_format(query_name, type);
 	if (only_one_suffix) {
 		auto one_suffix_check = traverse_file(query_name);
 		if (one_suffix_check.size() != 0) return one_suffix_check;
@@ -269,7 +271,9 @@ vector<cppstr> CTANFileManager::query_file(
 char* CTANFileManager::get_file(
 	const cppstr&				request_name,
 	const kpse_file_format_type type) const {
-	auto query_result = query_file(request_name, type);
+	bool exist_in_fs  = false;
+	auto query_result = query_file(request_name, type, exist_in_fs);
+	if (exist_in_fs == true) { return strdup(query_result[0].c_str()); }
 	if (query_result.size() == 0) return nullptr;
 	if (query_result[0].substr(0, 2) == "00") {
 		// for installer-only files, go to see our file server.
