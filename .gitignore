@@ -1,4 +1,5 @@
 *.o
+*.bak
 swiftlatexxetex.wasm
 swiftlatexxetex.js
 swiftlatexpdftex.wasm

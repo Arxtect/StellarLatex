@@ -11,14 +11,26 @@
 using std::map;
 using std::ostream;
 using std::pair;
-using _string = std::string;
+using cppstr = std::string;
 using std::string_view;
 using std::vector;
 using cstr = const char*;
 
 CTANFileManager* globalManager = nullptr;
 
-extern "C" char* ctan_get_file(const char* request_name, kpse_file_format_type type) {
+static bool end_up_with(const cppstr& str, cstr suffix) {
+	const size_t str_length	   = str.size();
+	const size_t suffix_length = strlen(suffix);
+	return str_length >= suffix_length &&
+		   str.compare(str_length - suffix_length, suffix_length, suffix) == 0;
+}
+static bool end_up_with(const cppstr& str, const cppstr& suffix) {
+	if (str.size() < suffix.size()) return false;
+	return str.substr(str.size() - suffix.size()) == suffix;
+}
+
+extern "C" char* ctan_get_file(cstr request_name, kpse_file_format_type type) {
+	// THIS FUNCTION INVOLVES MANY HARDCODE
 	if (globalManager == nullptr) {
 		if (std::filesystem::exists("/tex/pkg/texlive.tlpdb") == false) {
 			auto ret = ctan_download_pkg_js(
@@ -30,7 +42,7 @@ extern "C" char* ctan_get_file(const char* request_name, kpse_file_format_type t
 		}
 		std::ifstream file("/tex/pkg/texlive.tlpdb");
 		if (!file.is_open()) {
-			std::cerr << "Failed to open config file!" << std::endl;
+			std::cerr << "Failed to open texlive.tlpdb!" << std::endl;
 			return nullptr;
 		}
 		std::string fileContent(
@@ -38,13 +50,38 @@ extern "C" char* ctan_get_file(const char* request_name, kpse_file_format_type t
 		globalManager = new CTANFileManager(string_view(fileContent));
 		file.close();
 		fileContent.clear();
-		remove("/tex/texlive.tlpdb");
 	}
-	auto ret = globalManager->get_file(request_name, type);
+	// remove '/tex/' header
+	if (memcmp(request_name, "/tex/", 5) == 0) { request_name += 5; }
+	// if request_name have '/', stop
+	if (strchr(request_name, '/') != nullptr) {
+		fprintf(stderr, "ctan_get_file: %d/%s failed\n", int(type), request_name);
+		return nullptr;
+	}
+	char* ret = nullptr;
+	// for frequently asked file, go to old server
+	if (memcmp(request_name, "swiftlatex", 10) == 0 ||
+		strcmp(request_name, "pdftex.map") == 0 ||
+		strcmp(request_name, "kanjix.map") == 0 ||
+		strcmp(request_name, "xetexfontlist.txt") == 0) {
+		ret = kpse_find_file_js(request_name, type, false);
+	}
+	// if meet .fmt file, go to old server
+	else if (end_up_with(request_name, ".fmt") == true) {
+		ret = kpse_find_file_js(request_name, type, false);
+	}
+	else {
+		ret = globalManager->get_file(request_name, type);
+		if (ret == nullptr) {
+			// send unmeet request to old server
+			// ret = kpse_find_file_js(request_name, type, false);
+		}
+	}
 	if (ret == nullptr) {
-		fprintf(stderr, "ctan_get_file: %s type: %d failed\n", request_name, int(type));
-	} else {
-		fprintf(stderr, "ctan_get_file: %s type: %d into %s\n", request_name, int(type), ret);
+		fprintf(stderr, "ctan_get_file: %d/%s failed\n", int(type), request_name);
+	}
+	else {
+		fprintf(stderr, "ctan_get_file: %d/%s into %s\n", int(type), request_name, ret);
 	}
 	return ret;
 }
@@ -54,17 +91,6 @@ extern "C" char* ctan_get_file(const char* request_name, kpse_file_format_type t
 // how .sty file is built
 // optimize depend to number
 // in addition of texlive tlcontrib
-
-static bool end_up_with(const _string& str, cstr suffix) {
-	const size_t str_length	   = str.size();
-	const size_t suffix_length = strlen(suffix);
-	return str_length >= suffix_length &&
-		   str.compare(str_length - suffix_length, suffix_length, suffix) == 0;
-}
-static bool end_up_with(const _string& str, const _string& suffix) {
-	if (str.size() < suffix.size()) return false;
-	return str.substr(str.size() - suffix.size()) == suffix;
-}
 
 map<kpse_file_format_type, vector<cstr>> CTANFileManager::format_to_suffix = {
 	{kpse_gf_format, {"gf"}},
@@ -128,6 +154,7 @@ CTANFileManager::CTANFileManager(string_view content) {
 		string_view chunk = content.substr(chunk_start, chunk_end - chunk_start);
 		if (!chunk.empty()) {
 			auto check_valid_name = [](string_view nodeContent) {
+				// HARDCODE
 				if (nodeContent.find("srcfiles") == string_view::npos &&
 					nodeContent.find("runfiles") == string_view::npos)
 					return false;
@@ -167,7 +194,8 @@ CTANFileManager::tlpobjNode CTANFileManager::createNode(string_view chunk) {
 		size_t spacePos = line.find(' ');  // Find key-value separator
 		if (spacePos == string_view::npos) continue;
 		string_view key	  = line.substr(0, spacePos);
-		_string		value = _string(line.substr(spacePos + 1));
+		cppstr		value = cppstr(line.substr(spacePos + 1));
+		// HARDCODE
 		if (key == "name") { new_node.name = value; }
 		else if (key == "catalogue-ctan") { new_node.catalogue_ctan = value; }
 		else if (key == "runfiles") { currentKey = tlpobjNode::KeyType::Runfiles; }
@@ -176,18 +204,22 @@ CTANFileManager::tlpobjNode CTANFileManager::createNode(string_view chunk) {
 			// Process indented lines
 			// Check for optional details parameter
 			size_t detailsPos = value.find(" details=");
-			if (detailsPos != _string::npos) {
+			if (detailsPos != cppstr::npos) {
 				value = value.substr(0, detailsPos);  // Strip details part
+			}
+			// HARDCODE
+			if (value.substr(0, 6) == "RELOC/") {
+				value = value.substr(6);  // remove "RELOC/" header
 			}
 			// Append to corresponding vector
 			if (currentKey == tlpobjNode::KeyType::Runfiles) {
-				size_t	pos		 = value.find_last_of('/');
-				_string filename = (pos != _string::npos) ? value.substr(pos + 1) : value;
+				size_t pos		= value.find_last_of('/');
+				cppstr filename = (pos != cppstr::npos) ? value.substr(pos + 1) : value;
 				name_to_index.insert({filename, pair(("r@" + value), nodes.size())});
 			}
 			if (currentKey == tlpobjNode::KeyType::Srcfiles) {
-				size_t	pos		 = value.find_last_of('/');
-				_string filename = (pos != _string::npos) ? value.substr(pos + 1) : value;
+				size_t pos		= value.find_last_of('/');
+				cppstr filename = (pos != cppstr::npos) ? value.substr(pos + 1) : value;
 				name_to_index.insert({filename, pair(("s@" + value), nodes.size())});
 			}
 		}
@@ -197,13 +229,11 @@ CTANFileManager::tlpobjNode CTANFileManager::createNode(string_view chunk) {
 	}
 	return new_node;
 }
-vector<_string> CTANFileManager::query_file(
-	const _string&				request_name,
+vector<cppstr> CTANFileManager::query_file(
+	const cppstr&				request_name,
 	const kpse_file_format_type type) const {
-	_string	   query_name	   = request_name;
-	const auto only_one_suffix = handle_kpse_format(query_name, type);
 	// get result of one filename
-	auto traverse_file = [&](const _string& filename) -> vector<_string> {
+	auto traverse_file = [&](const cppstr& filename) -> vector<cppstr> {
 		auto it = name_to_index.find(filename);
 		if (it != name_to_index.end()) {
 			auto& node = nodes[it->second.second];
@@ -212,23 +242,27 @@ vector<_string> CTANFileManager::query_file(
 		else
 			return {};
 	};
-	if (only_one_suffix) { return traverse_file(query_name); }
+	cppstr	   query_name	   = request_name;
+	const auto only_one_suffix = handle_kpse_format(query_name, type);
+	if (only_one_suffix) {
+		auto one_suffix_check = traverse_file(query_name);
+		if (one_suffix_check.size() != 0) return one_suffix_check;
+	}
 	else {
 		for (const auto& suffix : format_to_suffix[type]) {
-			_string query_name_for_suffix = query_name + suffix;
-			auto	query_result		  = traverse_file(query_name_for_suffix);
-			if (query_result.size() != 0) return query_result;
+			cppstr query_name_for_suffix = query_name + suffix;
+			auto   one_of_suffix_check	 = traverse_file(query_name_for_suffix);
+			if (one_of_suffix_check.size() != 0) return one_of_suffix_check;
 		}
-		return {};
 	}
+	auto no_suffix_check = traverse_file(request_name);
+	if (no_suffix_check.size() != 0) return no_suffix_check;
+	// finally we find none
+	return {};
 }
 char* CTANFileManager::get_file(
-	const _string&				request_name,
+	const cppstr&				request_name,
 	const kpse_file_format_type type) const {
-	if (end_up_with(request_name, ".fmt")) {
-		// for .fmt files, or font map, go to see our file server.
-		return kpse_find_file_js(request_name.c_str(), type, false);
-	}
 	auto query_result = query_file(request_name, type);
 	if (query_result.size() == 0) return nullptr;
 	if (query_result[0].substr(0, 2) == "00") {
@@ -238,12 +272,10 @@ char* CTANFileManager::get_file(
 	auto fileField	   = query_result[2][0] == 's' ? tlpobjNode::KeyType::Srcfiles :
 													 tlpobjNode::KeyType::Runfiles;
 	auto relative_path = query_result[2].substr(2);
-	if (relative_path.substr(0, strlen("RELOC/")) == "RELOC/")
-		relative_path = relative_path.substr(strlen("RELOC/"));
-	auto pos	   = relative_path.find_last_of('/');
-	auto filename  = (pos != std::string::npos) ?
-						 relative_path.substr(pos + 1) :
-						 relative_path;	 // alter should not happen
+	auto pos		   = relative_path.find_last_of('/');
+	auto filename	   = (pos != cppstr::npos) ? relative_path.substr(pos + 1) :
+												 relative_path;	 // alter should not happen
+	// HARDCODE
 	auto file_path = "/tex/" + filename;
 	// copy to cstr
 	char* file_path_cstr = static_cast<char*>(malloc(file_path.size() + 1));
@@ -253,9 +285,11 @@ char* CTANFileManager::get_file(
 	if (std::filesystem::exists(file_path) == true)	 // have already got it
 		return file_path_cstr;
 	// check package file exist, true to extract, else fetch it from website
+	// HARDCODE
 	auto package_name =
 		query_result[0] +
 		(fileField == tlpobjNode::KeyType::Srcfiles ? ".source.tar.xz" : ".tar.xz");
+	// HARDCODE
 	auto package_path = "/tex/pkg/" + package_name;
 	if (std::filesystem::exists(package_path) == true) {
 		if (extractor::tar_xz(
@@ -265,6 +299,7 @@ char* CTANFileManager::get_file(
 			return nullptr;
 	}
 	// fetch file content from website
+	// HARDCODE
 	const auto urlsuffix = "systems/texlive/tlnet/archive/" + package_name;
 	ctan_download_pkg_js(urlsuffix.c_str(), package_name.c_str());
 	// maybe: 1. got exactly the file; 2. got the package; 3. got nothing
@@ -287,7 +322,7 @@ char* CTANFileManager::get_file(
 	}
 }
 
-bool CTANFileManager::handle_kpse_format(_string& name, const kpse_file_format_type type)
+bool CTANFileManager::handle_kpse_format(cppstr& name, const kpse_file_format_type type)
 	const {
 	// if name end with one of suffix list, return; if suffix list contains only one,
 	// add it and return; else return suffix list

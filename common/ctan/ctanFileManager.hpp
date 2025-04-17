@@ -82,8 +82,11 @@ public:
 	 *
 	 * @param request_name query file name
 	 * @param type query file type
+	 * @param exist_in_fs whether the file exist in local file system
 	 * @return catagory name & catagory path & relative path, catagory name "" for fail
 	 */
+	std::vector<std::string>
+	query_file(const std::string& request_name, const kpse_file_format_type type, bool& exist_in_fs) const;
 	std::vector<std::string>
 	query_file(const std::string& request_name, const kpse_file_format_type type) const;
 	/**
@@ -139,4 +142,4 @@ private:
  */
 extern "C" int ctan_download_pkg_js(const char* urlsuffix, const char* download_location);
 extern "C" char*
-kpse_find_file_js(const char* name, kpse_file_format_type format, bool must_exist);
+kpse_find_file_js(const char* name, kpse_file_format_type format, int must_exist);
