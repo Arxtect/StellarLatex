@@ -25,7 +25,7 @@ typedef long long longword;
 extern "C" {
 #endif
 	#include "xmemory.h"
-	#include "kpseemu.h"
+	#include <localkpse/kpseemu.h>
 #ifdef __cplusplus
 }
 #endif

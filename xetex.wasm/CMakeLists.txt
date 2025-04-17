@@ -8,6 +8,7 @@ set(COMMON_FLAGS
     -Wno-parentheses-equality
     -Wno-pointer-sign
     -DWEBASSEMBLY_BUILD
+    -DXETEXWASM
     -sUSE_FREETYPE
     -sUSE_ICU
     -sUSE_LIBPNG
@@ -44,7 +45,6 @@ file(GLOB_RECURSE TEXSOURCES
     tex/xetex-pool.c
     xmemory.c
     texfile.c
-    kpseemu.c
     texmfmp.c
     main.c
     xetexdir/XeTeX_ext.c
@@ -60,6 +60,7 @@ file(GLOB_RECURSE COMMONSOURCES
     ${COMMON_CODE_DIR}/ctan/extractFile.cpp
     ${COMMON_CODE_DIR}/md5/md5.c
     ${COMMON_CODE_DIR}/bibtex/bibtex.c
+    ${COMMON_CODE_DIR}/localkpse/kpseemu.c
 )
 ## xetex
 file(GLOB_RECURSE XETEXSOURCES

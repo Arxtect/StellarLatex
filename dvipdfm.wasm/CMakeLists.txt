@@ -5,6 +5,7 @@ project(swiftlatexdvipdfm)
 set(COMMON_FLAGS
     -O3
     -DHAVE_ZLIB
+    -DDVIPDFMWASM
     -sUSE_LIBPNG
     -fno-rtti
     -fno-exceptions

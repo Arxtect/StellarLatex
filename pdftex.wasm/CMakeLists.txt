@@ -9,6 +9,7 @@ set(COMMON_FLAGS
     -Wno-parentheses-equality
     -Wno-pointer-sign
     -DWEBASSEMBLY_BUILD
+    -DPDFTEXWASM
     -fno-rtti
     -fno-exceptions
 )
@@ -44,7 +45,6 @@ file(GLOB_RECURSE TEXSOURCES
     tex/pdftex-pool.c
     xmemory.c
     texfile.c
-    kpseemu.c
     main.c
 )
 ## ctan
@@ -53,6 +53,7 @@ file(GLOB_RECURSE COMMONSOURCES
     ${COMMON_CODE_DIR}/ctan/extractFile.cpp
     ${COMMON_CODE_DIR}/md5/md5.c
     ${COMMON_CODE_DIR}/bibtex/bibtex.c
+    ${COMMON_CODE_DIR}/localkpse/kpseemu.c
 )
 ## pdftex
 file(GLOB_RECURSE PDFTEXSOURCES

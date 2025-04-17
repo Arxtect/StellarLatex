@@ -2,7 +2,11 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
+#ifdef XETEXWASM
 #include <xetexd.h>
+#elif defined(PDFTEXWASM)
+#include <pdftexd.h>
+#endif
 #include <stdlib.h>
 #include <libgen.h>
 #include <string.h>
