@@ -1076,7 +1076,6 @@ void epdf_check_mem()
             delete_document(p);
         }
         // see above for globalParams
-        if (globalParams)
-            delete globalParams;
+        delete globalParams;
     }
 }

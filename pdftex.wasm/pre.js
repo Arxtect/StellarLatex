@@ -1,10 +1,12 @@
 const TEXCACHEROOT = "/tex";
+const TEXPKGCACHEROOT = "/tex/pkg";
 const WORKROOT = "/work";
 var Module = {};
 self.memlog = "";
 self.initmem = undefined;
 self.mainfile = "main.tex";
 self.texlive_endpoint = "https://magic.pointer.ai/latex/";
+self.ctan_mirror = "https://mirrors.ustc.edu.cn/CTAN/";
 Module['print'] = function(a) {
     self.memlog += (a + "\n");
 };
@@ -16,6 +18,7 @@ Module['printErr'] = function(a) {
 
 Module['preRun'] = function() {
     FS.mkdir(TEXCACHEROOT);
+    FS.mkdir(TEXPKGCACHEROOT);
     FS.mkdir(WORKROOT);
 };
 
@@ -126,7 +129,7 @@ function compileLaTeXRoutine() {
                 encoding: 'binary'
             });
         } catch (err) {
-            console.error("Fetch content failed." + pdfurl);
+            console.error("Fetch content failed. " + pdfurl);
             status = -253;
             self.postMessage({
                 'result': 'failed',
@@ -152,7 +155,7 @@ function compileLaTeXRoutine() {
                 encoding: 'binary'
             });
         } catch (err) {
-            console.error("Fetch content failed." + pdfurl);
+            console.error("Fetch content failed. " + pdfurl);
             status = -253;
             self.postMessage({
                 'result': 'failed',
@@ -332,6 +335,30 @@ function kpse_find_file_impl(nameptr, format, _mustexist) {
     return 0;
 }
 
+function ctan_download_pkg_impl(urlsuffix, _download_location) {
+    const fetch_url = self.ctan_mirror + UTF8ToString(urlsuffix);
+    const download_location = TEXPKGCACHEROOT + "/" + UTF8ToString(_download_location);
+    // fetch file from ctan server
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", fetch_url, false);
+    xhr.timeout = 150000;
+    xhr.responseType = "arraybuffer";
+    console.log("Start downloading CTAN package " + fetch_url);
+    try {
+        xhr.send();
+    } catch (err) {
+        console.log("CTAN Download Failed: " + fetch_url);
+        return 1;
+    }
+    if (xhr.status === 200) {
+        let arraybuffer = xhr.response;
+        FS.writeFile(download_location, new Uint8Array(arraybuffer));
+        return 0;
+    } else {
+        console.log("CTAN Download Failed with status " + xhr.status + " " + fetch_url);
+        return 1;
+    }
+}
 
 let pk404_cache = {};
 let pk200_cache = {};
