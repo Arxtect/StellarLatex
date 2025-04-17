@@ -2,8 +2,11 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <map>
+#include <set>
 #include <sstream>
 #include <string_view>
+#include <unordered_map>
 #include <vector>
 
 #include "ctanFileManager.hpp"
@@ -11,6 +14,7 @@
 using std::map;
 using std::ostream;
 using std::pair;
+using std::unordered_map;
 using cppstr = std::string;
 using std::string_view;
 using std::vector;
@@ -28,8 +32,7 @@ static bool end_up_with(const cppstr& str, const cppstr& suffix) {
 	if (str.size() < suffix.size()) return false;
 	return str.substr(str.size() - suffix.size()) == suffix;
 }
-
-extern "C" char* ctan_get_file(cstr request_name, kpse_file_format_type type) {
+char* ctan_get_file_process(cstr request_name, kpse_file_format_type type) {
 	// THIS FUNCTION INVOLVES MANY HARDCODE
 	if (globalManager == nullptr) {
 		if (std::filesystem::exists("/tex/pkg/texlive.tlpdb") == false) {
@@ -70,17 +73,17 @@ extern "C" char* ctan_get_file(cstr request_name, kpse_file_format_type type) {
 		strcmp(request_name, "pdftex.map") == 0 ||
 		strcmp(request_name, "kanjix.map") == 0 ||
 		strcmp(request_name, "xetexfontlist.txt") == 0) {
-		ret = kpse_find_file_js(request_name, type, false);
+		ret = strdup(kpse_find_file_js(request_name, type, false));
 	}
 	// if meet .fmt file, go to old server
 	else if (end_up_with(request_name, ".fmt") == true) {
-		ret = kpse_find_file_js(request_name, type, false);
+		ret = strdup(kpse_find_file_js(request_name, type, false));
 	}
 	else {
 		ret = globalManager->get_file(request_name, type);
 		if (ret == nullptr) {
 			// send unmeet request to old server
-			// ret = kpse_find_file_js(request_name, type, false);
+			// ret = strdup(kpse_find_file_js(request_name, type, false));
 		}
 	}
 	if (ret == nullptr) {
@@ -90,6 +93,48 @@ extern "C" char* ctan_get_file(cstr request_name, kpse_file_format_type type) {
 		fprintf(stderr, "ctan_get succ: %d/%s into %s\n", int(type), request_name, ret);
 	}
 	return ret;
+}
+
+extern "C" char* ctan_get_file(cstr request_name, kpse_file_format_type type) {
+	static unordered_map<cppstr, char*> ctan_cache;
+	static std::mutex					cache_mutex;
+	constexpr size_t					MAX_CACHE_SIZE = 1000;
+	const cppstr cache_key = std::to_string(static_cast<int>(type)) + "/" + request_name;
+
+	// cache search
+	std::string cached_path;
+	{
+		std::lock_guard<std::mutex> lock(cache_mutex);
+		if (auto it = ctan_cache.find(cache_key); it != ctan_cache.end()) {
+			auto ret = it->second;
+			// put log
+			if (ret == nullptr) {
+				fprintf(stderr, "ctan_get fail: %d/%s", int(type), request_name);
+			}
+			else {
+				// make a new one for future cache search
+				ctan_cache[cache_key] = strdup(ret);
+				fprintf(stderr, "ctan_get succ: %d/%s %s", int(type), request_name, ret);
+			}
+			fprintf(stderr, "[CACHE] \n");
+			return ret;
+		}
+	}
+	// run process
+	char* result = ctan_get_file_process(request_name, type);
+
+	// update cache
+	{
+		std::lock_guard<std::mutex> lock(cache_mutex);
+		// avoid too much cache
+		if (ctan_cache.size() >= MAX_CACHE_SIZE) {
+			ctan_cache.clear();
+			fprintf(stderr, "ctan_get cache cleared: out of range\n");
+		}
+		ctan_cache[cache_key] = result ? strdup(result) : nullptr;
+	}
+
+	return result;
 }
 
 // TO BE FINISHED:
@@ -243,6 +288,28 @@ vector<cppstr> CTANFileManager::query_file(
 	// get result of one filename
 	cppstr	   query_name	   = request_name;
 	const auto only_one_suffix = handle_kpse_format(query_name, type);
+	// check if file exists in fs
+	if (only_one_suffix) {
+		auto try_name = "/tex/" + query_name;
+		if (std::filesystem::exists(try_name)) {
+			exist_in_fs = true;
+			return {try_name};
+		}
+	}
+	else {
+		for (const auto& suffix : format_to_suffix[type]) {
+			auto try_name = "/tex/" + query_name + suffix;
+			if (std::filesystem::exists(try_name)) {
+				exist_in_fs = true;
+				return {try_name};
+			}
+		}
+	}
+	if (request_name != query_name && std::filesystem::exists("/tex/" + request_name)) {
+		exist_in_fs = true;
+		return {cppstr("/tex/" + request_name)};
+	}
+	// not exist in fs, continue to run
 	auto traverse_file = [&](const cppstr& filename) -> vector<cppstr> {
 		auto it = name_to_index.find(filename);
 		if (it != name_to_index.end()) {
@@ -277,7 +344,7 @@ char* CTANFileManager::get_file(
 	if (query_result.size() == 0) return nullptr;
 	if (query_result[0].substr(0, 2) == "00") {
 		// for installer-only files, go to see our file server.
-		return kpse_find_file_js(request_name.c_str(), type, false);
+		return strdup(kpse_find_file_js(request_name.c_str(), type, false));
 	}
 	auto fileField	   = query_result[2][0] == 's' ? tlpobjNode::KeyType::Srcfiles :
 													 tlpobjNode::KeyType::Runfiles;
@@ -287,9 +354,6 @@ char* CTANFileManager::get_file(
 												 relative_path;	 // alter should not happen
 	// HARDCODE
 	auto file_path = "/tex/" + filename;
-	// check file exist
-	if (std::filesystem::exists(file_path) == true)	 // have already got it
-		return strdup(file_path.c_str());
 	// check package file exist, true to extract, else fetch it from website
 	// HARDCODE
 	auto package_name =
