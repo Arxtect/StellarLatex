@@ -42,7 +42,6 @@ file(GLOB_RECURSE TEXSOURCES
     tex/pdftex0.c
     tex/pdftexini.c
     tex/pdftex-pool.c
-    md5.c
     xmemory.c
     texfile.c
     kpseemu.c
@@ -50,9 +49,10 @@ file(GLOB_RECURSE TEXSOURCES
     bibtex.c
 )
 ## ctan
-file(GLOB_RECURSE CTANSOURCES
+file(GLOB_RECURSE COMMONSOURCES
     ${COMMON_CODE_DIR}/ctan/ctanFileManager.cpp
     ${COMMON_CODE_DIR}/ctan/extractFile.cpp
+    ${COMMON_CODE_DIR}/md5/md5.c
 )
 ## pdftex
 file(GLOB_RECURSE PDFTEXSOURCES
@@ -82,7 +82,7 @@ file(GLOB_RECURSE EPDFSOURCES
 )
 
 #  SET CMAKE PROJECT
-add_executable(${PROJECT_NAME} ${TEXSOURCES} ${CTANSOURCES} ${PDFTEXSOURCES} ${EPDFSOURCES})
+add_executable(${PROJECT_NAME} ${TEXSOURCES} ${COMMONSOURCES} ${PDFTEXSOURCES} ${EPDFSOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/tex

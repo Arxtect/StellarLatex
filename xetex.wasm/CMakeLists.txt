@@ -42,7 +42,6 @@ file(GLOB_RECURSE TEXSOURCES
     tex/xetex0.c
     tex/xetexini.c
     tex/xetex-pool.c
-    md5.c
     xmemory.c
     texfile.c
     kpseemu.c
@@ -57,9 +56,10 @@ file(GLOB_RECURSE TEXSOURCES
     xetexdir/trans.c
 )
 ## ctan
-file(GLOB_RECURSE CTANSOURCES
+file(GLOB_RECURSE COMMONSOURCES
     ${COMMON_CODE_DIR}/ctan/ctanFileManager.cpp
     ${COMMON_CODE_DIR}/ctan/extractFile.cpp
+    ${COMMON_CODE_DIR}/md5/md5.c
 )
 ## xetex
 file(GLOB_RECURSE XETEXSOURCES
@@ -75,7 +75,7 @@ file(GLOB_RECURSE TECKITSOURCES
 )
 
 #  SET CMAKE PROJECT
-add_executable(${PROJECT_NAME} ${TEXSOURCES} ${CTANSOURCES} ${XETEXSOURCES} ${TECKITSOURCES})
+add_executable(${PROJECT_NAME} ${TEXSOURCES} ${COMMONSOURCES} ${XETEXSOURCES} ${TECKITSOURCES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}

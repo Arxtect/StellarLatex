@@ -10,7 +10,7 @@
 #include <sys/time.h>
 #include <time.h>
 #include <errno.h>
-#include <md5.h>
+#include <md5/md5.h>
 #include <setjmp.h>
 #include "bibtex.h"
 string fullnameoffile;

@@ -3,7 +3,7 @@
 #include <xetexd.h>
 
 #include <errno.h>
-#include <md5.h>
+#include <md5/md5.h>
 #include <setjmp.h> 
 #include <sys/socket.h>
 #include <sys/stat.h>

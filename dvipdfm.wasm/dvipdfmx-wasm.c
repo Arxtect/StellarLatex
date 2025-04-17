@@ -1,7 +1,7 @@
 // First of all, remove pdf_files_init/close from xetex-ini.c
 // And remove picture handling functions from xetex-pic.c
 #include "core-bridge.h"
-#include <md5.h>
+#include <md5/md5.h>
 #include <stdio.h>
 #include <sys/stat.h>
 #include <unistd.h>

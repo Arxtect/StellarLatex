@@ -37,6 +37,7 @@ file(GLOB_RECURSE CSOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.c)
 file(GLOB_RECURSE CTANSOURCES
     ${COMMON_CODE_DIR}/ctan/ctanFileManager.cpp
     ${COMMON_CODE_DIR}/ctan/extractFile.cpp
+    ${COMMON_CODE_DIR}/md5/md5.c
 )
 
 # HEADERS
