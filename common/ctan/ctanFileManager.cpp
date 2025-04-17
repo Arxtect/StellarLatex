@@ -53,9 +53,15 @@ extern "C" char* ctan_get_file(cstr request_name, kpse_file_format_type type) {
 	}
 	// remove '/tex/' header
 	if (memcmp(request_name, "/tex/", 5) == 0) { request_name += 5; }
+	// check if file exists
+	cppstr fullpath = cppstr("/tex/") + request_name;
+	if (std::filesystem::exists(fullpath) == true) {
+		fprintf(stderr, "ctan_get succ: %d/%s exists\n", int(type), request_name);
+		return strdup(fullpath.c_str());
+	}
 	// if request_name have '/', stop
 	if (strchr(request_name, '/') != nullptr) {
-		fprintf(stderr, "ctan_get_file: %d/%s failed\n", int(type), request_name);
+		fprintf(stderr, "ctan_get fail: %d/%s\n", int(type), request_name);
 		return nullptr;
 	}
 	char* ret = nullptr;
@@ -78,10 +84,10 @@ extern "C" char* ctan_get_file(cstr request_name, kpse_file_format_type type) {
 		}
 	}
 	if (ret == nullptr) {
-		fprintf(stderr, "ctan_get_file: %d/%s failed\n", int(type), request_name);
+		fprintf(stderr, "ctan_get fail: %d/%s\n", int(type), request_name);
 	}
 	else {
-		fprintf(stderr, "ctan_get_file: %d/%s into %s\n", int(type), request_name, ret);
+		fprintf(stderr, "ctan_get succ: %d/%s into %s\n", int(type), request_name, ret);
 	}
 	return ret;
 }
@@ -277,13 +283,9 @@ char* CTANFileManager::get_file(
 												 relative_path;	 // alter should not happen
 	// HARDCODE
 	auto file_path = "/tex/" + filename;
-	// copy to cstr
-	char* file_path_cstr = static_cast<char*>(malloc(file_path.size() + 1));
-	memcpy(file_path_cstr, file_path.c_str(), file_path.size());
-	file_path_cstr[file_path.size()] = '\0';
 	// check file exist
 	if (std::filesystem::exists(file_path) == true)	 // have already got it
-		return file_path_cstr;
+		return strdup(file_path.c_str());
 	// check package file exist, true to extract, else fetch it from website
 	// HARDCODE
 	auto package_name =
@@ -294,7 +296,7 @@ char* CTANFileManager::get_file(
 	if (std::filesystem::exists(package_path) == true) {
 		if (extractor::tar_xz(
 				package_path.c_str(), relative_path.c_str(), file_path.c_str()) == true)
-			return file_path_cstr;
+			return strdup(file_path.c_str());
 		else
 			return nullptr;
 	}
@@ -305,14 +307,14 @@ char* CTANFileManager::get_file(
 	// maybe: 1. got exactly the file; 2. got the package; 3. got nothing
 	if (std::filesystem::exists(file_path) == true) {
 		// result 1: got exactly the file
-		return file_path_cstr;
+		return strdup(file_path.c_str());
 	}
 	// check result 2 or 3
 	if (std::filesystem::exists(package_path) == true) {
 		// result 2: got the package, then we can directly extract that
 		if (extractor::tar_xz(
 				package_path.c_str(), relative_path.c_str(), file_path.c_str()) == true)
-			return file_path_cstr;
+			return strdup(file_path.c_str());
 		else
 			return nullptr;
 	}
