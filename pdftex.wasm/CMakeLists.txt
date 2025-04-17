@@ -43,7 +43,6 @@ file(GLOB_RECURSE TEXSOURCES
     tex/pdftex0.c
     tex/pdftexini.c
     tex/pdftex-pool.c
-    xmemory.c
     texfile.c
     main.c
 )
@@ -54,6 +53,7 @@ file(GLOB_RECURSE COMMONSOURCES
     ${COMMON_CODE_DIR}/md5/md5.c
     ${COMMON_CODE_DIR}/bibtex/bibtex.c
     ${COMMON_CODE_DIR}/localkpse/kpseemu.c
+    ${COMMON_CODE_DIR}/memory/xmemory.c
 )
 ## pdftex
 file(GLOB_RECURSE PDFTEXSOURCES
@@ -93,6 +93,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${THIRD_PARTY_DIR}/libxpdf/repo/goo
     ${THIRD_PARTY_DIR}/libxpdf/repo/xpdf
     ${COMMON_CODE_DIR}
+    ${COMMON_CODE_DIR}/memory
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE
     ${THIRD_PARTY_DIR}/libxpdf/build/libxpdf.a

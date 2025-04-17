@@ -1,6 +1,6 @@
 #include "texmfmp.h"
-char *backup_pool = 0;
-unsigned int backupptr = 0;
+// char *backup_pool = 0;
+// unsigned int backupptr = 0;
 // void*  dlmalloc(size_t);
 // void*  dlrealloc(void*, size_t);
 // void   dlfree(void*);

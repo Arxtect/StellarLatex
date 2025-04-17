@@ -43,7 +43,6 @@ file(GLOB_RECURSE TEXSOURCES
     tex/xetex0.c
     tex/xetexini.c
     tex/xetex-pool.c
-    xmemory.c
     texfile.c
     texmfmp.c
     main.c
@@ -61,6 +60,7 @@ file(GLOB_RECURSE COMMONSOURCES
     ${COMMON_CODE_DIR}/md5/md5.c
     ${COMMON_CODE_DIR}/bibtex/bibtex.c
     ${COMMON_CODE_DIR}/localkpse/kpseemu.c
+    ${COMMON_CODE_DIR}/memory/xmemory.c
 )
 ## xetex
 file(GLOB_RECURSE XETEXSOURCES
@@ -90,6 +90,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${THIRD_PARTY_DIR}/libxpdf/repo/xpdf
     ${THIRD_PARTY_DIR}/libpplib/repo/src
     ${COMMON_CODE_DIR}
+    ${COMMON_CODE_DIR}/memory
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE
     ${THIRD_PARTY_DIR}/libxpdf/build/libxpdf.a
