@@ -12,7 +12,7 @@
 #include <errno.h>
 #include <md5/md5.h>
 #include <setjmp.h>
-#include "bibtex.h"
+#include <bibtex/bibtex.h>
 string fullnameoffile;
 string output_directory;
 

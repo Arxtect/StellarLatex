@@ -46,13 +46,13 @@ file(GLOB_RECURSE TEXSOURCES
     texfile.c
     kpseemu.c
     main.c
-    bibtex.c
 )
 ## ctan
 file(GLOB_RECURSE COMMONSOURCES
     ${COMMON_CODE_DIR}/ctan/ctanFileManager.cpp
     ${COMMON_CODE_DIR}/ctan/extractFile.cpp
     ${COMMON_CODE_DIR}/md5/md5.c
+    ${COMMON_CODE_DIR}/bibtex/bibtex.c
 )
 ## pdftex
 file(GLOB_RECURSE PDFTEXSOURCES

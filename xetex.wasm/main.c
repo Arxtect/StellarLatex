@@ -13,7 +13,7 @@
 #include <time.h>
 #include <unistd.h>
 
-#include "bibtex.h"
+#include <bibtex/bibtex.h>
  
 int ac;
 char **av;

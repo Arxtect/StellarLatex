@@ -47,7 +47,6 @@ file(GLOB_RECURSE TEXSOURCES
     kpseemu.c
     texmfmp.c
     main.c
-    bibtex.c
     xetexdir/XeTeX_ext.c
     xetexdir/XeTeX_pic.c
     xetexdir/image/bmpimage.c
@@ -60,6 +59,7 @@ file(GLOB_RECURSE COMMONSOURCES
     ${COMMON_CODE_DIR}/ctan/ctanFileManager.cpp
     ${COMMON_CODE_DIR}/ctan/extractFile.cpp
     ${COMMON_CODE_DIR}/md5/md5.c
+    ${COMMON_CODE_DIR}/bibtex/bibtex.c
 )
 ## xetex
 file(GLOB_RECURSE XETEXSOURCES
