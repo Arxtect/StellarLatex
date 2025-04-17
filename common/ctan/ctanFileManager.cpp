@@ -249,6 +249,7 @@ CTANFileManager::tlpobjNode CTANFileManager::createNode(string_view chunk) {
 		// HARDCODE
 		if (key == "name") { new_node.name = value; }
 		else if (key == "catalogue-ctan") { new_node.catalogue_ctan = value; }
+		// else if (key == "docfiles") { currentKey = tlpobjNode::KeyType::Docfiles; }
 		else if (key == "runfiles") { currentKey = tlpobjNode::KeyType::Runfiles; }
 		else if (key == "srcfiles") { currentKey = tlpobjNode::KeyType::Srcfiles; }
 		else if (currentKey != tlpobjNode::KeyType::None && line[0] == ' ') {
@@ -263,6 +264,11 @@ CTANFileManager::tlpobjNode CTANFileManager::createNode(string_view chunk) {
 				value = value.substr(6);  // remove "RELOC/" header
 			}
 			// Append to corresponding vector
+			// if (currentKey == tlpobjNode::KeyType::Docfiles) {
+			// 	size_t pos		= value.find_last_of('/');
+			// 	cppstr filename = (pos != cppstr::npos) ? value.substr(pos + 1) : value;
+			// 	name_to_index.insert({filename, pair(("d@" + value), nodes.size())});
+			// }
 			if (currentKey == tlpobjNode::KeyType::Runfiles) {
 				size_t pos		= value.find_last_of('/');
 				cppstr filename = (pos != cppstr::npos) ? value.substr(pos + 1) : value;
@@ -296,15 +302,16 @@ vector<cppstr> CTANFileManager::query_file(
 			return {try_name};
 		}
 	}
-	else {
-		for (const auto& suffix : format_to_suffix[type]) {
-			auto try_name = "/tex/" + query_name + suffix;
-			if (std::filesystem::exists(try_name)) {
-				exist_in_fs = true;
-				return {try_name};
-			}
-		}
-	}
+	// for multi suffix requests, we may get more for use. So the code is noted.
+	// else {
+	// 	for (const auto& suffix : format_to_suffix[type]) {
+	// 		auto try_name = "/tex/" + query_name + suffix;
+	// 		if (std::filesystem::exists(try_name)) {
+	// 			exist_in_fs = true;
+	// 			return {try_name};
+	// 		}
+	// 	}
+	// }
 	if (request_name != query_name && std::filesystem::exists("/tex/" + request_name)) {
 		exist_in_fs = true;
 		return {cppstr("/tex/" + request_name)};
@@ -346,8 +353,6 @@ char* CTANFileManager::get_file(
 		// for installer-only files, go to see our file server.
 		return strdup(kpse_find_file_js(request_name.c_str(), type, false));
 	}
-	auto fileField	   = query_result[2][0] == 's' ? tlpobjNode::KeyType::Srcfiles :
-													 tlpobjNode::KeyType::Runfiles;
 	auto relative_path = query_result[2].substr(2);
 	auto pos		   = relative_path.find_last_of('/');
 	auto filename	   = (pos != cppstr::npos) ? relative_path.substr(pos + 1) :
@@ -356,14 +361,17 @@ char* CTANFileManager::get_file(
 	auto file_path = "/tex/" + filename;
 	// check package file exist, true to extract, else fetch it from website
 	// HARDCODE
-	auto package_name =
-		query_result[0] +
-		(fileField == tlpobjNode::KeyType::Srcfiles ? ".source.tar.xz" : ".tar.xz");
+	auto package_name = query_result[0];
+	switch (query_result[2][0]) {
+		// case 'd': package_name += ".doc.tar.xz"; break;
+		case 'r': package_name += ".tar.xz"; break;
+		case 's': package_name += ".source.tar.xz"; break;
+		default: break;
+	}
 	// HARDCODE
 	auto package_path = "/tex/pkg/" + package_name;
 	if (std::filesystem::exists(package_path) == true) {
-		if (extractor::tar_xz(
-				package_path.c_str(), relative_path.c_str(), file_path.c_str()) == true)
+		if (extractor::tar_xz(package_path, relative_path, file_path))
 			return strdup(file_path.c_str());
 		else
 			return nullptr;
@@ -380,8 +388,7 @@ char* CTANFileManager::get_file(
 	// check result 2 or 3
 	if (std::filesystem::exists(package_path) == true) {
 		// result 2: got the package, then we can directly extract that
-		if (extractor::tar_xz(
-				package_path.c_str(), relative_path.c_str(), file_path.c_str()) == true)
+		if (extractor::tar_xz(package_path, relative_path, file_path))
 			return strdup(file_path.c_str());
 		else
 			return nullptr;

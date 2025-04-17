@@ -1,10 +1,10 @@
+#include "extractFile.hpp"
 #include <archive.h>
 #include <archive_entry.h>
 #include <cstring>
 #include <fcntl.h>
 #include <iostream>
 #include <string>
-#include "extractFile.hpp"
 namespace extractor {
 bool tar_xz(const char* archive_path, const char* target_file, const char* output_path) {
 	// std::cerr << "extracting " << target_file << " from " << archive_path << std::endl;
@@ -35,6 +35,9 @@ bool tar_xz(const char* archive_path, const char* target_file, const char* outpu
 	std::cerr << "File not found in archive: " << target_file << std::endl;
 	return false;
 }
+bool tar_xz(std::string archive_path, std::string target_file, std::string output_path) {
+	return tar_xz(archive_path.c_str(), target_file.c_str(), output_path.c_str());
+}
 
 bool xz(const char* archive_path, const char* output_path) {
 	std::cerr << "extracting from " << archive_path << std::endl;
@@ -64,5 +67,8 @@ bool xz(const char* archive_path, const char* output_path) {
 	archive_read_free(a);
 	fclose(fp);
 	return true;
+}
+bool xz(std::string archive_path, std::string output_path) {
+	return xz(archive_path.c_str(), output_path.c_str());
 }
 }  // namespace extractor

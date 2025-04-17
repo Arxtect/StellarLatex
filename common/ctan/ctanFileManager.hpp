@@ -105,7 +105,7 @@ private:
 	 */
 	class tlpobjNode {
 	public:
-		enum class KeyType { None, Name, Depend, Runfiles, Srcfiles };
+		enum class KeyType { None, Name, Depend, Docfiles, Runfiles, Srcfiles };
 		std::string name;
 		std::string catalogue_ctan;
 		tlpobjNode() = default;
