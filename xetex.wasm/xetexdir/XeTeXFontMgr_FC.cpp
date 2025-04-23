@@ -41,6 +41,7 @@ authorization from the copyright holders.
 
 #include FT_SFNT_NAMES_H
 #include FT_TRUETYPE_IDS_H
+
 #ifndef WEBASSEMBLY_BUILD
 #include <unicode/ucnv.h>
 

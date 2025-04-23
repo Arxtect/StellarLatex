@@ -9,13 +9,16 @@ set(COMMON_FLAGS
     -Wno-pointer-sign
     -DWEBASSEMBLY_BUILD
     -DXETEXWASM
+    -DHAVE_CONFIG_H
     -sUSE_FREETYPE
     -sUSE_ICU
     -sUSE_LIBPNG
     -fno-rtti
     -fno-exceptions
 )
+## convert to string
 string(REPLACE ";" " " COMMON_FLAGS_STR "${COMMON_FLAGS}")
+## set to cmake variable
 set(CMAKE_C_FLAGS "${COMMON_FLAGS_STR}")
 set(CMAKE_CXX_FLAGS "${COMMON_FLAGS_STR}")
 

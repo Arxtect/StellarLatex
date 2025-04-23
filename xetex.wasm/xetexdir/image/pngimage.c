@@ -50,7 +50,6 @@
 #include <w2c/config.h>
 #endif
 
-#include <stdlib.h>
 /*
  * PNG SUPPORT
  *

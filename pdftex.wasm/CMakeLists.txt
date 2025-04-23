@@ -2,14 +2,15 @@ cmake_minimum_required(VERSION 3.10)
 project(swiftlatexpdftex)
 
 #  COMPILE FLAGS
+## set flags
 set(COMMON_FLAGS
     -O3
-    -sUSE_ZLIB
-    -sUSE_LIBPNG
     -Wno-parentheses-equality
     -Wno-pointer-sign
     -DWEBASSEMBLY_BUILD
     -DPDFTEXWASM
+    -sUSE_ZLIB
+    -sUSE_LIBPNG
     -fno-rtti
     -fno-exceptions
 )

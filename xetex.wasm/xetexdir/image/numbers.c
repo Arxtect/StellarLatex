@@ -25,7 +25,6 @@
 #if HAVE_CONFIG_H
 #include <w2c/config.h>
 #endif
-#include <stdlib.h>
 
 #include "mfileio.h"
 #include "numbers.h"
