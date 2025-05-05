@@ -30,7 +30,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <string.h>
 #include <time.h>
 #include <float.h>              /* for DBL_EPSILON */
-#include <md5/md5.h>
+#include "md5.h"
 #include <zlib.h>
 #include "ptexlib.h"
 #include <png.h>
@@ -211,12 +211,10 @@ static void safe_print(const char *str)
 
 void removepdffile(void)
 {
-    
     if (outputfilename && !fixedpdfdraftmode) {
         xfclose(pdffile, makecstring(outputfilename));
         remove(makecstring(outputfilename));
     }
-
 }
 
 /* pdftex_fail may be called when a buffer overflow has happened/is
@@ -1553,5 +1551,3 @@ void allocvffnts(void)
         vfifnts = vf_i_fnts_array;
     }
 }
-
-

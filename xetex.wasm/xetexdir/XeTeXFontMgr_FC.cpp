@@ -511,7 +511,7 @@ void XeTeXFontMgr_FC::searchForHostPlatformFonts(const std::string &name) {
             ifs.ignore();
 
 
-            if (!(ifs >> c->opSizeInfo.subFamilyID)) {
+            if (!(ifs >> c->opSizeInfo.nameCode)) {
                 return;
             }
             ifs.ignore();

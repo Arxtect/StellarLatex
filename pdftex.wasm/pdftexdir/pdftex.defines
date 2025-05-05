@@ -19,11 +19,6 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
 }
 
 { pdftex.defines: additions for pdfTeX }
-@define type longword;
-@define procedure fillcsinfo();
-@define function getcharsigslot();
-@define procedure outputfileinfo;
-@define procedure outputloc();
 
 { macros from pdftex.h }
 @define function pdfcharmarked();

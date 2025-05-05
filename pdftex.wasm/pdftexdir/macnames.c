@@ -305,5 +305,5 @@ const char *ambiguous_names[] = {
     "dmacron",                  /*   dslash      */
     "macron",                   /*   overscore   */
     "periodcentered",           /*   middot      */
-    0x0
+    NULL
 };

@@ -75,10 +75,12 @@ pdftex_ch_srcs = \
 	partoken.ch \
 	locnull-optimize.ch \
 	showstream.ch \
+	zlib-fmt.ch \
 	enctexdir/enctex1.ch \
 	enctexdir/enctex-pdftex.ch \
 	enctexdir/enctex2.ch \
 	unbalanced-braces.ch \
+	$(pdftex_ch_synctex) \
 	pdftexdir/pdftex.ch \
 	pdftexdir/char-warning-pdftex.ch \
 	tex-binpool.ch

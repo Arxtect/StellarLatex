@@ -83,7 +83,17 @@ char* ctan_get_file_process(cstr request_name, kpse_file_format_type type) {
 		ret = globalManager->get_file(request_name, type);
 		if (ret == nullptr) {
 			// send unmeet request to old server
-			// ret = strdup(kpse_find_file_js(request_name, type, false));
+			// now we send font request to old server
+			if (type == kpse_gf_format || type == kpse_pk_format ||
+				type == kpse_tfm_format || type == kpse_afm_format ||
+				type == kpse_fontmap_format || type == kpse_ofm_format ||
+				type == kpse_opl_format || type == kpse_ovf_format ||
+				type == kpse_ovp_format || type == kpse_type1_format ||
+				type == kpse_vf_format || type == kpse_truetype_format ||
+				type == kpse_type42_format || type == kpse_miscfonts_format ||
+				type == kpse_opentype_format || type == kpse_fea_format ||
+				type == kpse_cid_format)
+				ret = strdup(kpse_find_file_js(request_name, type, false));
 		}
 	}
 	if (ret == nullptr) {
@@ -290,33 +300,6 @@ vector<cppstr> CTANFileManager::query_file(
 	const cppstr&				request_name,
 	const kpse_file_format_type type,
 	bool&						exist_in_fs) const {
-	exist_in_fs = false;
-	// get result of one filename
-	cppstr	   query_name	   = request_name;
-	const auto only_one_suffix = handle_kpse_format(query_name, type);
-	// check if file exists in fs
-	if (only_one_suffix) {
-		auto try_name = "/tex/" + query_name;
-		if (std::filesystem::exists(try_name)) {
-			exist_in_fs = true;
-			return {try_name};
-		}
-	}
-	// for multi suffix requests, we may get more for use. So the code is noted.
-	// else {
-	// 	for (const auto& suffix : format_to_suffix[type]) {
-	// 		auto try_name = "/tex/" + query_name + suffix;
-	// 		if (std::filesystem::exists(try_name)) {
-	// 			exist_in_fs = true;
-	// 			return {try_name};
-	// 		}
-	// 	}
-	// }
-	if (request_name != query_name && std::filesystem::exists("/tex/" + request_name)) {
-		exist_in_fs = true;
-		return {cppstr("/tex/" + request_name)};
-	}
-	// not exist in fs, continue to run
 	auto traverse_file = [&](const cppstr& filename) -> vector<cppstr> {
 		auto it = name_to_index.find(filename);
 		if (it != name_to_index.end()) {
@@ -326,21 +309,48 @@ vector<cppstr> CTANFileManager::query_file(
 		else
 			return {};
 	};
+	exist_in_fs = false;
+	// try with no suffix fix
+	if (cppstr try_name = "/tex/" + request_name; std::filesystem::exists(try_name)) {
+		exist_in_fs = true;
+		return {try_name};
+	}
+	if (auto no_suffix_check = traverse_file(request_name); no_suffix_check.size() > 0) {
+		return no_suffix_check;
+	}
+	// we have to try with suffix
+	// get result of one filename
+	cppstr	   query_name	   = request_name;
+	const auto only_one_suffix = handle_kpse_format(query_name, type);
 	if (only_one_suffix) {
+		// check if file exists in fs
+		auto try_name = "/tex/" + query_name;
+		if (std::filesystem::exists(try_name)) {
+			exist_in_fs = true;
+			return {try_name};
+		}
+		// else check if we have the file in tlpobj
 		auto one_suffix_check = traverse_file(query_name);
 		if (one_suffix_check.size() != 0) return one_suffix_check;
+		// else we get none
+		return {};
 	}
 	else {
+		// check if file exists in fs, only with first suffix
+		auto try_name = "/tex/" + query_name + format_to_suffix[type][0];
+		if (std::filesystem::exists(try_name)) {
+			exist_in_fs = true;
+			return {try_name};
+		}
+		// else check if we have the file in tlpobj, with all suffix
 		for (const auto& suffix : format_to_suffix[type]) {
 			cppstr query_name_for_suffix = query_name + suffix;
 			auto   one_of_suffix_check	 = traverse_file(query_name_for_suffix);
 			if (one_of_suffix_check.size() != 0) return one_of_suffix_check;
 		}
+		// else we get none
+		return {};
 	}
-	auto no_suffix_check = traverse_file(request_name);
-	if (no_suffix_check.size() != 0) return no_suffix_check;
-	// finally we find none
-	return {};
 }
 char* CTANFileManager::get_file(
 	const cppstr&				request_name,
