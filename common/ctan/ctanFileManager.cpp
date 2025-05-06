@@ -32,7 +32,26 @@ static bool end_up_with(const cppstr& str, const cppstr& suffix) {
 	if (str.size() < suffix.size()) return false;
 	return str.substr(str.size() - suffix.size()) == suffix;
 }
+
+static uint32_t simpleHash(const std::string& filePath) {
+	std::ifstream  file(filePath, std::ios::binary);
+	uint32_t	   hash = 0;
+	const uint32_t seed = 131;
+	char		   byte;
+	while (file.get(byte)) { hash = (hash * seed) + static_cast<uint8_t>(byte); }
+	return hash;
+}
 char* ctan_get_file_process(cstr request_name, kpse_file_format_type type) {
+	// DEBUG: ALL FILES GO TO OLD SERVER
+	// auto _ret = kpse_find_file_js(request_name, type, false);
+	// if (_ret == nullptr) {
+	// 	fprintf(stderr, "GET FAIL: %d/%s\n", int(type), request_name);
+	// }
+	// else {
+	// 	fprintf(stderr, "GET ok: %d/%s into %s[HASH=%x]\n", int(type), request_name, _ret,
+	// hash(_ret));
+	// }
+	// return _ret;
 	// THIS FUNCTION INVOLVES MANY HARDCODE
 	if (globalManager == nullptr) {
 		if (std::filesystem::exists("/tex/pkg/texlive.tlpdb") == false) {
@@ -59,12 +78,12 @@ char* ctan_get_file_process(cstr request_name, kpse_file_format_type type) {
 	// check if file exists
 	cppstr fullpath = cppstr("/tex/") + request_name;
 	if (std::filesystem::exists(fullpath) == true) {
-		fprintf(stderr, "ctan_get succ: %d/%s exists\n", int(type), request_name);
+		fprintf(stderr, "GET ok: %d/%s exists\n", int(type), request_name);
 		return strdup(fullpath.c_str());
 	}
 	// if request_name have '/', stop
 	if (strchr(request_name, '/') != nullptr) {
-		fprintf(stderr, "ctan_get fail: %d/%s\n", int(type), request_name);
+		fprintf(stderr, "GET FAIL: %d/%s\n", int(type), request_name);
 		return nullptr;
 	}
 	char* ret = nullptr;
@@ -72,12 +91,15 @@ char* ctan_get_file_process(cstr request_name, kpse_file_format_type type) {
 	if (memcmp(request_name, "swiftlatex", 10) == 0 ||
 		strcmp(request_name, "pdftex.map") == 0 ||
 		strcmp(request_name, "kanjix.map") == 0 ||
-		strcmp(request_name, "xetexfontlist.txt") == 0) {
-		ret = strdup(kpse_find_file_js(request_name, type, false));
+		strcmp(request_name, "xetexfontlist.txt") == 0 ||
+		strcmp(request_name, "language.dat") == 0) {
+		ret = kpse_find_file_js(request_name, type, false);
+		if (ret != nullptr) ret = strdup(ret);
 	}
 	// if meet .fmt file, go to old server
 	else if (end_up_with(request_name, ".fmt") == true) {
-		ret = strdup(kpse_find_file_js(request_name, type, false));
+		ret = kpse_find_file_js(request_name, type, false);
+		if (ret != nullptr) ret = strdup(ret);
 	}
 	else {
 		ret = globalManager->get_file(request_name, type);
@@ -93,14 +115,14 @@ char* ctan_get_file_process(cstr request_name, kpse_file_format_type type) {
 				type == kpse_type42_format || type == kpse_miscfonts_format ||
 				type == kpse_opentype_format || type == kpse_fea_format ||
 				type == kpse_cid_format)
-				ret = strdup(kpse_find_file_js(request_name, type, false));
+				ret = kpse_find_file_js(request_name, type, false);
+			if (ret != nullptr) ret = strdup(ret);
 		}
 	}
-	if (ret == nullptr) {
-		fprintf(stderr, "ctan_get fail: %d/%s\n", int(type), request_name);
-	}
+	if (ret == nullptr) { fprintf(stderr, "GET FAIL: %d/%s\n", int(type), request_name); }
 	else {
-		fprintf(stderr, "ctan_get succ: %d/%s into %s\n", int(type), request_name, ret);
+		fprintf(stderr, "[HASH=%x]", simpleHash(ret));
+		fprintf(stderr, "GET ok: %d/%s into %s\n", int(type), request_name, ret);
 	}
 	return ret;
 }
@@ -119,12 +141,12 @@ extern "C" char* ctan_get_file(cstr request_name, kpse_file_format_type type) {
 			auto ret = it->second;
 			// put log
 			if (ret == nullptr) {
-				fprintf(stderr, "ctan_get fail: %d/%s", int(type), request_name);
+				fprintf(stderr, "GET FAIL: %d/%s", int(type), request_name);
 			}
 			else {
 				// make a new one for future cache search
 				ctan_cache[cache_key] = strdup(ret);
-				fprintf(stderr, "ctan_get succ: %d/%s %s", int(type), request_name, ret);
+				fprintf(stderr, "GET ok: %d/%s %s", int(type), request_name, ret);
 			}
 			fprintf(stderr, "[CACHE] \n");
 			return ret;
@@ -206,6 +228,9 @@ map<kpse_file_format_type, vector<cstr>> CTANFileManager::format_to_suffix = {
 	{kpse_bltxml_format, {".bltxml"}}};
 
 CTANFileManager::CTANFileManager(string_view content) {
+	// create Node for priority
+	vector<string_view> chunk0, chunk1, chunk2;
+	chunk1.reserve(5120);
 	nodes.reserve(5120);  // we have 4846 tlpobj files when commit
 	size_t chunk_start = 0;
 	// separate tlpobj content
@@ -228,10 +253,24 @@ CTANFileManager::CTANFileManager(string_view content) {
 				}
 				return true;
 			};
-			if (check_valid_name(chunk) == true) nodes.push_back(createNode(chunk));
+			auto check_node_priority = [](string_view nodeContent) {
+				if (nodeContent.substr(5, 5) == "latex") return 0;
+				if (nodeContent.substr(5, 5) == "babel") return 0;
+				if (nodeContent.substr(5, 7) == "cslatex") return 2;
+				return 1;
+			};
+			if (check_valid_name(chunk) == true) {
+				int priority = check_node_priority(chunk);
+				if (priority == 0) chunk0.push_back(chunk);
+				if (priority == 1) chunk1.push_back(chunk);
+				if (priority == 2) chunk2.push_back(chunk);
+			}
 		}
 		chunk_start = (chunk_end == content.size()) ? chunk_end : chunk_end + 2;
 	}
+	for (auto chunk : chunk0) nodes.push_back(createNode(chunk));
+	for (auto chunk : chunk1) nodes.push_back(createNode(chunk));
+	for (auto chunk : chunk2) nodes.push_back(createNode(chunk));
 }
 
 CTANFileManager::tlpobjNode CTANFileManager::createNode(string_view chunk) {
@@ -361,7 +400,9 @@ char* CTANFileManager::get_file(
 	if (query_result.size() == 0) return nullptr;
 	if (query_result[0].substr(0, 2) == "00") {
 		// for installer-only files, go to see our file server.
-		return strdup(kpse_find_file_js(request_name.c_str(), type, false));
+		char* ret = kpse_find_file_js(request_name.c_str(), type, false);
+		if (ret != nullptr) ret = strdup(ret);
+		return ret;
 	}
 	auto relative_path = query_result[2].substr(2);
 	auto pos		   = relative_path.find_last_of('/');
@@ -381,10 +422,10 @@ char* CTANFileManager::get_file(
 	// HARDCODE
 	auto package_path = "/tex/pkg/" + package_name;
 	if (std::filesystem::exists(package_path) == true) {
-		if (extractor::tar_xz(package_path, relative_path, file_path))
+		if (extractor::tar_xz(package_path, relative_path, file_path)) {
 			return strdup(file_path.c_str());
-		else
-			return nullptr;
+		}
+		else { return nullptr; }
 	}
 	// fetch file content from website
 	// HARDCODE
@@ -398,10 +439,10 @@ char* CTANFileManager::get_file(
 	// check result 2 or 3
 	if (std::filesystem::exists(package_path) == true) {
 		// result 2: got the package, then we can directly extract that
-		if (extractor::tar_xz(package_path, relative_path, file_path))
+		if (extractor::tar_xz(package_path, relative_path, file_path)) {
 			return strdup(file_path.c_str());
-		else
-			return nullptr;
+		}
+		else { return nullptr; }
 	}
 	else {
 		// result 3: got nothing
