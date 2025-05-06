@@ -60,6 +60,11 @@ void uexit(int code) {
   exit_code = code;
   longjmp(jmpenv, 1);
 }
+boolean
+texmfyesno(const_string var)
+{
+  return 0;
+}
 
 #ifndef WEBASSEMBLY_BUILD
 int main(int argc, char **argv) {
