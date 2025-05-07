@@ -48,8 +48,9 @@ char* ctan_get_file_process(cstr request_name, kpse_file_format_type type) {
 	// 	fprintf(stderr, "GET FAIL: %d/%s\n", int(type), request_name);
 	// }
 	// else {
-	// 	fprintf(stderr, "GET ok: %d/%s into %s[HASH=%x]\n", int(type), request_name, _ret,
-	// hash(_ret));
+	// 	fprintf(
+	// 		stderr, "[HASH=%08x]GET ok: %d/%s into %s\n", simpleHash(_ret), int(type),
+	// 		request_name, _ret);
 	// }
 	// return _ret;
 	// THIS FUNCTION INVOLVES MANY HARDCODE
@@ -121,7 +122,7 @@ char* ctan_get_file_process(cstr request_name, kpse_file_format_type type) {
 	}
 	if (ret == nullptr) { fprintf(stderr, "GET FAIL: %d/%s\n", int(type), request_name); }
 	else {
-		fprintf(stderr, "[HASH=%x]", simpleHash(ret));
+		// fprintf(stderr, "[HASH=%08x]", simpleHash(ret));
 		fprintf(stderr, "GET ok: %d/%s into %s\n", int(type), request_name, ret);
 	}
 	return ret;
@@ -254,9 +255,22 @@ CTANFileManager::CTANFileManager(string_view content) {
 				return true;
 			};
 			auto check_node_priority = [](string_view nodeContent) {
-				if (nodeContent.substr(5, 5) == "latex") return 0;
-				if (nodeContent.substr(5, 5) == "babel") return 0;
-				if (nodeContent.substr(5, 7) == "cslatex") return 2;
+				// check if is a dev version. I think it should be no more than 50
+				// letters.
+				for (int index = 9; index < 50; index++) {
+					if (nodeContent[index] == '.' || nodeContent[index] == '\n') {
+						if (nodeContent[index - 4] == '-' &&
+							nodeContent[index - 3] == 'd' &&
+							nodeContent[index - 2] == 'e' &&
+							nodeContent[index - 1] == 'v')
+							return 2;
+						else break;
+					}
+				}
+				if (nodeContent.substr(5, 7) == "hyphen-") return 0;
+				if (nodeContent.substr(5, 6) == "latex\n") return 0;
+				if (nodeContent.substr(5, 6) == "babel\n") return 0;
+				if (nodeContent.substr(5, 8) == "cslatex\n") return 2;
 				return 1;
 			};
 			if (check_valid_name(chunk) == true) {

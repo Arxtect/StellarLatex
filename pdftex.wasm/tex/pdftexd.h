@@ -35,7 +35,7 @@
 #define infparamsize ( 60 ) 
 #define supparamsize ( 32767 ) 
 #define infsavesize ( 600 ) 
-#define supsavesize ( 80000L ) 
+#define supsavesize ( 30000000L ) 
 #define infstacksize ( 200 ) 
 #define supstacksize ( 30000 ) 
 #define infdvibufsize ( 800 ) 
@@ -68,7 +68,7 @@
 #define supdestnamessize ( 500000L ) 
 #define infpkdpi ( 72 ) 
 #define suppkdpi ( 8000 ) 
-#define pdfobjtypemax ( 9 ) 
+#define pdfobjtypemax ( 10 ) 
 #define vfmaxrecursion ( 10 ) 
 #define vfstacksize ( 100 ) 
 #define pdfmaxlinklevel ( 10 ) 
@@ -203,6 +203,7 @@ EXTERN cinttype parsefirstlinep  ;
 EXTERN cinttype filelineerrorstylep  ;
 EXTERN cinttype eightbitp  ;
 EXTERN cinttype haltonerrorp  ;
+EXTERN boolean haltingonerrorp  ;
 EXTERN boolean quotedfilename  ;
 EXTERN boolean srcspecialsp  ;
 EXTERN boolean insertsrcspecialauto  ;
@@ -273,11 +274,13 @@ EXTERN integer maxneststack  ;
 EXTERN liststaterecord curlist  ;
 EXTERN short shownmode  ;
 EXTERN halfword savetail  ;
+EXTERN halfword prevtail  ;
 EXTERN unsigned char oldsetting  ;
+EXTERN integer systime, sysday, sysmonth, sysyear  ;
 EXTERN memoryword * zeqtb  ;
 EXTERN quarterword 
 #define xeqlevel (zzzaa -29277)
-  zzzaa[908]  ;
+  zzzaa[913]  ;
 EXTERN twohalves * hash  ;
 EXTERN twohalves * yhash  ;
 EXTERN halfword hashused  ;
@@ -445,6 +448,8 @@ EXTERN scaled onehundredinch  ;
 EXTERN integer tenpow[10]  ;
 EXTERN integer scaledout  ;
 EXTERN boolean initpdfoutput  ;
+EXTERN integer advcharwidths  ;
+EXTERN scaled advcharwidthsout  ;
 EXTERN internalfontnumber pdff  ;
 EXTERN scaled pdfh  ;
 EXTERN scaled pdfv  ;
@@ -472,7 +477,7 @@ EXTERN internalfontnumber pdflastfs  ;
 EXTERN internalfontnumber pdfdummyfont  ;
 EXTERN integer objtabsize  ;
 EXTERN objentry * objtab  ;
-EXTERN integer headtab[10]  ;
+EXTERN integer headtab[11]  ;
 EXTERN integer pagestail  ;
 EXTERN integer objptr  ;
 EXTERN integer sysobjptr  ;
@@ -521,6 +526,7 @@ EXTERN integer lastbadness  ;
 EXTERN halfword adjusttail  ;
 EXTERN internalfontnumber * pdffontblink  ;
 EXTERN internalfontnumber * pdffontelink  ;
+EXTERN boolean * pdffonthasspacechar  ;
 EXTERN integer * pdffontstretch  ;
 EXTERN integer * pdffontshrink  ;
 EXTERN integer * pdffontstep  ;
@@ -603,7 +609,7 @@ EXTERN halfword bestline  ;
 EXTERN integer actuallooseness  ;
 EXTERN integer linediff  ;
 EXTERN short hc[66]  ;
-EXTERN smallnumber hn  ;
+EXTERN unsigned char hn  ;
 EXTERN halfword ha, hb  ;
 EXTERN internalfontnumber hf  ;
 EXTERN short hu[64]  ;
@@ -672,6 +678,7 @@ EXTERN scaled lastkern  ;
 EXTERN integer lastnodetype  ;
 EXTERN integer insertpenalties  ;
 EXTERN boolean outputactive  ;
+EXTERN boolean outputcanend  ;
 EXTERN internalfontnumber mainf  ;
 EXTERN fourquarters maini  ;
 EXTERN fourquarters mainj  ;
@@ -740,6 +747,8 @@ EXTERN integer imageorigx, imageorigy  ;
 EXTERN halfword pdftrailertoks  ;
 EXTERN halfword pdftraileridtoks  ;
 EXTERN boolean genfakedinterwordspace  ;
+EXTERN boolean genrunninglink  ;
+EXTERN strnumber pdfspacefontname  ;
 EXTERN pdflinkstackrecord pdflinkstack[pdfmaxlinklevel + 1]  ;
 EXTERN smallnumber pdflinkstackptr  ;
 EXTERN boolean isshippingpage  ;
@@ -779,6 +788,7 @@ EXTERN cinttype restrictedshell  ;
 EXTERN char * outputcomment  ;
 EXTERN unsigned char k, l  ;
 EXTERN boolean debugformatfile  ;
+EXTERN integer expanddepthcount  ;
 EXTERN boolean mltexp  ;
 EXTERN boolean mltexenabledp  ;
 EXTERN integer accentc, basec, replacec  ;
@@ -790,6 +800,5 @@ EXTERN scaled accentwidth, accentheight  ;
 EXTERN scaled delta  ;
 EXTERN boolean enctexp  ;
 EXTERN boolean enctexenabledp  ;
-EXTERN integer expanddepthcount  ;
 
 #include "pdftexcoerce.h"

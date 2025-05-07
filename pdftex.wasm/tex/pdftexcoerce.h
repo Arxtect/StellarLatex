@@ -367,6 +367,8 @@ void showactivities (void);
 void zprintparam (integer n);
 #define printparam(n) zprintparam((integer) (n))
 #define printparam_regmem
+void fixdateandtime (void);
+#define fixdateandtime_regmem register memoryword *eqtb=zeqtb;
 void begindiagnostic (void);
 #define begindiagnostic_regmem register memoryword *eqtb=zeqtb;
 void zenddiagnostic (boolean blankline);
@@ -746,8 +748,6 @@ scaled zgetquad (internalfontnumber f);
 scaled zgetslant (internalfontnumber f);
 #define getslant(f) zgetslant((internalfontnumber) (f))
 #define getslant_regmem
-internalfontnumber newdummyfont (void);
-#define newdummyfont_regmem
 void zshortdisplayn (integer p,integer m);
 #define shortdisplayn(p, m) zshortdisplayn((integer) (p), (integer) (m))
 #define shortdisplayn_regmem register memoryword *mem=zmem;
@@ -767,8 +767,8 @@ void pdfbeginstream (void);
 #define pdfbeginstream_regmem register memoryword *eqtb=zeqtb;
 void pdfendstream (void);
 #define pdfendstream_regmem
-void zadvcharwidth (internalfontnumber f,eightbits c);
-#define advcharwidth(f, c) zadvcharwidth((internalfontnumber) (f), (eightbits) (c))
+void zadvcharwidth (internalfontnumber f,eightbits c,eightbits dd);
+#define advcharwidth(f, c, dd) zadvcharwidth((internalfontnumber) (f), (eightbits) (c), (eightbits) (dd))
 #define advcharwidth_regmem
 void zpdfprintreal (integer m,integer d);
 #define pdfprintreal(m, d) zpdfprintreal((integer) (m), (integer) (d))
@@ -1105,6 +1105,9 @@ void zsortdestnames (integer l,integer r);
 void zpdffixdest (integer k);
 #define pdffixdest(k) zpdffixdest((integer) (k))
 #define pdffixdest_regmem
+void zpdffixstructdest (integer k);
+#define pdffixstructdest(k) zpdffixstructdest((integer) (k))
+#define pdffixstructdest_regmem
 void pdfprintinfo (void);
 #define pdfprintinfo_regmem register memoryword *eqtb=zeqtb;
 void zscanspec (groupcode c,boolean threecodes);
@@ -1247,7 +1250,7 @@ void alignpeek (void);
 #define alignpeek_regmem
 halfword zfiniteshrink (halfword p);
 #define finiteshrink(p) zfiniteshrink((halfword) (p))
-#define finiteshrink_regmem register memoryword *mem=zmem;
+#define finiteshrink_regmem register memoryword *mem=zmem, *eqtb=zeqtb;
 void zpushnode (halfword p);
 #define pushnode(p) zpushnode((halfword) (p))
 #define pushnode_regmem
@@ -1502,6 +1505,8 @@ void zcheckpdfoutput (strnumber s,boolean iserror);
 #define checkpdfoutput_regmem register memoryword *eqtb=zeqtb;
 void scanpdfexttoks (void);
 #define scanpdfexttoks_regmem
+void scanpdfextlatetoks (void);
+#define scanpdfextlatetoks_regmem
 void comparestrings (void);
 #define comparestrings_regmem
 void zscaleimage (integer n);
@@ -1563,20 +1568,20 @@ boolean loadfmtfile (void);
 void closefilesandterminate (void);
 #define closefilesandterminate_regmem register memoryword *eqtb=zeqtb;
 void finalcleanup (void);
-#define finalcleanup_regmem register memoryword *mem=zmem;
+#define finalcleanup_regmem register memoryword *mem=zmem, *eqtb=zeqtb;
 void initprim (void);
 #define initprim_regmem register memoryword *eqtb=zeqtb;
 void debughelp (void);
 #define debughelp_regmem register memoryword *mem=zmem, *eqtb=zeqtb;
 void mainbody (void);
 #define mainbody_regmem register memoryword *eqtb=zeqtb;
-strnumber getnullstr (void);
-#define getnullstr_regmem
 void scanfilenamebraced (void);
 #define scanfilenamebraced_regmem register memoryword *mem=zmem;
+strnumber getnullstr (void);
+#define getnullstr_regmem
 /* Some definitions that get appended to the `coerce.h' file that web2c
    outputs.  */
-/* $Id: coerce.h 37504 2015-06-12 08:45:07Z peter $ */
+/* $Id$ */
 
 /* The C compiler ignores most unnecessary casts (i.e., casts of
    something to its own type).  However, for structures, it doesn't.
