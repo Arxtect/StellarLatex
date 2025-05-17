@@ -41,13 +41,11 @@ set(CMAKE_EXE_LINKER_FLAGS "${LINKER_FLAGS_STR}")
 #  SOURCES
 ## tex
 file(GLOB_RECURSE TEXSOURCES
-    tex/pdftex0.c
-    tex/pdftexini.c
-    tex/pdftex-pool.c
+    tex/*.c
     texfile.c
     main.c
 )
-## ctan
+## common
 file(GLOB_RECURSE COMMONSOURCES
     ${COMMON_CODE_DIR}/ctan/ctanFileManager.cpp
     ${COMMON_CODE_DIR}/ctan/extractFile.cpp
@@ -77,14 +75,11 @@ file(GLOB_RECURSE PDFTEXSOURCES
     pdftexdir/mapfile.c
     pdftexdir/writeimg.c
     pdftexdir/writet3.c
-)
-## teckit
-file(GLOB_RECURSE EPDFSOURCES
     pdftexdir/pdftoepdf.cc
 )
 
 #  SET CMAKE PROJECT
-add_executable(${PROJECT_NAME} ${TEXSOURCES} ${COMMONSOURCES} ${PDFTEXSOURCES} ${EPDFSOURCES})
+add_executable(${PROJECT_NAME} ${TEXSOURCES} ${COMMONSOURCES} ${PDFTEXSOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/tex

@@ -416,8 +416,8 @@ char* kpse_find_file(const char* name, kpse_file_format_type format,
   free(local_name);
 
   // Head to network search
-  // return kpse_find_file_js(name, format, must_exist);
-  return ctan_get_file(name, format);
+  return kpse_find_file_js(name, format, must_exist);
+  // return ctan_get_file(name, format);
 
 }
 

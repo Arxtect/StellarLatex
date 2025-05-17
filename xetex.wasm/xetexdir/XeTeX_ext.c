@@ -68,11 +68,7 @@ authorization from the copyright holders.
 
 #include "XeTeX_ext.h"
 
-#ifndef WEBASSEMBLY_BUILD
 #include <teckit/TECkit_Engine.h>
-#else
-#include <teckit/teckit-c-Engine.h>
-#endif
 
 #ifndef WEBASSEMBLY_BUILD
 #include <kpathsea/c-ctype.h>
