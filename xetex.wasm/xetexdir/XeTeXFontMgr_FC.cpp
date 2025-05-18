@@ -41,6 +41,7 @@ authorization from the copyright holders.
 
 #include FT_SFNT_NAMES_H
 #include FT_TRUETYPE_IDS_H
+
 #ifndef WEBASSEMBLY_BUILD
 #include <unicode/ucnv.h>
 
@@ -510,7 +511,7 @@ void XeTeXFontMgr_FC::searchForHostPlatformFonts(const std::string &name) {
             ifs.ignore();
 
 
-            if (!(ifs >> c->opSizeInfo.subFamilyID)) {
+            if (!(ifs >> c->opSizeInfo.nameCode)) {
                 return;
             }
             ifs.ignore();

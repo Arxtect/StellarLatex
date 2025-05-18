@@ -53,8 +53,7 @@
 #if HAVE_CONFIG_H
 #include <w2c/config.h>
 #endif
-#include <stdlib.h>
-#include <stdarg.h>
+
 #include "bmpimage.h"
 
 #define DIB_FILE_HEADER_SIZE 14

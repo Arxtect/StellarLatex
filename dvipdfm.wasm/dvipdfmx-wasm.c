@@ -1,7 +1,7 @@
 // First of all, remove pdf_files_init/close from xetex-ini.c
 // And remove picture handling functions from xetex-pic.c
 #include "core-bridge.h"
-#include <md5.h>
+#include <md5/md5.h>
 #include <stdio.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -359,8 +359,8 @@ char *kpse_find_file(const char *name, tt_input_format_type tt_format) {
   free(local_name);
 
   // Head to network search
-  // return kpse_find_file_js(name, format, 0);
-  return ctan_get_file(name, format);
+  return kpse_find_file_js(name, format, 0);
+  // return ctan_get_file(name, format);
 
 }
 

@@ -291,6 +291,8 @@ void showactivities (void);
 void zprintparam (integer n);
 #define printparam(n) zprintparam((integer) (n))
 #define printparam_regmem
+void fixdateandtime (void);
+#define fixdateandtime_regmem register memoryword *eqtb=zeqtb;
 void begindiagnostic (void);
 #define begindiagnostic_regmem register memoryword *eqtb=zeqtb;
 void zenddiagnostic (boolean blankline);
@@ -561,8 +563,8 @@ void conditional (void);
 #define conditional_regmem register memoryword *mem=zmem, *eqtb=zeqtb;
 void beginname (void);
 #define beginname_regmem
-boolean zmorename (UTF16code c);
-#define morename(c) zmorename((UTF16code) (c))
+boolean zmorename (UnicodeScalar c);
+#define morename(c) zmorename((UnicodeScalar) (c))
 #define morename_regmem
 void endname (void);
 #define endname_regmem
@@ -601,6 +603,9 @@ void startinput (void);
 fourquarters zeffectivecharinfo (internalfontnumber f,quarterword c);
 #define effectivecharinfo(f, c) zeffectivecharinfo((internalfontnumber) (f), (quarterword) (c))
 #define effectivecharinfo_regmem register memoryword *eqtb=zeqtb;
+void zprintucscode (UnicodeScalar n);
+#define printucscode(n) zprintucscode((UnicodeScalar) (n))
+#define printucscode_regmem
 void zcharwarning (internalfontnumber f,integer c);
 #define charwarning(f, c) zcharwarning((internalfontnumber) (f), (integer) (c))
 #define charwarning_regmem register memoryword *eqtb=zeqtb;
@@ -881,7 +886,7 @@ void alignpeek (void);
 #define alignpeek_regmem
 halfword zfiniteshrink (halfword p);
 #define finiteshrink(p) zfiniteshrink((halfword) (p))
-#define finiteshrink_regmem register memoryword *mem=zmem;
+#define finiteshrink_regmem register memoryword *mem=zmem, *eqtb=zeqtb;
 void zpushnode (halfword p);
 #define pushnode(p) zpushnode((halfword) (p))
 #define pushnode_regmem
@@ -943,7 +948,7 @@ void newhyphexceptions (void);
 #define newhyphexceptions_regmem register memoryword *mem=zmem, *eqtb=zeqtb;
 halfword zprunepagetop (halfword p,boolean s);
 #define prunepagetop(p, s) zprunepagetop((halfword) (p), (boolean) (s))
-#define prunepagetop_regmem register memoryword *mem=zmem;
+#define prunepagetop_regmem register memoryword *mem=zmem, *eqtb=zeqtb;
 halfword zvertbreak (halfword p,scaled h,scaled d);
 #define vertbreak(p, h, d) zvertbreak((halfword) (p), (scaled) (h), (scaled) (d))
 #define vertbreak_regmem register memoryword *mem=zmem;
@@ -1159,7 +1164,7 @@ boolean loadfmtfile (void);
 void closefilesandterminate (void);
 #define closefilesandterminate_regmem register memoryword *eqtb=zeqtb;
 void finalcleanup (void);
-#define finalcleanup_regmem register memoryword *mem=zmem;
+#define finalcleanup_regmem register memoryword *mem=zmem, *eqtb=zeqtb;
 void initprim (void);
 #define initprim_regmem register memoryword *eqtb=zeqtb;
 void debughelp (void);
@@ -1176,6 +1181,8 @@ void scanpdfexttoks (void);
 #define scanpdfexttoks_regmem
 void comparestrings (void);
 #define comparestrings_regmem
+void scanfilenamebraced (void);
+#define scanfilenamebraced_regmem register memoryword *mem=zmem;
 strnumber getnullstr (void);
 #define getnullstr_regmem
 /* Some definitions that get appended to the `coerce.h' file that web2c
@@ -1216,6 +1223,9 @@ extern void calledit (packedASCIIcode *, poolpointer, integer, integer);
 #ifdef MF
 extern void blankrectangle (screencol, screencol, screenrow, screenrow);
 extern void paintrow (screenrow, pixelcolor, transspec, screencol);
+#if defined(MFLua) || defined(MFLuaJIT)
+#include <mfluadir/mfluac.h>
+#endif
 #endif
 
 extern strnumber makefullnamestring(void);

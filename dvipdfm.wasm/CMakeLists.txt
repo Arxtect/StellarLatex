@@ -5,6 +5,7 @@ project(swiftlatexdvipdfm)
 set(COMMON_FLAGS
     -O3
     -DHAVE_ZLIB
+    -DDVIPDFMWASM
     -sUSE_LIBPNG
     -fno-rtti
     -fno-exceptions
@@ -33,17 +34,18 @@ set(CMAKE_EXE_LINKER_FLAGS "${LINKER_FLAGS_STR}")
 # SOURCES
 file(GLOB_RECURSE CSOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.c)
 
-## ctan
-file(GLOB_RECURSE CTANSOURCES
+## COMMON SOURCE
+file(GLOB_RECURSE COMMONSOURCES
     ${COMMON_CODE_DIR}/ctan/ctanFileManager.cpp
     ${COMMON_CODE_DIR}/ctan/extractFile.cpp
+    ${COMMON_CODE_DIR}/md5/md5.c
 )
 
 # HEADERS
 # file(GLOB_RECURSE HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 
 # SET CMAKE PROJECT
-add_executable(${PROJECT_NAME} ${CSOURCES} ${CTANSOURCES})
+add_executable(${PROJECT_NAME} ${CSOURCES} ${COMMONSOURCES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${COMMON_CODE_DIR})
 

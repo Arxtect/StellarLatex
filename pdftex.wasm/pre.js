@@ -5,7 +5,7 @@ var Module = {};
 self.memlog = "";
 self.initmem = undefined;
 self.mainfile = "main.tex";
-self.texlive_endpoint = "https://magic.pointer.ai/latex/";
+self.texlive_endpoint = "https://magic.pointer.ai/latex2/";
 self.ctan_mirror = "https://mirrors.ustc.edu.cn/CTAN/";
 Module['print'] = function(a) {
     self.memlog += (a + "\n");
@@ -118,7 +118,7 @@ Module['onAbort'] = function() {
 function compileLaTeXRoutine() {
     prepareExecutionContext();
     const setMainFunction = cwrap('setMainEntry', 'number', ['string']);
-    setMainFunction(self.mainfile);
+    setMainFunction('"' + self.mainfile + '"');
     let status = _compileLaTeX();
     if (status === 0) {
         let pdfArrayBuffer = null;

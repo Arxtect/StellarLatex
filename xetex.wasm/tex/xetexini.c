@@ -67,14 +67,14 @@ initialize ( void )
   lastnodetype = -1 ;
   pagesofar [7 ]= 0 ;
   pagemaxdepth = 0 ;
-  {register integer for_end; k = 8939240L ;for_end = 10053969L ; if ( k <= 
+  {register integer for_end; k = 8940840L ;for_end = 10055572L ; if ( k <= 
   for_end) do 
     xeqlevel [k ]= 1 ;
   while ( k++ < for_end ) ;} 
   nonewcontrolsequence = true ;
   prim [0 ].v.LH = 0 ;
   prim [0 ].v.RH = 0 ;
-  {register integer for_end; k = 1 ;for_end = 500 ; if ( k <= for_end) do 
+  {register integer for_end; k = 1 ;for_end = 2100 ; if ( k <= for_end) do 
     prim [k ]= prim [0 ];
   while ( k++ < for_end ) ;} 
   saveptr = 0 ;
@@ -83,7 +83,6 @@ initialize ( void )
   curboundary = 0 ;
   maxsavestack = 0 ;
   magset = 0 ;
-  expanddepthcount = 0 ;
   isincsname = false ;
   curmark [0 ]= -268435455L ;
   curmark [1 ]= -268435455L ;
@@ -152,6 +151,7 @@ initialize ( void )
   if ( hyphnext > hyphsize ) 
   hyphnext = 607 ;
   outputactive = false ;
+  outputcanend = false ;
   insertpenalties = 0 ;
   ligaturepresent = false ;
   cancelboundary = false ;
@@ -179,6 +179,8 @@ initialize ( void )
   discptr [3 ]= -268435455L ;
   editnamestart = 0 ;
   stopatspace = true ;
+  haltingonerrorp = false ;
+  expanddepthcount = 0 ;
   mltexenabledp = false ;
 	;
 #ifdef INITEX
@@ -234,116 +236,117 @@ initialize ( void )
     himemmin = memtop - 14 ;
     varused = membot + 20 - membot ;
     dynused = 15 ;
-    eqtb [2252739L ].hh.b0 = 103 ;
-    eqtb [2252739L ].hh .v.RH = -268435455L ;
-    eqtb [2252739L ].hh.b1 = 0 ;
+    eqtb [2254339L ].hh.b0 = 104 ;
+    eqtb [2254339L ].hh .v.RH = -268435455L ;
+    eqtb [2254339L ].hh.b1 = 0 ;
     {register integer for_end; k = 1 ;for_end = eqtbtop ; if ( k <= for_end) 
     do 
-      eqtb [k ]= eqtb [2252739L ];
+      eqtb [k ]= eqtb [2254339L ];
     while ( k++ < for_end ) ;} 
-    eqtb [2252740L ].hh .v.RH = membot ;
-    eqtb [2252740L ].hh.b1 = 1 ;
-    eqtb [2252740L ].hh.b0 = 119 ;
-    {register integer for_end; k = 2252741L ;for_end = 2253270L ; if ( k <= 
+    eqtb [2254340L ].hh .v.RH = membot ;
+    eqtb [2254340L ].hh.b1 = 1 ;
+    eqtb [2254340L ].hh.b0 = 120 ;
+    {register integer for_end; k = 2254341L ;for_end = 2254870L ; if ( k <= 
     for_end) do 
-      eqtb [k ]= eqtb [2252740L ];
+      eqtb [k ]= eqtb [2254340L ];
     while ( k++ < for_end ) ;} 
     mem [membot ].hh .v.RH = mem [membot ].hh .v.RH + 531 ;
-    eqtb [2253271L ].hh .v.RH = -268435455L ;
-    eqtb [2253271L ].hh.b0 = 120 ;
-    eqtb [2253271L ].hh.b1 = 1 ;
-    {register integer for_end; k = 2253539L ;for_end = 2253542L ; if ( k <= 
+    eqtb [2254871L ].hh .v.RH = -268435455L ;
+    eqtb [2254871L ].hh.b0 = 121 ;
+    eqtb [2254871L ].hh.b1 = 1 ;
+    {register integer for_end; k = 2255139L ;for_end = 2255142L ; if ( k <= 
     for_end) do 
-      eqtb [k ]= eqtb [2253271L ];
+      eqtb [k ]= eqtb [2254871L ];
     while ( k++ < for_end ) ;} 
-    {register integer for_end; k = 2253272L ;for_end = 2253538L ; if ( k <= 
+    {register integer for_end; k = 2254872L ;for_end = 2255138L ; if ( k <= 
     for_end) do 
-      eqtb [k ]= eqtb [2252739L ];
+      eqtb [k ]= eqtb [2254339L ];
     while ( k++ < for_end ) ;} 
-    eqtb [2253543L ].hh .v.RH = -268435455L ;
-    eqtb [2253543L ].hh.b0 = 121 ;
-    eqtb [2253543L ].hh.b1 = 1 ;
-    {register integer for_end; k = 2253544L ;for_end = 2253798L ; if ( k <= 
+    eqtb [2255143L ].hh .v.RH = -268435455L ;
+    eqtb [2255143L ].hh.b0 = 122 ;
+    eqtb [2255143L ].hh.b1 = 1 ;
+    {register integer for_end; k = 2255144L ;for_end = 2255398L ; if ( k <= 
     for_end) do 
-      eqtb [k ]= eqtb [2253543L ];
+      eqtb [k ]= eqtb [2255143L ];
     while ( k++ < for_end ) ;} 
-    eqtb [2253799L ].hh .v.RH = 0 ;
-    eqtb [2253799L ].hh.b0 = 122 ;
-    eqtb [2253799L ].hh.b1 = 1 ;
-    {register integer for_end; k = 2253800L ;for_end = 2254567L ; if ( k <= 
+    eqtb [2255399L ].hh .v.RH = 0 ;
+    eqtb [2255399L ].hh.b0 = 123 ;
+    eqtb [2255399L ].hh.b1 = 1 ;
+    {register integer for_end; k = 2255400L ;for_end = 2256167L ; if ( k <= 
     for_end) do 
-      eqtb [k ]= eqtb [2253799L ];
+      eqtb [k ]= eqtb [2255399L ];
     while ( k++ < for_end ) ;} 
-    eqtb [2254568L ].hh .v.RH = 0 ;
-    eqtb [2254568L ].hh.b0 = 122 ;
-    eqtb [2254568L ].hh.b1 = 1 ;
-    {register integer for_end; k = 2254569L ;for_end = 8939239L ; if ( k <= 
+    eqtb [2256168L ].hh .v.RH = 0 ;
+    eqtb [2256168L ].hh.b0 = 123 ;
+    eqtb [2256168L ].hh.b1 = 1 ;
+    {register integer for_end; k = 2256169L ;for_end = 8940839L ; if ( k <= 
     for_end) do 
-      eqtb [k ]= eqtb [2254568L ];
+      eqtb [k ]= eqtb [2256168L ];
     while ( k++ < for_end ) ;} 
     {register integer for_end; k = 0 ;for_end = 1114111L ; if ( k <= 
     for_end) do 
       {
-	eqtb [2254568L + k ].hh .v.RH = 12 ;
-	eqtb [6711016L + k ].hh .v.RH = k ;
-	eqtb [5596904L + k ].hh .v.RH = 1000 ;
+	eqtb [2256168L + k ].hh .v.RH = 12 ;
+	eqtb [6712616L + k ].hh .v.RH = k ;
+	eqtb [5598504L + k ].hh .v.RH = 1000 ;
       } 
     while ( k++ < for_end ) ;} 
-    eqtb [2254581L ].hh .v.RH = 5 ;
-    eqtb [2254600L ].hh .v.RH = 10 ;
-    eqtb [2254660L ].hh .v.RH = 0 ;
-    eqtb [2254605L ].hh .v.RH = 14 ;
-    eqtb [2254695L ].hh .v.RH = 15 ;
-    eqtb [2254568L ].hh .v.RH = 9 ;
+    eqtb [2256181L ].hh .v.RH = 5 ;
+    eqtb [2256200L ].hh .v.RH = 10 ;
+    eqtb [2256260L ].hh .v.RH = 0 ;
+    eqtb [2256205L ].hh .v.RH = 14 ;
+    eqtb [2256295L ].hh .v.RH = 15 ;
+    eqtb [2256168L ].hh .v.RH = 9 ;
     {register integer for_end; k = 48 ;for_end = 57 ; if ( k <= for_end) do 
-      eqtb [6711016L + k ].hh .v.RH = k + setclassfield ( 7 ) ;
+      eqtb [6712616L + k ].hh .v.RH = k + setclassfield ( 7 ) ;
     while ( k++ < for_end ) ;} 
     {register integer for_end; k = 65 ;for_end = 90 ; if ( k <= for_end) do 
       {
-	eqtb [2254568L + k ].hh .v.RH = 11 ;
-	eqtb [2254568L + k + 32 ].hh .v.RH = 11 ;
-	eqtb [6711016L + k ].hh .v.RH = k + setfamilyfield ( 1 ) + 
+	eqtb [2256168L + k ].hh .v.RH = 11 ;
+	eqtb [2256168L + k + 32 ].hh .v.RH = 11 ;
+	eqtb [6712616L + k ].hh .v.RH = k + setfamilyfield ( 1 ) + 
 	setclassfield ( 7 ) ;
-	eqtb [6711016L + k + 32 ].hh .v.RH = k + 32 + setfamilyfield ( 1 ) + 
+	eqtb [6712616L + k + 32 ].hh .v.RH = k + 32 + setfamilyfield ( 1 ) + 
 	setclassfield ( 7 ) ;
-	eqtb [3368680L + k ].hh .v.RH = k + 32 ;
-	eqtb [3368680L + k + 32 ].hh .v.RH = k + 32 ;
-	eqtb [4482792L + k ].hh .v.RH = k ;
-	eqtb [4482792L + k + 32 ].hh .v.RH = k ;
-	eqtb [5596904L + k ].hh .v.RH = 999 ;
+	eqtb [3370280L + k ].hh .v.RH = k + 32 ;
+	eqtb [3370280L + k + 32 ].hh .v.RH = k + 32 ;
+	eqtb [4484392L + k ].hh .v.RH = k ;
+	eqtb [4484392L + k + 32 ].hh .v.RH = k ;
+	eqtb [5598504L + k ].hh .v.RH = 999 ;
       } 
     while ( k++ < for_end ) ;} 
-    {register integer for_end; k = 8939240L ;for_end = 8939578L ; if ( k <= 
+    {register integer for_end; k = 8940840L ;for_end = 8941181L ; if ( k <= 
     for_end) do 
       eqtb [k ].cint = 0 ;
     while ( k++ < for_end ) ;} 
-    eqtb [8939295L ].cint = 256 ;
-    eqtb [8939296L ].cint = -1 ;
-    eqtb [8939257L ].cint = 1000 ;
-    eqtb [8939241L ].cint = 10000 ;
-    eqtb [8939281L ].cint = 1 ;
-    eqtb [8939280L ].cint = 25 ;
-    eqtb [8939285L ].cint = 92 ;
-    eqtb [8939288L ].cint = 13 ;
+    eqtb [8940895L ].cint = 256 ;
+    eqtb [8940896L ].cint = -1 ;
+    eqtb [8940857L ].cint = 1000 ;
+    eqtb [8940841L ].cint = 10000 ;
+    eqtb [8940881L ].cint = 1 ;
+    eqtb [8940880L ].cint = 25 ;
+    eqtb [8940885L ].cint = 92 ;
+    eqtb [8940888L ].cint = 13 ;
     {register integer for_end; k = 0 ;for_end = 1114111L ; if ( k <= 
     for_end) do 
-      eqtb [8939579L + k ].cint = -1 ;
+      eqtb [8941182L + k ].cint = -1 ;
     while ( k++ < for_end ) ;} 
-    eqtb [8939625L ].cint = 0 ;
-    {register integer for_end; k = 10053691L ;for_end = 10053969L ; if ( k 
+    eqtb [8941228L ].cint = 0 ;
+    eqtb [8940900L ].cint = -1 ;
+    {register integer for_end; k = 10055294L ;for_end = 10055572L ; if ( k 
     <= for_end) do 
       eqtb [k ].cint = 0 ;
     while ( k++ < for_end ) ;} 
-    primused = 500 ;
+    primused = 2100 ;
     hashused = 2243226L ;
     hashhigh = 0 ;
     cscount = 0 ;
-    eqtb [2243235L ].hh.b0 = 118 ;
-    hash [2243235L ].v.RH = 65809L ;
+    eqtb [2243235L ].hh.b0 = 119 ;
+    hash [2243235L ].v.RH = 65813L ;
     eqtb [2243237L ].hh.b0 = 39 ;
     eqtb [2243237L ].hh .v.RH = 1 ;
     eqtb [2243237L ].hh.b1 = 1 ;
-    hash [2243237L ].v.RH = 65810L ;
+    hash [2243237L ].v.RH = 65814L ;
     {register integer for_end; k = - (integer) trieopsize ;for_end = 
     trieopsize ; if ( k <= for_end) do 
       trieophash [k ]= 0 ;
@@ -354,20 +357,20 @@ initialize ( void )
     maxopused = mintrieop ;
     trieopptr = 0 ;
     trienotready = true ;
-    hash [2243226L ].v.RH = 66621L ;
+    hash [2243226L ].v.RH = 66629L ;
     if ( iniversion ) 
-    formatident = 66703L ;
-    hash [2243234L ].v.RH = 66761L ;
+    formatident = 66711L ;
+    hash [2243234L ].v.RH = 66770L ;
     eqtb [2243234L ].hh.b1 = 1 ;
-    eqtb [2243234L ].hh.b0 = 115 ;
+    eqtb [2243234L ].hh.b0 = 116 ;
     eqtb [2243234L ].hh .v.RH = -268435455L ;
     eTeXmode = 0 ;
     maxregnum = 255 ;
-    maxreghelpline = 66953L ;
+    maxreghelpline = 66961L ;
     {register integer for_end; i = 0 ;for_end = 6 ; if ( i <= for_end) do 
       saroot [i ]= -268435455L ;
     while ( i++ < for_end ) ;} 
-    eqtb [8939322L ].cint = 63 ;
+    eqtb [8940925L ].cint = 63 ;
   } 
 #endif /* INITEX */
 } 
@@ -489,10 +492,10 @@ znewtrieop ( smallnumber d , smallnumber n , trieopcode v )
     if ( l == 0 ) 
     {
       if ( trieopptr == trieopsize ) 
-      overflow ( 66374L , trieopsize ) ;
+      overflow ( 66383L , trieopsize ) ;
       u = trieused [curlang ];
       if ( u == maxtrieop ) 
-      overflow ( 66375L , maxtrieop - mintrieop ) ;
+      overflow ( 66384L , maxtrieop - mintrieop ) ;
       incr ( trieopptr ) ;
       incr ( u ) ;
       trieused [curlang ]= u ;
@@ -580,7 +583,7 @@ zfirstfit ( triepointer p )
     if ( triemax < h + maxhyphchar ) 
     {
       if ( triesize <= h + maxhyphchar ) 
-      overflow ( 66376L , triesize ) ;
+      overflow ( 66385L , triesize ) ;
       do {
 	  incr ( triemax ) ;
 	trietaken [triemax ]= false ;
@@ -669,11 +672,11 @@ newpatterns ( void )
   UTF16code c  ;
   if ( trienotready ) 
   {
-    if ( eqtb [8939290L ].cint <= 0 ) 
+    if ( eqtb [8940890L ].cint <= 0 ) 
     curlang = 0 ;
-    else if ( eqtb [8939290L ].cint > 255 ) 
+    else if ( eqtb [8940890L ].cint > 255 ) 
     curlang = 0 ;
-    else curlang = eqtb [8939290L ].cint ;
+    else curlang = eqtb [8940890L ].cint ;
     scanleftbrace () ;
     k = 0 ;
     hyf [0 ]= 0 ;
@@ -690,7 +693,7 @@ newpatterns ( void )
 	  curchr = 0 ;
 	  else {
 	      
-	    curchr = eqtb [3368680L + curchr ].hh .v.RH ;
+	    curchr = eqtb [3370280L + curchr ].hh .v.RH ;
 	    if ( curchr == 0 ) 
 	    {
 	      {
@@ -699,11 +702,11 @@ newpatterns ( void )
 		if ( filelineerrorstylep ) 
 		printfileline () ;
 		else printnl ( 65544L ) ;
-		print ( 66382L ) ;
+		print ( 66391L ) ;
 	      } 
 	      {
 		helpptr = 1 ;
-		helpline [0 ]= 66381L ;
+		helpline [0 ]= 66390L ;
 	      } 
 	      error () ;
 	    } 
@@ -761,7 +764,7 @@ newpatterns ( void )
 	      if ( ( p == 0 ) || ( c < triec [p ]) ) 
 	      {
 		if ( trieptr == triesize ) 
-		overflow ( 66376L , triesize ) ;
+		overflow ( 66385L , triesize ) ;
 		incr ( trieptr ) ;
 		trier [trieptr ]= p ;
 		p = trieptr ;
@@ -782,11 +785,11 @@ newpatterns ( void )
 		if ( filelineerrorstylep ) 
 		printfileline () ;
 		else printnl ( 65544L ) ;
-		print ( 66383L ) ;
+		print ( 66392L ) ;
 	      } 
 	      {
 		helpptr = 1 ;
-		helpline [0 ]= 66381L ;
+		helpline [0 ]= 66390L ;
 	      } 
 	      error () ;
 	    } 
@@ -807,12 +810,12 @@ newpatterns ( void )
 	    if ( filelineerrorstylep ) 
 	    printfileline () ;
 	    else printnl ( 65544L ) ;
-	    print ( 66380L ) ;
+	    print ( 66389L ) ;
 	  } 
-	  printesc ( 66378L ) ;
+	  printesc ( 66387L ) ;
 	  {
 	    helpptr = 1 ;
-	    helpline [0 ]= 66381L ;
+	    helpline [0 ]= 66390L ;
 	  } 
 	  error () ;
 	} 
@@ -820,7 +823,7 @@ newpatterns ( void )
       } 
     } 
     lab30: ;
-    if ( eqtb [8939306L ].cint > 0 ) 
+    if ( eqtb [8940909L ].cint > 0 ) 
     {
       c = curlang ;
       firstchild = false ;
@@ -832,7 +835,7 @@ newpatterns ( void )
       if ( ( p == 0 ) || ( c < triec [p ]) ) 
       {
 	if ( trieptr == triesize ) 
-	overflow ( 66376L , triesize ) ;
+	overflow ( 66385L , triesize ) ;
 	incr ( trieptr ) ;
 	trier [trieptr ]= p ;
 	p = trieptr ;
@@ -848,13 +851,13 @@ newpatterns ( void )
       firstchild = true ;
       {register integer for_end; c = 0 ;for_end = 255 ; if ( c <= for_end) 
       do 
-	if ( ( eqtb [3368680L + c ].hh .v.RH > 0 ) || ( ( c == 255 ) && 
+	if ( ( eqtb [3370280L + c ].hh .v.RH > 0 ) || ( ( c == 255 ) && 
 	firstchild ) ) 
 	{
 	  if ( p == 0 ) 
 	  {
 	    if ( trieptr == triesize ) 
-	    overflow ( 66376L , triesize ) ;
+	    overflow ( 66385L , triesize ) ;
 	    incr ( trieptr ) ;
 	    trier [trieptr ]= p ;
 	    p = trieptr ;
@@ -866,7 +869,7 @@ newpatterns ( void )
 	    trieo [p ]= mintrieop ;
 	  } 
 	  else triec [p ]= c ;
-	  trieo [p ]= eqtb [3368680L + c ].hh .v.RH ;
+	  trieo [p ]= eqtb [3370280L + c ].hh .v.RH ;
 	  q = p ;
 	  p = trier [q ];
 	  firstchild = false ;
@@ -885,12 +888,12 @@ newpatterns ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 65544L ) ;
-      print ( 66377L ) ;
+      print ( 66386L ) ;
     } 
-    printesc ( 66378L ) ;
+    printesc ( 66387L ) ;
     {
       helpptr = 1 ;
-      helpline [0 ]= 66379L ;
+      helpline [0 ]= 66388L ;
     } 
     error () ;
     mem [memtop - 12 ].hh .v.RH = scantoks ( false , false ) ;
@@ -1032,20 +1035,20 @@ zlinebreak ( boolean d )
   initrhyf = ( curlist .pgfield / 65536L ) % 64 ;
   popnest () ;
   noshrinkerroryet = true ;
-  if ( ( mem [eqtb [2252747L ].hh .v.RH ].hh.b1 != 0 ) && ( mem [eqtb [
-  2252747L ].hh .v.RH + 3 ].cint != 0 ) ) 
+  if ( ( mem [eqtb [2254347L ].hh .v.RH ].hh.b1 != 0 ) && ( mem [eqtb [
+  2254347L ].hh .v.RH + 3 ].cint != 0 ) ) 
   {
-    eqtb [2252747L ].hh .v.RH = finiteshrink ( eqtb [2252747L ].hh .v.RH ) 
+    eqtb [2254347L ].hh .v.RH = finiteshrink ( eqtb [2254347L ].hh .v.RH ) 
     ;
   } 
-  if ( ( mem [eqtb [2252748L ].hh .v.RH ].hh.b1 != 0 ) && ( mem [eqtb [
-  2252748L ].hh .v.RH + 3 ].cint != 0 ) ) 
+  if ( ( mem [eqtb [2254348L ].hh .v.RH ].hh.b1 != 0 ) && ( mem [eqtb [
+  2254348L ].hh .v.RH + 3 ].cint != 0 ) ) 
   {
-    eqtb [2252748L ].hh .v.RH = finiteshrink ( eqtb [2252748L ].hh .v.RH ) 
+    eqtb [2254348L ].hh .v.RH = finiteshrink ( eqtb [2254348L ].hh .v.RH ) 
     ;
   } 
-  q = eqtb [2252747L ].hh .v.RH ;
-  r = eqtb [2252748L ].hh .v.RH ;
+  q = eqtb [2254347L ].hh .v.RH ;
+  r = eqtb [2254348L ].hh .v.RH ;
   background [1 ]= mem [q + 1 ].cint + mem [r + 1 ].cint ;
   background [2 ]= 0 ;
   background [3 ]= 0 ;
@@ -1057,7 +1060,7 @@ zlinebreak ( boolean d )
   background [6 ]= mem [q + 3 ].cint + mem [r + 3 ].cint ;
   dolastlinefit = false ;
   activenodesize = 3 ;
-  if ( eqtb [8939304L ].cint > 0 ) 
+  if ( eqtb [8940907L ].cint > 0 ) 
   {
     q = mem [lastlinefill + 1 ].hh .v.LH ;
     if ( ( mem [q + 2 ].cint > 0 ) && ( mem [q ].hh.b0 > 0 ) ) {
@@ -1079,59 +1082,59 @@ zlinebreak ( boolean d )
   minimaldemerits [2 ]= 1073741823L ;
   minimaldemerits [1 ]= 1073741823L ;
   minimaldemerits [0 ]= 1073741823L ;
-  if ( eqtb [2253271L ].hh .v.RH == -268435455L ) {
+  if ( eqtb [2254871L ].hh .v.RH == -268435455L ) {
       
-    if ( eqtb [10053708L ].cint == 0 ) 
+    if ( eqtb [10055311L ].cint == 0 ) 
     {
       lastspecialline = 0 ;
-      secondwidth = eqtb [10053694L ].cint ;
+      secondwidth = eqtb [10055297L ].cint ;
       secondindent = 0 ;
     } 
     else {
 	
-      lastspecialline = abs ( eqtb [8939281L ].cint ) ;
-      if ( eqtb [8939281L ].cint < 0 ) 
+      lastspecialline = abs ( eqtb [8940881L ].cint ) ;
+      if ( eqtb [8940881L ].cint < 0 ) 
       {
-	firstwidth = eqtb [10053694L ].cint - abs ( eqtb [10053708L ].cint 
+	firstwidth = eqtb [10055297L ].cint - abs ( eqtb [10055311L ].cint 
 	) ;
-	if ( eqtb [10053708L ].cint >= 0 ) 
-	firstindent = eqtb [10053708L ].cint ;
+	if ( eqtb [10055311L ].cint >= 0 ) 
+	firstindent = eqtb [10055311L ].cint ;
 	else firstindent = 0 ;
-	secondwidth = eqtb [10053694L ].cint ;
+	secondwidth = eqtb [10055297L ].cint ;
 	secondindent = 0 ;
       } 
       else {
 	  
-	firstwidth = eqtb [10053694L ].cint ;
+	firstwidth = eqtb [10055297L ].cint ;
 	firstindent = 0 ;
-	secondwidth = eqtb [10053694L ].cint - abs ( eqtb [10053708L ]
+	secondwidth = eqtb [10055297L ].cint - abs ( eqtb [10055311L ]
 	.cint ) ;
-	if ( eqtb [10053708L ].cint >= 0 ) 
-	secondindent = eqtb [10053708L ].cint ;
+	if ( eqtb [10055311L ].cint >= 0 ) 
+	secondindent = eqtb [10055311L ].cint ;
 	else secondindent = 0 ;
       } 
     } 
   } 
   else {
       
-    lastspecialline = mem [eqtb [2253271L ].hh .v.RH ].hh .v.LH - 1 ;
-    secondwidth = mem [eqtb [2253271L ].hh .v.RH + 2 * ( lastspecialline + 
+    lastspecialline = mem [eqtb [2254871L ].hh .v.RH ].hh .v.LH - 1 ;
+    secondwidth = mem [eqtb [2254871L ].hh .v.RH + 2 * ( lastspecialline + 
     1 ) ].cint ;
-    secondindent = mem [eqtb [2253271L ].hh .v.RH + 2 * lastspecialline + 1 
+    secondindent = mem [eqtb [2254871L ].hh .v.RH + 2 * lastspecialline + 1 
     ].cint ;
   } 
-  if ( eqtb [8939259L ].cint == 0 ) 
+  if ( eqtb [8940859L ].cint == 0 ) 
   easyline = lastspecialline ;
   else easyline = 1073741823L ;
-  threshold = eqtb [8939240L ].cint ;
+  threshold = eqtb [8940840L ].cint ;
   if ( threshold >= 0 ) 
   {
 	;
 #ifdef STAT
-    if ( eqtb [8939272L ].cint > 0 ) 
+    if ( eqtb [8940872L ].cint > 0 ) 
     {
       begindiagnostic () ;
-      printnl ( 66356L ) ;
+      printnl ( 66365L ) ;
     } 
 #endif /* STAT */
     secondpass = false ;
@@ -1139,12 +1142,12 @@ zlinebreak ( boolean d )
   } 
   else {
       
-    threshold = eqtb [8939241L ].cint ;
+    threshold = eqtb [8940841L ].cint ;
     secondpass = true ;
-    finalpass = ( eqtb [10053711L ].cint <= 0 ) ;
+    finalpass = ( eqtb [10055314L ].cint <= 0 ) ;
 	;
 #ifdef STAT
-    if ( eqtb [8939272L ].cint > 0 ) 
+    if ( eqtb [8940872L ].cint > 0 ) 
     begindiagnostic () ;
 #endif /* STAT */
   } 
@@ -1220,7 +1223,7 @@ zlinebreak ( boolean d )
 	activewidth [1 ]= activewidth [1 ]+ mem [curp + 1 ].cint ;
 	break ;
       case 8 : 
-	if ( mem [curp ].hh.b1 == 4 ) 
+	if ( mem [curp ].hh.b1 == 5 ) 
 	{
 	  curlang = mem [curp + 1 ].hh .v.RH ;
 	  lhyf = mem [curp + 1 ].hh.b0 ;
@@ -1298,12 +1301,12 @@ zlinebreak ( boolean d )
 		    ].qqqq .b2 - 1 ; if ( l <= for_end) do 
 		      {
 			c = getnativeusv ( s , l ) ;
-			if ( eqtb [3368680L + c ].hh .v.RH != 0 ) 
+			if ( eqtb [3370280L + c ].hh .v.RH != 0 ) 
 			{
 			  hf = mem [s + 4 ].qqqq .b1 ;
 			  prevs = s ;
-			  if ( ( eqtb [3368680L + c ].hh .v.RH == c ) || ( 
-			  eqtb [8939278L ].cint > 0 ) ) 
+			  if ( ( eqtb [3370280L + c ].hh .v.RH == c ) || ( 
+			  eqtb [8940878L ].cint > 0 ) ) 
 			  goto lab32 ;
 			  else goto lab31 ;
 			} 
@@ -1312,7 +1315,7 @@ zlinebreak ( boolean d )
 		      } 
 		    while ( l++ < for_end ) ;} 
 		  } 
-		  if ( mem [s ].hh.b1 == 4 ) 
+		  if ( mem [s ].hh.b1 == 5 ) 
 		  {
 		    curlang = mem [s + 1 ].hh .v.RH ;
 		    lhyf = mem [s + 1 ].hh.b0 ;
@@ -1325,13 +1328,13 @@ zlinebreak ( boolean d )
 		} 
 		else goto lab31 ;
 		if ( ( hyphindex == 0 ) || ( ( c ) > 255 ) ) 
-		hc [0 ]= eqtb [3368680L + c ].hh .v.RH ;
+		hc [0 ]= eqtb [3370280L + c ].hh .v.RH ;
 		else if ( trietrc [hyphindex + c ]!= c ) 
 		hc [0 ]= 0 ;
 		else hc [0 ]= trietro [hyphindex + c ];
 		if ( hc [0 ]!= 0 ) {
 		    
-		  if ( ( hc [0 ]== c ) || ( eqtb [8939278L ].cint > 0 ) ) 
+		  if ( ( hc [0 ]== c ) || ( eqtb [8940878L ].cint > 0 ) ) 
 		  goto lab32 ;
 		  else goto lab31 ;
 		} 
@@ -1384,7 +1387,7 @@ zlinebreak ( boolean d )
 		  {
 		    c = getnativeusv ( ha , l ) ;
 		    if ( ( hyphindex == 0 ) || ( ( c ) > 255 ) ) 
-		    hc [0 ]= eqtb [3368680L + c ].hh .v.RH ;
+		    hc [0 ]= eqtb [3370280L + c ].hh .v.RH ;
 		    else if ( trietrc [hyphindex + c ]!= c ) 
 		    hc [0 ]= 0 ;
 		    else hc [0 ]= trietro [hyphindex + c ];
@@ -1400,12 +1403,12 @@ zlinebreak ( boolean d )
 			  setnativechar ( q , i - l , getnativechar ( ha , i ) 
 			  ) ;
 			while ( i++ < for_end ) ;} 
-			setnativemetrics ( q , ( eqtb [8939314L ].cint > 0 ) 
+			setnativemetrics ( q , ( eqtb [8940917L ].cint > 0 ) 
 			) ;
 			mem [q ].hh .v.RH = mem [ha ].hh .v.RH ;
 			mem [ha ].hh .v.RH = q ;
 			mem [ha + 4 ].qqqq .b2 = l ;
-			setnativemetrics ( ha , ( eqtb [8939314L ].cint > 0 
+			setnativemetrics ( ha , ( eqtb [8940917L ].cint > 0 
 			) ) ;
 			goto lab33 ;
 		      } 
@@ -1420,12 +1423,12 @@ zlinebreak ( boolean d )
 			setnativechar ( q , i - l , getnativechar ( ha , i ) ) 
 			;
 		      while ( i++ < for_end ) ;} 
-		      setnativemetrics ( q , ( eqtb [8939314L ].cint > 0 ) ) 
+		      setnativemetrics ( q , ( eqtb [8940917L ].cint > 0 ) ) 
 		      ;
 		      mem [q ].hh .v.RH = mem [ha ].hh .v.RH ;
 		      mem [ha ].hh .v.RH = q ;
 		      mem [ha + 4 ].qqqq .b2 = l ;
-		      setnativemetrics ( ha , ( eqtb [8939314L ].cint > 0 ) 
+		      setnativemetrics ( ha , ( eqtb [8940917L ].cint > 0 ) 
 		      ) ;
 		      ha = mem [ha ].hh .v.RH ;
 		      goto lab20 ;
@@ -1466,7 +1469,7 @@ zlinebreak ( boolean d )
 		    hyfbchar = mem [s ].hh.b1 ;
 		    c = hyfbchar ;
 		    if ( ( hyphindex == 0 ) || ( ( c ) > 255 ) ) 
-		    hc [0 ]= eqtb [3368680L + c ].hh .v.RH ;
+		    hc [0 ]= eqtb [3370280L + c ].hh .v.RH ;
 		    else if ( trietrc [hyphindex + c ]!= c ) 
 		    hc [0 ]= 0 ;
 		    else hc [0 ]= trietro [hyphindex + c ];
@@ -1494,7 +1497,7 @@ zlinebreak ( boolean d )
 			
 		      c = mem [q ].hh.b1 ;
 		      if ( ( hyphindex == 0 ) || ( ( c ) > 255 ) ) 
-		      hc [0 ]= eqtb [3368680L + c ].hh .v.RH ;
+		      hc [0 ]= eqtb [3370280L + c ].hh .v.RH ;
 		      else if ( trietrc [hyphindex + c ]!= c ) 
 		      hc [0 ]= 0 ;
 		      else hc [0 ]= trietro [hyphindex + c ];
@@ -1591,7 +1594,7 @@ zlinebreak ( boolean d )
 	  s = mem [curp + 1 ].hh .v.LH ;
 	  discwidth = 0 ;
 	  if ( s == -268435455L ) 
-	  trybreak ( eqtb [8939244L ].cint , 1 ) ;
+	  trybreak ( eqtb [8940844L ].cint , 1 ) ;
 	  else {
 	      
 	    do {
@@ -1623,16 +1626,16 @@ zlinebreak ( boolean d )
 		41 ) ) ) || ( mem [s ].hh.b1 == 42 ) || ( mem [s ].hh.b1 
 		== 43 ) || ( mem [s ].hh.b1 == 44 ) ) 
 		discwidth = discwidth + mem [s + 1 ].cint ;
-		else confusion ( 66360L ) ;
+		else confusion ( 66369L ) ;
 		break ;
 		default: 
-		confusion ( 66361L ) ;
+		confusion ( 66370L ) ;
 		break ;
 	      } 
 	      s = mem [s ].hh .v.RH ;
 	    } while ( ! ( s == -268435455L ) ) ;
 	    activewidth [1 ]= activewidth [1 ]+ discwidth ;
-	    trybreak ( eqtb [8939243L ].cint , 1 ) ;
+	    trybreak ( eqtb [8940843L ].cint , 1 ) ;
 	    activewidth [1 ]= activewidth [1 ]- discwidth ;
 	  } 
 	  r = mem [curp ].hh.b1 ;
@@ -1667,10 +1670,10 @@ zlinebreak ( boolean d )
 	      ) ) ) || ( mem [s ].hh.b1 == 42 ) || ( mem [s ].hh.b1 == 43 
 	      ) || ( mem [s ].hh.b1 == 44 ) ) 
 	      activewidth [1 ]= activewidth [1 ]+ mem [s + 1 ].cint ;
-	      else confusion ( 66362L ) ;
+	      else confusion ( 66371L ) ;
 	      break ;
 	      default: 
-	      confusion ( 66363L ) ;
+	      confusion ( 66372L ) ;
 	      break ;
 	    } 
 	    decr ( r ) ;
@@ -1707,7 +1710,7 @@ zlinebreak ( boolean d )
 	;
 	break ;
 	default: 
-	confusion ( 66359L ) ;
+	confusion ( 66368L ) ;
 	break ;
       } 
       {
@@ -1735,7 +1738,7 @@ zlinebreak ( boolean d )
 	  r = mem [r ].hh .v.RH ;
 	} while ( ! ( r == memtop - 7 ) ) ;
 	bestline = mem [bestbet + 1 ].hh .v.LH ;
-	if ( eqtb [8939259L ].cint == 0 ) 
+	if ( eqtb [8940859L ].cint == 0 ) 
 	goto lab30 ;
 	{
 	  r = mem [memtop - 7 ].hh .v.RH ;
@@ -1744,9 +1747,9 @@ zlinebreak ( boolean d )
 	      if ( mem [r ].hh.b0 != 2 ) 
 	    {
 	      linediff = mem [r + 1 ].hh .v.LH - bestline ;
-	      if ( ( ( linediff < actuallooseness ) && ( eqtb [8939259L ]
+	      if ( ( ( linediff < actuallooseness ) && ( eqtb [8940859L ]
 	      .cint <= linediff ) ) || ( ( linediff > actuallooseness ) && ( 
-	      eqtb [8939259L ].cint >= linediff ) ) ) 
+	      eqtb [8940859L ].cint >= linediff ) ) ) 
 	      {
 		bestbet = r ;
 		actuallooseness = linediff ;
@@ -1763,7 +1766,7 @@ zlinebreak ( boolean d )
 	  } while ( ! ( r == memtop - 7 ) ) ;
 	  bestline = mem [bestbet + 1 ].hh .v.LH ;
 	} 
-	if ( ( actuallooseness == eqtb [8939259L ].cint ) || finalpass ) 
+	if ( ( actuallooseness == eqtb [8940859L ].cint ) || finalpass ) 
 	goto lab30 ;
       } 
     } 
@@ -1787,28 +1790,28 @@ zlinebreak ( boolean d )
     {
 	;
 #ifdef STAT
-      if ( eqtb [8939272L ].cint > 0 ) 
-      printnl ( 66357L ) ;
+      if ( eqtb [8940872L ].cint > 0 ) 
+      printnl ( 66366L ) ;
 #endif /* STAT */
-      threshold = eqtb [8939241L ].cint ;
+      threshold = eqtb [8940841L ].cint ;
       secondpass = true ;
-      finalpass = ( eqtb [10053711L ].cint <= 0 ) ;
+      finalpass = ( eqtb [10055314L ].cint <= 0 ) ;
     } 
     else {
 	
 	;
 #ifdef STAT
-      if ( eqtb [8939272L ].cint > 0 ) 
-      printnl ( 66358L ) ;
+      if ( eqtb [8940872L ].cint > 0 ) 
+      printnl ( 66367L ) ;
 #endif /* STAT */
-      background [2 ]= background [2 ]+ eqtb [10053711L ].cint ;
+      background [2 ]= background [2 ]+ eqtb [10055314L ].cint ;
       finalpass = true ;
     } 
   } 
   lab30: 
 	;
 #ifdef STAT
-  if ( eqtb [8939272L ].cint > 0 ) 
+  if ( eqtb [8940872L ].cint > 0 ) 
   {
     enddiagnostic ( true ) ;
     normalizeselector () ;
@@ -1860,11 +1863,11 @@ newhyphexceptions ( void )
   strnumber s  ;
   poolpointer u, v  ;
   scanleftbrace () ;
-  if ( eqtb [8939290L ].cint <= 0 ) 
+  if ( eqtb [8940890L ].cint <= 0 ) 
   curlang = 0 ;
-  else if ( eqtb [8939290L ].cint > 255 ) 
+  else if ( eqtb [8940890L ].cint > 255 ) 
   curlang = 0 ;
-  else curlang = eqtb [8939290L ].cint ;
+  else curlang = eqtb [8940890L ].cint ;
 	;
 #ifdef INITEX
   if ( trienotready ) 
@@ -1898,7 +1901,7 @@ newhyphexceptions ( void )
       else {
 	  
 	if ( ( hyphindex == 0 ) || ( ( curchr ) > 255 ) ) 
-	hc [0 ]= eqtb [3368680L + curchr ].hh .v.RH ;
+	hc [0 ]= eqtb [3370280L + curchr ].hh .v.RH ;
 	else if ( trietrc [hyphindex + curchr ]!= curchr ) 
 	hc [0 ]= 0 ;
 	else hc [0 ]= trietro [hyphindex + curchr ];
@@ -1910,12 +1913,12 @@ newhyphexceptions ( void )
 	    if ( filelineerrorstylep ) 
 	    printfileline () ;
 	    else printnl ( 65544L ) ;
-	    print ( 66370L ) ;
+	    print ( 66379L ) ;
 	  } 
 	  {
 	    helpptr = 2 ;
-	    helpline [1 ]= 66371L ;
-	    helpline [0 ]= 66372L ;
+	    helpline [1 ]= 66380L ;
+	    helpline [0 ]= 66381L ;
 	  } 
 	  error () ;
 	} 
@@ -1958,8 +1961,19 @@ newhyphexceptions ( void )
 	    {
 	      h = ( h + h + hc [j ]) % 607 ;
 	      {
-		strpool [poolptr ]= hc [j ];
-		incr ( poolptr ) ;
+		if ( ( hc [j ]> 65535L ) ) 
+		{
+		  strpool [poolptr ]= ( hc [j ]- 65536L ) / 1024 + 55296L 
+		  ;
+		  incr ( poolptr ) ;
+		  strpool [poolptr ]= ( hc [j ]) % 1024 + 56320L ;
+		  incr ( poolptr ) ;
+		} 
+		else {
+		    
+		  strpool [poolptr ]= hc [j ];
+		  incr ( poolptr ) ;
+		} 
 	      } 
 	    } 
 	  while ( j++ < for_end ) ;} 
@@ -1968,7 +1982,7 @@ newhyphexceptions ( void )
 	  while ( ( hyphnext > 0 ) && ( hyphword [hyphnext - 1 ]> 0 ) ) decr 
 	  ( hyphnext ) ;
 	  if ( ( hyphcount == hyphsize ) || ( hyphnext == 0 ) ) 
-	  overflow ( 66373L , hyphsize ) ;
+	  overflow ( 66382L , hyphsize ) ;
 	  incr ( hyphcount ) ;
 	  while ( hyphword [h ]!= 0 ) {
 	      
@@ -2018,14 +2032,14 @@ newhyphexceptions ( void )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 65544L ) ;
-	  print ( 66023L ) ;
+	  print ( 66029L ) ;
 	} 
-	printesc ( 66366L ) ;
-	print ( 66367L ) ;
+	printesc ( 66375L ) ;
+	print ( 66376L ) ;
 	{
 	  helpptr = 2 ;
-	  helpline [1 ]= 66368L ;
-	  helpline [0 ]= 66369L ;
+	  helpline [1 ]= 66377L ;
+	  helpline [0 ]= 66378L ;
 	} 
 	error () ;
       } 
@@ -2158,20 +2172,20 @@ prefixedcommand ( void )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 65544L ) ;
-	print ( 66607L ) ;
+	print ( 66615L ) ;
       } 
       printcmdchr ( curcmd , curchr ) ;
       printchar ( 39 ) ;
       {
 	helpptr = 1 ;
-	helpline [0 ]= 66608L ;
+	helpline [0 ]= 66616L ;
       } 
       if ( ( eTeXmode == 1 ) ) 
-      helpline [0 ]= 66609L ;
+      helpline [0 ]= 66617L ;
       backerror () ;
       return ;
     } 
-    if ( eqtb [8939276L ].cint > 2 ) {
+    if ( eqtb [8940876L ].cint > 2 ) {
 	
       if ( ( eTeXmode == 1 ) ) 
       showcurcmdchr () ;
@@ -2191,29 +2205,29 @@ prefixedcommand ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 65544L ) ;
-      print ( 66028L ) ;
+      print ( 66034L ) ;
     } 
-    printesc ( 66599L ) ;
-    print ( 66610L ) ;
-    printesc ( 66600L ) ;
+    printesc ( 66607L ) ;
+    print ( 66618L ) ;
+    printesc ( 66608L ) ;
     {
       helpptr = 1 ;
-      helpline [0 ]= 66611L ;
+      helpline [0 ]= 66619L ;
     } 
     if ( ( eTeXmode == 1 ) ) 
     {
-      helpline [0 ]= 66612L ;
-      print ( 66610L ) ;
-      printesc ( 66613L ) ;
+      helpline [0 ]= 66620L ;
+      print ( 66618L ) ;
+      printesc ( 66621L ) ;
     } 
-    print ( 66614L ) ;
+    print ( 66622L ) ;
     printcmdchr ( curcmd , curchr ) ;
     printchar ( 39 ) ;
     error () ;
   } 
-  if ( eqtb [8939283L ].cint != 0 ) {
+  if ( eqtb [8940883L ].cint != 0 ) {
       
-    if ( eqtb [8939283L ].cint < 0 ) 
+    if ( eqtb [8940883L ].cint < 0 ) 
     {
       if ( ( a >= 4 ) ) 
       a = a - 4 ;
@@ -2227,12 +2241,12 @@ prefixedcommand ( void )
   switch ( curcmd ) 
   {case 89 : 
     if ( ( a >= 4 ) ) 
-    geqdefine ( 2253799L , 122 , curchr ) ;
-    else eqdefine ( 2253799L , 122 , curchr ) ;
+    geqdefine ( 2255399L , 123 , curchr ) ;
+    else eqdefine ( 2255399L , 123 , curchr ) ;
     break ;
   case 99 : 
     {
-      if ( odd ( curchr ) && ! ( a >= 4 ) && ( eqtb [8939283L ].cint >= 0 ) 
+      if ( odd ( curchr ) && ! ( a >= 4 ) && ( eqtb [8940883L ].cint >= 0 ) 
       ) 
       a = a + 4 ;
       e = ( curchr >= 2 ) ;
@@ -2247,8 +2261,8 @@ prefixedcommand ( void )
 	mem [defref ].hh .v.RH = q ;
       } 
       if ( ( a >= 4 ) ) 
-      geqdefine ( p , 113 + ( a % 4 ) , defref ) ;
-      else eqdefine ( p , 113 + ( a % 4 ) , defref ) ;
+      geqdefine ( p , 114 + ( a % 4 ) , defref ) ;
+      else eqdefine ( p , 114 + ( a % 4 ) , defref ) ;
     } 
     break ;
   case 96 : 
@@ -2277,7 +2291,7 @@ prefixedcommand ( void )
 	curtok = q ;
 	backinput () ;
       } 
-      if ( curcmd >= 113 ) 
+      if ( curcmd >= 114 ) 
       incr ( mem [curchr ].hh .v.LH ) ;
       else if ( ( curcmd == 91 ) || ( curcmd == 72 ) ) {
 	  
@@ -2293,17 +2307,17 @@ prefixedcommand ( void )
     if ( curchr == 7 ) 
     {
       scancharnum () ;
-      p = 7825128L + curval ;
+      p = 7826728L + curval ;
       scanoptionalequals () ;
       scancharnum () ;
       n = curval ;
       scancharnum () ;
-      if ( ( eqtb [8939297L ].cint > 0 ) ) 
+      if ( ( eqtb [8940897L ].cint > 0 ) ) 
       {
 	begindiagnostic () ;
-	printnl ( 66636L ) ;
-	print ( p - 7825128L ) ;
-	print ( 66637L ) ;
+	printnl ( 66644L ) ;
+	print ( p - 7826728L ) ;
+	print ( 66645L ) ;
 	print ( n ) ;
 	printchar ( 32 ) ;
 	print ( curval ) ;
@@ -2311,19 +2325,19 @@ prefixedcommand ( void )
       } 
       n = n * 256 + curval ;
       if ( ( a >= 4 ) ) 
-      geqdefine ( p , 122 , n ) ;
-      else eqdefine ( p , 122 , n ) ;
-      if ( ( p - 7825128L ) < eqtb [8939295L ].cint ) {
+      geqdefine ( p , 123 , n ) ;
+      else eqdefine ( p , 123 , n ) ;
+      if ( ( p - 7826728L ) < eqtb [8940895L ].cint ) {
 	  
 	if ( ( a >= 4 ) ) 
-	geqworddefine ( 8939295L , p - 7825128L ) ;
-	else eqworddefine ( 8939295L , p - 7825128L ) ;
+	geqworddefine ( 8940895L , p - 7826728L ) ;
+	else eqworddefine ( 8940895L , p - 7826728L ) ;
       } 
-      if ( ( p - 7825128L ) > eqtb [8939296L ].cint ) {
+      if ( ( p - 7826728L ) > eqtb [8940896L ].cint ) {
 	  
 	if ( ( a >= 4 ) ) 
-	geqworddefine ( 8939296L , p - 7825128L ) ;
-	else eqworddefine ( 8939296L , p - 7825128L ) ;
+	geqworddefine ( 8940896L , p - 7826728L ) ;
+	else eqworddefine ( 8940896L , p - 7826728L ) ;
       } 
     } 
     else {
@@ -2393,28 +2407,28 @@ prefixedcommand ( void )
 	  else switch ( n ) 
 	  {case 2 : 
 	    if ( ( a >= 4 ) ) 
-	    geqdefine ( p , 74 , 8939323L + curval ) ;
-	    else eqdefine ( p , 74 , 8939323L + curval ) ;
+	    geqdefine ( p , 74 , 8940926L + curval ) ;
+	    else eqdefine ( p , 74 , 8940926L + curval ) ;
 	    break ;
 	  case 3 : 
 	    if ( ( a >= 4 ) ) 
-	    geqdefine ( p , 75 , 10053714L + curval ) ;
-	    else eqdefine ( p , 75 , 10053714L + curval ) ;
+	    geqdefine ( p , 75 , 10055317L + curval ) ;
+	    else eqdefine ( p , 75 , 10055317L + curval ) ;
 	    break ;
 	  case 4 : 
 	    if ( ( a >= 4 ) ) 
-	    geqdefine ( p , 76 , 2252759L + curval ) ;
-	    else eqdefine ( p , 76 , 2252759L + curval ) ;
+	    geqdefine ( p , 76 , 2254359L + curval ) ;
+	    else eqdefine ( p , 76 , 2254359L + curval ) ;
 	    break ;
 	  case 5 : 
 	    if ( ( a >= 4 ) ) 
-	    geqdefine ( p , 77 , 2253015L + curval ) ;
-	    else eqdefine ( p , 77 , 2253015L + curval ) ;
+	    geqdefine ( p , 77 , 2254615L + curval ) ;
+	    else eqdefine ( p , 77 , 2254615L + curval ) ;
 	    break ;
 	  case 6 : 
 	    if ( ( a >= 4 ) ) 
-	    geqdefine ( p , 73 , 2253283L + curval ) ;
-	    else eqdefine ( p , 73 , 2253283L + curval ) ;
+	    geqdefine ( p , 73 , 2254883L + curval ) ;
+	    else eqdefine ( p , 73 , 2254883L + curval ) ;
 	    break ;
 	  } 
 	} 
@@ -2427,7 +2441,7 @@ prefixedcommand ( void )
       j = curchr ;
       scanint () ;
       n = curval ;
-      if ( ! scankeyword ( 66240L ) ) 
+      if ( ! scankeyword ( 66249L ) ) 
       {
 	{
 	  if ( interaction == 3 ) 
@@ -2435,12 +2449,12 @@ prefixedcommand ( void )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 65544L ) ;
-	  print ( 66497L ) ;
+	  print ( 66505L ) ;
 	} 
 	{
 	  helpptr = 2 ;
-	  helpline [1 ]= 66638L ;
-	  helpline [0 ]= 66639L ;
+	  helpline [1 ]= 66646L ;
+	  helpline [0 ]= 66647L ;
 	} 
 	error () ;
       } 
@@ -2448,8 +2462,8 @@ prefixedcommand ( void )
       p = curcs ;
       readtoks ( n , p , j ) ;
       if ( ( a >= 4 ) ) 
-      geqdefine ( p , 113 , curval ) ;
-      else eqdefine ( p , 113 , curval ) ;
+      geqdefine ( p , 114 , curval ) ;
+      else eqdefine ( p , 114 , curval ) ;
     } 
     break ;
   case 72 : 
@@ -2468,11 +2482,11 @@ prefixedcommand ( void )
 	    curchr = curptr ;
 	    e = true ;
 	  } 
-	  else curchr = 2253283L + curval ;
+	  else curchr = 2254883L + curval ;
 	} 
 	else e = true ;
       } 
-      else if ( curchr == 2253282L ) 
+      else if ( curchr == 2254882L ) 
       {
 	scancharclassnotignored () ;
 	curptr = curval ;
@@ -2496,7 +2510,7 @@ prefixedcommand ( void )
 	    {
 	      scanregisternum () ;
 	      if ( curval < 256 ) 
-	      q = eqtb [2253283L + curval ].hh .v.RH ;
+	      q = eqtb [2254883L + curval ].hh .v.RH ;
 	      else {
 		  
 		findsaelement ( 5 , curval , false ) ;
@@ -2507,7 +2521,7 @@ prefixedcommand ( void )
 	    } 
 	    else q = mem [curchr + 1 ].hh .v.RH ;
 	  } 
-	  else if ( curchr == 2253282L ) 
+	  else if ( curchr == 2254882L ) 
 	  {
 	    scancharclassnotignored () ;
 	    curptr = curval ;
@@ -2527,8 +2541,8 @@ prefixedcommand ( void )
 	      else sadef ( p , -268435455L ) ;
 	    } 
 	    else if ( ( a >= 4 ) ) 
-	    geqdefine ( p , 103 , -268435455L ) ;
-	    else eqdefine ( p , 103 , -268435455L ) ;
+	    geqdefine ( p , 104 , -268435455L ) ;
+	    else eqdefine ( p , 104 , -268435455L ) ;
 	  } 
 	  else {
 	      
@@ -2540,8 +2554,8 @@ prefixedcommand ( void )
 	      else sadef ( p , q ) ;
 	    } 
 	    else if ( ( a >= 4 ) ) 
-	    geqdefine ( p , 113 , q ) ;
-	    else eqdefine ( p , 113 , q ) ;
+	    geqdefine ( p , 114 , q ) ;
+	    else eqdefine ( p , 114 , q ) ;
 	  } 
 	  goto lab30 ;
 	} 
@@ -2558,8 +2572,8 @@ prefixedcommand ( void )
 	  else sadef ( p , -268435455L ) ;
 	} 
 	else if ( ( a >= 4 ) ) 
-	geqdefine ( p , 103 , -268435455L ) ;
-	else eqdefine ( p , 103 , -268435455L ) ;
+	geqdefine ( p , 104 , -268435455L ) ;
+	else eqdefine ( p , 104 , -268435455L ) ;
 	{
 	  mem [defref ].hh .v.RH = avail ;
 	  avail = defref ;
@@ -2571,7 +2585,7 @@ prefixedcommand ( void )
       } 
       else {
 	  
-	if ( ( p == 2253272L ) && ! e ) 
+	if ( ( p == 2254872L ) && ! e ) 
 	{
 	  mem [q ].hh .v.RH = getavail () ;
 	  q = mem [q ].hh .v.RH ;
@@ -2588,8 +2602,8 @@ prefixedcommand ( void )
 	  else sadef ( p , defref ) ;
 	} 
 	else if ( ( a >= 4 ) ) 
-	geqdefine ( p , 113 , defref ) ;
-	else eqdefine ( p , 113 , defref ) ;
+	geqdefine ( p , 114 , defref ) ;
+	else eqdefine ( p , 114 , defref ) ;
       } 
     } 
     break ;
@@ -2624,25 +2638,25 @@ prefixedcommand ( void )
       else scanglue ( 2 ) ;
       trapzeroglue () ;
       if ( ( a >= 4 ) ) 
-      geqdefine ( p , 119 , curval ) ;
-      else eqdefine ( p , 119 , curval ) ;
+      geqdefine ( p , 120 , curval ) ;
+      else eqdefine ( p , 120 , curval ) ;
     } 
     break ;
   case 87 : 
     {
-      if ( curchr == 5596904L ) 
+      if ( curchr == 5598504L ) 
       {
 	p = curchr ;
 	scanusvnum () ;
 	p = p + curval ;
-	n = eqtb [5596904L + curval ].hh .v.RH % 65536L ;
+	n = eqtb [5598504L + curval ].hh .v.RH % 65536L ;
 	scanoptionalequals () ;
 	scancharclass () ;
 	if ( ( a >= 4 ) ) 
-	geqdefine ( p , 122 , curval * 65536L + n ) ;
-	else eqdefine ( p , 122 , curval * 65536L + n ) ;
+	geqdefine ( p , 123 , curval * 65536L + n ) ;
+	else eqdefine ( p , 123 , curval * 65536L + n ) ;
       } 
-      else if ( curchr == 6711016L ) 
+      else if ( curchr == 6712616L ) 
       {
 	p = curchr ;
 	scanusvnum () ;
@@ -2650,10 +2664,10 @@ prefixedcommand ( void )
 	scanoptionalequals () ;
 	scanxetexmathcharint () ;
 	if ( ( a >= 4 ) ) 
-	geqdefine ( p , 122 , curval ) ;
-	else eqdefine ( p , 122 , curval ) ;
+	geqdefine ( p , 123 , curval ) ;
+	else eqdefine ( p , 123 , curval ) ;
       } 
-      else if ( curchr == 6711017L ) 
+      else if ( curchr == 6712617L ) 
       {
 	p = curchr - 1 ;
 	scanusvnum () ;
@@ -2666,10 +2680,10 @@ prefixedcommand ( void )
 	scanusvnum () ;
 	n = n + curval ;
 	if ( ( a >= 4 ) ) 
-	geqdefine ( p , 122 , n ) ;
-	else eqdefine ( p , 122 , n ) ;
+	geqdefine ( p , 123 , n ) ;
+	else eqdefine ( p , 123 , n ) ;
       } 
-      else if ( curchr == 8939579L ) 
+      else if ( curchr == 8941182L ) 
       {
 	p = curchr ;
 	scanusvnum () ;
@@ -2699,13 +2713,13 @@ prefixedcommand ( void )
     break ;
   case 86 : 
     {
-      if ( curchr == 2254568L ) 
+      if ( curchr == 2256168L ) 
       n = 15 ;
-      else if ( curchr == 6711016L ) 
+      else if ( curchr == 6712616L ) 
       n = 32768L ;
-      else if ( curchr == 5596904L ) 
+      else if ( curchr == 5598504L ) 
       n = 32767 ;
-      else if ( curchr == 8939579L ) 
+      else if ( curchr == 8941182L ) 
       n = 16777215L ;
       else n = 1114111L ;
       p = curchr ;
@@ -2713,7 +2727,7 @@ prefixedcommand ( void )
       p = p + curval ;
       scanoptionalequals () ;
       scanint () ;
-      if ( ( ( curval < 0 ) && ( p < 8939579L ) ) || ( curval > n ) ) 
+      if ( ( ( curval < 0 ) && ( p < 8941182L ) ) || ( curval > n ) ) 
       {
 	{
 	  if ( interaction == 3 ) 
@@ -2721,42 +2735,42 @@ prefixedcommand ( void )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 65544L ) ;
-	  print ( 66121L ) ;
+	  print ( 66127L ) ;
 	} 
 	printint ( curval ) ;
-	if ( p < 8939579L ) 
-	print ( 66649L ) ;
-	else print ( 66650L ) ;
+	if ( p < 8941182L ) 
+	print ( 66657L ) ;
+	else print ( 66658L ) ;
 	printint ( n ) ;
 	{
 	  helpptr = 1 ;
-	  helpline [0 ]= 66651L ;
+	  helpline [0 ]= 66659L ;
 	} 
 	error () ;
 	curval = 0 ;
       } 
-      if ( p < 6711016L ) 
+      if ( p < 6712616L ) 
       {
-	if ( p >= 5596904L ) 
+	if ( p >= 5598504L ) 
 	{
 	  n = eqtb [p ].hh .v.RH / 65536L ;
 	  if ( ( a >= 4 ) ) 
-	  geqdefine ( p , 122 , n * 65536L + curval ) ;
-	  else eqdefine ( p , 122 , n * 65536L + curval ) ;
+	  geqdefine ( p , 123 , n * 65536L + curval ) ;
+	  else eqdefine ( p , 123 , n * 65536L + curval ) ;
 	} 
 	else if ( ( a >= 4 ) ) 
-	geqdefine ( p , 122 , curval ) ;
-	else eqdefine ( p , 122 , curval ) ;
+	geqdefine ( p , 123 , curval ) ;
+	else eqdefine ( p , 123 , curval ) ;
       } 
-      else if ( p < 8939579L ) 
+      else if ( p < 8941182L ) 
       {
 	if ( curval == 32768L ) 
 	curval = 2097151L ;
 	else curval = setclassfield ( curval / 4096 ) + setfamilyfield ( ( 
 	curval % 4096 ) / 256 ) + ( curval % 256 ) ;
 	if ( ( a >= 4 ) ) 
-	geqdefine ( p , 122 , curval ) ;
-	else eqdefine ( p , 122 , curval ) ;
+	geqdefine ( p , 123 , curval ) ;
+	else eqdefine ( p , 123 , curval ) ;
       } 
       else if ( ( a >= 4 ) ) 
       geqworddefine ( p , curval ) ;
@@ -2771,8 +2785,8 @@ prefixedcommand ( void )
       scanoptionalequals () ;
       scanfontident () ;
       if ( ( a >= 4 ) ) 
-      geqdefine ( p , 122 , curval ) ;
-      else eqdefine ( p , 122 , curval ) ;
+      geqdefine ( p , 123 , curval ) ;
+      else eqdefine ( p , 123 , curval ) ;
     } 
     break ;
   case 91 : 
@@ -2798,13 +2812,13 @@ prefixedcommand ( void )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 65544L ) ;
-	  print ( 66023L ) ;
+	  print ( 66029L ) ;
 	} 
-	printesc ( 65856L ) ;
+	printesc ( 65860L ) ;
 	{
 	  helpptr = 2 ;
-	  helpline [1 ]= 66657L ;
-	  helpline [0 ]= 66658L ;
+	  helpline [1 ]= 66665L ;
+	  helpline [0 ]= 66666L ;
 	} 
 	error () ;
       } 
@@ -2833,7 +2847,7 @@ prefixedcommand ( void )
       n = curval ;
       if ( n <= 0 ) 
       p = -268435455L ;
-      else if ( q > 2253271L ) 
+      else if ( q > 2254871L ) 
       {
 	n = ( curval / 2 ) + 1 ;
 	p = getnode ( 2 * n + 1 ) ;
@@ -2865,8 +2879,8 @@ prefixedcommand ( void )
 	while ( j++ < for_end ) ;} 
       } 
       if ( ( a >= 4 ) ) 
-      geqdefine ( q , 120 , p ) ;
-      else eqdefine ( q , 120 , p ) ;
+      geqdefine ( q , 121 , p ) ;
+      else eqdefine ( q , 121 , p ) ;
     } 
     break ;
   case 101 : 
@@ -2886,7 +2900,7 @@ prefixedcommand ( void )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 65544L ) ;
-	print ( 66662L ) ;
+	print ( 66670L ) ;
       } 
       helpptr = 0 ;
       error () ;
@@ -2950,7 +2964,7 @@ prefixedcommand ( void )
     newinteraction () ;
     break ;
     default: 
-    confusion ( 66606L ) ;
+    confusion ( 66614L ) ;
     break ;
   } 
   lab30: if ( aftertoken != 0 ) 
@@ -2977,11 +2991,11 @@ storefmtfile ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 65544L ) ;
-      print ( 66704L ) ;
+      print ( 66712L ) ;
     } 
     {
       helpptr = 1 ;
-      helpline [0 ]= 66705L ;
+      helpline [0 ]= 66713L ;
     } 
     {
       if ( interaction == 3 ) 
@@ -2998,14 +3012,14 @@ storefmtfile ( void )
     } 
   } 
   selector = 21 ;
-  print ( 66725L ) ;
+  print ( 66733L ) ;
   print ( jobname ) ;
   printchar ( 32 ) ;
-  printint ( eqtb [8939263L ].cint ) ;
+  printint ( eqtb [8940863L ].cint ) ;
   printchar ( 46 ) ;
-  printint ( eqtb [8939262L ].cint ) ;
+  printint ( eqtb [8940862L ].cint ) ;
   printchar ( 46 ) ;
-  printint ( eqtb [8939261L ].cint ) ;
+  printint ( eqtb [8940861L ].cint ) ;
   printchar ( 41 ) ;
   if ( interaction == 0 ) 
   selector = 18 ;
@@ -3015,9 +3029,9 @@ storefmtfile ( void )
     overflow ( 65539L , poolsize - initpoolptr ) ;
   } 
   formatident = makestring () ;
-  packjobname ( 66168L ) ;
-  while ( ! wopenout ( fmtfile ) ) promptfilename ( 66726L , 66168L ) ;
-  printnl ( 66727L ) ;
+  packjobname ( 66175L ) ;
+  while ( ! wopenout ( fmtfile ) ) promptfilename ( 66734L , 66175L ) ;
+  printnl ( 66735L ) ;
   print ( wmakenamestring ( fmtfile ) ) ;
   {
     decr ( strptr ) ;
@@ -3036,14 +3050,14 @@ storefmtfile ( void )
   dumpint ( x ) ;
   dumpthings ( formatengine [0 ], x ) ;
   libcfree ( formatengine ) ;
-  dumpint ( 71683443L ) ;
+  dumpint ( 273039945L ) ;
   dumpint ( 1073741823L ) ;
   dumpint ( hashhigh ) ;
   dumpint ( eTeXmode ) ;
   while ( pseudofiles != -268435455L ) pseudoclose () ;
   dumpint ( membot ) ;
   dumpint ( memtop ) ;
-  dumpint ( 10053969L ) ;
+  dumpint ( 10055572L ) ;
   dumpint ( 8501 ) ;
   dumpint ( 607 ) ;
   dumpint ( 1296847960L ) ;
@@ -3056,7 +3070,7 @@ storefmtfile ( void )
   dumpthings ( strpool [0 ], poolptr ) ;
   println () ;
   printint ( strptr ) ;
-  print ( 66706L ) ;
+  print ( 66714L ) ;
   printint ( poolptr ) ;
   sortavail () ;
   varused = 0 ;
@@ -3094,14 +3108,14 @@ storefmtfile ( void )
   dumpint ( dynused ) ;
   println () ;
   printint ( x ) ;
-  print ( 66707L ) ;
+  print ( 66715L ) ;
   printint ( varused ) ;
   printchar ( 38 ) ;
   printint ( dynused ) ;
   k = 1 ;
   do {
       j = k ;
-    while ( j < 8939239L ) {
+    while ( j < 8940839L ) {
 	
       if ( ( eqtb [j ].hh .v.RH == eqtb [j + 1 ].hh .v.RH ) && ( eqtb [j 
       ].hh.b0 == eqtb [j + 1 ].hh.b0 ) && ( eqtb [j ].hh.b1 == eqtb [j + 
@@ -3109,11 +3123,11 @@ storefmtfile ( void )
       goto lab41 ;
       incr ( j ) ;
     } 
-    l = 8939240L ;
+    l = 8940840L ;
     goto lab31 ;
     lab41: incr ( j ) ;
     l = j ;
-    while ( j < 8939239L ) {
+    while ( j < 8940839L ) {
 	
       if ( ( eqtb [j ].hh .v.RH != eqtb [j + 1 ].hh .v.RH ) || ( eqtb [j 
       ].hh.b0 != eqtb [j + 1 ].hh.b0 ) || ( eqtb [j ].hh.b1 != eqtb [j + 
@@ -3125,20 +3139,20 @@ storefmtfile ( void )
     dumpthings ( eqtb [k ], l - k ) ;
     k = j + 1 ;
     dumpint ( k - l ) ;
-  } while ( ! ( k == 8939240L ) ) ;
+  } while ( ! ( k == 8940840L ) ) ;
   do {
       j = k ;
-    while ( j < 10053969L ) {
+    while ( j < 10055572L ) {
 	
       if ( eqtb [j ].cint == eqtb [j + 1 ].cint ) 
       goto lab42 ;
       incr ( j ) ;
     } 
-    l = 10053970L ;
+    l = 10055573L ;
     goto lab32 ;
     lab42: incr ( j ) ;
     l = j ;
-    while ( j < 10053969L ) {
+    while ( j < 10055572L ) {
 	
       if ( eqtb [j ].cint != eqtb [j + 1 ].cint ) 
       goto lab32 ;
@@ -3148,12 +3162,12 @@ storefmtfile ( void )
     dumpthings ( eqtb [k ], l - k ) ;
     k = j + 1 ;
     dumpint ( k - l ) ;
-  } while ( ! ( k > 10053969L ) ) ;
+  } while ( ! ( k > 10055572L ) ) ;
   if ( hashhigh > 0 ) 
-  dumpthings ( eqtb [10053970L ], hashhigh ) ;
+  dumpthings ( eqtb [10055573L ], hashhigh ) ;
   dumpint ( parloc ) ;
   dumpint ( writeloc ) ;
-  {register integer for_end; p = 0 ;for_end = 500 ; if ( p <= for_end) do 
+  {register integer for_end; p = 0 ;for_end = 2100 ; if ( p <= for_end) do 
     dumphh ( prim [p ]) ;
   while ( p++ < for_end ) ;} 
   dumpint ( hashused ) ;
@@ -3167,13 +3181,13 @@ storefmtfile ( void )
       incr ( cscount ) ;
     } 
   while ( p++ < for_end ) ;} 
-  dumpthings ( hash [hashused + 1 ], 2252738L - hashused ) ;
+  dumpthings ( hash [hashused + 1 ], 2254338L - hashused ) ;
   if ( hashhigh > 0 ) 
-  dumpthings ( hash [10053970L ], hashhigh ) ;
+  dumpthings ( hash [10055573L ], hashhigh ) ;
   dumpint ( cscount ) ;
   println () ;
   printint ( cscount ) ;
-  print ( 66708L ) ;
+  print ( 66716L ) ;
   dumpint ( fmemptr ) ;
   dumpthings ( fontinfo [0 ], fmemptr ) ;
   dumpint ( fontptr ) ;
@@ -3204,8 +3218,8 @@ storefmtfile ( void )
     {register integer for_end; k = 0 ;for_end = fontptr ; if ( k <= for_end) 
     do 
       {
-	printnl ( 66712L ) ;
-	printesc ( hash [2243738L + k ].v.RH ) ;
+	printnl ( 66720L ) ;
+	printesc ( hash [2245338L + k ].v.RH ) ;
 	printchar ( 61 ) ;
 	if ( ( ( fontarea [k ]== 65535L ) || ( fontarea [k ]== 65534L ) ) 
 	|| ( fontmapping [k ]!= 0 ) ) 
@@ -3217,20 +3231,20 @@ storefmtfile ( void )
 	    if ( filelineerrorstylep ) 
 	    printfileline () ;
 	    else printnl ( 65544L ) ;
-	    print ( 66713L ) ;
+	    print ( 66721L ) ;
 	  } 
 	  {
 	    helpptr = 3 ;
-	    helpline [2 ]= 66714L ;
-	    helpline [1 ]= 66715L ;
-	    helpline [0 ]= 66716L ;
+	    helpline [2 ]= 66722L ;
+	    helpline [1 ]= 66723L ;
+	    helpline [0 ]= 66724L ;
 	  } 
 	  error () ;
 	} 
 	else printfilename ( fontname [k ], fontarea [k ], 65626L ) ;
 	if ( fontsize [k ]!= fontdsize [k ]) 
 	{
-	  print ( 66124L ) ;
+	  print ( 66130L ) ;
 	  printscaled ( fontsize [k ]) ;
 	  print ( 65697L ) ;
 	} 
@@ -3239,11 +3253,11 @@ storefmtfile ( void )
   } 
   println () ;
   printint ( fmemptr - 7 ) ;
-  print ( 66709L ) ;
+  print ( 66717L ) ;
   printint ( fontptr - 0 ) ;
   if ( fontptr != 1 ) 
-  print ( 66710L ) ;
-  else print ( 66711L ) ;
+  print ( 66718L ) ;
+  else print ( 66719L ) ;
   dumpint ( hyphcount ) ;
   if ( hyphnext <= 607 ) 
   hyphnext = hyphsize ;
@@ -3260,8 +3274,8 @@ storefmtfile ( void )
   println () ;
   printint ( hyphcount ) ;
   if ( hyphcount != 1 ) 
-  print ( 66717L ) ;
-  else print ( 66718L ) ;
+  print ( 66725L ) ;
+  else print ( 66726L ) ;
   if ( trienotready ) 
   inittrie () ;
   dumpint ( triemax ) ;
@@ -3274,21 +3288,21 @@ storefmtfile ( void )
   dumpthings ( hyfdistance [1 ], trieopptr ) ;
   dumpthings ( hyfnum [1 ], trieopptr ) ;
   dumpthings ( hyfnext [1 ], trieopptr ) ;
-  printnl ( 66719L ) ;
+  printnl ( 66727L ) ;
   printint ( triemax ) ;
-  print ( 66720L ) ;
+  print ( 66728L ) ;
   printint ( trieopptr ) ;
   if ( trieopptr != 1 ) 
-  print ( 66721L ) ;
-  else print ( 66722L ) ;
-  print ( 66723L ) ;
+  print ( 66729L ) ;
+  else print ( 66730L ) ;
+  print ( 66731L ) ;
   printint ( trieopsize ) ;
   {register integer for_end; k = 255 ;for_end = 0 ; if ( k >= for_end) do 
     if ( trieused [k ]> 0 ) 
     {
-      printnl ( 66185L ) ;
+      printnl ( 66192L ) ;
       printint ( trieused [k ]) ;
-      print ( 66724L ) ;
+      print ( 66732L ) ;
       printint ( k ) ;
       dumpint ( k ) ;
       dumpint ( trieused [k ]) ;
@@ -3297,7 +3311,7 @@ storefmtfile ( void )
   dumpint ( interaction ) ;
   dumpint ( formatident ) ;
   dumpint ( 69069L ) ;
-  eqtb [8939271L ].cint = 0 ;
+  eqtb [8940871L ].cint = 0 ;
   wclose ( fmtfile ) ;
 } 
 #endif /* INITEX */
@@ -3354,10 +3368,10 @@ loadfmtfile ( void )
     fprintf ( stderr , "%s%s",  "fmtdebug:" , "string pool checksum" ) ;
     fprintf ( stderr , "%s%ld\n",  " = " , (long)x ) ;
   } 
-  if ( x != 71683443L ) 
+  if ( x != 273039945L ) 
   {
     ;
-    fprintf ( stdout , "%s%s%s%s\n",  "---! " , stringcast ( nameoffile + 1 ) ,     " doesn't match " , poolname ) ;
+    fprintf ( stdout , "%s%s%s\n",  "---! " , stringcast ( nameoffile + 1 ) ,     " made by different executable version, strings are different" ) ;
     goto lab6666 ;
   } 
   undumpint ( x ) ;
@@ -3368,9 +3382,9 @@ loadfmtfile ( void )
   goto lab6666 ;
   if ( hashextra < hashhigh ) 
   hashextra = hashhigh ;
-  eqtbtop = 10053969L + hashextra ;
+  eqtbtop = 10055572L + hashextra ;
   if ( hashextra == 0 ) 
-  hashtop = 2252739L ;
+  hashtop = 2254339L ;
   else hashtop = eqtbtop ;
   yhash = xmallocarray ( twohalves , 1 + hashtop - hashoffset ) ;
   hash = yhash - hashoffset ;
@@ -3382,12 +3396,12 @@ loadfmtfile ( void )
   while ( x++ < for_end ) ;} 
   zeqtb = xmallocarray ( memoryword , eqtbtop + 1 ) ;
   eqtb = zeqtb ;
-  eqtb [2252739L ].hh.b0 = 103 ;
-  eqtb [2252739L ].hh .v.RH = -268435455L ;
-  eqtb [2252739L ].hh.b1 = 0 ;
-  {register integer for_end; x = 10053970L ;for_end = eqtbtop ; if ( x <= 
+  eqtb [2254339L ].hh.b0 = 104 ;
+  eqtb [2254339L ].hh .v.RH = -268435455L ;
+  eqtb [2254339L ].hh.b1 = 0 ;
+  {register integer for_end; x = 10055573L ;for_end = eqtbtop ; if ( x <= 
   for_end) do 
-    eqtb [x ]= eqtb [2252739L ];
+    eqtb [x ]= eqtb [2254339L ];
   while ( x++ < for_end ) ;} 
   {
     undumpint ( x ) ;
@@ -3398,12 +3412,12 @@ loadfmtfile ( void )
   if ( ( eTeXmode == 1 ) ) 
   {
     maxregnum = 32767 ;
-    maxreghelpline = 66954L ;
+    maxreghelpline = 66962L ;
   } 
   else {
       
     maxregnum = 255 ;
-    maxreghelpline = 66953L ;
+    maxreghelpline = 66961L ;
   } 
   undumpint ( x ) ;
   if ( debugformatfile ) 
@@ -3430,7 +3444,7 @@ loadfmtfile ( void )
   zmem = yzmem - memmin ;
   mem = zmem ;
   undumpint ( x ) ;
-  if ( x != 10053969L ) 
+  if ( x != 10055572L ) 
   goto lab6666 ;
   undumpint ( x ) ;
   if ( x != 8501 ) 
@@ -3516,10 +3530,11 @@ loadfmtfile ( void )
   q = rover ;
   do {
       undumpthings ( mem [p ], q + 2 - p ) ;
-    p = q + mem [q ].hh .v.LH ;
-    if ( ( p > lomemmax ) || ( ( q >= mem [q + 1 ].hh .v.RH ) && ( mem [q + 
-    1 ].hh .v.RH != rover ) ) ) 
+    if ( ( mem [q ].hh .v.LH > lomemmax - q ) || ( mem [q + 1 ].hh .v.RH > 
+    lomemmax ) || ( ( q >= mem [q + 1 ].hh .v.RH ) && ( mem [q + 1 ].hh 
+    .v.RH != rover ) ) ) 
     goto lab6666 ;
+    p = q + mem [q ].hh .v.LH ;
     q = mem [q + 1 ].hh .v.RH ;
   } while ( ! ( q == rover ) ) ;
   undumpthings ( mem [p ], lomemmax + 1 - p ) ;
@@ -3555,27 +3570,22 @@ loadfmtfile ( void )
   k = 1 ;
   do {
       undumpint ( x ) ;
-    if ( ( x < 1 ) || ( k + x > 10053970L ) ) 
+    if ( ( x < 1 ) || ( k + x > 10055573L ) ) 
     goto lab6666 ;
     undumpthings ( eqtb [k ], x ) ;
     k = k + x ;
     undumpint ( x ) ;
-    if ( ( x < 0 ) || ( k + x > 10053970L ) ) 
+    if ( ( x < 0 ) || ( k + x > 10055573L ) ) 
     goto lab6666 ;
     {register integer for_end; j = k ;for_end = k + x - 1 ; if ( j <= 
     for_end) do 
       eqtb [j ]= eqtb [k - 1 ];
     while ( j++ < for_end ) ;} 
     k = k + x ;
-  } while ( ! ( k > 10053969L ) ) ;
+  } while ( ! ( k > 10055572L ) ) ;
   if ( hashhigh > 0 ) 
-  undumpthings ( eqtb [10053970L ], hashhigh ) ;
-  {
-    undumpint ( x ) ;
-    if ( ( x < 2228226L ) || ( x > hashtop ) ) 
-    goto lab6666 ;
-    else parloc = x ;
-  } 
+  undumpthings ( eqtb [10055573L ], hashhigh ) ;
+  undumpint ( parloc ) ;
   partoken = 33554431L + parloc ;
   {
     undumpint ( x ) ;
@@ -3584,7 +3594,7 @@ loadfmtfile ( void )
     else
     writeloc = x ;
   } 
-  {register integer for_end; p = 0 ;for_end = 500 ; if ( p <= for_end) do 
+  {register integer for_end; p = 0 ;for_end = 2100 ; if ( p <= for_end) do 
     undumphh ( prim [p ]) ;
   while ( p++ < for_end ) ;} 
   {
@@ -3603,17 +3613,17 @@ loadfmtfile ( void )
     } 
     undumphh ( hash [p ]) ;
   } while ( ! ( p == hashused ) ) ;
-  undumpthings ( hash [hashused + 1 ], 2252738L - hashused ) ;
+  undumpthings ( hash [hashused + 1 ], 2254338L - hashused ) ;
   if ( debugformatfile ) 
   {
-    printcsnames ( 2228226L , 2252738L ) ;
+    printcsnames ( 2228226L , 2254338L ) ;
   } 
   if ( hashhigh > 0 ) 
   {
-    undumpthings ( hash [10053970L ], hashhigh ) ;
+    undumpthings ( hash [10055573L ], hashhigh ) ;
     if ( debugformatfile ) 
     {
-      printcsnames ( 10053970L , hashhigh - ( 10053970L ) ) ;
+      printcsnames ( 10055573L , hashhigh - ( 10055573L ) ) ;
     } 
   } 
   undumpint ( cscount ) ;
@@ -3909,6 +3919,8 @@ finalcleanup ( void )
   /* 10 */ finalcleanup_regmem 
   smallnumber c  ;
   c = curchr ;
+  if ( c != 1 ) 
+  eqtb [8940889L ].cint = -1 ;
   if ( jobname == 0 ) 
   openlogfile () ;
   while ( inputptr > 0 ) if ( curinput .statefield == 0 ) 
@@ -3916,14 +3928,14 @@ finalcleanup ( void )
   else endfilereading () ;
   while ( openparens > 0 ) {
       
-    print ( 66729L ) ;
+    print ( 66737L ) ;
     decr ( openparens ) ;
   } 
   if ( curlevel > 1 ) 
   {
     printnl ( 40 ) ;
-    printesc ( 66730L ) ;
-    print ( 66731L ) ;
+    printesc ( 66738L ) ;
+    print ( 66739L ) ;
     printint ( curlevel - 1 ) ;
     printchar ( 41 ) ;
     if ( ( eTeXmode == 1 ) ) 
@@ -3932,15 +3944,15 @@ finalcleanup ( void )
   while ( condptr != -268435455L ) {
       
     printnl ( 40 ) ;
-    printesc ( 66730L ) ;
-    print ( 66732L ) ;
-    printcmdchr ( 107 , curif ) ;
+    printesc ( 66738L ) ;
+    print ( 66740L ) ;
+    printcmdchr ( 108 , curif ) ;
     if ( ifline != 0 ) 
     {
-      print ( 66733L ) ;
+      print ( 66741L ) ;
       printint ( ifline ) ;
     } 
-    print ( 66734L ) ;
+    print ( 66742L ) ;
     ifline = mem [condptr + 1 ].cint ;
     curif = mem [condptr ].hh.b1 ;
     tempptr = condptr ;
@@ -3954,7 +3966,7 @@ finalcleanup ( void )
       if ( selector == 19 ) 
       {
 	selector = 17 ;
-	printnl ( 66735L ) ;
+	printnl ( 66743L ) ;
 	selector = 19 ;
       } 
     } 
@@ -3983,7 +3995,7 @@ finalcleanup ( void )
       return ;
     } 
 #endif /* INITEX */
-    printnl ( 66736L ) ;
+    printnl ( 66744L ) ;
     return ;
   } 
 } 
@@ -3994,419 +4006,423 @@ initprim ( void )
   initprim_regmem 
   nonewcontrolsequence = false ;
   first = 0 ;
-  primitive ( 65675L , 76 , 2252740L ) ;
-  primitive ( 65676L , 76 , 2252741L ) ;
-  primitive ( 65677L , 76 , 2252742L ) ;
-  primitive ( 65678L , 76 , 2252743L ) ;
-  primitive ( 65679L , 76 , 2252744L ) ;
-  primitive ( 65680L , 76 , 2252745L ) ;
-  primitive ( 65681L , 76 , 2252746L ) ;
-  primitive ( 65682L , 76 , 2252747L ) ;
-  primitive ( 65683L , 76 , 2252748L ) ;
-  primitive ( 65684L , 76 , 2252749L ) ;
-  primitive ( 65685L , 76 , 2252750L ) ;
-  primitive ( 65686L , 76 , 2252751L ) ;
-  primitive ( 65687L , 76 , 2252752L ) ;
-  primitive ( 65688L , 76 , 2252753L ) ;
-  primitive ( 65689L , 76 , 2252754L ) ;
-  primitive ( 65690L , 76 , 2252755L ) ;
-  primitive ( 65691L , 77 , 2252756L ) ;
-  primitive ( 65692L , 77 , 2252757L ) ;
-  primitive ( 65693L , 77 , 2252758L ) ;
-  primitive ( 65698L , 73 , 2253272L ) ;
-  primitive ( 65699L , 73 , 2253273L ) ;
-  primitive ( 65700L , 73 , 2253274L ) ;
-  primitive ( 65701L , 73 , 2253275L ) ;
-  primitive ( 65702L , 73 , 2253276L ) ;
-  primitive ( 65703L , 73 , 2253277L ) ;
-  primitive ( 65704L , 73 , 2253278L ) ;
-  primitive ( 65705L , 73 , 2253279L ) ;
-  primitive ( 65706L , 73 , 2253280L ) ;
-  primitive ( 65720L , 74 , 8939240L ) ;
-  primitive ( 65721L , 74 , 8939241L ) ;
-  primitive ( 65722L , 74 , 8939242L ) ;
-  primitive ( 65723L , 74 , 8939243L ) ;
-  primitive ( 65724L , 74 , 8939244L ) ;
-  primitive ( 65725L , 74 , 8939245L ) ;
-  primitive ( 65726L , 74 , 8939246L ) ;
-  primitive ( 65727L , 74 , 8939247L ) ;
-  primitive ( 65728L , 74 , 8939248L ) ;
-  primitive ( 65729L , 74 , 8939249L ) ;
-  primitive ( 65730L , 74 , 8939250L ) ;
-  primitive ( 65731L , 74 , 8939251L ) ;
-  primitive ( 65732L , 74 , 8939252L ) ;
-  primitive ( 65733L , 74 , 8939253L ) ;
-  primitive ( 65734L , 74 , 8939254L ) ;
-  primitive ( 65735L , 74 , 8939255L ) ;
-  primitive ( 65736L , 74 , 8939256L ) ;
-  primitive ( 65737L , 74 , 8939257L ) ;
-  primitive ( 65738L , 74 , 8939258L ) ;
-  primitive ( 65739L , 74 , 8939259L ) ;
-  primitive ( 65740L , 74 , 8939260L ) ;
-  primitive ( 65741L , 74 , 8939261L ) ;
-  primitive ( 65742L , 74 , 8939262L ) ;
-  primitive ( 65743L , 74 , 8939263L ) ;
-  primitive ( 65744L , 74 , 8939264L ) ;
-  primitive ( 65745L , 74 , 8939265L ) ;
-  primitive ( 65746L , 74 , 8939266L ) ;
-  primitive ( 65747L , 74 , 8939267L ) ;
-  primitive ( 65748L , 74 , 8939268L ) ;
-  primitive ( 65749L , 74 , 8939269L ) ;
-  primitive ( 65750L , 74 , 8939270L ) ;
-  primitive ( 65751L , 74 , 8939271L ) ;
-  primitive ( 65752L , 74 , 8939272L ) ;
-  primitive ( 65753L , 74 , 8939273L ) ;
-  primitive ( 65754L , 74 , 8939274L ) ;
-  primitive ( 65755L , 74 , 8939275L ) ;
-  primitive ( 65756L , 74 , 8939276L ) ;
-  primitive ( 65757L , 74 , 8939277L ) ;
-  primitive ( 65758L , 74 , 8939278L ) ;
-  primitive ( 65759L , 74 , 8939279L ) ;
-  primitive ( 65760L , 74 , 8939280L ) ;
-  primitive ( 65761L , 74 , 8939281L ) ;
-  primitive ( 65762L , 74 , 8939282L ) ;
-  primitive ( 65763L , 74 , 8939283L ) ;
-  primitive ( 65764L , 74 , 8939284L ) ;
-  primitive ( 65765L , 74 , 8939285L ) ;
-  primitive ( 65766L , 74 , 8939286L ) ;
-  primitive ( 65767L , 74 , 8939287L ) ;
-  primitive ( 65768L , 74 , 8939288L ) ;
-  primitive ( 65769L , 74 , 8939289L ) ;
-  primitive ( 65770L , 74 , 8939290L ) ;
-  primitive ( 65771L , 74 , 8939291L ) ;
-  primitive ( 65772L , 74 , 8939292L ) ;
-  primitive ( 65773L , 74 , 8939293L ) ;
-  primitive ( 65774L , 74 , 8939294L ) ;
+  primitive ( 65675L , 76 , 2254340L ) ;
+  primitive ( 65676L , 76 , 2254341L ) ;
+  primitive ( 65677L , 76 , 2254342L ) ;
+  primitive ( 65678L , 76 , 2254343L ) ;
+  primitive ( 65679L , 76 , 2254344L ) ;
+  primitive ( 65680L , 76 , 2254345L ) ;
+  primitive ( 65681L , 76 , 2254346L ) ;
+  primitive ( 65682L , 76 , 2254347L ) ;
+  primitive ( 65683L , 76 , 2254348L ) ;
+  primitive ( 65684L , 76 , 2254349L ) ;
+  primitive ( 65685L , 76 , 2254350L ) ;
+  primitive ( 65686L , 76 , 2254351L ) ;
+  primitive ( 65687L , 76 , 2254352L ) ;
+  primitive ( 65688L , 76 , 2254353L ) ;
+  primitive ( 65689L , 76 , 2254354L ) ;
+  primitive ( 65690L , 76 , 2254355L ) ;
+  primitive ( 65691L , 77 , 2254356L ) ;
+  primitive ( 65692L , 77 , 2254357L ) ;
+  primitive ( 65693L , 77 , 2254358L ) ;
+  primitive ( 65698L , 73 , 2254872L ) ;
+  primitive ( 65699L , 73 , 2254873L ) ;
+  primitive ( 65700L , 73 , 2254874L ) ;
+  primitive ( 65701L , 73 , 2254875L ) ;
+  primitive ( 65702L , 73 , 2254876L ) ;
+  primitive ( 65703L , 73 , 2254877L ) ;
+  primitive ( 65704L , 73 , 2254878L ) ;
+  primitive ( 65705L , 73 , 2254879L ) ;
+  primitive ( 65706L , 73 , 2254880L ) ;
+  primitive ( 65720L , 74 , 8940840L ) ;
+  primitive ( 65721L , 74 , 8940841L ) ;
+  primitive ( 65722L , 74 , 8940842L ) ;
+  primitive ( 65723L , 74 , 8940843L ) ;
+  primitive ( 65724L , 74 , 8940844L ) ;
+  primitive ( 65725L , 74 , 8940845L ) ;
+  primitive ( 65726L , 74 , 8940846L ) ;
+  primitive ( 65727L , 74 , 8940847L ) ;
+  primitive ( 65728L , 74 , 8940848L ) ;
+  primitive ( 65729L , 74 , 8940849L ) ;
+  primitive ( 65730L , 74 , 8940850L ) ;
+  primitive ( 65731L , 74 , 8940851L ) ;
+  primitive ( 65732L , 74 , 8940852L ) ;
+  primitive ( 65733L , 74 , 8940853L ) ;
+  primitive ( 65734L , 74 , 8940854L ) ;
+  primitive ( 65735L , 74 , 8940855L ) ;
+  primitive ( 65736L , 74 , 8940856L ) ;
+  primitive ( 65737L , 74 , 8940857L ) ;
+  primitive ( 65738L , 74 , 8940858L ) ;
+  primitive ( 65739L , 74 , 8940859L ) ;
+  primitive ( 65740L , 74 , 8940860L ) ;
+  primitive ( 65741L , 74 , 8940861L ) ;
+  primitive ( 65742L , 74 , 8940862L ) ;
+  primitive ( 65743L , 74 , 8940863L ) ;
+  primitive ( 65744L , 74 , 8940864L ) ;
+  primitive ( 65745L , 74 , 8940865L ) ;
+  primitive ( 65746L , 74 , 8940866L ) ;
+  primitive ( 65747L , 74 , 8940867L ) ;
+  primitive ( 65748L , 74 , 8940868L ) ;
+  primitive ( 65749L , 74 , 8940869L ) ;
+  primitive ( 65750L , 74 , 8940870L ) ;
+  primitive ( 65751L , 74 , 8940871L ) ;
+  primitive ( 65752L , 74 , 8940872L ) ;
+  primitive ( 65753L , 74 , 8940873L ) ;
+  primitive ( 65754L , 74 , 8940874L ) ;
+  primitive ( 65755L , 74 , 8940875L ) ;
+  primitive ( 65756L , 74 , 8940876L ) ;
+  primitive ( 65757L , 74 , 8940877L ) ;
+  primitive ( 65758L , 74 , 8940878L ) ;
+  primitive ( 65759L , 74 , 8940879L ) ;
+  primitive ( 65760L , 74 , 8940880L ) ;
+  primitive ( 65761L , 74 , 8940881L ) ;
+  primitive ( 65762L , 74 , 8940882L ) ;
+  primitive ( 65763L , 74 , 8940883L ) ;
+  primitive ( 65764L , 74 , 8940884L ) ;
+  primitive ( 65765L , 74 , 8940885L ) ;
+  primitive ( 65766L , 74 , 8940886L ) ;
+  primitive ( 65767L , 74 , 8940887L ) ;
+  primitive ( 65768L , 74 , 8940888L ) ;
+  primitive ( 65769L , 74 , 8940889L ) ;
+  primitive ( 65770L , 74 , 8940890L ) ;
+  primitive ( 65771L , 74 , 8940891L ) ;
+  primitive ( 65772L , 74 , 8940892L ) ;
+  primitive ( 65773L , 74 , 8940893L ) ;
+  primitive ( 65774L , 74 , 8940894L ) ;
   if ( mltexp ) 
   {
     mltexenabledp = true ;
     if ( false ) 
-    primitive ( 65775L , 74 , 8939295L ) ;
-    primitive ( 65776L , 74 , 8939296L ) ;
-    primitive ( 65777L , 74 , 8939297L ) ;
+    primitive ( 65775L , 74 , 8940895L ) ;
+    primitive ( 65776L , 74 , 8940896L ) ;
+    primitive ( 65777L , 74 , 8940897L ) ;
   } 
-  primitive ( 65778L , 74 , 8939309L ) ;
-  primitive ( 65779L , 74 , 8939310L ) ;
-  primitive ( 65783L , 75 , 10053691L ) ;
-  primitive ( 65784L , 75 , 10053692L ) ;
-  primitive ( 65785L , 75 , 10053693L ) ;
-  primitive ( 65786L , 75 , 10053694L ) ;
-  primitive ( 65787L , 75 , 10053695L ) ;
-  primitive ( 65788L , 75 , 10053696L ) ;
-  primitive ( 65789L , 75 , 10053697L ) ;
-  primitive ( 65790L , 75 , 10053698L ) ;
-  primitive ( 65791L , 75 , 10053699L ) ;
-  primitive ( 65792L , 75 , 10053700L ) ;
-  primitive ( 65793L , 75 , 10053701L ) ;
-  primitive ( 65794L , 75 , 10053702L ) ;
-  primitive ( 65795L , 75 , 10053703L ) ;
-  primitive ( 65796L , 75 , 10053704L ) ;
-  primitive ( 65797L , 75 , 10053705L ) ;
-  primitive ( 65798L , 75 , 10053706L ) ;
-  primitive ( 65799L , 75 , 10053707L ) ;
-  primitive ( 65800L , 75 , 10053708L ) ;
-  primitive ( 65801L , 75 , 10053709L ) ;
-  primitive ( 65802L , 75 , 10053710L ) ;
-  primitive ( 65803L , 75 , 10053711L ) ;
-  primitive ( 65804L , 75 , 10053712L ) ;
-  primitive ( 65805L , 75 , 10053713L ) ;
+  primitive ( 65778L , 74 , 8940898L ) ;
+  primitive ( 65784L , 103 , 0 ) ;
+  primitive ( 65779L , 74 , 8940899L ) ;
+  primitive ( 65780L , 74 , 8940900L ) ;
+  primitive ( 65781L , 74 , 8940912L ) ;
+  primitive ( 65782L , 74 , 8940913L ) ;
+  primitive ( 65787L , 75 , 10055294L ) ;
+  primitive ( 65788L , 75 , 10055295L ) ;
+  primitive ( 65789L , 75 , 10055296L ) ;
+  primitive ( 65790L , 75 , 10055297L ) ;
+  primitive ( 65791L , 75 , 10055298L ) ;
+  primitive ( 65792L , 75 , 10055299L ) ;
+  primitive ( 65793L , 75 , 10055300L ) ;
+  primitive ( 65794L , 75 , 10055301L ) ;
+  primitive ( 65795L , 75 , 10055302L ) ;
+  primitive ( 65796L , 75 , 10055303L ) ;
+  primitive ( 65797L , 75 , 10055304L ) ;
+  primitive ( 65798L , 75 , 10055305L ) ;
+  primitive ( 65799L , 75 , 10055306L ) ;
+  primitive ( 65800L , 75 , 10055307L ) ;
+  primitive ( 65801L , 75 , 10055308L ) ;
+  primitive ( 65802L , 75 , 10055309L ) ;
+  primitive ( 65803L , 75 , 10055310L ) ;
+  primitive ( 65804L , 75 , 10055311L ) ;
+  primitive ( 65805L , 75 , 10055312L ) ;
+  primitive ( 65806L , 75 , 10055313L ) ;
+  primitive ( 65807L , 75 , 10055314L ) ;
+  primitive ( 65808L , 75 , 10055315L ) ;
+  primitive ( 65809L , 75 , 10055316L ) ;
   primitive ( 32 , 64 , 0 ) ;
   primitive ( 47 , 44 , 0 ) ;
-  primitive ( 65817L , 45 , 0 ) ;
-  primitive ( 65818L , 92 , 0 ) ;
-  primitive ( 65819L , 40 , 0 ) ;
-  primitive ( 65820L , 41 , 0 ) ;
-  primitive ( 65821L , 61 , 0 ) ;
-  primitive ( 65822L , 16 , 0 ) ;
-  primitive ( 65813L , 109 , 0 ) ;
-  primitive ( 65823L , 15 , 0 ) ;
-  primitive ( 65824L , 15 , 1 ) ;
-  primitive ( 65825L , 15 , 1 ) ;
-  primitive ( 65826L , 94 , 0 ) ;
-  primitive ( 65814L , 67 , 0 ) ;
-  primitive ( 65827L , 62 , 0 ) ;
-  hash [2243228L ].v.RH = 65827L ;
+  primitive ( 65821L , 45 , 0 ) ;
+  primitive ( 65822L , 92 , 0 ) ;
+  primitive ( 65823L , 40 , 0 ) ;
+  primitive ( 65824L , 41 , 0 ) ;
+  primitive ( 65825L , 61 , 0 ) ;
+  primitive ( 65826L , 16 , 0 ) ;
+  primitive ( 65817L , 110 , 0 ) ;
+  primitive ( 65827L , 15 , 0 ) ;
+  primitive ( 65828L , 15 , 1 ) ;
+  primitive ( 65829L , 15 , 1 ) ;
+  primitive ( 65830L , 94 , 0 ) ;
+  primitive ( 65818L , 67 , 0 ) ;
+  primitive ( 65831L , 62 , 0 ) ;
+  hash [2243228L ].v.RH = 65831L ;
   eqtb [2243228L ]= eqtb [curval ];
-  primitive ( 65828L , 104 , 0 ) ;
-  primitive ( 65829L , 90 , 0 ) ;
-  primitive ( 65830L , 78 , 0 ) ;
-  primitive ( 65831L , 32 , 0 ) ;
-  primitive ( 65832L , 36 , 0 ) ;
-  primitive ( 65833L , 39 , 0 ) ;
+  primitive ( 65832L , 105 , 0 ) ;
+  primitive ( 65833L , 90 , 0 ) ;
+  primitive ( 65834L , 78 , 0 ) ;
+  primitive ( 65835L , 32 , 0 ) ;
+  primitive ( 65836L , 36 , 0 ) ;
+  primitive ( 65837L , 39 , 0 ) ;
   primitive ( 65618L , 37 , 0 ) ;
   primitive ( 65641L , 18 , 0 ) ;
-  primitive ( 65834L , 46 , 0 ) ;
-  primitive ( 65835L , 46 , 1 ) ;
-  primitive ( 65836L , 46 , 1 ) ;
-  primitive ( 65837L , 17 , 0 ) ;
-  primitive ( 65838L , 17 , 1 ) ;
-  primitive ( 65839L , 17 , 1 ) ;
-  primitive ( 65840L , 17 , 2 ) ;
-  primitive ( 65841L , 17 , 2 ) ;
-  primitive ( 65842L , 54 , 0 ) ;
-  primitive ( 65843L , 93 , 0 ) ;
-  primitive ( 65844L , 34 , 0 ) ;
-  primitive ( 65845L , 65 , 0 ) ;
-  primitive ( 65846L , 105 , 0 ) ;
-  primitive ( 65810L , 105 , 1 ) ;
+  primitive ( 65838L , 46 , 0 ) ;
+  primitive ( 65839L , 46 , 1 ) ;
+  primitive ( 65840L , 46 , 1 ) ;
+  primitive ( 65841L , 17 , 0 ) ;
+  primitive ( 65842L , 17 , 1 ) ;
+  primitive ( 65843L , 17 , 1 ) ;
+  primitive ( 65844L , 17 , 2 ) ;
+  primitive ( 65845L , 17 , 2 ) ;
+  primitive ( 65846L , 54 , 0 ) ;
+  primitive ( 65847L , 93 , 0 ) ;
+  primitive ( 65848L , 34 , 0 ) ;
+  primitive ( 65849L , 65 , 0 ) ;
+  primitive ( 65850L , 106 , 0 ) ;
+  primitive ( 65814L , 106 , 1 ) ;
   primitive ( 65623L , 55 , 0 ) ;
-  primitive ( 65847L , 63 , 0 ) ;
-  primitive ( 65848L , 85 , 2253271L ) ;
-  primitive ( 65849L , 42 , 0 ) ;
-  primitive ( 65850L , 81 , 0 ) ;
-  primitive ( 65851L , 66 , 0 ) ;
-  primitive ( 65852L , 66 , 1 ) ;
-  primitive ( 65853L , 66 , 1 ) ;
-  primitive ( 65854L , 98 , 0 ) ;
-  primitive ( 65855L , 0 , 1114112L ) ;
-  hash [2243233L ].v.RH = 65855L ;
+  primitive ( 65851L , 63 , 0 ) ;
+  primitive ( 65852L , 85 , 2254871L ) ;
+  primitive ( 65853L , 42 , 0 ) ;
+  primitive ( 65854L , 81 , 0 ) ;
+  primitive ( 65855L , 66 , 0 ) ;
+  primitive ( 65856L , 66 , 1 ) ;
+  primitive ( 65857L , 66 , 1 ) ;
+  primitive ( 65858L , 98 , 0 ) ;
+  primitive ( 65859L , 0 , 1114112L ) ;
+  hash [2243233L ].v.RH = 65859L ;
   eqtb [2243233L ]= eqtb [curval ];
-  primitive ( 65856L , 100 , 0 ) ;
-  primitive ( 65857L , 111 , 0 ) ;
+  primitive ( 65860L , 100 , 0 ) ;
+  primitive ( 65861L , 112 , 0 ) ;
   primitive ( 65707L , 72 , membot ) ;
   primitive ( 65642L , 38 , 0 ) ;
-  primitive ( 65858L , 33 , 0 ) ;
-  primitive ( 65859L , 56 , 0 ) ;
-  primitive ( 65860L , 35 , 0 ) ;
-  primitive ( 65921L , 13 , 1114112L ) ;
+  primitive ( 65862L , 33 , 0 ) ;
+  primitive ( 65863L , 56 , 0 ) ;
+  primitive ( 65864L , 35 , 0 ) ;
+  primitive ( 65926L , 13 , 1114112L ) ;
   parloc = curval ;
   partoken = 33554431L + parloc ;
-  primitive ( 65956L , 106 , 0 ) ;
-  primitive ( 65957L , 106 , 1 ) ;
-  primitive ( 65958L , 112 , 0 ) ;
-  primitive ( 65959L , 112 , 1 ) ;
-  primitive ( 65960L , 112 , 2 ) ;
-  primitive ( 65961L , 112 , 3 ) ;
-  primitive ( 65962L , 112 , 4 ) ;
-  primitive ( 65781L , 91 , membot + 0 ) ;
-  primitive ( 65807L , 91 , membot + 1 ) ;
+  primitive ( 65962L , 107 , 0 ) ;
+  primitive ( 65963L , 107 , 1 ) ;
+  primitive ( 65964L , 113 , 0 ) ;
+  primitive ( 65965L , 113 , 1 ) ;
+  primitive ( 65966L , 113 , 2 ) ;
+  primitive ( 65967L , 113 , 3 ) ;
+  primitive ( 65968L , 113 , 4 ) ;
+  primitive ( 65785L , 91 , membot + 0 ) ;
+  primitive ( 65811L , 91 , membot + 1 ) ;
   primitive ( 65695L , 91 , membot + 2 ) ;
   primitive ( 65696L , 91 , membot + 3 ) ;
-  primitive ( 66006L , 80 , 104 ) ;
-  primitive ( 66007L , 80 , 1 ) ;
-  primitive ( 66008L , 83 , 0 ) ;
-  primitive ( 66009L , 83 , 1 ) ;
-  primitive ( 66010L , 84 , 1 ) ;
-  primitive ( 66011L , 84 , 3 ) ;
-  primitive ( 66012L , 84 , 2 ) ;
-  primitive ( 66013L , 71 , 0 ) ;
-  primitive ( 66014L , 71 , 1 ) ;
-  primitive ( 66015L , 71 , 2 ) ;
-  primitive ( 66016L , 71 , 4 ) ;
-  primitive ( 66017L , 71 , 5 ) ;
-  primitive ( 66018L , 71 , 12 ) ;
-  primitive ( 66019L , 71 , 13 ) ;
-  primitive ( 66020L , 71 , 16 ) ;
-  primitive ( 66021L , 71 , 17 ) ;
-  primitive ( 66022L , 71 , 18 ) ;
-  primitive ( 66090L , 110 , 0 ) ;
-  primitive ( 66091L , 110 , 1 ) ;
-  primitive ( 66092L , 110 , 2 ) ;
-  primitive ( 66093L , 110 , 3 ) ;
-  primitive ( 66094L , 110 , 4 ) ;
-  primitive ( 66095L , 110 , 6 ) ;
-  primitive ( 66096L , 110 , 16 ) ;
-  primitive ( 66097L , 110 , 17 ) ;
-  primitive ( 66098L , 110 , 22 ) ;
-  primitive ( 66099L , 110 , 23 ) ;
-  primitive ( 66100L , 110 , 24 ) ;
-  primitive ( 66101L , 110 , 25 ) ;
-  primitive ( 66102L , 110 , 26 ) ;
-  primitive ( 66103L , 110 , 18 ) ;
-  primitive ( 66104L , 110 , 29 ) ;
-  primitive ( 66105L , 110 , 30 ) ;
-  primitive ( 66106L , 110 , 40 ) ;
-  primitive ( 66107L , 110 , 38 ) ;
-  primitive ( 66108L , 110 , 39 ) ;
-  primitive ( 66139L , 107 , 0 ) ;
-  primitive ( 66140L , 107 , 1 ) ;
-  primitive ( 66141L , 107 , 2 ) ;
-  primitive ( 66142L , 107 , 3 ) ;
-  primitive ( 66143L , 107 , 4 ) ;
-  primitive ( 66144L , 107 , 5 ) ;
-  primitive ( 66145L , 107 , 6 ) ;
-  primitive ( 66146L , 107 , 7 ) ;
-  primitive ( 66147L , 107 , 8 ) ;
-  primitive ( 66148L , 107 , 9 ) ;
-  primitive ( 66149L , 107 , 10 ) ;
-  primitive ( 66150L , 107 , 11 ) ;
-  primitive ( 66151L , 107 , 12 ) ;
-  primitive ( 66152L , 107 , 13 ) ;
-  primitive ( 66153L , 107 , 14 ) ;
-  primitive ( 66154L , 107 , 15 ) ;
-  primitive ( 66155L , 107 , 16 ) ;
-  primitive ( 66156L , 107 , 21 ) ;
-  primitive ( 66158L , 108 , 2 ) ;
-  hash [2243230L ].v.RH = 66158L ;
+  primitive ( 66012L , 80 , 105 ) ;
+  primitive ( 66013L , 80 , 1 ) ;
+  primitive ( 66014L , 83 , 0 ) ;
+  primitive ( 66015L , 83 , 1 ) ;
+  primitive ( 66016L , 84 , 1 ) ;
+  primitive ( 66017L , 84 , 3 ) ;
+  primitive ( 66018L , 84 , 2 ) ;
+  primitive ( 66019L , 71 , 0 ) ;
+  primitive ( 66020L , 71 , 1 ) ;
+  primitive ( 66021L , 71 , 2 ) ;
+  primitive ( 66022L , 71 , 4 ) ;
+  primitive ( 66023L , 71 , 5 ) ;
+  primitive ( 66024L , 71 , 12 ) ;
+  primitive ( 66025L , 71 , 13 ) ;
+  primitive ( 66026L , 71 , 16 ) ;
+  primitive ( 66027L , 71 , 17 ) ;
+  primitive ( 66028L , 71 , 18 ) ;
+  primitive ( 66096L , 111 , 0 ) ;
+  primitive ( 66097L , 111 , 1 ) ;
+  primitive ( 66098L , 111 , 2 ) ;
+  primitive ( 66099L , 111 , 3 ) ;
+  primitive ( 66100L , 111 , 4 ) ;
+  primitive ( 66101L , 111 , 6 ) ;
+  primitive ( 66102L , 111 , 16 ) ;
+  primitive ( 66103L , 111 , 17 ) ;
+  primitive ( 66104L , 111 , 22 ) ;
+  primitive ( 66105L , 111 , 23 ) ;
+  primitive ( 66106L , 111 , 24 ) ;
+  primitive ( 66107L , 111 , 25 ) ;
+  primitive ( 66108L , 111 , 26 ) ;
+  primitive ( 66109L , 111 , 18 ) ;
+  primitive ( 66110L , 111 , 29 ) ;
+  primitive ( 66111L , 111 , 30 ) ;
+  primitive ( 66112L , 111 , 40 ) ;
+  primitive ( 66113L , 111 , 38 ) ;
+  primitive ( 66114L , 111 , 39 ) ;
+  primitive ( 66146L , 108 , 0 ) ;
+  primitive ( 66147L , 108 , 1 ) ;
+  primitive ( 66148L , 108 , 2 ) ;
+  primitive ( 66149L , 108 , 3 ) ;
+  primitive ( 66150L , 108 , 4 ) ;
+  primitive ( 66151L , 108 , 5 ) ;
+  primitive ( 66152L , 108 , 6 ) ;
+  primitive ( 66153L , 108 , 7 ) ;
+  primitive ( 66154L , 108 , 8 ) ;
+  primitive ( 66155L , 108 , 9 ) ;
+  primitive ( 66156L , 108 , 10 ) ;
+  primitive ( 66157L , 108 , 11 ) ;
+  primitive ( 66158L , 108 , 12 ) ;
+  primitive ( 66159L , 108 , 13 ) ;
+  primitive ( 66160L , 108 , 14 ) ;
+  primitive ( 66161L , 108 , 15 ) ;
+  primitive ( 66162L , 108 , 16 ) ;
+  primitive ( 66163L , 108 , 21 ) ;
+  primitive ( 66165L , 109 , 2 ) ;
+  hash [2243230L ].v.RH = 66165L ;
   eqtb [2243230L ]= eqtb [curval ];
-  primitive ( 66159L , 108 , 4 ) ;
-  primitive ( 66160L , 108 , 3 ) ;
-  primitive ( 66186L , 89 , 0 ) ;
-  hash [2243738L ].v.RH = 66186L ;
-  eqtb [2243738L ]= eqtb [curval ];
-  primitive ( 66315L , 4 , 1114113L ) ;
-  primitive ( 66316L , 5 , 1114114L ) ;
-  hash [2243227L ].v.RH = 66316L ;
+  primitive ( 66166L , 109 , 4 ) ;
+  primitive ( 66167L , 109 , 3 ) ;
+  primitive ( 66194L , 89 , 0 ) ;
+  hash [2245338L ].v.RH = 66194L ;
+  eqtb [2245338L ]= eqtb [curval ];
+  primitive ( 66324L , 4 , 1114113L ) ;
+  primitive ( 66325L , 5 , 1114114L ) ;
+  hash [2243227L ].v.RH = 66325L ;
   eqtb [2243227L ]= eqtb [curval ];
-  primitive ( 66317L , 5 , 1114115L ) ;
-  hash [2243231L ].v.RH = 66318L ;
-  hash [2243232L ].v.RH = 66318L ;
+  primitive ( 66326L , 5 , 1114115L ) ;
+  hash [2243231L ].v.RH = 66327L ;
+  hash [2243232L ].v.RH = 66327L ;
   eqtb [2243232L ].hh.b0 = 9 ;
   eqtb [2243232L ].hh .v.RH = memtop - 11 ;
   eqtb [2243232L ].hh.b1 = 1 ;
   eqtb [2243231L ]= eqtb [2243232L ];
-  eqtb [2243231L ].hh.b0 = 117 ;
-  primitive ( 66395L , 82 , 0 ) ;
-  primitive ( 66396L , 82 , 1 ) ;
-  primitive ( 66397L , 82 , 2 ) ;
-  primitive ( 66398L , 82 , 3 ) ;
-  primitive ( 66399L , 82 , 4 ) ;
-  primitive ( 66400L , 82 , 5 ) ;
-  primitive ( 66401L , 82 , 6 ) ;
-  primitive ( 66402L , 82 , 7 ) ;
+  eqtb [2243231L ].hh.b0 = 118 ;
+  primitive ( 66404L , 82 , 0 ) ;
+  primitive ( 66405L , 82 , 1 ) ;
+  primitive ( 66406L , 82 , 2 ) ;
+  primitive ( 66407L , 82 , 3 ) ;
+  primitive ( 66408L , 82 , 4 ) ;
+  primitive ( 66409L , 82 , 5 ) ;
+  primitive ( 66410L , 82 , 6 ) ;
+  primitive ( 66411L , 82 , 7 ) ;
   primitive ( 65631L , 14 , 0 ) ;
-  primitive ( 66449L , 14 , 1 ) ;
-  primitive ( 66450L , 26 , 4 ) ;
-  primitive ( 66451L , 26 , 0 ) ;
-  primitive ( 66452L , 26 , 1 ) ;
-  primitive ( 66453L , 26 , 2 ) ;
-  primitive ( 66454L , 26 , 3 ) ;
-  primitive ( 66455L , 27 , 4 ) ;
-  primitive ( 66456L , 27 , 0 ) ;
-  primitive ( 66457L , 27 , 1 ) ;
-  primitive ( 66458L , 27 , 2 ) ;
-  primitive ( 66459L , 27 , 3 ) ;
+  primitive ( 66457L , 14 , 1 ) ;
+  primitive ( 66458L , 26 , 4 ) ;
+  primitive ( 66459L , 26 , 0 ) ;
+  primitive ( 66460L , 26 , 1 ) ;
+  primitive ( 66461L , 26 , 2 ) ;
+  primitive ( 66462L , 26 , 3 ) ;
+  primitive ( 66463L , 27 , 4 ) ;
+  primitive ( 66464L , 27 , 0 ) ;
+  primitive ( 66465L , 27 , 1 ) ;
+  primitive ( 66466L , 27 , 2 ) ;
+  primitive ( 66467L , 27 , 3 ) ;
   primitive ( 65624L , 28 , 5 ) ;
   primitive ( 65603L , 29 , 1 ) ;
   primitive ( 65630L , 30 , 99 ) ;
-  primitive ( 66477L , 21 , 1 ) ;
-  primitive ( 66478L , 21 , 0 ) ;
-  primitive ( 66479L , 22 , 1 ) ;
-  primitive ( 66480L , 22 , 0 ) ;
+  primitive ( 66485L , 21 , 1 ) ;
+  primitive ( 66486L , 21 , 0 ) ;
+  primitive ( 66487L , 22 , 1 ) ;
+  primitive ( 66488L , 22 , 0 ) ;
   primitive ( 65709L , 20 , 0 ) ;
-  primitive ( 66481L , 20 , 1 ) ;
-  primitive ( 66482L , 20 , 2 ) ;
-  primitive ( 66390L , 20 , 3 ) ;
-  primitive ( 66483L , 20 , 4 ) ;
-  primitive ( 66392L , 20 , 5 ) ;
-  primitive ( 66484L , 20 , 108 ) ;
-  primitive ( 66485L , 31 , 99 ) ;
-  primitive ( 66486L , 31 , 100 ) ;
-  primitive ( 66487L , 31 , 101 ) ;
-  primitive ( 66488L , 31 , 102 ) ;
-  primitive ( 66504L , 43 , 1 ) ;
-  primitive ( 66505L , 43 , 0 ) ;
-  primitive ( 66515L , 25 , 12 ) ;
-  primitive ( 66516L , 25 , 11 ) ;
-  primitive ( 66517L , 25 , 10 ) ;
-  primitive ( 66518L , 23 , 0 ) ;
-  primitive ( 66519L , 23 , 1 ) ;
-  primitive ( 66520L , 24 , 0 ) ;
-  primitive ( 66521L , 24 , 1 ) ;
+  primitive ( 66489L , 20 , 1 ) ;
+  primitive ( 66490L , 20 , 2 ) ;
+  primitive ( 66399L , 20 , 3 ) ;
+  primitive ( 66491L , 20 , 4 ) ;
+  primitive ( 66401L , 20 , 5 ) ;
+  primitive ( 66492L , 20 , 109 ) ;
+  primitive ( 66493L , 31 , 99 ) ;
+  primitive ( 66494L , 31 , 100 ) ;
+  primitive ( 66495L , 31 , 101 ) ;
+  primitive ( 66496L , 31 , 102 ) ;
+  primitive ( 66512L , 43 , 1 ) ;
+  primitive ( 66513L , 43 , 0 ) ;
+  primitive ( 66523L , 25 , 12 ) ;
+  primitive ( 66524L , 25 , 11 ) ;
+  primitive ( 66525L , 25 , 10 ) ;
+  primitive ( 66526L , 23 , 0 ) ;
+  primitive ( 66527L , 23 , 1 ) ;
+  primitive ( 66528L , 24 , 0 ) ;
+  primitive ( 66529L , 24 , 1 ) ;
   primitive ( 45 , 47 , 1 ) ;
   primitive ( 65639L , 47 , 0 ) ;
-  primitive ( 66552L , 48 , 0 ) ;
-  primitive ( 66553L , 48 , 1 ) ;
-  primitive ( 66265L , 50 , 16 ) ;
-  primitive ( 66266L , 50 , 17 ) ;
-  primitive ( 66267L , 50 , 18 ) ;
-  primitive ( 66268L , 50 , 19 ) ;
-  primitive ( 66269L , 50 , 20 ) ;
-  primitive ( 66270L , 50 , 21 ) ;
-  primitive ( 66271L , 50 , 22 ) ;
-  primitive ( 66272L , 50 , 23 ) ;
-  primitive ( 66274L , 50 , 26 ) ;
-  primitive ( 66273L , 50 , 27 ) ;
-  primitive ( 66554L , 51 , 0 ) ;
-  primitive ( 66278L , 51 , 1 ) ;
-  primitive ( 66279L , 51 , 2 ) ;
-  primitive ( 66260L , 53 , 0 ) ;
-  primitive ( 66261L , 53 , 2 ) ;
-  primitive ( 66262L , 53 , 4 ) ;
-  primitive ( 66263L , 53 , 6 ) ;
-  primitive ( 66574L , 52 , 0 ) ;
-  primitive ( 66575L , 52 , 1 ) ;
-  primitive ( 66576L , 52 , 2 ) ;
-  primitive ( 66577L , 52 , 3 ) ;
-  primitive ( 66578L , 52 , 4 ) ;
-  primitive ( 66579L , 52 , 5 ) ;
-  primitive ( 66275L , 49 , 30 ) ;
-  primitive ( 66276L , 49 , 31 ) ;
-  hash [2243229L ].v.RH = 66276L ;
+  primitive ( 66560L , 48 , 0 ) ;
+  primitive ( 66561L , 48 , 1 ) ;
+  primitive ( 66274L , 50 , 16 ) ;
+  primitive ( 66275L , 50 , 17 ) ;
+  primitive ( 66276L , 50 , 18 ) ;
+  primitive ( 66277L , 50 , 19 ) ;
+  primitive ( 66278L , 50 , 20 ) ;
+  primitive ( 66279L , 50 , 21 ) ;
+  primitive ( 66280L , 50 , 22 ) ;
+  primitive ( 66281L , 50 , 23 ) ;
+  primitive ( 66283L , 50 , 26 ) ;
+  primitive ( 66282L , 50 , 27 ) ;
+  primitive ( 66562L , 51 , 0 ) ;
+  primitive ( 66287L , 51 , 1 ) ;
+  primitive ( 66288L , 51 , 2 ) ;
+  primitive ( 66269L , 53 , 0 ) ;
+  primitive ( 66270L , 53 , 2 ) ;
+  primitive ( 66271L , 53 , 4 ) ;
+  primitive ( 66272L , 53 , 6 ) ;
+  primitive ( 66582L , 52 , 0 ) ;
+  primitive ( 66583L , 52 , 1 ) ;
+  primitive ( 66584L , 52 , 2 ) ;
+  primitive ( 66585L , 52 , 3 ) ;
+  primitive ( 66586L , 52 , 4 ) ;
+  primitive ( 66587L , 52 , 5 ) ;
+  primitive ( 66284L , 49 , 30 ) ;
+  primitive ( 66285L , 49 , 31 ) ;
+  hash [2243229L ].v.RH = 66285L ;
   eqtb [2243229L ]= eqtb [curval ];
-  primitive ( 66599L , 95 , 1 ) ;
-  primitive ( 66600L , 95 , 2 ) ;
-  primitive ( 66601L , 95 , 4 ) ;
-  primitive ( 66602L , 99 , 0 ) ;
-  primitive ( 66603L , 99 , 1 ) ;
-  primitive ( 66604L , 99 , 2 ) ;
-  primitive ( 66605L , 99 , 3 ) ;
-  primitive ( 66622L , 96 , 0 ) ;
-  primitive ( 66623L , 96 , 1 ) ;
-  primitive ( 66624L , 97 , 0 ) ;
-  primitive ( 66625L , 97 , 1 ) ;
-  primitive ( 66626L , 97 , 8 ) ;
-  primitive ( 66627L , 97 , 8 ) ;
-  primitive ( 66628L , 97 , 9 ) ;
-  primitive ( 66629L , 97 , 9 ) ;
-  primitive ( 66630L , 97 , 2 ) ;
-  primitive ( 66631L , 97 , 3 ) ;
-  primitive ( 66632L , 97 , 4 ) ;
-  primitive ( 66633L , 97 , 5 ) ;
-  primitive ( 66634L , 97 , 6 ) ;
+  primitive ( 66607L , 95 , 1 ) ;
+  primitive ( 66608L , 95 , 2 ) ;
+  primitive ( 66609L , 95 , 4 ) ;
+  primitive ( 66610L , 99 , 0 ) ;
+  primitive ( 66611L , 99 , 1 ) ;
+  primitive ( 66612L , 99 , 2 ) ;
+  primitive ( 66613L , 99 , 3 ) ;
+  primitive ( 66630L , 96 , 0 ) ;
+  primitive ( 66631L , 96 , 1 ) ;
+  primitive ( 66632L , 97 , 0 ) ;
+  primitive ( 66633L , 97 , 1 ) ;
+  primitive ( 66634L , 97 , 8 ) ;
+  primitive ( 66635L , 97 , 8 ) ;
+  primitive ( 66636L , 97 , 9 ) ;
+  primitive ( 66637L , 97 , 9 ) ;
+  primitive ( 66638L , 97 , 2 ) ;
+  primitive ( 66639L , 97 , 3 ) ;
+  primitive ( 66640L , 97 , 4 ) ;
+  primitive ( 66641L , 97 , 5 ) ;
+  primitive ( 66642L , 97 , 6 ) ;
   if ( mltexp ) 
   {
-    primitive ( 66635L , 97 , 7 ) ;
+    primitive ( 66643L , 97 , 7 ) ;
   } 
-  primitive ( 65715L , 86 , 2254568L ) ;
-  primitive ( 65719L , 86 , 6711016L ) ;
-  primitive ( 66640L , 87 , 6711016L ) ;
-  primitive ( 66641L , 87 , 6711016L ) ;
-  primitive ( 66642L , 87 , 6711017L ) ;
-  primitive ( 66643L , 87 , 6711017L ) ;
-  primitive ( 65716L , 86 , 3368680L ) ;
-  primitive ( 65717L , 86 , 4482792L ) ;
-  primitive ( 65718L , 86 , 5596904L ) ;
-  primitive ( 66644L , 87 , 5596904L ) ;
-  primitive ( 65782L , 86 , 8939579L ) ;
-  primitive ( 66645L , 87 , 8939579L ) ;
-  primitive ( 66646L , 87 , 8939579L ) ;
-  primitive ( 66647L , 87 , 8939580L ) ;
-  primitive ( 66648L , 87 , 8939580L ) ;
-  primitive ( 65712L , 88 , 2253800L ) ;
-  primitive ( 65713L , 88 , 2254056L ) ;
-  primitive ( 65714L , 88 , 2254312L ) ;
-  primitive ( 66366L , 101 , 0 ) ;
-  primitive ( 66378L , 101 , 1 ) ;
-  primitive ( 66663L , 79 , 0 ) ;
-  primitive ( 66664L , 79 , 1 ) ;
-  primitive ( 66665L , 79 , 2 ) ;
-  primitive ( 66666L , 79 , 3 ) ;
+  primitive ( 65715L , 86 , 2256168L ) ;
+  primitive ( 65719L , 86 , 6712616L ) ;
+  primitive ( 66648L , 87 , 6712616L ) ;
+  primitive ( 66649L , 87 , 6712616L ) ;
+  primitive ( 66650L , 87 , 6712617L ) ;
+  primitive ( 66651L , 87 , 6712617L ) ;
+  primitive ( 65716L , 86 , 3370280L ) ;
+  primitive ( 65717L , 86 , 4484392L ) ;
+  primitive ( 65718L , 86 , 5598504L ) ;
+  primitive ( 66652L , 87 , 5598504L ) ;
+  primitive ( 65786L , 86 , 8941182L ) ;
+  primitive ( 66653L , 87 , 8941182L ) ;
+  primitive ( 66654L , 87 , 8941182L ) ;
+  primitive ( 66655L , 87 , 8941183L ) ;
+  primitive ( 66656L , 87 , 8941183L ) ;
+  primitive ( 65712L , 88 , 2255400L ) ;
+  primitive ( 65713L , 88 , 2255656L ) ;
+  primitive ( 65714L , 88 , 2255912L ) ;
+  primitive ( 66375L , 101 , 0 ) ;
+  primitive ( 66387L , 101 , 1 ) ;
+  primitive ( 66671L , 79 , 0 ) ;
+  primitive ( 66672L , 79 , 1 ) ;
+  primitive ( 66673L , 79 , 2 ) ;
+  primitive ( 66674L , 79 , 3 ) ;
   primitive ( 65554L , 102 , 0 ) ;
   primitive ( 65555L , 102 , 1 ) ;
   primitive ( 65556L , 102 , 2 ) ;
-  primitive ( 66675L , 102 , 3 ) ;
-  primitive ( 66676L , 60 , 1 ) ;
-  primitive ( 66677L , 60 , 0 ) ;
-  primitive ( 66678L , 58 , 0 ) ;
-  primitive ( 66679L , 58 , 1 ) ;
-  primitive ( 66685L , 57 , 3368680L ) ;
-  primitive ( 66686L , 57 , 4482792L ) ;
-  primitive ( 66687L , 19 , 0 ) ;
-  primitive ( 66688L , 19 , 1 ) ;
-  primitive ( 66689L , 19 , 2 ) ;
-  primitive ( 66690L , 19 , 3 ) ;
-  primitive ( 66738L , 59 , 0 ) ;
-  primitive ( 65918L , 59 , 1 ) ;
+  primitive ( 66683L , 102 , 3 ) ;
+  primitive ( 66684L , 60 , 1 ) ;
+  primitive ( 66685L , 60 , 0 ) ;
+  primitive ( 66686L , 58 , 0 ) ;
+  primitive ( 66687L , 58 , 1 ) ;
+  primitive ( 66693L , 57 , 3370280L ) ;
+  primitive ( 66694L , 57 , 4484392L ) ;
+  primitive ( 66695L , 19 , 0 ) ;
+  primitive ( 66696L , 19 , 1 ) ;
+  primitive ( 66697L , 19 , 2 ) ;
+  primitive ( 66698L , 19 , 3 ) ;
+  primitive ( 66746L , 59 , 0 ) ;
+  primitive ( 65922L , 59 , 1 ) ;
   writeloc = curval ;
-  primitive ( 66739L , 59 , 2 ) ;
-  primitive ( 66740L , 59 , 3 ) ;
-  hash [2243236L ].v.RH = 66740L ;
+  primitive ( 66747L , 59 , 2 ) ;
+  primitive ( 66748L , 59 , 3 ) ;
+  hash [2243236L ].v.RH = 66748L ;
   eqtb [2243236L ]= eqtb [curval ];
-  primitive ( 66741L , 59 , 4 ) ;
-  primitive ( 66742L , 59 , 5 ) ;
-  primitive ( 66743L , 59 , 31 ) ;
-  primitive ( 66744L , 59 , 33 ) ;
+  primitive ( 66749L , 59 , 5 ) ;
+  primitive ( 66750L , 59 , 6 ) ;
+  primitive ( 66751L , 59 , 33 ) ;
+  primitive ( 66752L , 59 , 35 ) ;
   nonewcontrolsequence = true ;
 } 
 #endif /* INITEX */
@@ -4651,9 +4667,9 @@ mainbody ( void )
   {
     yzmem = xmallocarray ( memoryword , memtop - membot + 1 ) ;
     zmem = yzmem - membot ;
-    eqtbtop = 10053969L + hashextra ;
+    eqtbtop = 10055572L + hashextra ;
     if ( hashextra == 0 ) 
-    hashtop = 2252739L ;
+    hashtop = 2254339L ;
     else hashtop = eqtbtop ;
     yhash = xmallocarray ( twohalves , 1 + hashtop - hashoffset ) ;
     hash = yhash - hashoffset ;
@@ -4714,7 +4730,7 @@ mainbody ( void )
   bad = 18 ;
   if ( 65535L < 65535L ) 
   bad = 19 ;
-  if ( 43608400L + hashextra > 1073741823L ) 
+  if ( 43610003L + hashextra > 1073741823L ) 
   bad = 21 ;
   if ( ( hashoffset < 0 ) || ( hashoffset > 2228226L ) ) 
   bad = 42 ;
@@ -4737,8 +4753,7 @@ mainbody ( void )
     initprim () ;
     initstrptr = strptr ;
     initpoolptr = poolptr ;
-    dateandtime ( eqtb [8939260L ].cint , eqtb [8939261L ].cint , eqtb [
-    8939262L ].cint , eqtb [8939263L ].cint ) ;
+    fixdateandtime () ;
   } 
 #endif /* INITEX */
   readyalready = 314159L ;
@@ -4747,9 +4762,9 @@ mainbody ( void )
   termoffset = 0 ;
   fileoffset = 0 ;
   if ( srcspecialsp || filelineerrorstylep || parsefirstlinep ) 
-  fprintf ( stdout , "%s%s%s",  "This is XeTeX, Version 3.14159265" , "-2.6" , "-0.999992"   ) ;
+  fprintf ( stdout , "%s%s%s",  "This is XeTeX, Version 3.141592653" , "-2.6" , "-0.999996"   ) ;
   else
-  fprintf ( stdout , "%s%s%s",  "This is XeTeX, Version 3.14159265" , "-2.6" ,   "-0.999992" ) ;
+  fprintf ( stdout , "%s%s%s",  "This is XeTeX, Version 3.141592653" , "-2.6" ,   "-0.999996" ) ;
   Fputs ( stdout ,  versionstring ) ;
   if ( formatident == 0 ) 
   fprintf ( stdout , "%s%s%c\n",  " (preloaded format=" , dumpname , ')' ) ;
@@ -4783,8 +4798,8 @@ mainbody ( void )
   logopened = false ;
   outputfilename = 0 ;
   if ( nopdfoutput ) 
-  outputfileextension = 66178L ;
-  else outputfileextension = 66179L ;
+  outputfileextension = 66185L ;
+  else outputfileextension = 66186L ;
   {
     {
       inputptr = 0 ;
@@ -4821,133 +4836,133 @@ mainbody ( void )
 	;
 #ifdef INITEX
     if ( ( etexp || ( buffer [curinput .locfield ]== 42 ) ) && ( formatident 
-    == 66703L ) ) 
+    == 66711L ) ) 
     {
       nonewcontrolsequence = false ;
-      primitive ( 66745L , 59 , 41 ) ;
-      primitive ( 66746L , 59 , 42 ) ;
-      primitive ( 66747L , 59 , 43 ) ;
-      primitive ( 66748L , 59 , 46 ) ;
-      primitive ( 66749L , 73 , 2253282L ) ;
-      primitive ( 66750L , 59 , 21 ) ;
-      primitive ( 66806L , 71 , 3 ) ;
-      primitive ( 66807L , 71 , 19 ) ;
-      primitive ( 66109L , 110 , 5 ) ;
-      primitive ( 66808L , 71 , 27 ) ;
-      primitive ( 66809L , 110 , 33 ) ;
-      primitive ( 66810L , 71 , 28 ) ;
-      primitive ( 66811L , 71 , 29 ) ;
-      primitive ( 66812L , 71 , 30 ) ;
-      primitive ( 66813L , 71 , 31 ) ;
-      primitive ( 66814L , 71 , 32 ) ;
-      primitive ( 66815L , 71 , 33 ) ;
-      primitive ( 66816L , 71 , 34 ) ;
-      primitive ( 66817L , 71 , 35 ) ;
-      primitive ( 66818L , 71 , 36 ) ;
-      primitive ( 66819L , 71 , 37 ) ;
-      primitive ( 66820L , 71 , 38 ) ;
-      primitive ( 66821L , 71 , 39 ) ;
-      primitive ( 66822L , 71 , 40 ) ;
-      primitive ( 66823L , 71 , 41 ) ;
-      primitive ( 66824L , 71 , 42 ) ;
-      primitive ( 66825L , 110 , 34 ) ;
-      primitive ( 66826L , 110 , 35 ) ;
-      primitive ( 66827L , 110 , 36 ) ;
-      primitive ( 66828L , 71 , 43 ) ;
-      primitive ( 66829L , 71 , 44 ) ;
-      primitive ( 66830L , 71 , 45 ) ;
-      primitive ( 66831L , 71 , 46 ) ;
-      primitive ( 66832L , 71 , 47 ) ;
-      primitive ( 66833L , 71 , 48 ) ;
-      primitive ( 66834L , 71 , 49 ) ;
-      primitive ( 66835L , 71 , 50 ) ;
-      primitive ( 66836L , 71 , 55 ) ;
-      primitive ( 66837L , 110 , 37 ) ;
-      primitive ( 66838L , 71 , 51 ) ;
-      primitive ( 66839L , 71 , 52 ) ;
-      primitive ( 66840L , 71 , 53 ) ;
-      primitive ( 66841L , 71 , 54 ) ;
-      primitive ( 66851L , 73 , 2253281L ) ;
-      primitive ( 66852L , 74 , 8939298L ) ;
-      primitive ( 66853L , 74 , 8939299L ) ;
-      primitive ( 66854L , 74 , 8939300L ) ;
-      primitive ( 66855L , 74 , 8939301L ) ;
-      primitive ( 66856L , 74 , 8939302L ) ;
-      primitive ( 66857L , 74 , 8939303L ) ;
-      primitive ( 66858L , 74 , 8939304L ) ;
-      primitive ( 66859L , 74 , 8939305L ) ;
-      primitive ( 66860L , 74 , 8939306L ) ;
-      primitive ( 66874L , 71 , 20 ) ;
-      primitive ( 66875L , 71 , 21 ) ;
-      primitive ( 66876L , 71 , 22 ) ;
-      primitive ( 66877L , 71 , 23 ) ;
-      primitive ( 66878L , 71 , 24 ) ;
-      primitive ( 66879L , 71 , 56 ) ;
-      primitive ( 66880L , 71 , 57 ) ;
-      primitive ( 66881L , 71 , 58 ) ;
-      primitive ( 66882L , 71 , 59 ) ;
-      primitive ( 66883L , 71 , 60 ) ;
-      primitive ( 66884L , 71 , 61 ) ;
-      primitive ( 66885L , 71 , 62 ) ;
-      primitive ( 66886L , 19 , 4 ) ;
-      primitive ( 66888L , 19 , 5 ) ;
-      primitive ( 66889L , 111 , 1 ) ;
-      primitive ( 66890L , 111 , 5 ) ;
-      primitive ( 66891L , 19 , 6 ) ;
-      primitive ( 66895L , 83 , 2 ) ;
-      primitive ( 66277L , 49 , 1 ) ;
-      primitive ( 66899L , 74 , 8939307L ) ;
-      primitive ( 66900L , 74 , 8939311L ) ;
-      primitive ( 66901L , 74 , 8939313L ) ;
-      primitive ( 66902L , 74 , 8939314L ) ;
-      primitive ( 66903L , 74 , 8939315L ) ;
-      primitive ( 66904L , 74 , 8939312L ) ;
-      primitive ( 66905L , 74 , 8939316L ) ;
-      primitive ( 66906L , 74 , 8939319L ) ;
-      primitive ( 66907L , 74 , 8939320L ) ;
-      primitive ( 66908L , 74 , 8939321L ) ;
-      primitive ( 66909L , 74 , 8939322L ) ;
-      primitive ( 66751L , 59 , 44 ) ;
-      primitive ( 66752L , 59 , 45 ) ;
-      primitive ( 66910L , 33 , 6 ) ;
-      primitive ( 66911L , 33 , 7 ) ;
-      primitive ( 66912L , 33 , 10 ) ;
-      primitive ( 66913L , 33 , 11 ) ;
-      primitive ( 66922L , 106 , 2 ) ;
-      primitive ( 66924L , 98 , 1 ) ;
-      primitive ( 66157L , 104 , 1 ) ;
-      primitive ( 66925L , 107 , 17 ) ;
-      primitive ( 66926L , 107 , 18 ) ;
-      primitive ( 66927L , 107 , 19 ) ;
-      primitive ( 66928L , 107 , 20 ) ;
-      primitive ( 66613L , 95 , 8 ) ;
-      primitive ( 66934L , 71 , 67 ) ;
-      primitive ( 66935L , 71 , 68 ) ;
-      primitive ( 66936L , 71 , 69 ) ;
-      primitive ( 66937L , 71 , 70 ) ;
-      primitive ( 66941L , 71 , 25 ) ;
-      primitive ( 66942L , 71 , 26 ) ;
-      primitive ( 66943L , 71 , 63 ) ;
-      primitive ( 66944L , 71 , 64 ) ;
-      primitive ( 66945L , 71 , 65 ) ;
-      primitive ( 66946L , 71 , 66 ) ;
-      primitive ( 66947L , 18 , 5 ) ;
-      primitive ( 66948L , 112 , 5 ) ;
-      primitive ( 66949L , 112 , 6 ) ;
-      primitive ( 66950L , 112 , 7 ) ;
-      primitive ( 66951L , 112 , 8 ) ;
-      primitive ( 66952L , 112 , 9 ) ;
-      primitive ( 66957L , 24 , 2 ) ;
-      primitive ( 66958L , 24 , 3 ) ;
-      primitive ( 66959L , 85 , 2253539L ) ;
-      primitive ( 66960L , 85 , 2253540L ) ;
-      primitive ( 66961L , 85 , 2253541L ) ;
-      primitive ( 66962L , 85 , 2253542L ) ;
+      primitive ( 66753L , 59 , 41 ) ;
+      primitive ( 66754L , 59 , 42 ) ;
+      primitive ( 66755L , 59 , 43 ) ;
+      primitive ( 66756L , 59 , 46 ) ;
+      primitive ( 66757L , 73 , 2254882L ) ;
+      primitive ( 66758L , 59 , 23 ) ;
+      primitive ( 66814L , 71 , 3 ) ;
+      primitive ( 66815L , 71 , 19 ) ;
+      primitive ( 66115L , 111 , 5 ) ;
+      primitive ( 66816L , 71 , 27 ) ;
+      primitive ( 66817L , 111 , 33 ) ;
+      primitive ( 66818L , 71 , 28 ) ;
+      primitive ( 66819L , 71 , 29 ) ;
+      primitive ( 66820L , 71 , 30 ) ;
+      primitive ( 66821L , 71 , 31 ) ;
+      primitive ( 66822L , 71 , 32 ) ;
+      primitive ( 66823L , 71 , 33 ) ;
+      primitive ( 66824L , 71 , 34 ) ;
+      primitive ( 66825L , 71 , 35 ) ;
+      primitive ( 66826L , 71 , 36 ) ;
+      primitive ( 66827L , 71 , 37 ) ;
+      primitive ( 66828L , 71 , 38 ) ;
+      primitive ( 66829L , 71 , 39 ) ;
+      primitive ( 66830L , 71 , 40 ) ;
+      primitive ( 66831L , 71 , 41 ) ;
+      primitive ( 66832L , 71 , 42 ) ;
+      primitive ( 66833L , 111 , 34 ) ;
+      primitive ( 66834L , 111 , 35 ) ;
+      primitive ( 66835L , 111 , 36 ) ;
+      primitive ( 66836L , 71 , 43 ) ;
+      primitive ( 66837L , 71 , 44 ) ;
+      primitive ( 66838L , 71 , 45 ) ;
+      primitive ( 66839L , 71 , 46 ) ;
+      primitive ( 66840L , 71 , 47 ) ;
+      primitive ( 66841L , 71 , 48 ) ;
+      primitive ( 66842L , 71 , 49 ) ;
+      primitive ( 66843L , 71 , 50 ) ;
+      primitive ( 66844L , 71 , 55 ) ;
+      primitive ( 66845L , 111 , 37 ) ;
+      primitive ( 66846L , 71 , 51 ) ;
+      primitive ( 66847L , 71 , 52 ) ;
+      primitive ( 66848L , 71 , 53 ) ;
+      primitive ( 66849L , 71 , 54 ) ;
+      primitive ( 66859L , 73 , 2254881L ) ;
+      primitive ( 66860L , 74 , 8940901L ) ;
+      primitive ( 66861L , 74 , 8940902L ) ;
+      primitive ( 66862L , 74 , 8940903L ) ;
+      primitive ( 66863L , 74 , 8940904L ) ;
+      primitive ( 66864L , 74 , 8940905L ) ;
+      primitive ( 66865L , 74 , 8940906L ) ;
+      primitive ( 66866L , 74 , 8940907L ) ;
+      primitive ( 66867L , 74 , 8940908L ) ;
+      primitive ( 66868L , 74 , 8940909L ) ;
+      primitive ( 66882L , 71 , 20 ) ;
+      primitive ( 66883L , 71 , 21 ) ;
+      primitive ( 66884L , 71 , 22 ) ;
+      primitive ( 66885L , 71 , 23 ) ;
+      primitive ( 66886L , 71 , 24 ) ;
+      primitive ( 66887L , 71 , 56 ) ;
+      primitive ( 66888L , 71 , 57 ) ;
+      primitive ( 66889L , 71 , 58 ) ;
+      primitive ( 66890L , 71 , 59 ) ;
+      primitive ( 66891L , 71 , 60 ) ;
+      primitive ( 66892L , 71 , 61 ) ;
+      primitive ( 66893L , 71 , 62 ) ;
+      primitive ( 66894L , 19 , 4 ) ;
+      primitive ( 66896L , 19 , 5 ) ;
+      primitive ( 66897L , 112 , 1 ) ;
+      primitive ( 66898L , 112 , 5 ) ;
+      primitive ( 66899L , 19 , 6 ) ;
+      primitive ( 66903L , 83 , 2 ) ;
+      primitive ( 66286L , 49 , 1 ) ;
+      primitive ( 66907L , 74 , 8940910L ) ;
+      primitive ( 66908L , 74 , 8940914L ) ;
+      primitive ( 66909L , 74 , 8940916L ) ;
+      primitive ( 66910L , 74 , 8940917L ) ;
+      primitive ( 66911L , 74 , 8940918L ) ;
+      primitive ( 66912L , 74 , 8940915L ) ;
+      primitive ( 66913L , 74 , 8940919L ) ;
+      primitive ( 66914L , 74 , 8940922L ) ;
+      primitive ( 66915L , 74 , 8940923L ) ;
+      primitive ( 66916L , 74 , 8940924L ) ;
+      primitive ( 66917L , 74 , 8940925L ) ;
+      primitive ( 66759L , 59 , 44 ) ;
+      primitive ( 66760L , 59 , 45 ) ;
+      primitive ( 66918L , 33 , 6 ) ;
+      primitive ( 66919L , 33 , 7 ) ;
+      primitive ( 66920L , 33 , 10 ) ;
+      primitive ( 66921L , 33 , 11 ) ;
+      primitive ( 66930L , 107 , 2 ) ;
+      primitive ( 66932L , 98 , 1 ) ;
+      primitive ( 66164L , 105 , 1 ) ;
+      primitive ( 66933L , 108 , 17 ) ;
+      primitive ( 66934L , 108 , 18 ) ;
+      primitive ( 66935L , 108 , 19 ) ;
+      primitive ( 66936L , 108 , 20 ) ;
+      primitive ( 66621L , 95 , 8 ) ;
+      primitive ( 66942L , 71 , 67 ) ;
+      primitive ( 66943L , 71 , 68 ) ;
+      primitive ( 66944L , 71 , 69 ) ;
+      primitive ( 66945L , 71 , 70 ) ;
+      primitive ( 66949L , 71 , 25 ) ;
+      primitive ( 66950L , 71 , 26 ) ;
+      primitive ( 66951L , 71 , 63 ) ;
+      primitive ( 66952L , 71 , 64 ) ;
+      primitive ( 66953L , 71 , 65 ) ;
+      primitive ( 66954L , 71 , 66 ) ;
+      primitive ( 66955L , 18 , 5 ) ;
+      primitive ( 66956L , 113 , 5 ) ;
+      primitive ( 66957L , 113 , 6 ) ;
+      primitive ( 66958L , 113 , 7 ) ;
+      primitive ( 66959L , 113 , 8 ) ;
+      primitive ( 66960L , 113 , 9 ) ;
+      primitive ( 66965L , 24 , 2 ) ;
+      primitive ( 66966L , 24 , 3 ) ;
+      primitive ( 66967L , 85 , 2255139L ) ;
+      primitive ( 66968L , 85 , 2255140L ) ;
+      primitive ( 66969L , 85 , 2255141L ) ;
+      primitive ( 66970L , 85 , 2255142L ) ;
       if ( buffer [curinput .locfield ]== 42 ) 
       incr ( curinput .locfield ) ;
       eTeXmode = 1 ;
       maxregnum = 32767 ;
-      maxreghelpline = 66954L ;
+      maxreghelpline = 66962L ;
     } 
 #endif /* INITEX */
     if ( ! nonewcontrolsequence ) 
@@ -4971,16 +4986,15 @@ mainbody ( void )
     } 
     if ( ( eTeXmode == 1 ) ) 
     fprintf ( stdout , "%s\n",  "entering extended mode" ) ;
-    if ( ( eqtb [8939288L ].cint < 0 ) || ( eqtb [8939288L ].cint > 255 ) 
+    if ( ( eqtb [8940888L ].cint < 0 ) || ( eqtb [8940888L ].cint > 255 ) 
     ) 
     decr ( curinput .limitfield ) ;
-    else buffer [curinput .limitfield ]= eqtb [8939288L ].cint ;
+    else buffer [curinput .limitfield ]= eqtb [8940888L ].cint ;
     if ( mltexenabledp ) 
     {
       fprintf ( stdout , "%s\n",  "MLTeX v2.2 enabled" ) ;
     } 
-    dateandtime ( eqtb [8939260L ].cint , eqtb [8939261L ].cint , eqtb [
-    8939262L ].cint , eqtb [8939263L ].cint ) ;
+    fixdateandtime () ;
 	;
 #ifdef INITEX
     if ( trienotready ) 
@@ -5028,7 +5042,7 @@ mainbody ( void )
       parambase = xmallocarray ( integer , fontmax ) ;
       fontptr = 0 ;
       fmemptr = 7 ;
-      fontname [0 ]= 66186L ;
+      fontname [0 ]= 66194L ;
       fontarea [0 ]= 65626L ;
       hyphenchar [0 ]= 45 ;
       skewchar [0 ]= -1 ;
@@ -5064,11 +5078,11 @@ mainbody ( void )
     while ( fontk++ < for_end ) ;} 
     randomseed = ( microseconds * 1000 ) + ( epochseconds % 1000000L ) ;
     initrandoms ( randomseed ) ;
-    magicoffset = strstart [( 66309L ) - 65536L ]- 9 * 16 ;
+    magicoffset = strstart [( 66318L ) - 65536L ]- 9 * 16 ;
     if ( interaction == 0 ) 
     selector = 16 ;
     else selector = 17 ;
-    if ( ( curinput .locfield < curinput .limitfield ) && ( eqtb [2254568L + 
+    if ( ( curinput .locfield < curinput .limitfield ) && ( eqtb [2256168L + 
     buffer [curinput .locfield ]].hh .v.RH != 0 ) ) 
     startinput () ;
   } 

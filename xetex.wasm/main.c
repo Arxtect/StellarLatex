@@ -3,7 +3,7 @@
 #include <xetexd.h>
 
 #include <errno.h>
-#include <md5.h>
+#include <md5/md5.h>
 #include <setjmp.h> 
 #include <sys/socket.h>
 #include <sys/stat.h>
@@ -13,7 +13,7 @@
 #include <time.h>
 #include <unistd.h>
 
-#include "bibtex.h"
+#include <bibtex/bibtex.h>
  
 int ac;
 char **av;
@@ -32,15 +32,36 @@ void topenin(void) {
   buffer[first] = 0;
   char *ptr = bootstrapcmd;
   int k = first;
+#ifdef XETEXWASM
+  UInt32 rval;
+  while ((rval = *(ptr++)) != 0) {
+    UInt16 extraBytes = bytesFromUTF8[rval];
+    switch (extraBytes) { /* note: code falls through cases! */
+      case 5: rval <<= 6; if (*ptr) rval += *(ptr++);
+      case 4: rval <<= 6; if (*ptr) rval += *(ptr++);
+      case 3: rval <<= 6; if (*ptr) rval += *(ptr++);
+      case 2: rval <<= 6; if (*ptr) rval += *(ptr++);
+      case 1: rval <<= 6; if (*ptr) rval += *(ptr++);
+      case 0: ;
+    };
+    rval -= offsetsFromUTF8[extraBytes];
+    buffer[k++] = rval;
+  }
+#else
   while (*ptr) {
     buffer[k++] = *(ptr++);
   }
+#endif
   buffer[k++] = ' ';
   buffer[k] = 0;
   bootstrapcmd[0] = 0;
   for (last = first; buffer[last]; ++last) {
     
   }
+  #define IS_SPC_OR_EOL(c) ((c) == ' ' || (c) == '\r' || (c) == '\n')
+  for (--last; last >= first && IS_SPC_OR_EOL (buffer[last]); --last) 
+    ;
+  last++;
 
   // if (optind < ac)
   // {
@@ -59,6 +80,11 @@ void topenin(void) {
 void uexit(int code) {
   exit_code = code;
   longjmp(jmpenv, 1);
+}
+boolean
+texmfyesno(const_string var)
+{
+  return 0;
 }
 
 #ifndef WEBASSEMBLY_BUILD

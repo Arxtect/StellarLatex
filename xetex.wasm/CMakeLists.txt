@@ -8,13 +8,17 @@ set(COMMON_FLAGS
     -Wno-parentheses-equality
     -Wno-pointer-sign
     -DWEBASSEMBLY_BUILD
+    -DXETEXWASM
+    -DHAVE_CONFIG_H
     -sUSE_FREETYPE
     -sUSE_ICU
     -sUSE_LIBPNG
     -fno-rtti
     -fno-exceptions
 )
+## convert to string
 string(REPLACE ";" " " COMMON_FLAGS_STR "${COMMON_FLAGS}")
+## set to cmake variable
 set(CMAKE_C_FLAGS "${COMMON_FLAGS_STR}")
 set(CMAKE_CXX_FLAGS "${COMMON_FLAGS_STR}")
 
@@ -39,16 +43,30 @@ set(CMAKE_EXE_LINKER_FLAGS "${LINKER_FLAGS_STR}")
 #  SOURCES
 ## tex
 file(GLOB_RECURSE TEXSOURCES
-    tex/xetex0.c
-    tex/xetexini.c
-    tex/xetex-pool.c
-    md5.c
-    xmemory.c
+    tex/*.c
     texfile.c
-    kpseemu.c
     texmfmp.c
     main.c
-    bibtex.c
+)
+## common
+file(GLOB_RECURSE COMMONSOURCES
+    ${COMMON_CODE_DIR}/ctan/ctanFileManager.cpp
+    ${COMMON_CODE_DIR}/ctan/extractFile.cpp
+    ${COMMON_CODE_DIR}/md5/md5.c
+    ${COMMON_CODE_DIR}/bibtex/bibtex.c
+    ${COMMON_CODE_DIR}/localkpse/kpseemu.c
+    ${COMMON_CODE_DIR}/memory/xmemory.c
+    ${COMMON_CODE_DIR}/teckit/Engine.cpp
+)
+## xetex
+file(GLOB_RECURSE XETEXSOURCES
+    xetexdir/XeTeXOTMath.cpp
+    xetexdir/XeTeXLayoutInterface.cpp
+    xetexdir/XeTeXFontMgr.cpp
+    xetexdir/XeTeXFontInst.cpp
+    xetexdir/XeTeXFontMgr_FC.cpp
+    xetexdir/hz.cpp
+    xetexdir/pdfimage.cpp
     xetexdir/XeTeX_ext.c
     xetexdir/XeTeX_pic.c
     xetexdir/image/bmpimage.c
@@ -56,32 +74,14 @@ file(GLOB_RECURSE TEXSOURCES
     xetexdir/image/pngimage.c
     xetexdir/trans.c
 )
-## ctan
-file(GLOB_RECURSE CTANSOURCES
-    ${COMMON_CODE_DIR}/ctan/ctanFileManager.cpp
-    ${COMMON_CODE_DIR}/ctan/extractFile.cpp
-)
-## xetex
-file(GLOB_RECURSE XETEXSOURCES
-    xetexdir/XeTeXOTMath.cpp
-    xetexdir/XeTeXLayoutInterface.cpp
-    xetexdir/XeTeXFontMgr.cpp xetexdir/XeTeXFontInst.cpp
-    xetexdir/XeTeXFontMgr_FC.cpp xetexdir/hz.cpp
-    xetexdir/pdfimage.cpp
-)
-## teckit
-file(GLOB_RECURSE TECKITSOURCES
-    teckit/teckit-Engine.cpp
-)
 
 #  SET CMAKE PROJECT
-add_executable(${PROJECT_NAME} ${TEXSOURCES} ${CTANSOURCES} ${XETEXSOURCES} ${TECKITSOURCES})
+add_executable(${PROJECT_NAME} ${TEXSOURCES} ${COMMONSOURCES} ${XETEXSOURCES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/tex
     ${CMAKE_CURRENT_SOURCE_DIR}/xetexdir
-    ${CMAKE_CURRENT_SOURCE_DIR}/teckit
     ${THIRD_PARTY_DIR}/libharfbuzz/repo/src
     ${THIRD_PARTY_DIR}/libxpdf/inc
     ${THIRD_PARTY_DIR}/libxpdf/repo
@@ -89,6 +89,9 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${THIRD_PARTY_DIR}/libxpdf/repo/xpdf
     ${THIRD_PARTY_DIR}/libpplib/repo/src
     ${COMMON_CODE_DIR}
+    ${COMMON_CODE_DIR}/memory
+    ${COMMON_CODE_DIR}/teckit
+    ${COMMON_CODE_DIR}/teckit/Public-headers
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE
     ${THIRD_PARTY_DIR}/libxpdf/build/libxpdf.a

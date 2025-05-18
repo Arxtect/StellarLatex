@@ -2,13 +2,15 @@ cmake_minimum_required(VERSION 3.10)
 project(swiftlatexpdftex)
 
 #  COMPILE FLAGS
+## set flags
 set(COMMON_FLAGS
     -O3
-    -sUSE_ZLIB
-    -sUSE_LIBPNG
     -Wno-parentheses-equality
     -Wno-pointer-sign
     -DWEBASSEMBLY_BUILD
+    -DPDFTEXWASM
+    -sUSE_ZLIB
+    -sUSE_LIBPNG
     -fno-rtti
     -fno-exceptions
 )
@@ -39,20 +41,18 @@ set(CMAKE_EXE_LINKER_FLAGS "${LINKER_FLAGS_STR}")
 #  SOURCES
 ## tex
 file(GLOB_RECURSE TEXSOURCES
-    tex/pdftex0.c
-    tex/pdftexini.c
-    tex/pdftex-pool.c
-    md5.c
-    xmemory.c
+    tex/*.c
     texfile.c
-    kpseemu.c
     main.c
-    bibtex.c
 )
-## ctan
-file(GLOB_RECURSE CTANSOURCES
+## common
+file(GLOB_RECURSE COMMONSOURCES
     ${COMMON_CODE_DIR}/ctan/ctanFileManager.cpp
     ${COMMON_CODE_DIR}/ctan/extractFile.cpp
+    ${COMMON_CODE_DIR}/md5/md5.c
+    ${COMMON_CODE_DIR}/bibtex/bibtex.c
+    ${COMMON_CODE_DIR}/localkpse/kpseemu.c
+    ${COMMON_CODE_DIR}/memory/xmemory.c
 )
 ## pdftex
 file(GLOB_RECURSE PDFTEXSOURCES
@@ -75,14 +75,11 @@ file(GLOB_RECURSE PDFTEXSOURCES
     pdftexdir/mapfile.c
     pdftexdir/writeimg.c
     pdftexdir/writet3.c
-)
-## teckit
-file(GLOB_RECURSE EPDFSOURCES
     pdftexdir/pdftoepdf.cc
 )
 
 #  SET CMAKE PROJECT
-add_executable(${PROJECT_NAME} ${TEXSOURCES} ${CTANSOURCES} ${PDFTEXSOURCES} ${EPDFSOURCES})
+add_executable(${PROJECT_NAME} ${TEXSOURCES} ${COMMONSOURCES} ${PDFTEXSOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/tex
@@ -92,6 +89,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${THIRD_PARTY_DIR}/libxpdf/repo/goo
     ${THIRD_PARTY_DIR}/libxpdf/repo/xpdf
     ${COMMON_CODE_DIR}
+    ${COMMON_CODE_DIR}/memory
+    ${COMMON_CODE_DIR}/md5
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE
     ${THIRD_PARTY_DIR}/libxpdf/build/libxpdf.a
