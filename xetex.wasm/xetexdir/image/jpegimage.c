@@ -76,7 +76,6 @@
 #include <w2c/config.h>
 #endif
 #ifdef WEBASSEMBLY_BUILD
-#include <w2c/config.h>
 void seek_relative (FILE *file, long pos) {
   xfseek(file, pos, SEEK_CUR, "image.jpeg");
 }
@@ -101,7 +100,6 @@ unsigned short get_unsigned_pair (FILE *file)
 #include "mfileio.h"
 #include "numbers.h"
 #endif
-
 #include "jpegimage.h"
 
 #define JPEG_DEBUG_STR "JPEG"

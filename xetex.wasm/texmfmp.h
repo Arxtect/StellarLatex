@@ -8,6 +8,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+#include <limits.h>
+#include <stddef.h>
 
 // XeTeX Define
 
@@ -188,5 +191,6 @@ extern string versionstring;
 extern int tfmtemp, texinputtype, kpse_make_tex_discard_errors;
 extern string fullnameoffile, output_directory;
 extern void getmd5sum(integer s, boolean file);
+extern boolean texmfyesno(const_string var);
 
 #endif

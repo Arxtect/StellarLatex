@@ -35,7 +35,7 @@
 #define infparamsize ( 60 ) 
 #define supparamsize ( 32767 ) 
 #define infsavesize ( 600 ) 
-#define supsavesize ( 80000L ) 
+#define supsavesize ( 30000000L ) 
 #define infstacksize ( 200 ) 
 #define supstacksize ( 30000 ) 
 #define infdvibufsize ( 800 ) 
@@ -146,6 +146,7 @@ EXTERN cinttype parsefirstlinep  ;
 EXTERN cinttype filelineerrorstylep  ;
 EXTERN cinttype eightbitp  ;
 EXTERN cinttype haltonerrorp  ;
+EXTERN boolean haltingonerrorp  ;
 EXTERN boolean quotedfilename  ;
 EXTERN boolean srcspecialsp  ;
 EXTERN boolean insertsrcspecialauto  ;
@@ -227,10 +228,11 @@ EXTERN integer maxneststack  ;
 EXTERN liststaterecord curlist  ;
 EXTERN short shownmode  ;
 EXTERN unsigned char oldsetting  ;
+EXTERN integer systime, sysday, sysmonth, sysyear  ;
 EXTERN memoryword * zeqtb  ;
 EXTERN quarterword 
-#define xeqlevel (zzzaa -8939240)
-  zzzaa[1114730]  ;
+#define xeqlevel (zzzaa -8940840)
+  zzzaa[1114733]  ;
 EXTERN twohalves * hash  ;
 EXTERN twohalves * yhash  ;
 EXTERN halfword hashused  ;
@@ -240,7 +242,7 @@ EXTERN halfword eqtbtop  ;
 EXTERN halfword hashhigh  ;
 EXTERN boolean nonewcontrolsequence  ;
 EXTERN integer cscount  ;
-EXTERN twohalves prim[501]  ;
+EXTERN twohalves prim[2101]  ;
 EXTERN halfword primused  ;
 EXTERN memoryword * savestack  ;
 EXTERN integer saveptr  ;
@@ -275,7 +277,6 @@ EXTERN integer baseptr  ;
 EXTERN halfword parloc  ;
 EXTERN halfword partoken  ;
 EXTERN boolean forceeof  ;
-EXTERN integer expanddepthcount  ;
 EXTERN boolean isincsname  ;
 EXTERN halfword curmark[5]  ;
 EXTERN unsigned char longstate  ;
@@ -494,6 +495,7 @@ EXTERN scaled lastkern  ;
 EXTERN integer lastnodetype  ;
 EXTERN integer insertpenalties  ;
 EXTERN boolean outputactive  ;
+EXTERN boolean outputcanend  ;
 EXTERN internalfontnumber mainf  ;
 EXTERN fourquarters maini  ;
 EXTERN fourquarters mainj  ;
@@ -560,6 +562,7 @@ EXTERN cinttype restrictedshell  ;
 EXTERN char * outputcomment  ;
 EXTERN unsigned char k, l  ;
 EXTERN boolean debugformatfile  ;
+EXTERN integer expanddepthcount  ;
 EXTERN boolean mltexp  ;
 EXTERN boolean mltexenabledp  ;
 EXTERN integer nativefonttypeflag  ;

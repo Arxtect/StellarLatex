@@ -10,9 +10,9 @@
 #include <sys/time.h>
 #include <time.h>
 #include <errno.h>
-#include <md5.h>
+#include <md5/md5.h>
 #include <setjmp.h>
-#include "bibtex.h"
+#include <bibtex/bibtex.h>
 string fullnameoffile;
 string output_directory;
 
@@ -487,7 +487,7 @@ find_input_file(integer s)
 #ifndef WEBASSEMBLY_BUILD
 int main(int argc, char **argv) {
 
-  haltonerrorp = 1;
+  haltonerrorp = 0;
   ac = argc;
   av = argv;
   // Parse Argument
@@ -535,7 +535,7 @@ int main(int argc, char **argv) {
 char main_entry_file[MAXMAINFILENAME];
 
 int _compile() {
-  haltonerrorp = 1;
+  haltonerrorp = 0;
   dumpname = DEFAULT_DUMP_NAME;
   int fmtstrlen = strlen(DEFAULT_FMT_NAME);
   TEXformatdefault = xmalloc(fmtstrlen + 2);

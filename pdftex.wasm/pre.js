@@ -1,10 +1,12 @@
 const TEXCACHEROOT = "/tex";
+const TEXPKGCACHEROOT = "/tex/pkg";
 const WORKROOT = "/work";
 var Module = {};
 self.memlog = "";
 self.initmem = undefined;
 self.mainfile = "main.tex";
-self.texlive_endpoint = "https://texlive2.swiftlatex.com/";
+self.texlive_endpoint = "https://magic.pointer.ai/latex2/";
+self.ctan_mirror = "https://mirrors.ustc.edu.cn/CTAN/";
 Module['print'] = function(a) {
     self.memlog += (a + "\n");
 };
@@ -16,6 +18,7 @@ Module['printErr'] = function(a) {
 
 Module['preRun'] = function() {
     FS.mkdir(TEXCACHEROOT);
+    FS.mkdir(TEXPKGCACHEROOT);
     FS.mkdir(WORKROOT);
 };
 
@@ -120,13 +123,13 @@ function compileLaTeXRoutine() {
     if (status === 0) {
         let pdfArrayBuffer = null;
         _compileBibtex();
+        let pdfurl = WORKROOT + "/" + self.mainfile.substr(0, self.mainfile.length - 4) + ".pdf";
         try {
-            let pdfurl = WORKROOT + "/" + self.mainfile.substr(0, self.mainfile.length - 4) + ".pdf";
             pdfArrayBuffer = FS.readFile(pdfurl, {
                 encoding: 'binary'
             });
         } catch (err) {
-            console.error("Fetch content failed.");
+            console.error("Fetch content failed. " + pdfurl);
             status = -253;
             self.postMessage({
                 'result': 'failed',
@@ -144,28 +147,15 @@ function compileLaTeXRoutine() {
             'cmd': 'compile'
         }, [pdfArrayBuffer.buffer]);
     } else {
-        console.error("Compilation failed, with status code " + status);
-        self.postMessage({
-            'result': 'failed',
-            'status': status,
-            'log': self.memlog,
-            'cmd': 'compile'
-        });
-    }
-}
-
-function compileFormatRoutine() {
-    prepareExecutionContext();
-    let status = _compileFormat();
-    if (status === 0) {
         let pdfArrayBuffer = null;
+        let pdfurl = WORKROOT + "/" + self.mainfile.substr(0, self.mainfile.length - 4) + ".pdf";
         try {
-            let pdfurl = WORKROOT + "/pdflatex.fmt";
+            _compileBibtex();
             pdfArrayBuffer = FS.readFile(pdfurl, {
                 encoding: 'binary'
             });
         } catch (err) {
-            console.error("Fetch content failed.");
+            console.error("Fetch content failed. " + pdfurl);
             status = -253;
             self.postMessage({
                 'result': 'failed',
@@ -175,6 +165,38 @@ function compileFormatRoutine() {
             });
             return;
         }
+        console.error("Compilation failed, with status code " + status);
+        self.postMessage({
+            'result': 'failed',
+            'status': status,
+            'log': self.memlog,
+            'pdf': pdfArrayBuffer.buffer,
+            'cmd': 'compile'
+        }, [pdfArrayBuffer.buffer]);
+    }
+}
+
+function compileFormatRoutine() {
+    prepareExecutionContext();
+    let status = _compileFormat();
+    let pdfArrayBuffer = null;
+    let pdfurl = WORKROOT + "/pdflatex.fmt";
+    try {
+        pdfArrayBuffer = FS.readFile(pdfurl, {
+            encoding: 'binary'
+        });
+    } catch (err) {
+        console.error("Fetch content failed." + pdfurl);
+        status = -253;
+        self.postMessage({
+            'result': 'failed',
+            'status': status,
+            'log': self.memlog,
+            'cmd': 'compile'
+        });
+        return;
+    }
+    if (status === 0) {
         self.postMessage({
             'result': 'ok',
             'status': status,
@@ -188,8 +210,9 @@ function compileFormatRoutine() {
             'result': 'failed',
             'status': status,
             'log': self.memlog,
+            'pdf': pdfArrayBuffer.buffer,
             'cmd': 'compile'
-        });
+        }, [pdfArrayBuffer.buffer]);
     }
 }
 
@@ -312,6 +335,30 @@ function kpse_find_file_impl(nameptr, format, _mustexist) {
     return 0;
 }
 
+function ctan_download_pkg_impl(urlsuffix, _download_location) {
+    const fetch_url = self.ctan_mirror + UTF8ToString(urlsuffix);
+    const download_location = TEXPKGCACHEROOT + "/" + UTF8ToString(_download_location);
+    // fetch file from ctan server
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", fetch_url, false);
+    xhr.timeout = 150000;
+    xhr.responseType = "arraybuffer";
+    console.log("Start downloading CTAN package " + fetch_url);
+    try {
+        xhr.send();
+    } catch (err) {
+        console.log("CTAN Download Failed: " + fetch_url);
+        return 1;
+    }
+    if (xhr.status === 200) {
+        let arraybuffer = xhr.response;
+        FS.writeFile(download_location, new Uint8Array(arraybuffer));
+        return 0;
+    } else {
+        console.log("CTAN Download Failed with status " + xhr.status + " " + fetch_url);
+        return 1;
+    }
+}
 
 let pk404_cache = {};
 let pk200_cache = {};

@@ -38,14 +38,18 @@ authorization from the copyright holders.
 
 #include <w2c/config.h>
 
+/* 
+ * From TeX Live 2021, we use pplib by Pawe\l Jackowski instead of
+ * libpoppler
+ */
 #ifndef WEBASSEMBLY_BUILD
-#ifndef POPPLER_VERSION
-#include <poppler-config.h>
-#endif
-#include <zlib.h>
+#include <ppapi.h>
 #endif
 
 #include <png.h>
+#ifndef WEBASSEMBLY_BUILD
+#include <zlib.h>
+#endif
 #include <graphite2/Font.h>
 
 #ifdef _MSC_VER
@@ -64,11 +68,7 @@ authorization from the copyright holders.
 
 #include "XeTeX_ext.h"
 
-#ifndef WEBASSEMBLY_BUILD
 #include <teckit/TECkit_Engine.h>
-#else
-#include <teckit/teckit-c-Engine.h>
-#endif
 
 #ifndef WEBASSEMBLY_BUILD
 #include <kpathsea/c-ctype.h>
@@ -80,10 +80,6 @@ authorization from the copyright holders.
 #include <kpathsea/concatn.h>
 #endif
 #endif
-
-#ifdef WEBASSEMBLY_BUILD
-extern char* fontconfig_search_font_js(const char *nameString, const char *varString);
-#endif 
 
 #include <math.h> /* for fabs() */
 
@@ -189,7 +185,7 @@ void initversionstring(char **versions)
         "Compiled with Graphite2 version %d.%d.%d; using %d.%d.%d\n"
         "Compiled with HarfBuzz version %s; using %s\n"
         "Compiled with libpng version %s; using %s\n"
-        "Compiled with poppler version %s\n"
+        "Compiled with pplib version %s\n"
 #ifdef XETEX_MAC
         "Using Mac OS X Core Text and Cocoa frameworks\n"
 #else
@@ -206,7 +202,7 @@ void initversionstring(char **versions)
             + strlen(hb_version_string())
             + strlen(PNG_LIBPNG_VER_STRING)
             + strlen(png_libpng_ver)
-            + strlen(POPPLER_VERSION)
+            + strlen(pplib_version)
 #ifndef XETEX_MAC
             + 6 * 3 /* for fontconfig version #s (won't really need 3 digits per field!) */
 #endif
@@ -236,7 +232,7 @@ void initversionstring(char **versions)
         GR2_VERSION_MAJOR, GR2_VERSION_MINOR, GR2_VERSION_BUGFIX,
         grMajor, grMinor, grBugfix,
         HB_VERSION_STRING, hb_version_string(),
-        PNG_LIBPNG_VER_STRING, png_libpng_ver, POPPLER_VERSION
+        PNG_LIBPNG_VER_STRING, png_libpng_ver, pplib_version
 #ifndef XETEX_MAC
         ,
         FC_VERSION / 10000, (FC_VERSION % 10000) / 100, FC_VERSION % 100,
@@ -333,6 +329,7 @@ apply_normalization(uint32_t* buf, int len, int norm)
 
     status = TECkit_ConvertBuffer(*normPtr, (Byte*)buf, len * sizeof(UInt32), &inUsed,
                 (Byte*)&buffer[first], sizeof(*buffer) * (bufsize - first), &outUsed, 1);
+    TECkit_ResetConverter(*normPtr);
     if (status != kStatus_NoError)
         buffer_overflow();
     last = first + outUsed / sizeof(*buffer);
@@ -711,6 +708,7 @@ applytfmfontmapping(void* cnv, int c)
     /* TECkit_Status status; */
     /* status = */ TECkit_ConvertBuffer((TECkit_Converter)cnv,
             (const Byte*)&in, sizeof(in), &inUsed, out, sizeof(out), &outUsed, 1);
+    TECkit_ResetConverter((TECkit_Converter)cnv);
     if (outUsed < 1)
         return 0;
     else
@@ -1242,10 +1240,8 @@ findnativefont(unsigned char* uname, integer scaled_size)
                     zenddiagnostic(0);
                 }
             }
-            free(path);
         }
     } else {
-
         fontRef = findFontByName(nameString, varString, Fix2D(scaled_size));
 
         if (fontRef != 0) {
@@ -1259,7 +1255,8 @@ findnativefont(unsigned char* uname, integer scaled_size)
             free(nameoffile);
             nameoffile = xmalloc(namelength + 4); /* +2 would be correct: initial space, final NUL */
             nameoffile[0] = ' ';
-            strcpy((char*)nameoffile + 1, fullName);            
+            strcpy((char*)nameoffile + 1, fullName);
+
             if (scaled_size < 0) {
                 font = createFont(fontRef, scaled_size);
                 if (font != NULL) {
@@ -1274,9 +1271,29 @@ findnativefont(unsigned char* uname, integer scaled_size)
 
             font = createFont(fontRef, scaled_size);
             if (font != NULL) {
+#ifdef XETEX_MAC
+                /* decide whether to use AAT or OpenType rendering with this font */
+                if (getReqEngine() == 'A') {
+                    rval = loadAATfont(fontRef, scaled_size, featString);
+                    if (rval == NULL)
+                        deleteFont(font);
+                } else {
+                    if (getReqEngine() == 'O' || getReqEngine() == 'G' ||
+                            getFontTablePtr(font, kGSUB) != NULL || getFontTablePtr(font, kGPOS) != NULL)
+                        rval = loadOTfont(fontRef, font, scaled_size, featString);
+
+                    /* loadOTfont failed or the above check was false */
+                    if (rval == NULL)
+                        rval = loadAATfont(fontRef, scaled_size, featString);
+
+                    if (rval == NULL)
+                        deleteFont(font);
+                }
+#else
                 rval = loadOTfont(fontRef, font, scaled_size, featString);
                 if (rval == NULL)
                     deleteFont(font);
+#endif
             }
 
             /* append the style and feature strings, so that \show\fontID will give a full result */
@@ -1753,6 +1770,7 @@ retry:
     status = TECkit_ConvertBuffer(cnv,
             (Byte*)txtPtr, txtLen * sizeof(UniChar), &inUsed,
             (Byte*)mappedtext, outLength, &outUsed, true);
+    TECkit_ResetConverter(cnv);
 
     switch (status) {
         case kStatus_NoError:

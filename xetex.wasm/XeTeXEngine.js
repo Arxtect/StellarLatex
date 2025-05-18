@@ -139,7 +139,7 @@ var XeTeXEngine = /** @class */ (function () {
                                     var nice_report = new CompileResult();
                                     nice_report.status = status;
                                     nice_report.log = log;
-                                    if (result === 'ok') {
+                                    if (result === 'ok' || data['pdf'] !== undefined) {
                                         var pdf = new Uint8Array(data['pdf']);
                                         nice_report.pdf = pdf;
                                     }
@@ -176,7 +176,7 @@ var XeTeXEngine = /** @class */ (function () {
                                     var log = data['log'];
                                     // const status: number = data['status'] as number;
                                     _this.latexWorkerStatus = EngineStatus.Ready;
-                                    if (result === 'ok') {
+                                    if (result === 'ok' || data['pdf'] !== undefined) {
                                         var formatArray = data['pdf']; /* PDF for result */
                                         var formatBlob = new Blob([formatArray], { type: 'application/octet-stream' });
                                         var formatURL_1 = URL.createObjectURL(formatBlob);

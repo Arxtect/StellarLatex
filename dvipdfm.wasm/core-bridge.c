@@ -12,7 +12,7 @@
 
 /* TODO: these are needed for the various *_main routines which should
  * probably be moved out into other files. */
-// #include "bibtex.h"
+// #include <bibtex/bibtex.h>
 #include "dpx-dvipdfmx.h"
 // #include "xetex-xetexd.h"
 

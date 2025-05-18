@@ -1,4 +1,5 @@
 *.o
+*.bak
 swiftlatexxetex.wasm
 swiftlatexxetex.js
 swiftlatexpdftex.wasm
@@ -8,3 +9,8 @@ swiftlatexdvipdfm.wasm
 *.Identifier
 .texlive_tmp
 .DS_Store
+.vscode
+3rdparty/emsdk
+3rdparty/*/repo
+build
+texlive

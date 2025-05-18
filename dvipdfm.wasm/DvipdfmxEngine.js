@@ -137,7 +137,7 @@ var DvipdfmxEngine = /** @class */ (function () {
                                     var nice_report = new CompileResult();
                                     nice_report.status = status;
                                     nice_report.log = log;
-                                    if (result === 'ok') {
+                                    if (result === 'ok' || data['pdf'] !== undefined) {
                                         var pdf = new Uint8Array(data.pdf);
                                         nice_report.pdf = pdf;
                                     }

@@ -1,5 +1,5 @@
 /*
-Copyright 1996-2016 Han The Thanh, <thanh@pdftex.org>
+Copyright 1996-2024 Han The Thanh, <thanh@pdftex.org>
 
 This file is part of pdfTeX.
 
@@ -720,7 +720,7 @@ read_pdf_info(char *image_name, char *page_name, int page_num,
     float pdf_version_found, pdf_version_wanted;
     // initialize
     if (!isInit) {
-        globalParams = new GlobalParams();
+        globalParams = new GlobalParams(nullptr);
         globalParams->setErrQuiet(gFalse);
         isInit = gTrue;
     }
@@ -1031,9 +1031,6 @@ void write_epdf(void)
         pdfendstream();
     }
 
-    // write out all indirect objects
-    writeRefs();
-
     // write out all used encodings (and delete list)
     writeEncodings();
 
@@ -1046,6 +1043,9 @@ void write_epdf(void)
         pdfpagegroupval = 0;    // only the 1st included pdf on a page gets its
                                 // Group included in the Page dict
     }
+
+    // write out all indirect objects
+    writeRefs();
 
     // save object list, xref
     pdf_doc->inObjList = inObjList;
@@ -1076,7 +1076,6 @@ void epdf_check_mem()
             delete_document(p);
         }
         // see above for globalParams
-        if (globalParams)
-            delete globalParams;
+        delete globalParams;
     }
 }
