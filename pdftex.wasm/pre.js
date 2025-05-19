@@ -118,7 +118,7 @@ Module['onAbort'] = function() {
 function compileLaTeXRoutine() {
     prepareExecutionContext();
     const setMainFunction = cwrap('setMainEntry', 'number', ['string']);
-    setMainFunction('"' + self.mainfile + '"');
+    setMainFunction(self.mainfile);
     let status = _compileLaTeX();
     if (status === 0) {
         let pdfArrayBuffer = null;

@@ -14,6 +14,7 @@
 #define kpsepkformat kpse_pk_format
 #define kpsesrccompile kpse_src_compile
 #define kpsemaketexdiscarderrors kpse_make_tex_discard_errors
+extern string kpse_program_name;
 extern boolean kpse_in_name_ok(const_string fname);
 extern boolean kpse_out_name_ok(const_string fname);
 extern void kpse_init_prog(const_string prefix, unsigned dpi, const_string mode,
@@ -24,6 +25,9 @@ extern string kpse_find_file(const_string name, kpse_file_format_type format,
                              boolean must_exist);
 extern string kpse_find_pk(const_string passed_fontname,  unsigned int dpi);
 extern boolean kpse_absolute_p(const_string filename, boolean relative_ok);
+extern boolean kpse_in_name_ok(const_string fname);
+extern boolean kpse_out_name_ok(const_string fname);
+extern void kpse_set_program_name(const_string argv0, const_string progname);
 
 extern string concat3(const_string s1, const_string s2, const_string s3);
 extern const_string xbasename(const_string name);

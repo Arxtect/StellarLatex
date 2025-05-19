@@ -1,0 +1,12 @@
+/**
+ * @file makeindex.h
+ * @author KZ25T in github
+ * @brief make a interface header for makeindex
+ * 
+ */
+#ifndef MAKEINDEX_H
+#define MAKEINDEX_H
+
+int makeindex_main(const char* aux_file);
+
+#endif

@@ -12,6 +12,8 @@
 #include <string.h>
 
 #include <ctan/ctanInterface.h>
+
+string kpse_program_name = NULL;
 void setupboundvariable(integer *var, const_string var_name, integer dflt) {
 
   *var = dflt;
@@ -129,7 +131,11 @@ boolean kpse_out_name_ok(const_string fname) { return true; }
 void kpse_set_program_enabled(kpse_file_format_type fmt, boolean value,
                               kpse_src_type level) {}
 
-void kpse_set_program_name(const_string argv0, const_string progname) {}
+void kpse_set_program_name(const_string argv0, const_string progname) {
+  if (kpse_program_name != NULL) free(kpse_program_name);
+  kpse_program_name = malloc(strlen(progname)+1);
+  if (kpse_program_name != NULL) strcpy(kpse_program_name, progname);
+}
 
 void kpse_reset_program_name(const_string progname) {}
 

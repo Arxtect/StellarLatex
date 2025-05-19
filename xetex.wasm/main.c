@@ -14,6 +14,7 @@
 #include <unistd.h>
 
 #include <bibtex/bibtex.h>
+#include <makeindexk/makeindex.h>
  
 int ac;
 char **av;
@@ -160,7 +161,24 @@ int compileLaTeX() {
     if (strlen(main_entry_file) == 0) {
       return -1;
     }
-    strncpy(bootstrapcmd, main_entry_file, MAXMAINFILENAME);
+    // if we see space in main_entry_file, force use the quote
+    boolean have_space = 0;
+    for (int index = 0; main_entry_file[index] != 0; index++) {
+      if (main_entry_file[index] == ' ') {
+        have_space = 1;
+        break;
+      }
+    }
+    if (have_space == 1) {
+      bootstrapcmd[0] = '\"';
+      strncpy(bootstrapcmd + 1, main_entry_file, MAXMAINFILENAME - 1);
+      int length = strlen(bootstrapcmd);
+      bootstrapcmd[length] = '\"';
+      bootstrapcmd[length + 1] = 0;
+    }
+    else {
+      strncpy(bootstrapcmd, main_entry_file, MAXMAINFILENAME);
+    }
     bootstrapcmd[MAXMAINFILENAME - 1] = 0;
     return _compile();
 }
@@ -182,7 +200,11 @@ int compileBibtex() {
     main_aux_file[s_len - 1] = 'x';
     main_aux_file[s_len - 2] = 'u';
     main_aux_file[s_len - 3] = 'a';
-    return bibtex_main(main_aux_file);
+
+    int bibtex_res = bibtex_main(main_aux_file);
+    makeindex_main(main_aux_file);
+
+    return bibtex_res;
 }
 
 int setMainEntry(const char *p) {
