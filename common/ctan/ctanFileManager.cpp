@@ -25,12 +25,50 @@ CTANFileManager* globalManager = nullptr;
 static bool end_up_with(const cppstr& str, cstr suffix) {
 	const size_t str_length	   = str.size();
 	const size_t suffix_length = strlen(suffix);
-	return str_length >= suffix_length &&
-		   str.compare(str_length - suffix_length, suffix_length, suffix) == 0;
+	if (str_length < suffix_length) { return false; }
+	for (size_t i = 0; i < suffix_length; ++i) {
+		char a1 = str[str_length - suffix_length + i];
+		char a2 = suffix[i];
+		if (std::tolower(static_cast<unsigned char>(a1)) !=
+			std::tolower(static_cast<unsigned char>(a2))) {
+			return false;
+		}
+	}
+	return true;
 }
 static bool end_up_with(const cppstr& str, const cppstr& suffix) {
 	if (str.size() < suffix.size()) return false;
-	return str.substr(str.size() - suffix.size()) == suffix;
+	return end_up_with(str, suffix.c_str());
+}
+/**
+ * @brief find local file of filePath, ignoring file name letter case
+ *
+ * @param filePath finding the filePath
+ * @return found file path, or empty string if not found
+ */
+static cppstr local_path(const cppstr& filePath) {
+	namespace fs = std::filesystem;
+	// Check if the exact path exists
+	if (fs::exists(filePath)) {
+		return filePath;  // Exact match found
+	}
+	fs::path path(filePath);
+	fs::path dirPath = path.parent_path();	// Extract directory path
+	cppstr	 targetFilename =
+		path.filename().string();  // Extract full filename including extension
+	// Check if the directory exists
+	if (!fs::exists(dirPath)) {
+		return cppstr();  // Directory not found
+	}
+	// Iterate through all entries in the directory
+	for (const auto& entry : fs::directory_iterator(dirPath)) {
+		fs::path entryPath	   = entry.path();
+		cppstr	 entryFilename = entryPath.filename().string();
+		if (strcasecmp(entryFilename.c_str(), targetFilename.c_str()) == 0) {
+			return entryPath.string();	// Match found, return actual path
+		}
+	}
+	return cppstr();  // No match found
 }
 
 static uint32_t simpleHash(const std::string& filePath) {
@@ -77,10 +115,11 @@ char* ctan_get_file_process(cstr request_name, kpse_file_format_type type) {
 	// remove '/tex/' header
 	if (memcmp(request_name, "/tex/", 5) == 0) { request_name += 5; }
 	// check if file exists
-	cppstr fullpath = cppstr("/tex/") + request_name;
-	if (std::filesystem::exists(fullpath) == true) {
+	cppstr fullpath		 = cppstr("/tex/") + request_name;
+	cppstr localFilePath = local_path(fullpath);
+	if (localFilePath.size() != 0) {
 		fprintf(stderr, "GET ok: %d/%s exists\n", int(type), request_name);
-		return strdup(fullpath.c_str());
+		return strdup(localFilePath.c_str());
 	}
 	// if request_name have '/', stop
 	if (strchr(request_name, '/') != nullptr) {
@@ -264,7 +303,8 @@ CTANFileManager::CTANFileManager(string_view content) {
 							nodeContent[index - 2] == 'e' &&
 							nodeContent[index - 1] == 'v')
 							return 2;
-						else break;
+						else
+							break;
 					}
 				}
 				if (nodeContent.substr(5, 7) == "hyphen-") return 0;
@@ -364,9 +404,10 @@ vector<cppstr> CTANFileManager::query_file(
 	};
 	exist_in_fs = false;
 	// try with no suffix fix
-	if (cppstr try_name = "/tex/" + request_name; std::filesystem::exists(try_name)) {
+	if (cppstr localFilePath = local_path("/tex/" + request_name);
+		localFilePath.size() != 0) {
 		exist_in_fs = true;
-		return {try_name};
+		return {localFilePath};
 	}
 	if (auto no_suffix_check = traverse_file(request_name); no_suffix_check.size() > 0) {
 		return no_suffix_check;
@@ -377,10 +418,10 @@ vector<cppstr> CTANFileManager::query_file(
 	const auto only_one_suffix = handle_kpse_format(query_name, type);
 	if (only_one_suffix) {
 		// check if file exists in fs
-		auto try_name = "/tex/" + query_name;
-		if (std::filesystem::exists(try_name)) {
+		if (cppstr localFilePath = local_path("/tex/" + query_name);
+			localFilePath.size() != 0) {
 			exist_in_fs = true;
-			return {try_name};
+			return {localFilePath};
 		}
 		// else check if we have the file in tlpobj
 		auto one_suffix_check = traverse_file(query_name);
@@ -390,10 +431,11 @@ vector<cppstr> CTANFileManager::query_file(
 	}
 	else {
 		// check if file exists in fs, only with first suffix
-		auto try_name = "/tex/" + query_name + format_to_suffix[type][0];
-		if (std::filesystem::exists(try_name)) {
+		if (cppstr localFilePath =
+				local_path("/tex/" + query_name + format_to_suffix[type][0]);
+			localFilePath.size() != 0) {
 			exist_in_fs = true;
-			return {try_name};
+			return {localFilePath};
 		}
 		// else check if we have the file in tlpobj, with all suffix
 		for (const auto& suffix : format_to_suffix[type]) {
@@ -435,8 +477,8 @@ char* CTANFileManager::get_file(
 	}
 	// HARDCODE
 	auto package_path = "/tex/pkg/" + package_name;
-	if (std::filesystem::exists(package_path) == true) {
-		if (extractor::tar_xz(package_path, relative_path, file_path)) {
+	if (cppstr localFilePath = local_path(package_path); localFilePath.size() != 0) {
+		if (extractor::tar_xz(localFilePath, relative_path, file_path)) {
 			return strdup(file_path.c_str());
 		}
 		else { return nullptr; }
@@ -446,14 +488,14 @@ char* CTANFileManager::get_file(
 	const auto urlsuffix = "systems/texlive/tlnet/archive/" + package_name;
 	ctan_download_pkg_js(urlsuffix.c_str(), package_name.c_str());
 	// maybe: 1. got exactly the file; 2. got the package; 3. got nothing
-	if (std::filesystem::exists(file_path) == true) {
+	if (cppstr localFilePath = local_path(file_path); localFilePath.size() != 0) {
 		// result 1: got exactly the file
-		return strdup(file_path.c_str());
+		return strdup(localFilePath.c_str());
 	}
 	// check result 2 or 3
-	if (std::filesystem::exists(package_path) == true) {
+	if (cppstr localFilePath = local_path(package_path);localFilePath.size() != 0) {
 		// result 2: got the package, then we can directly extract that
-		if (extractor::tar_xz(package_path, relative_path, file_path)) {
+		if (extractor::tar_xz(localFilePath, relative_path, file_path)) {
 			return strdup(file_path.c_str());
 		}
 		else { return nullptr; }

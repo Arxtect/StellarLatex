@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <libgen.h>
 #include <string.h>
+#include <dirent.h>
 
 #include <ctan/ctanInterface.h>
 
@@ -365,27 +366,29 @@ char* kpse_find_file(const char* name, kpse_file_format_type format,
   if (access(local_name, F_OK) != -1) {
     return local_name;
   }
-  char* base = NULL;
-  // try lower case path
-  char *lower_path = strdup(local_name);
-  base = basename(lower_path);
-  for (char *p = base; *p; p++) 
-    *p = tolower((unsigned char)*p);
-  if (access(lower_path, F_OK) != -1) {
-    free(local_name);
-    return lower_path;
+
+  // search it exists in local, ignore cases
+  char* tmpmem[2] = {strdup(name), strdup(name)};
+  const char* file_part = basename(tmpmem[0]);
+  const char* dir_part = dirname(tmpmem[1]);
+  DIR* dir = opendir(dir_part);
+  if (dir != NULL) {
+    struct dirent* entry;
+    while ((entry = readdir(dir)) != NULL) {
+      const char* candidate = entry->d_name;
+      if (strcasecmp(candidate, file_part) == 0) {
+        char* matched_path = concat3(dir_part, "/", candidate);
+        closedir(dir);
+        free(local_name);
+        free(tmpmem[0]);
+        free(tmpmem[1]);
+        return matched_path;
+      }
+    }
+    closedir(dir);
   }
-  free(lower_path);
-  // try upper case path
-  char *upper_path = strdup(local_name);
-  base = basename(upper_path);
-  for (char *p = base; *p; p++)
-    *p = toupper((unsigned char)*p); // 转为大写
-  if (access(upper_path, F_OK) != -1) {
-    free(local_name);
-    return upper_path;
-  }
-  free(upper_path);
+  free(tmpmem[0]);
+  free(tmpmem[1]);
 
   // Append extension and search again
   const char *basePath = basename(local_name);
@@ -395,27 +398,29 @@ char* kpse_find_file(const char* name, kpse_file_format_type format,
     if (access(local_name, F_OK) != -1) {
       return local_name;
     }
-    char* base = NULL;
-    // try lower case
-    char *lower_path = strdup(local_name);
-    base = basename(lower_path);
-    for (char *p = base; *p; p++) 
-      *p = tolower((unsigned char)*p);
-    if (access(lower_path, F_OK) != -1) {
-      free(local_name);
-      return lower_path;
+
+    // search it exists in local, ignore cases
+    char* tmpmem[2] = {strdup(local_name), strdup(local_name)};
+    const char* file_part = basename(tmpmem[0]);
+    const char* dir_part = dirname(tmpmem[1]);
+    DIR* dir = opendir(dir_part);
+    if (dir != NULL) {
+      struct dirent* entry;
+      while ((entry = readdir(dir)) != NULL) {
+        const char* candidate = entry->d_name;
+        if (strcasecmp(candidate, file_part) == 0) {
+          char* matched_path = concat3(dir_part, "/", candidate);
+          closedir(dir);
+          free(local_name);
+          free(tmpmem[0]);
+          free(tmpmem[1]);
+          return matched_path;
+        }
+      }
+      closedir(dir);
     }
-    free(lower_path);
-    // try upper case path
-    char *upper_path = strdup(local_name);
-    base = basename(upper_path);
-    for (char *p = base; *p; p++)
-      *p = toupper((unsigned char)*p);
-    if (access(upper_path, F_OK) != -1) {
-      free(local_name);
-      return upper_path;
-    }
-    free(upper_path);
+    free(tmpmem[0]);
+    free(tmpmem[1]);
   }
 
   // End local Search
