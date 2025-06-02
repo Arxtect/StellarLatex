@@ -168,6 +168,23 @@ char* ctan_get_file_process(cstr request_name, kpse_file_format_type type) {
 }
 
 extern "C" char* ctan_get_file(cstr request_name, kpse_file_format_type type) {
+	// TODO: DEBUG: all files go to old server
+	namespace fs = std::filesystem;
+	if (strcmp(request_name, "swiftlatexxetex.fmt") == 0 ||
+		strcmp(request_name, "swiftlatexpdftex.fmt") == 0 ||
+		strcmp(request_name, "xetexfontlist.txt") == 0) {
+		char* remote = kpse_find_file_js(request_name, type, false);
+		if (remote != nullptr) {
+			fs::rename(remote, "/tmp/swiftlatex.xz");
+			bool res = extractor::xz("/tmp/swiftlatex.xz", remote);
+			if (res == false) return nullptr;
+			fs::remove("/tmp/swiftlatex.xz");
+			return remote;
+		}
+		else { return nullptr; }
+	}
+	return kpse_find_file_js(request_name, type, false);
+	// END TODO
 	static unordered_map<cppstr, char*> ctan_cache;
 	static std::mutex					cache_mutex;
 	constexpr size_t					MAX_CACHE_SIZE = 1000;
@@ -493,7 +510,7 @@ char* CTANFileManager::get_file(
 		return strdup(localFilePath.c_str());
 	}
 	// check result 2 or 3
-	if (cppstr localFilePath = local_path(package_path);localFilePath.size() != 0) {
+	if (cppstr localFilePath = local_path(package_path); localFilePath.size() != 0) {
 		// result 2: got the package, then we can directly extract that
 		if (extractor::tar_xz(localFilePath, relative_path, file_path)) {
 			return strdup(file_path.c_str());

@@ -40,7 +40,6 @@ bool tar_xz(std::string archive_path, std::string target_file, std::string outpu
 }
 
 bool xz(const char* archive_path, const char* output_path) {
-	std::cerr << "extracting from " << archive_path << std::endl;
 	struct archive* a = archive_read_new();
 	archive_read_support_filter_xz(a);
 	archive_read_support_format_raw(a);

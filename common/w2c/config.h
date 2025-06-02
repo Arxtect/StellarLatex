@@ -24,7 +24,9 @@ typedef long long longword;
 #ifdef __cplusplus
 extern "C" {
 #endif
-	#include "xmemory.h"
+#ifndef TECTONIC_CORE_MEMORY_H
+	#include <memory/xmemory.h>
+#endif
 	#include <localkpse/kpseemu.h>
 #ifdef __cplusplus
 }
@@ -38,5 +40,8 @@ extern "C" {
 #endif
 #define LONGINTEGER_TYPE long
 #define LONGINTEGER_PRI "l"
+
+// version
+#define ARXTECT_VERSION_STRING "test-20250625"
 
 #endif

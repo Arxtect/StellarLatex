@@ -6,6 +6,8 @@
 #include <xetexd.h>
 #elif defined(PDFTEXWASM)
 #include <pdftexd.h>
+#else
+#include <w2c/config.h>
 #endif
 #include <stdlib.h>
 #include <libgen.h>
@@ -102,7 +104,7 @@ const_string xbasename(const_string name) {
     base += 2;
 
   for (p = base; *p; p++) {
-    if (IS_DIR_SEP(*p))
+    if (*p == '/')
       base = p + 1;
   }
 
@@ -118,7 +120,7 @@ boolean kpse_absolute_p(const_string filename, boolean relative_ok) {
   boolean absolute;
   boolean explicit_relative;
 
-  absolute = IS_DIR_SEP(*filename);
+  absolute = (*filename == '/')? true : false;
   explicit_relative = relative_ok;
   return absolute || explicit_relative;
 }
@@ -180,9 +182,6 @@ void xfseeko(FILE *f, off_t offset, int wherefrom, const_string filename) {
 
 FILE *xfopen(const_string filename, const_string mode) {
   FILE *f;
-
-  // assert(filename && mode);
-
   f = fopen(filename, mode);
   if (f == NULL) {
     fprintf(stderr, "File Open Failed (%s)\n", filename);
@@ -199,263 +198,4 @@ int xfclose(FILE *stream, const_string filename) {
     abort();
   }
   return 0;
-}
-
-extern char* kpse_find_file_js(const char* name, kpse_file_format_type format,
-                     boolean must_exist);
-
-extern char* kpse_find_pk_js(const char* passed_fontname,  unsigned int dpi);
-
-static void fix_extension(char *local_name, int format) {
-#define SUFFIX(suf) strcat(local_name, suf);
-
-  switch (format) {
-  case kpse_gf_format:
-    SUFFIX(".gf");
-    break;
-  case kpse_pk_format:
-    SUFFIX(".pk");
-    break;
-  case kpse_tfm_format:
-    SUFFIX(".tfm");
-    break;
-  case kpse_afm_format:
-    SUFFIX(".afm");
-    break;
-  case kpse_base_format:
-    SUFFIX(".base");
-    break;
-  case kpse_bib_format:
-    SUFFIX(".bib");
-    break;
-  case kpse_bst_format:
-    SUFFIX(".bst");
-    break;
-  case kpse_fontmap_format:
-    SUFFIX(".map");
-    break;
-  case kpse_mem_format:
-    SUFFIX(".mem");
-    break;
-  case kpse_mf_format:
-    SUFFIX(".mf");
-    break;
-  case kpse_mft_format:
-    SUFFIX(".mft");
-    break;
-  case kpse_mfpool_format:
-    SUFFIX(".pool");
-    break;
-  case kpse_mp_format:
-    SUFFIX(".mp");
-    break;
-  case kpse_mppool_format:
-    SUFFIX(".pool");
-    break;
-  case kpse_ocp_format:
-    SUFFIX(".ocp");
-    break;
-  case kpse_ofm_format:
-    SUFFIX(".ofm");
-    break;
-  case kpse_opl_format:
-    SUFFIX(".opl");
-    break;
-  case kpse_otp_format:
-    SUFFIX(".otp");
-    break;
-  case kpse_ovf_format:
-    SUFFIX(".ovf");
-    break;
-  case kpse_ovp_format:
-    SUFFIX(".ovp");
-    break;
-  case kpse_pict_format:
-    SUFFIX(".esp");
-    break;
-  case kpse_tex_format:
-    SUFFIX(".tex");
-    break;
-  case kpse_texpool_format:
-    SUFFIX(".pool");
-    break;
-  case kpse_texsource_format:
-    SUFFIX(".dtx");
-    break;
-  case kpse_type1_format:
-    SUFFIX(".pfa");
-    break;
-  case kpse_vf_format:
-    SUFFIX(".vf");
-    break;
-  case kpse_ist_format:
-    SUFFIX(".ist");
-    break;
-  case kpse_truetype_format:
-    SUFFIX(".ttf");
-    break;
-  case kpse_type42_format:
-    SUFFIX(".t42");
-    break;
-  case kpse_miscfonts_format:
-    break;
-  case kpse_enc_format:
-    SUFFIX(".enc");
-    break;
-  case kpse_cmap_format:
-    SUFFIX("cmap");
-    break;
-  case kpse_sfd_format:
-    SUFFIX(".sfd");
-    break;
-  case kpse_opentype_format:
-    SUFFIX(".otf");
-    break;
-  case kpse_pdftex_config_format:
-    SUFFIX(".cfg");
-    break;
-  case kpse_lig_format:
-    SUFFIX(".lig");
-    break;
-  case kpse_texmfscripts_format:
-    // Todo
-    break;
-  case kpse_fea_format:
-    SUFFIX(".fea");
-    break;
-  case kpse_cid_format:
-    SUFFIX(".cid");
-    break;
-  case kpse_mlbib_format:
-    SUFFIX(".mlbib");
-    break;
-  case kpse_mlbst_format:
-    SUFFIX(".mlbst");
-    break;
-  case kpse_ris_format:
-    SUFFIX(".ris");
-    break;
-  case kpse_bltxml_format:
-    SUFFIX(".bltxml");
-    break;
-  case kpse_fmt_format:
-    SUFFIX(".fmt");
-    break;
-  default:
-    printf("Unknown Kpse Format %d fixme\n", format);
-    break;
-  }
-#undef SUFFIX
-}
-
-#define MAX_PATH_LEN 256
-char* kpse_find_file(const char* name, kpse_file_format_type format,
-                     boolean must_exist) {
-  if (name == NULL) {
-    return NULL;
-  }
-
-  if (strlen(name) > MAX_PATH_LEN) {
-    return NULL;
-  }
-
-  char* local_name = xmalloc(MAX_PATH_LEN + 32);
-  strcpy(local_name, name);
-  
-  // Search local directory
-  if (access(local_name, F_OK) != -1) {
-    return local_name;
-  }
-
-  // search it exists in local, ignore cases
-  char* tmpmem[2] = {strdup(name), strdup(name)};
-  const char* file_part = basename(tmpmem[0]);
-  const char* dir_part = dirname(tmpmem[1]);
-  DIR* dir = opendir(dir_part);
-  if (dir != NULL) {
-    struct dirent* entry;
-    while ((entry = readdir(dir)) != NULL) {
-      const char* candidate = entry->d_name;
-      if (strcasecmp(candidate, file_part) == 0) {
-        char* matched_path = concat3(dir_part, "/", candidate);
-        closedir(dir);
-        free(local_name);
-        free(tmpmem[0]);
-        free(tmpmem[1]);
-        return matched_path;
-      }
-    }
-    closedir(dir);
-  }
-  free(tmpmem[0]);
-  free(tmpmem[1]);
-
-  // Append extension and search again
-  const char *basePath = basename(local_name);
-  if (strstr(basePath, ".") == NULL) {
-    strcpy(local_name, name); // Basename may modify the argument, recopy
-    fix_extension(local_name, format);
-    if (access(local_name, F_OK) != -1) {
-      return local_name;
-    }
-
-    // search it exists in local, ignore cases
-    char* tmpmem[2] = {strdup(local_name), strdup(local_name)};
-    const char* file_part = basename(tmpmem[0]);
-    const char* dir_part = dirname(tmpmem[1]);
-    DIR* dir = opendir(dir_part);
-    if (dir != NULL) {
-      struct dirent* entry;
-      while ((entry = readdir(dir)) != NULL) {
-        const char* candidate = entry->d_name;
-        if (strcasecmp(candidate, file_part) == 0) {
-          char* matched_path = concat3(dir_part, "/", candidate);
-          closedir(dir);
-          free(local_name);
-          free(tmpmem[0]);
-          free(tmpmem[1]);
-          return matched_path;
-        }
-      }
-      closedir(dir);
-    }
-    free(tmpmem[0]);
-    free(tmpmem[1]);
-  }
-
-  // End local Search
-  free(local_name);
-
-  // Head to network search
-  return kpse_find_file_js(name, format, must_exist);
-  // return ctan_get_file(name, format);
-
-}
-
-char* kpse_find_pk(const char* fontname,  unsigned int dpi) {
-  if (fontname == NULL) {
-    return NULL;
-  }
-
-  if (strlen(fontname) > MAX_PATH_LEN) {
-    return NULL;
-  }
-
-  // Search local directory
-  char* local_name = xmalloc(MAX_PATH_LEN + 32);
-  if (access(local_name, F_OK) != -1) {
-    return local_name;
-  }
-
-  sprintf(local_name, "%s.%dpk", fontname, dpi);
-
-  if (access(local_name, F_OK) != -1) {
-    return local_name;
-  }
-
-  // End local Search
-  free(local_name);
-  
-  // Head to network search
-  return kpse_find_pk_js(fontname, dpi);
 }

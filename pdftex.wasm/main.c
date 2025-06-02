@@ -13,7 +13,9 @@
 #include <md5/md5.h>
 #include <setjmp.h>
 #include <bibtex/bibtex.h>
+#include <cbiber.h>
 #include <makeindexk/makeindex.h>
+#include <tree/tree.h>
 string fullnameoffile;
 string output_directory;
 
@@ -29,10 +31,10 @@ char *last_source_name;
 int last_lineno;
 static char *cstrbuf = NULL;
 static int allocsize;
-const char *ptexbanner = " (SwiftLaTeX PDFTeX 0.3.0)";
+const char *ptexbanner = " (Arxtect PDFTeX " ARXTECT_VERSION_STRING ")";
 const char *DEFAULT_FMT_NAME = " swiftlatexpdftex.fmt";
 const char *DEFAULT_DUMP_NAME = "swiftlatexpdftex";
-string versionstring = " (SwiftLaTeX PDFTeX 0.3.0)";
+string versionstring = " (Arxtect PDFTeX " ARXTECT_VERSION_STRING ")";
 int exit_code;
 jmp_buf jmpenv;
 
@@ -606,22 +608,46 @@ int compileFormat() {
     return _compile();
 }
 
-int compileBibtex() {
+int compileBibLatex() {
     char main_aux_file[MAXMAINFILENAME];
+    char main_bcf_file[MAXMAINFILENAME];
+    char main_bbl_file[MAXMAINFILENAME];
     strncpy(main_aux_file, main_entry_file, MAXMAINFILENAME);
+    strncpy(main_bcf_file, main_entry_file, MAXMAINFILENAME);
+    strncpy(main_bbl_file, main_entry_file, MAXMAINFILENAME);
     main_aux_file[MAXMAINFILENAME - 1] = 0;
-    unsigned int s_len = strlen(main_aux_file);
+    main_bcf_file[MAXMAINFILENAME - 1] = 0;
+    main_bbl_file[MAXMAINFILENAME - 1] = 0;
+    unsigned int s_len = strlen(main_entry_file);
     if (s_len < 3) {
       return -1;
     }
     main_aux_file[s_len - 1] = 'x';
     main_aux_file[s_len - 2] = 'u';
     main_aux_file[s_len - 3] = 'a';
-
-    int bibtex_res = bibtex_main(main_aux_file);
+    main_bcf_file[s_len - 1] = 'f';
+    main_bcf_file[s_len - 2] = 'c';
+    main_bcf_file[s_len - 3] = 'b';
+    main_bbl_file[s_len - 1] = 'l';
+    main_bbl_file[s_len - 2] = 'b';
+    main_bbl_file[s_len - 3] = 'b';
+    if (access(main_bbl_file, F_OK) == 0) {
+      // if .bbl file exists and is not empty, do nothing
+      struct stat buf;
+      int ret = stat(main_bbl_file, &buf);
+      if (ret == 0 && buf.st_size != 0) return 0;
+    }
+    int biblatex_res = 0;
+    if (access(main_bcf_file, F_OK) == 0) {
+      // if .bcf file exists, run biber as biblatex
+      biblatex_res = biber_main(main_bcf_file);
+    } else {
+      // if .bcf file does not exist, run bibtex as biblatex
+      biblatex_res = bibtex_main(main_aux_file);
+    }
     makeindex_main(main_aux_file);
-
-    return bibtex_res;
+    tree_dir("/", stderr);
+    return biblatex_res;
 }
 
 int setMainEntry(const char *p) {

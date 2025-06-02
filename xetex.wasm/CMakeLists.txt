@@ -14,7 +14,7 @@ set(COMMON_FLAGS
     -sUSE_ICU
     -sUSE_LIBPNG
     -fno-rtti
-    -fno-exceptions
+    -fexceptions
 )
 ## convert to string
 string(REPLACE ";" " " COMMON_FLAGS_STR "${COMMON_FLAGS}")
@@ -31,7 +31,7 @@ set(LINKER_FLAGS
     --js-library=${LIBRARY_JS}
     --pre-js=${PRE_JS}
     -sENVIRONMENT=web
-    -sEXPORTED_FUNCTIONS='["_compileBibtex","_compileLaTeX","_compileFormat","_main","_setMainEntry","_malloc"]'
+    -sEXPORTED_FUNCTIONS='["_compileBibLatex","_compileLaTeX","_compileFormat","_main","_setMainEntry","_malloc"]'
     -sNO_EXIT_RUNTIME=1
     -sWASM=1
     -sEXPORTED_RUNTIME_METHODS=["cwrap"]
@@ -54,9 +54,11 @@ file(GLOB_RECURSE COMMONSOURCES
     ${COMMON_CODE_DIR}/md5/md5.c
     ${COMMON_CODE_DIR}/bibtex/bibtex.c
     ${COMMON_CODE_DIR}/localkpse/kpseemu.c
+    ${COMMON_CODE_DIR}/localkpse/kpfind.cpp
     ${COMMON_CODE_DIR}/memory/xmemory.c
     ${COMMON_CODE_DIR}/teckit/Engine.cpp
     ${COMMON_CODE_DIR}/makeindexk/*.c
+    ${COMMON_CODE_DIR}/tree/*.c
 )
 ## xetex
 file(GLOB_RECURSE XETEXSOURCES
@@ -103,4 +105,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     ${THIRD_PARTY_DIR}/libpplib/build/libpplib_filters.a
     ${THIRD_PARTY_DIR}/libarchive/build/libarchive/libarchive.a
     ${THIRD_PARTY_DIR}/liblzma/build/liblzma.a
+    ${THIRD_PARTY_DIR}/libtinyxml2/build/libtinyxml2.a
+    ${THIRD_PARTY_DIR}/libcbiber/build/libcbiber.a
 )

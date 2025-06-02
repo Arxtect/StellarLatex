@@ -32,13 +32,18 @@ string(REPLACE ";" " " LINKER_FLAGS_STR "${LINKER_FLAGS}")
 set(CMAKE_EXE_LINKER_FLAGS "${LINKER_FLAGS_STR}")
 
 # SOURCES
-file(GLOB_RECURSE CSOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.c)
+file(GLOB_RECURSE CSOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/main.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/core/*.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/tectonic/*.c
+)
 
-## COMMON SOURCE
+# # COMMON SOURCE
 file(GLOB_RECURSE COMMONSOURCES
-    ${COMMON_CODE_DIR}/ctan/ctanFileManager.cpp
-    ${COMMON_CODE_DIR}/ctan/extractFile.cpp
+    ${COMMON_CODE_DIR}/ctan/*.cpp
+    ${COMMON_CODE_DIR}/localkpse/kpfind.cpp
     ${COMMON_CODE_DIR}/md5/md5.c
+    ${COMMON_CODE_DIR}/tree/tree.c
 )
 
 # HEADERS
@@ -47,7 +52,12 @@ file(GLOB_RECURSE COMMONSOURCES
 # SET CMAKE PROJECT
 add_executable(${PROJECT_NAME} ${CSOURCES} ${COMMONSOURCES})
 
-target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${COMMON_CODE_DIR})
+target_include_directories(${PROJECT_NAME} PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/core
+    ${CMAKE_CURRENT_SOURCE_DIR}/tectonic
+    ${COMMON_CODE_DIR}
+)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     ${THIRD_PARTY_DIR}/libarchive/build/libarchive/libarchive.a

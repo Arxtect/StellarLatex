@@ -9,5 +9,8 @@
  * @param type 
  * @return null for fail, else file path
  */
-extern char* ctan_get_file(const char* request_name, kpse_file_format_type type);
+#ifdef __cplusplus
+extern "C"
+#endif
+char* ctan_get_file(const char* request_name, kpse_file_format_type type);
 #endif

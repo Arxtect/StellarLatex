@@ -85,6 +85,28 @@ ExternalProject_Add(
     GIT_TAG        master # TAG 8f49a18f64b42651fac9e7b210a779c076184c53 is avaliable
     SOURCE_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/libarchive/repo
     BINARY_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/libarchive/build
+    CONFIGURE_COMMAND ${CMAKE_COMMAND} -S <SOURCE_DIR> -B <BINARY_DIR> -DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE} -DENABLE_TEST=OFF
+    UPDATE_COMMAND ""
+    BUILD_ALWAYS   OFF
+    BUILD_COMMAND     ${CMAKE_COMMAND} --build <BINARY_DIR>
+)
+ExternalProject_Add(
+    libtinyxml2
+    GIT_REPOSITORY git@github.com:leethomason/tinyxml2.git
+    GIT_TAG        master # TAG 9148bdf719e997d1f474be6bcc7943881046dba1 is avaliable
+    SOURCE_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/libtinyxml2/repo
+    BINARY_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/libtinyxml2/build
+    CONFIGURE_COMMAND ${CMAKE_COMMAND} -S <SOURCE_DIR> -B <BINARY_DIR> -DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+    UPDATE_COMMAND ""
+    BUILD_ALWAYS   OFF
+    BUILD_COMMAND     ${CMAKE_COMMAND} --build <BINARY_DIR>
+)
+ExternalProject_Add(
+    libcbiber
+    GIT_REPOSITORY git@github.com:KZ25T/cbiber.git
+    GIT_TAG        master
+    SOURCE_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/libcbiber/repo
+    BINARY_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/libcbiber/build
     CONFIGURE_COMMAND ${CMAKE_COMMAND} -S <SOURCE_DIR> -B <BINARY_DIR> -DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
     UPDATE_COMMAND ""
     BUILD_ALWAYS   OFF

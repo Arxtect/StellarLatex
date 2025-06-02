@@ -53,8 +53,15 @@
 
 #define rust_input_handle_t FILE*
 
+/* BUG: There is a bug in emscripten that can cause cross file reading. I have chosen to
+ * adapt to the emscripten bug, and the solution is to preload the file into memory and
+ * then disable IO to simulate it in memory. This bug still exists in EMCC 4.0.10. If
+ * later fixed, the code can be restored to its original state (commit: 4ee5ea16) */
 typedef struct {
   rust_input_handle_t handle;
+  unsigned char* file_buf;
+  size_t file_size;
+  size_t pointer;
   int peek_char;
   bool saw_eof;
 } peekable_input_t;
@@ -77,6 +84,22 @@ static peekable_input_t *peekable_open(const char *path,
   }
 
   peekable = XTALLOC(1, peekable_input_t);
+  // fix: read file into memory and close file handler
+  if (fseek(handle, 0, SEEK_END) != 0) {
+    // error, should not happen
+    peekable->saw_eof = true;
+    peekable->file_buf = NULL;
+    peekable->file_size = 0;
+    peekable->pointer = 0;
+    peekable->peek_char = EOF;
+    return peekable;
+  }
+  peekable->file_size = ftell(handle);
+  peekable->file_buf = xmalloc(peekable->file_size);
+  fseek(handle, 0, SEEK_SET);
+  fread(peekable->file_buf, peekable->file_size, 1, handle);
+  peekable->pointer = 0;
+  fclose(handle);
   peekable->handle = handle;
   peekable->peek_char = EOF;
   peekable->saw_eof = false;
@@ -89,7 +112,11 @@ static int peekable_close(peekable_input_t *peekable) {
   if (peekable == NULL)
     return 0;
 
-  rv = ttstub_input_close(peekable->handle);
+  // rv = ttstub_input_close(peekable->handle);
+  if (peekable->file_buf != NULL) {
+	  free(peekable->file_buf);
+	  peekable->file_buf = NULL;
+  }
   free(peekable);
   return rv;
 }
@@ -103,7 +130,13 @@ static int peekable_getc(peekable_input_t *peekable) {
     return rv;
   }
 
-  rv = ttstub_input_getc(peekable->handle);
+  // rv = ttstub_input_getc(peekable->handle);
+  if (peekable->pointer < peekable->file_size) {
+    rv = peekable->file_buf[peekable->pointer];
+    peekable->pointer += 1;
+  } else {
+    rv = EOF;
+  }
   if (rv == EOF)
     peekable->saw_eof = true;
   return rv;

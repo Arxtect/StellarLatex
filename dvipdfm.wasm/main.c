@@ -8,7 +8,8 @@
 #include <time.h>
 #include <libgen.h>
 #include "core-memory.h"
-#include <ctan/ctanInterface.h>
+#include <localkpse/type.h>
+#include <tree/tree.h>
 void issue_warning(void *context, char const *text) {
     printf("%s\n", text);
 }
@@ -74,12 +75,6 @@ int output_close(void *context, void *handle) {
     return fclose(handle);
 }
 
-#define MAXFILENAMESIZE 512
-
-
-#define TEXCACHEROOT "/tex/"
-int kpse_fetch_from_network(const char *name_ret, int format);
-
 int _formatConvert(int format) {
     switch (format) {
     case TTIF_TFM:
@@ -121,254 +116,12 @@ int _formatConvert(int format) {
         return kpse_tex_format;
     }
 }
-
-static char* concat3(const char* s1, const char* s2, const char* s3) {
-  int s2l = s2 ? strlen(s2) : 0;
-  int s3l = s3 ? strlen(s3) : 0;
-  char* answer = (char*)xmalloc(strlen(s1) + s2l + s3l + 1);
-  strcpy(answer, s1);
-  if (s2)
-    strcat(answer, s2);
-  if (s3)
-    strcat(answer, s3);
-
-  return answer;
-}
-
-
-extern char* kpse_find_file_js(const char* name, kpse_file_format_type format,
-                     int must_exist);
-
-static void fix_extension(char *local_name, int format) {
-#define SUFFIX(suf) strcat(local_name, suf);
-
-  switch (format) {
-  case kpse_gf_format:
-    SUFFIX(".gf");
-    break;
-  case kpse_pk_format:
-    SUFFIX(".pk");
-    break;
-  case kpse_tfm_format:
-    SUFFIX(".tfm");
-    break;
-  case kpse_afm_format:
-    SUFFIX(".afm");
-    break;
-  case kpse_base_format:
-    SUFFIX(".base");
-    break;
-  case kpse_bib_format:
-    SUFFIX(".bib");
-    break;
-  case kpse_bst_format:
-    SUFFIX(".bst");
-    break;
-  case kpse_fontmap_format:
-    SUFFIX(".map");
-    break;
-  case kpse_mem_format:
-    SUFFIX(".mem");
-    break;
-  case kpse_mf_format:
-    SUFFIX(".mf");
-    break;
-  case kpse_mft_format:
-    SUFFIX(".mft");
-    break;
-  case kpse_mfpool_format:
-    SUFFIX(".pool");
-    break;
-  case kpse_mp_format:
-    SUFFIX(".mp");
-    break;
-  case kpse_mppool_format:
-    SUFFIX(".pool");
-    break;
-  case kpse_ocp_format:
-    SUFFIX(".ocp");
-    break;
-  case kpse_ofm_format:
-    SUFFIX(".ofm");
-    break;
-  case kpse_opl_format:
-    SUFFIX(".opl");
-    break;
-  case kpse_otp_format:
-    SUFFIX(".otp");
-    break;
-  case kpse_ovf_format:
-    SUFFIX(".ovf");
-    break;
-  case kpse_ovp_format:
-    SUFFIX(".ovp");
-    break;
-  case kpse_pict_format:
-    SUFFIX(".esp");
-    break;
-  case kpse_tex_format:
-    SUFFIX(".tex");
-    break;
-  case kpse_texpool_format:
-    SUFFIX(".pool");
-    break;
-  case kpse_texsource_format:
-    SUFFIX(".dtx");
-    break;
-  case kpse_type1_format:
-    SUFFIX(".pfa");
-    break;
-  case kpse_vf_format:
-    SUFFIX(".vf");
-    break;
-  case kpse_ist_format:
-    SUFFIX(".ist");
-    break;
-  case kpse_truetype_format:
-    SUFFIX(".ttf");
-    break;
-  case kpse_type42_format:
-    SUFFIX(".t42");
-    break;
-  case kpse_miscfonts_format:
-    break;
-  case kpse_enc_format:
-    SUFFIX(".enc");
-    break;
-  case kpse_cmap_format:
-    SUFFIX("cmap");
-    break;
-  case kpse_sfd_format:
-    SUFFIX(".sfd");
-    break;
-  case kpse_opentype_format:
-    SUFFIX(".otf");
-    break;
-  case kpse_pdftex_config_format:
-    SUFFIX(".cfg");
-    break;
-  case kpse_lig_format:
-    SUFFIX(".lig");
-    break;
-  case kpse_texmfscripts_format:
-    // Todo
-    break;
-  case kpse_fea_format:
-    SUFFIX(".fea");
-    break;
-  case kpse_cid_format:
-    SUFFIX(".cid");
-    break;
-  case kpse_mlbib_format:
-    SUFFIX(".mlbib");
-    break;
-  case kpse_mlbst_format:
-    SUFFIX(".mlbst");
-    break;
-  case kpse_ris_format:
-    SUFFIX(".ris");
-    break;
-  case kpse_bltxml_format:
-    SUFFIX(".bltxml");
-    break;
-  case kpse_fmt_format:
-    SUFFIX(".fmt");
-    break;
-  default:
-    printf("Unknown Kpse Format %d fixme\n", format);
-    break;
-  }
-#undef SUFFIX
-}
-
-#define MAX_PATH_LEN 256
-
-char *kpse_find_file(const char *name, tt_input_format_type tt_format) {
-
-  
-  int format = _formatConvert(tt_format);
-  if (name == NULL) {
-    return NULL;
-  }
-
-  if (strlen(name) > MAX_PATH_LEN) {
-    return NULL;
-  }
-
-  char* local_name = xmalloc(MAX_PATH_LEN + 32);
-  strcpy(local_name, name);
-  
-  // Search local directory
-  if (access(local_name, F_OK) != -1) {
-    return local_name;
-  }
-  char* base = NULL;
-  // try lower case path
-  char *lower_path = strdup(local_name);
-  base = basename(lower_path);
-  for (char *p = base; *p; p++) 
-    *p = tolower((unsigned char)*p);
-  if (access(lower_path, F_OK) != -1) {
-    free(local_name);
-    return lower_path;
-  }
-  free(lower_path);
-  // try upper case path
-  char *upper_path = strdup(local_name);
-  base = basename(upper_path);
-  for (char *p = base; *p; p++)
-    *p = toupper((unsigned char)*p);
-  if (access(upper_path, F_OK) != -1) {
-    free(local_name);
-    return upper_path;
-  }
-  free(upper_path);
-
-  // Append extension and search again
-  const char *basePath = basename(local_name);
-  if (strstr(basePath, ".") == NULL) {
-    strcpy(local_name, name); // Basename may modify the argument, recopy
-    fix_extension(local_name, format);
-    if (access(local_name, F_OK) != -1) {
-      return local_name;
-    }
-    char* base = NULL;
-    // try lower case
-    char *lower_path = strdup(local_name);
-    base = basename(lower_path);
-    for (char *p = base; *p; p++) 
-      *p = tolower((unsigned char)*p);
-    if (access(lower_path, F_OK) != -1) {
-      free(local_name);
-      return lower_path;
-    }
-    free(lower_path);
-    // try upper case path
-    char *upper_path = strdup(local_name);
-    base = basename(upper_path);
-    for (char *p = base; *p; p++)
-      *p = toupper((unsigned char)*p);
-    if (access(upper_path, F_OK) != -1) {
-      free(local_name);
-      return upper_path;
-    }
-    free(upper_path);
-  }
-
-  // End local Search
-  free(local_name);
-
-  // Head to network search
-  return kpse_find_file_js(name, format, 0);
-  // return ctan_get_file(name, format);
-
-}
-
+extern char* kpse_find_file(const char* _name, kpse_file_format_type format, bool must_exist);
 void *input_open(void *context, char const *path, tt_input_format_type format,
                  int is_gz) {
     
     // fprintf(stderr, "Opening %s format %d\n", path, format);
-    char *normalized_path = kpse_find_file(path, format);
+    char *normalized_path = kpse_find_file(path, (kpse_file_format_type)_formatConvert(format), 0);
     if (normalized_path != NULL) {
         FILE *res = fopen(normalized_path, "rb");
         free(normalized_path);
@@ -422,14 +175,14 @@ int input_close(void *context, void *handle) { return fclose(handle); }
 
 
 tt_bridge_api_t ourapi;
-char MAIN_ENTRY_FILE[512];
+char main_entry_file[512];
 
 
 int compilePDF(){
     char main_xdv_file[512];
     char main_pdf_file[512];
-    strncpy(main_xdv_file, MAIN_ENTRY_FILE, 512);
-    strncpy(main_pdf_file, MAIN_ENTRY_FILE, 512);
+    strncpy(main_xdv_file, main_entry_file, 512);
+    strncpy(main_pdf_file, main_entry_file, 512);
     int len = strlen(main_xdv_file);
     if(len < 3) return -1;
     main_xdv_file[len - 1] = 'v';
@@ -443,8 +196,8 @@ int compilePDF(){
 }
 
 int setMainEntry(const char *p) {
-    strncpy(MAIN_ENTRY_FILE, p, 512);
-    MAIN_ENTRY_FILE[511] = 0;
+    strncpy(main_entry_file, p, 512);
+    main_entry_file[511] = 0;
     return 0;
 }
 
@@ -466,7 +219,7 @@ int main() {
     ourapi.input_getc = input_getc;
     ourapi.input_ungetc = input_ungetc;
     ourapi.input_close = input_close;
-    strncpy(MAIN_ENTRY_FILE, "main.tex", 512);
+    strncpy(main_entry_file, "main.tex", 512);
 
     return 0;
 }

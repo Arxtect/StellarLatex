@@ -5,7 +5,7 @@ var Module = {};
 self.memlog = "";
 self.initmem = undefined;
 self.mainfile = "main.tex";
-self.texlive_endpoint = "https://magic.pointer.ai/latex2/";
+self.texlive_endpoint = "https://magic.pointer.ai/latex3/";
 self.ctan_mirror = "https://mirrors.ustc.edu.cn/CTAN/";
 Module['print'] = function(a) {
     self.memlog += (a + "\n");
@@ -122,7 +122,7 @@ function compileLaTeXRoutine() {
     let status = _compileLaTeX();
     if (status === 0) {
         let pdfArrayBuffer = null;
-        _compileBibtex();
+        _compileBibLatex();
         let pdfurl = WORKROOT + "/" + self.mainfile.substr(0, self.mainfile.length - 4) + ".pdf";
         try {
             pdfArrayBuffer = FS.readFile(pdfurl, {
@@ -150,7 +150,7 @@ function compileLaTeXRoutine() {
         let pdfArrayBuffer = null;
         let pdfurl = WORKROOT + "/" + self.mainfile.substr(0, self.mainfile.length - 4) + ".pdf";
         try {
-            _compileBibtex();
+            _compileBibLatex();
             pdfArrayBuffer = FS.readFile(pdfurl, {
                 encoding: 'binary'
             });

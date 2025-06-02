@@ -12,7 +12,7 @@ set(COMMON_FLAGS
     -sUSE_ZLIB
     -sUSE_LIBPNG
     -fno-rtti
-    -fno-exceptions
+    -fexceptions
 )
 ## convert to string
 string(REPLACE ";" " " COMMON_FLAGS_STR "${COMMON_FLAGS}")
@@ -28,7 +28,7 @@ set(PRE_JS ${CMAKE_CURRENT_SOURCE_DIR}/pre.js)
 set(LINKER_FLAGS
     --js-library=${LIBRARY_JS}
     --pre-js=${PRE_JS}
-    -sEXPORTED_FUNCTIONS='["_compileBibtex","_compileLaTeX","_compileFormat","_main","_setMainEntry","_malloc"]'
+    -sEXPORTED_FUNCTIONS='["_compileBibLatex","_compileLaTeX","_compileFormat","_main","_setMainEntry","_malloc"]'
     -sNO_EXIT_RUNTIME=1
     -sEXPORTED_RUNTIME_METHODS=["cwrap"]
     -sALLOW_MEMORY_GROWTH=1
@@ -51,8 +51,10 @@ file(GLOB_RECURSE COMMONSOURCES
     ${COMMON_CODE_DIR}/md5/md5.c
     ${COMMON_CODE_DIR}/bibtex/bibtex.c
     ${COMMON_CODE_DIR}/localkpse/kpseemu.c
+    ${COMMON_CODE_DIR}/localkpse/kpfind.cpp
     ${COMMON_CODE_DIR}/memory/xmemory.c
     ${COMMON_CODE_DIR}/makeindexk/*.c
+    ${COMMON_CODE_DIR}/tree/*.c
 )
 ## pdftex
 file(GLOB_RECURSE PDFTEXSOURCES
@@ -97,4 +99,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     ${THIRD_PARTY_DIR}/libxpdf/build/libxpdf.a
     ${THIRD_PARTY_DIR}/libarchive/build/libarchive/libarchive.a
     ${THIRD_PARTY_DIR}/liblzma/build/liblzma.a
+    ${THIRD_PARTY_DIR}/libtinyxml2/build/libtinyxml2.a
+    ${THIRD_PARTY_DIR}/libcbiber/build/libcbiber.a
 )
