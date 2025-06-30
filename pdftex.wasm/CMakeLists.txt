@@ -43,6 +43,7 @@ set(CMAKE_EXE_LINKER_FLAGS "${LINKER_FLAGS_STR}")
 file(GLOB_RECURSE TEXSOURCES
     tex/*.c
     texfile.c
+    texmfmp.c
     main.c
 )
 ## common

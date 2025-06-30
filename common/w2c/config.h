@@ -42,6 +42,6 @@ extern "C" {
 #define LONGINTEGER_PRI "l"
 
 // version
-#define ARXTECT_VERSION_STRING "test-20250625"
+#define ARXTECT_VERSION_STRING "test-20250630"
 
 #endif

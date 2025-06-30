@@ -4,7 +4,7 @@
 
 #include <errno.h>
 #include <md5/md5.h>
-#include <setjmp.h> 
+#include <setjmp.h>
 #include <sys/socket.h>
 #include <sys/stat.h>
 #include <sys/time.h>
@@ -12,15 +12,14 @@
 #include <sys/un.h>
 #include <time.h>
 #include <unistd.h>
-
+#include <libgen.h>
 #include <bibtex/bibtex.h>
 #include <cbiber.h>
 #include <makeindexk/makeindex.h>
 #include <tree/tree.h>
- 
+
 int ac;
 char **av;
-
 const char *ptexbanner = " (Arxtect XeTeX " ARXTECT_VERSION_STRING ")";
 const char *DEFAULT_FMT_NAME = " swiftlatexxetex.fmt";
 const char *DEFAULT_DUMP_NAME = "swiftlatexxetex";
@@ -65,19 +64,6 @@ void topenin(void) {
   for (--last; last >= first && IS_SPC_OR_EOL (buffer[last]); --last) 
     ;
   last++;
-
-  // if (optind < ac)
-  // {
-  //  int k = first;
-  //  char *ptr = av[optind];
-  //  while (*ptr) {
-  //          buffer[k++] = *(ptr++);
-  //  }
-  //   buffer[k++] = ' ';
-  //   buffer[k] = 0;
-  //  ac = 0;
-  //  for (last = first; buffer[last]; ++last);
-  // }
 }
 
 void uexit(int code) {
@@ -182,7 +168,13 @@ int compileLaTeX() {
       strncpy(bootstrapcmd, main_entry_file, MAXMAINFILENAME);
     }
     bootstrapcmd[MAXMAINFILENAME - 1] = 0;
-    return _compile();
+    char *cwd = getcwd(NULL, 0);
+    char *dir = dirname(strdup(main_entry_file));
+    if (strcmp(dir, ".")!=0)chdir(dir);
+    int ret = _compile();
+    if (strcmp(dir, ".")!=0)chdir(cwd);
+    free(cwd);
+    return ret;
 }
 
 int compileFormat() {
@@ -242,9 +234,6 @@ int setMainEntry(const char *p) {
 
 int main(int argc, char **argv) {
     printf("SwiftLaTeX Engine Loaded\n");
-#ifdef WEBASSEMBLY_BUILD_LOCAL
-    compileFormat();
-#endif
 }
 
 #endif
