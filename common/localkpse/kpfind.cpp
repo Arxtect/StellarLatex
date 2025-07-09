@@ -126,12 +126,22 @@ fixExtension(const cppstr& filename, kpse_file_format_type format) {
 		default: return {cppstr(), false};
 	}
 }
+#ifdef XETEXWASM
 extern char	  main_entry_file[512];
+#endif
+#ifdef PDFTEXWASM
+extern std::filesystem::path workingDir;
+#endif
 static cppstr caseExists(const cppstr& filename) {
 	if (filename.empty()) { return {}; }
 	if (std::filesystem::exists(filename)) return filename;
 	if (std::filesystem::exists("/tex/" + filename)) return "/tex/" + filename;
+#ifndef PDFTEXWASM
 	static auto	  mainWorkDir	 = fs::absolute(fs::path(main_entry_file)).parent_path();
+#endif
+#ifdef PDFTEXWASM
+	auto& mainWorkDir = workingDir;
+#endif
 	static cppstr mainWorkDirStr = mainWorkDir.string();
 	static bool	  mainIsCur		 = (mainWorkDir == fs::current_path());
 	size_t		  last_slash	 = filename.find_last_of('/');

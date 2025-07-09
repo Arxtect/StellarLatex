@@ -7,6 +7,9 @@
 #ifndef MAKEINDEX_H
 #define MAKEINDEX_H
 
+#ifdef __cplusplus
+extern "C"
+#endif
 int makeindex_main(const char* aux_file);
 
 #endif

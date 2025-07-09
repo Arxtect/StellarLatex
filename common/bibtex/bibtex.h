@@ -6,6 +6,9 @@
 #ifndef BIBTEX_H
 #define BIBTEX_H
 
+#ifdef __cplusplus
+extern "C"
+#endif
 int bibtex_main(const char *aux_file_name);
 
 #endif
