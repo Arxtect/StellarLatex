@@ -1,6 +1,7 @@
 #define EXTERN /* Instantiate data from pdftexd.h here.  */
 
 #include <pdftexd.h>
+#include <pdftexextra.h>
 
 #include <errno.h>
 #include <md5/md5.h>
@@ -20,7 +21,7 @@
 
 int ac;
 char **av;
-const char *ptexbanner = " (Arxtect PDFTeX " ARXTECT_VERSION_STRING ")";
+const char *ptexbanner = BANNER;
 const char *DEFAULT_FMT_NAME = " swiftlatexpdftex.fmt";
 const char *DEFAULT_DUMP_NAME = "swiftlatexpdftex";
 string versionstring = " (Arxtect PDFTeX " ARXTECT_VERSION_STRING ")";

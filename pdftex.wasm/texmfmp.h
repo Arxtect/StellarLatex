@@ -12,7 +12,7 @@
 #include <ctype.h>
 #include <limits.h>
 #include <stddef.h>
-
+#include <zlib.h>
 
 
 

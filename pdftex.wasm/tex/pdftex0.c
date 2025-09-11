@@ -286,8 +286,8 @@ zprintcs ( integer p )
 	
       if ( p == 513 ) 
       {
-	printesc ( 588 ) ;
-	printesc ( 589 ) ;
+	printesc ( 590 ) ;
+	printesc ( 591 ) ;
 	printchar ( 32 ) ;
       } 
       else {
@@ -298,13 +298,13 @@ zprintcs ( integer p )
       } 
     } 
     else if ( p < 1 ) 
-    printesc ( 590 ) ;
+    printesc ( 592 ) ;
     else print ( p - 1 ) ;
   } 
-  else if ( ( ( p >= 26627 ) && ( p <= 30189 ) ) || ( p > eqtbtop ) ) 
-  printesc ( 590 ) ;
+  else if ( ( ( p >= 26627 ) && ( p <= 30191 ) ) || ( p > eqtbtop ) ) 
+  printesc ( 592 ) ;
   else if ( ( hash [p ].v.RH >= strptr ) ) 
-  printesc ( 591 ) ;
+  printesc ( 593 ) ;
   else {
       
     if ( ( p >= 15526 ) && ( p < 17626 ) ) 
@@ -325,8 +325,8 @@ zsprintcs ( halfword p )
     printesc ( p - 257 ) ;
     else {
 	
-      printesc ( 588 ) ;
-      printesc ( 589 ) ;
+      printesc ( 590 ) ;
+      printesc ( 591 ) ;
     } 
   } 
   else if ( ( p >= 15526 ) && ( p < 17626 ) ) 
@@ -395,10 +395,10 @@ zprintsize ( integer s )
 {
   printsize_regmem 
   if ( s == 0 ) 
-  printesc ( 433 ) ;
-  else if ( s == 16 ) 
   printesc ( 434 ) ;
-  else printesc ( 435 ) ;
+  else if ( s == 16 ) 
+  printesc ( 435 ) ;
+  else printesc ( 436 ) ;
 } 
 void 
 zprintwritewhatsit ( strnumber s , halfword p ) 
@@ -410,7 +410,7 @@ zprintwritewhatsit ( strnumber s , halfword p )
   else if ( mem [p + 1 ].hh.b0 == 16 ) 
   printchar ( 42 ) ;
   else printchar ( 45 ) ;
-  if ( ( s == 686 ) && ( mem [p + 1 ].hh.b1 != 64 ) ) 
+  if ( ( s == 688 ) && ( mem [p + 1 ].hh.b1 != 64 ) ) 
   {
     printchar ( 60 ) ;
     printint ( mem [p + 1 ].hh.b1 - 64 ) ;
@@ -470,13 +470,13 @@ printfileline ( void )
   printnl ( 264 ) ;
   else {
       
-    printnl ( 345 ) ;
+    printnl ( 265 ) ;
     print ( fullsourcefilenamestack [level ]) ;
     print ( 58 ) ;
     if ( level == inopen ) 
     printint ( line ) ;
     else printint ( linestack [level + 1 ]) ;
-    print ( 659 ) ;
+    print ( 661 ) ;
   } 
 } 
 ASCIIcode 
@@ -639,6 +639,22 @@ error ( void )
       else uexit ( 0 ) ;
     } 
     haltingonerrorp = true ;
+    if ( interaction > 0 ) 
+    decr ( selector ) ;
+    if ( useerrhelp ) 
+    {
+      println () ;
+      giveerrhelp () ;
+    } 
+    else while ( helpptr > 0 ) {
+	
+      decr ( helpptr ) ;
+      printnl ( helpline [helpptr ]) ;
+    } 
+    println () ;
+    if ( interaction > 0 ) 
+    incr ( selector ) ;
+    println () ;
     history = 3 ;
     jumpout () ;
   } 
@@ -650,7 +666,7 @@ error ( void )
     clearforerrorprompt () ;
     {
       ;
-      print ( 266 ) ;
+      print ( 268 ) ;
       terminput () ;
     } 
     if ( last == first ) 
@@ -693,8 +709,8 @@ error ( void )
 	OKtointerrupt = true ;
 	{
 	  helpptr = 2 ;
-	  helpline [1 ]= 279 ;
-	  helpline [0 ]= 280 ;
+	  helpline [1 ]= 281 ;
+	  helpline [0 ]= 282 ;
 	} 
 	showcontext () ;
 	goto lab22 ;
@@ -734,8 +750,8 @@ error ( void )
 	  if ( helpptr == 0 ) 
 	  {
 	    helpptr = 2 ;
-	    helpline [1 ]= 281 ;
-	    helpline [0 ]= 282 ;
+	    helpline [1 ]= 283 ;
+	    helpline [0 ]= 284 ;
 	  } 
 	  do {
 	      decr ( helpptr ) ;
@@ -745,10 +761,10 @@ error ( void )
 	} 
 	{
 	  helpptr = 4 ;
-	  helpline [3 ]= 283 ;
-	  helpline [2 ]= 282 ;
-	  helpline [1 ]= 284 ;
-	  helpline [0 ]= 285 ;
+	  helpline [3 ]= 285 ;
+	  helpline [2 ]= 284 ;
+	  helpline [1 ]= 286 ;
+	  helpline [0 ]= 287 ;
 	} 
 	goto lab22 ;
       } 
@@ -765,7 +781,7 @@ error ( void )
 	    
 	  {
 	    ;
-	    print ( 278 ) ;
+	    print ( 280 ) ;
 	    terminput () ;
 	  } 
 	  curinput .locfield = first ;
@@ -781,22 +797,22 @@ error ( void )
       {
 	errorcount = 0 ;
 	interaction = 0 + c - 81 ;
-	print ( 273 ) ;
+	print ( 275 ) ;
 	switch ( c ) 
 	{case 81 : 
 	  {
-	    printesc ( 274 ) ;
+	    printesc ( 276 ) ;
 	    decr ( selector ) ;
 	  } 
 	  break ;
 	case 82 : 
-	  printesc ( 275 ) ;
+	  printesc ( 277 ) ;
 	  break ;
 	case 83 : 
-	  printesc ( 276 ) ;
+	  printesc ( 278 ) ;
 	  break ;
 	} 
-	print ( 277 ) ;
+	print ( 279 ) ;
 	println () ;
 	fflush ( stdout ) ;
 	return ;
@@ -813,23 +829,23 @@ error ( void )
       break ;
     } 
     {
-      print ( 267 ) ;
-      printnl ( 268 ) ;
-      printnl ( 269 ) ;
+      print ( 269 ) ;
+      printnl ( 270 ) ;
+      printnl ( 271 ) ;
       if ( baseptr > 0 ) {
 	  
 	if ( inputstack [baseptr ].namefield >= 256 ) 
-	print ( 270 ) ;
+	print ( 272 ) ;
       } 
       if ( deletionsallowed ) 
-      printnl ( 271 ) ;
-      printnl ( 272 ) ;
+      printnl ( 273 ) ;
+      printnl ( 274 ) ;
     } 
   } 
   incr ( errorcount ) ;
   if ( errorcount == 100 ) 
   {
-    printnl ( 265 ) ;
+    printnl ( 267 ) ;
     history = 3 ;
     jumpout () ;
   } 
@@ -861,7 +877,7 @@ zfatalerror ( strnumber s )
     if ( filelineerrorstylep ) 
     printfileline () ;
     else printnl ( 264 ) ;
-    print ( 287 ) ;
+    print ( 289 ) ;
   } 
   {
     helpptr = 1 ;
@@ -892,7 +908,7 @@ zoverflow ( strnumber s , integer n )
     if ( filelineerrorstylep ) 
     printfileline () ;
     else printnl ( 264 ) ;
-    print ( 288 ) ;
+    print ( 290 ) ;
   } 
   print ( s ) ;
   printchar ( 61 ) ;
@@ -900,8 +916,8 @@ zoverflow ( strnumber s , integer n )
   printchar ( 93 ) ;
   {
     helpptr = 2 ;
-    helpline [1 ]= 289 ;
-    helpline [0 ]= 290 ;
+    helpline [1 ]= 291 ;
+    helpline [0 ]= 292 ;
   } 
   {
     if ( interaction == 3 ) 
@@ -930,13 +946,13 @@ zconfusion ( strnumber s )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 291 ) ;
+      print ( 293 ) ;
     } 
     print ( s ) ;
     printchar ( 41 ) ;
     {
       helpptr = 1 ;
-      helpline [0 ]= 292 ;
+      helpline [0 ]= 294 ;
     } 
   } 
   else {
@@ -947,12 +963,12 @@ zconfusion ( strnumber s )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 293 ) ;
+      print ( 295 ) ;
     } 
     {
       helpptr = 2 ;
-      helpline [1 ]= 294 ;
-      helpline [0 ]= 295 ;
+      helpline [1 ]= 296 ;
+      helpline [0 ]= 297 ;
     } 
   } 
   {
@@ -1075,7 +1091,7 @@ zsearchstring ( strnumber search )
   len = ( strstart [search + 1 ]- strstart [search ]) ;
   if ( len == 0 ) 
   {
-    result = 345 ;
+    result = 265 ;
     goto lab40 ;
   } 
   else {
@@ -1212,7 +1228,7 @@ void
 zinterror ( integer n ) 
 {
   interror_regmem 
-  print ( 286 ) ;
+  print ( 288 ) ;
   printint ( n ) ;
   printchar ( 41 ) ;
   error () ;
@@ -1244,13 +1260,13 @@ pauseforinstructions ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 296 ) ;
+      print ( 298 ) ;
     } 
     {
       helpptr = 3 ;
-      helpline [2 ]= 297 ;
-      helpline [1 ]= 298 ;
-      helpline [0 ]= 299 ;
+      helpline [2 ]= 299 ;
+      helpline [1 ]= 300 ;
+      helpline [0 ]= 301 ;
     } 
     deletionsallowed = false ;
     error () ;
@@ -1544,14 +1560,14 @@ zmlog ( integer x )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 300 ) ;
+      print ( 302 ) ;
     } 
     printscaled ( x ) ;
-    print ( 301 ) ;
+    print ( 303 ) ;
     {
       helpptr = 2 ;
-      helpline [1 ]= 302 ;
-      helpline [0 ]= 303 ;
+      helpline [1 ]= 304 ;
+      helpline [0 ]= 305 ;
     } 
     error () ;
     Result = 0 ;
@@ -1831,7 +1847,7 @@ zshowtokenlist ( integer p , integer q , integer l )
     } 
     if ( ( p < himemmin ) || ( p > memend ) ) 
     {
-      printesc ( 314 ) ;
+      printesc ( 316 ) ;
       return ;
     } 
     if ( mem [p ].hh .v.LH >= 4095 ) 
@@ -1841,7 +1857,7 @@ zshowtokenlist ( integer p , integer q , integer l )
       m = mem [p ].hh .v.LH / 256 ;
       c = mem [p ].hh .v.LH % 256 ;
       if ( mem [p ].hh .v.LH < 0 ) 
-      printesc ( 646 ) ;
+      printesc ( 648 ) ;
       else switch ( m ) 
       {case 1 : 
       case 2 : 
@@ -1884,17 +1900,17 @@ zshowtokenlist ( integer p , integer q , integer l )
 	break ;
       case 14 : 
 	if ( c == 0 ) 
-	print ( 647 ) ;
+	print ( 649 ) ;
 	break ;
 	default: 
-	printesc ( 646 ) ;
+	printesc ( 648 ) ;
 	break ;
       } 
     } 
     p = mem [p ].hh .v.RH ;
   } 
   if ( p != -268435455L ) 
-  printesc ( 429 ) ;
+  printesc ( 430 ) ;
 } 
 void 
 runaway ( void ) 
@@ -1906,25 +1922,25 @@ runaway ( void )
     switch ( scannerstatus ) 
     {case 2 : 
       {
-	printnl ( 661 ) ;
+	printnl ( 663 ) ;
 	p = defref ;
       } 
       break ;
     case 3 : 
       {
-	printnl ( 662 ) ;
+	printnl ( 664 ) ;
 	p = memtop - 3 ;
       } 
       break ;
     case 4 : 
       {
-	printnl ( 663 ) ;
+	printnl ( 665 ) ;
 	p = memtop - 4 ;
       } 
       break ;
     case 5 : 
       {
-	printnl ( 664 ) ;
+	printnl ( 666 ) ;
 	p = defref ;
       } 
       break ;
@@ -1954,7 +1970,7 @@ getavail ( void )
     if ( himemmin <= lomemmax ) 
     {
       runaway () ;
-      overflow ( 304 , memmax + 1 - memmin ) ;
+      overflow ( 306 , memmax + 1 - memmin ) ;
     } 
   } 
   mem [p ].hh .v.RH = -268435455L ;
@@ -2055,7 +2071,7 @@ zgetnode ( integer s )
       goto lab20 ;
     } 
   } 
-  overflow ( 304 , memmax + 1 - memmin ) ;
+  overflow ( 306 , memmax + 1 - memmin ) ;
   lab40: mem [r ].hh .v.RH = -268435455L ;
 	;
 #ifdef STAT
@@ -2270,7 +2286,7 @@ zcheckmem ( boolean printlocs )
     clobbered = true ;
     if ( clobbered ) 
     {
-      printnl ( 305 ) ;
+      printnl ( 307 ) ;
       printint ( q ) ;
       goto lab31 ;
     } 
@@ -2294,7 +2310,7 @@ zcheckmem ( boolean printlocs )
     clobbered = true ;
     if ( clobbered ) 
     {
-      printnl ( 306 ) ;
+      printnl ( 308 ) ;
       printint ( q ) ;
       goto lab32 ;
     } 
@@ -2303,7 +2319,7 @@ zcheckmem ( boolean printlocs )
       {
 	if ( freearr [q ]) 
 	{
-	  printnl ( 307 ) ;
+	  printnl ( 309 ) ;
 	  printint ( q ) ;
 	  goto lab32 ;
 	} 
@@ -2319,7 +2335,7 @@ zcheckmem ( boolean printlocs )
       
     if ( ( mem [p ].hh .v.RH == 268435455L ) ) 
     {
-      printnl ( 308 ) ;
+      printnl ( 310 ) ;
       printint ( p ) ;
     } 
     while ( ( p <= lomemmax ) && ! freearr [p ]) incr ( p ) ;
@@ -2327,7 +2343,7 @@ zcheckmem ( boolean printlocs )
   } 
   if ( printlocs ) 
   {
-    printnl ( 309 ) ;
+    printnl ( 311 ) ;
     {register integer for_end; p = memmin ;for_end = lomemmax ; if ( p <= 
     for_end) do 
       if ( ! freearr [p ]&& ( ( p > waslomax ) || wasfree [p ]) ) 
@@ -2370,13 +2386,13 @@ zsearchmem ( halfword p )
     {
       if ( mem [q ].hh .v.RH == p ) 
       {
-	printnl ( 310 ) ;
+	printnl ( 312 ) ;
 	printint ( q ) ;
 	printchar ( 41 ) ;
       } 
       if ( mem [q ].hh .v.LH == p ) 
       {
-	printnl ( 311 ) ;
+	printnl ( 313 ) ;
 	printint ( q ) ;
 	printchar ( 41 ) ;
       } 
@@ -2387,13 +2403,13 @@ zsearchmem ( halfword p )
     {
       if ( mem [q ].hh .v.RH == p ) 
       {
-	printnl ( 310 ) ;
+	printnl ( 312 ) ;
 	printint ( q ) ;
 	printchar ( 41 ) ;
       } 
       if ( mem [q ].hh .v.LH == p ) 
       {
-	printnl ( 311 ) ;
+	printnl ( 313 ) ;
 	printint ( q ) ;
 	printchar ( 41 ) ;
       } 
@@ -2403,7 +2419,7 @@ zsearchmem ( halfword p )
     {
       if ( eqtb [q ].hh .v.RH == p ) 
       {
-	printnl ( 583 ) ;
+	printnl ( 585 ) ;
 	printint ( q ) ;
 	printchar ( 41 ) ;
       } 
@@ -2415,7 +2431,7 @@ zsearchmem ( halfword p )
     {
       if ( savestack [q ].hh .v.RH == p ) 
       {
-	printnl ( 638 ) ;
+	printnl ( 640 ) ;
 	printint ( q ) ;
 	printchar ( 41 ) ;
       } 
@@ -2426,7 +2442,7 @@ zsearchmem ( halfword p )
     {
       if ( hyphlist [q ]== p ) 
       {
-	printnl ( 1363 ) ;
+	printnl ( 1368 ) ;
 	printint ( q ) ;
 	printchar ( 41 ) ;
       } 
@@ -2445,15 +2461,15 @@ zpdferror ( strnumber t , strnumber p )
     if ( filelineerrorstylep ) 
     printfileline () ;
     else printnl ( 264 ) ;
-    print ( 1035 ) ;
+    print ( 1039 ) ;
   } 
   if ( t != 0 ) 
   {
-    print ( 286 ) ;
+    print ( 288 ) ;
     print ( t ) ;
     print ( 41 ) ;
   } 
-  print ( 659 ) ;
+  print ( 661 ) ;
   print ( p ) ;
   {
     if ( interaction == 3 ) 
@@ -2478,14 +2494,14 @@ zpdfwarning ( strnumber t , strnumber p , boolean prependnl , boolean appendnl
   ;
   if ( prependnl ) 
   println () ;
-  print ( 1036 ) ;
+  print ( 1040 ) ;
   if ( t != 0 ) 
   {
-    print ( 286 ) ;
+    print ( 288 ) ;
     print ( t ) ;
     print ( 41 ) ;
   } 
-  print ( 659 ) ;
+  print ( 661 ) ;
   print ( p ) ;
   if ( appendnl ) 
   println () ;
@@ -2498,7 +2514,7 @@ zpdfosgetosbuf ( integer s )
   pdfosgetosbuf_regmem 
   integer a  ;
   if ( s > suppdfosbufsize - pdfptr ) 
-  overflow ( 1037 , pdfosbufsize ) ;
+  overflow ( 1041 , pdfosbufsize ) ;
   if ( pdfptr + s > pdfosbufsize ) 
   {
     a = 0.2 * pdfosbufsize ;
@@ -2537,7 +2553,7 @@ zpdfprintoctal ( integer n )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -2551,7 +2567,7 @@ zpdfprintoctal ( integer n )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -2567,7 +2583,7 @@ zpdfprintoctal ( integer n )
       if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfosgetosbuf ( 1 ) ;
       else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-      overflow ( 1015 , pdfopbufsize ) ;
+      overflow ( 1019 , pdfopbufsize ) ;
       else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfflush () ;
     } 
@@ -2584,7 +2600,7 @@ zpdfprintoctal ( integer n )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -2608,7 +2624,7 @@ zpdfprintchar ( internalfontnumber f , integer c )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -2625,7 +2641,7 @@ zpdfprintchar ( internalfontnumber f , integer c )
       if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfosgetosbuf ( 1 ) ;
       else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-      overflow ( 1015 , pdfopbufsize ) ;
+      overflow ( 1019 , pdfopbufsize ) ;
       else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfflush () ;
     } 
@@ -2650,7 +2666,7 @@ zpdfprint ( strnumber s )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -2697,7 +2713,7 @@ zpdfprintint ( longinteger n )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -2732,7 +2748,7 @@ zpdfprintint ( longinteger n )
     if ( pdfosmode && ( k + pdfptr > pdfbufsize ) ) 
     pdfosgetosbuf ( k ) ;
     else if ( ! pdfosmode && ( k > pdfbufsize ) ) 
-    overflow ( 1015 , pdfopbufsize ) ;
+    overflow ( 1019 , pdfopbufsize ) ;
     else if ( ! pdfosmode && ( k + pdfptr > pdfbufsize ) ) 
     pdfflush () ;
   } 
@@ -2755,7 +2771,7 @@ zpdfprinttwo ( integer n )
       if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfosgetosbuf ( 1 ) ;
       else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-      overflow ( 1015 , pdfopbufsize ) ;
+      overflow ( 1019 , pdfopbufsize ) ;
       else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfflush () ;
     } 
@@ -2769,7 +2785,7 @@ zpdfprinttwo ( integer n )
       if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfosgetosbuf ( 1 ) ;
       else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-      overflow ( 1015 , pdfopbufsize ) ;
+      overflow ( 1019 , pdfopbufsize ) ;
       else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfflush () ;
     } 
@@ -2784,7 +2800,7 @@ ztokenstostring ( halfword p )
 {
   register strnumber Result; tokenstostring_regmem 
   if ( selector == 21 ) 
-  pdferror ( 1038 , 1039 ) ;
+  pdferror ( 1042 , 1043 ) ;
   oldsetting = selector ;
   selector = 21 ;
   showtokenlist ( mem [p ].hh .v.RH , -268435455L , poolsize - poolptr ) ;
@@ -2811,9 +2827,9 @@ zdividescaled ( scaled s , scaled m , integer dd )
     m = - (integer) m ;
   } 
   if ( m == 0 ) 
-  pdferror ( 1040 , 1041 ) ;
+  pdferror ( 1044 , 1045 ) ;
   else if ( m >= ( 2147483647L / 10 ) ) 
-  pdferror ( 1040 , 1042 ) ;
+  pdferror ( 1044 , 1046 ) ;
   q = s / m ;
   r = s % m ;
   {register integer for_end; i = 1 ;for_end = dd ; if ( i <= for_end) do 
@@ -2858,13 +2874,25 @@ zroundxnoverd ( scaled x , integer n , integer d )
   else Result = - (integer) u ;
   return Result ;
 } 
+boolean 
+zisbitset ( integer n , smallnumber s ) 
+{
+  register boolean Result; isbitset_regmem 
+  integer m, i  ;
+  m = 1 ;
+  {register integer for_end; i = 1 ;for_end = s - 1 ; if ( i <= for_end) do 
+    m = m * 2 ;
+  while ( i++ < for_end ) ;} 
+  Result = ( n / m ) % 2 ;
+  return Result ;
+} 
 void 
 zappenddestname ( strnumber s , integer n ) 
 {
   appenddestname_regmem 
   integer a  ;
   if ( pdfdestnamesptr == supdestnamessize ) 
-  overflow ( 1075 , destnamessize ) ;
+  overflow ( 1079 , destnamessize ) ;
   if ( pdfdestnamesptr == destnamessize ) 
   {
     a = 0.2 * destnamessize ;
@@ -2883,7 +2911,7 @@ zpdfcreateobj ( integer t , integer i )
   /* 30 */ pdfcreateobj_regmem 
   integer a, p, q  ;
   if ( sysobjptr == supobjtabsize ) 
-  overflow ( 1076 , objtabsize ) ;
+  overflow ( 1080 , objtabsize ) ;
   if ( sysobjptr == objtabsize ) 
   {
     a = 0.2 * objtabsize ;
@@ -3000,13 +3028,13 @@ zpdfbeginobj ( integer i , integer pdfoslevel )
   {
     pdfprintint ( i ) ;
     {
-      pdfprint ( 1077 ) ;
+      pdfprint ( 1081 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -3019,16 +3047,16 @@ zpdfbeginobj ( integer i , integer pdfoslevel )
   } 
   else if ( eqtb [29343 ].cint == 0 ) 
   {
-    pdfprint ( 1078 ) ;
+    pdfprint ( 1082 ) ;
     pdfprintint ( i ) ;
     {
-      pdfprint ( 1077 ) ;
+      pdfprint ( 1081 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -3058,13 +3086,13 @@ pdfendobj ( void )
   } 
   else {
       
-    pdfprint ( 1079 ) ;
+    pdfprint ( 1083 ) ;
     {
       {
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -3085,13 +3113,13 @@ zpdfbegindict ( integer i , integer pdfoslevel )
   {
     pdfprintint ( i ) ;
     {
-      pdfprint ( 1077 ) ;
+      pdfprint ( 1081 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -3104,16 +3132,16 @@ zpdfbegindict ( integer i , integer pdfoslevel )
   } 
   else if ( eqtb [29343 ].cint == 0 ) 
   {
-    pdfprint ( 1078 ) ;
+    pdfprint ( 1082 ) ;
     pdfprintint ( i ) ;
     {
-      pdfprint ( 1077 ) ;
+      pdfprint ( 1081 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -3125,13 +3153,13 @@ zpdfbegindict ( integer i , integer pdfoslevel )
     } 
   } 
   {
-    pdfprint ( 1080 ) ;
+    pdfprint ( 1084 ) ;
     {
       {
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -3156,13 +3184,13 @@ pdfenddict ( void )
   if ( pdfosmode ) 
   {
     {
-      pdfprint ( 1032 ) ;
+      pdfprint ( 1036 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -3178,13 +3206,13 @@ pdfenddict ( void )
   else {
       
     {
-      pdfprint ( 1032 ) ;
+      pdfprint ( 1036 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -3195,13 +3223,13 @@ pdfenddict ( void )
       } 
     } 
     {
-      pdfprint ( 1079 ) ;
+      pdfprint ( 1083 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -3235,7 +3263,7 @@ pdfoswriteobjstream ( void )
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -3257,13 +3285,13 @@ pdfoswriteobjstream ( void )
   q = pdfptr ;
   pdfbegindict ( pdfoscurobjnum , 0 ) ;
   {
-    pdfprint ( 1081 ) ;
+    pdfprint ( 1085 ) ;
     {
       {
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -3273,7 +3301,7 @@ pdfoswriteobjstream ( void )
       } 
     } 
   } 
-  pdfprint ( 1082 ) ;
+  pdfprint ( 1086 ) ;
   {
     pdfprintint ( pdfosobjidx + 1 ) ;
     {
@@ -3281,7 +3309,7 @@ pdfoswriteobjstream ( void )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -3291,7 +3319,7 @@ pdfoswriteobjstream ( void )
       } 
     } 
   } 
-  pdfprint ( 1083 ) ;
+  pdfprint ( 1087 ) ;
   {
     pdfprintint ( q - p ) ;
     {
@@ -3299,7 +3327,7 @@ pdfoswriteobjstream ( void )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -3314,7 +3342,7 @@ pdfoswriteobjstream ( void )
     if ( pdfosmode && ( q - p + pdfptr > pdfbufsize ) ) 
     pdfosgetosbuf ( q - p ) ;
     else if ( ! pdfosmode && ( q - p > pdfbufsize ) ) 
-    overflow ( 1015 , pdfopbufsize ) ;
+    overflow ( 1019 , pdfopbufsize ) ;
     else if ( ! pdfosmode && ( q - p + pdfptr > pdfbufsize ) ) 
     pdfflush () ;
   } 
@@ -3337,7 +3365,7 @@ pdfoswriteobjstream ( void )
       if ( pdfosmode && ( q - i + pdfptr > pdfbufsize ) ) 
       pdfosgetosbuf ( q - i ) ;
       else if ( ! pdfosmode && ( q - i > pdfbufsize ) ) 
-      overflow ( 1015 , pdfopbufsize ) ;
+      overflow ( 1019 , pdfopbufsize ) ;
       else if ( ! pdfosmode && ( q - i + pdfptr > pdfbufsize ) ) 
       pdfflush () ;
     } 
@@ -3426,7 +3454,7 @@ zpdfcheckobj ( integer t , integer n )
   k = headtab [t ];
   while ( ( k != 0 ) && ( k != n ) ) k = objtab [k ].int1 ;
   if ( k == 0 ) 
-  pdferror ( 1788 , 1813 ) ;
+  pdferror ( 1793 , 1818 ) ;
 } 
 integer 
 zfindobj ( integer t , integer i , boolean byname ) 
@@ -3502,19 +3530,19 @@ zprintfontidentifier ( internalfontnumber f )
   else printesc ( hash [17626 + pdffontblink [f ]].v.RH ) ;
   if ( eqtb [29362 ].cint > 0 ) 
   {
-    print ( 286 ) ;
+    print ( 288 ) ;
     print ( fontname [f ]) ;
     if ( fontsize [f ]!= fontdsize [f ]) 
     {
       print ( 64 ) ;
       printscaled ( fontsize [f ]) ;
-      print ( 312 ) ;
+      print ( 314 ) ;
     } 
     print ( 41 ) ;
   } 
   else if ( pdffontexpandratio [f ]!= 0 ) 
   {
-    print ( 286 ) ;
+    print ( 288 ) ;
     if ( pdffontexpandratio [f ]> 0 ) 
     print ( 43 ) ;
     printint ( pdffontexpandratio [f ]) ;
@@ -3551,7 +3579,7 @@ zshortdisplay ( integer p )
     case 4 : 
     case 5 : 
     case 13 : 
-      print ( 313 ) ;
+      print ( 315 ) ;
       break ;
     case 2 : 
       printchar ( 124 ) ;
@@ -3562,7 +3590,7 @@ zshortdisplay ( integer p )
       break ;
     case 9 : 
       if ( mem [p ].hh.b1 >= 4 ) 
-      print ( 313 ) ;
+      print ( 315 ) ;
       else printchar ( 36 ) ;
       break ;
     case 6 : 
@@ -3593,7 +3621,7 @@ zprintfontandchar ( integer p )
 {
   printfontandchar_regmem 
   if ( p > memend ) 
-  printesc ( 314 ) ;
+  printesc ( 316 ) ;
   else {
       
     if ( ( mem [p ].hh.b0 > fontmax ) ) 
@@ -3609,7 +3637,7 @@ zprintmark ( integer p )
   printmark_regmem 
   printchar ( 123 ) ;
   if ( ( p < himemmin ) || ( p > memend ) ) 
-  printesc ( 314 ) ;
+  printesc ( 316 ) ;
   else showtokenlist ( mem [p ].hh .v.RH , -268435455L , maxprintline - 10 ) 
   ;
   printchar ( 125 ) ;
@@ -3628,10 +3656,10 @@ zprintglue ( scaled d , integer order , strnumber s )
   printglue_regmem 
   printscaled ( d ) ;
   if ( ( order < 0 ) || ( order > 3 ) ) 
-  print ( 315 ) ;
+  print ( 317 ) ;
   else if ( order > 0 ) 
   {
-    print ( 316 ) ;
+    print ( 318 ) ;
     while ( order > 1 ) {
 	
       printchar ( 108 ) ;
@@ -3654,12 +3682,12 @@ zprintspec ( integer p , strnumber s )
     print ( s ) ;
     if ( mem [p + 2 ].cint != 0 ) 
     {
-      print ( 317 ) ;
+      print ( 319 ) ;
       printglue ( mem [p + 2 ].cint , mem [p ].hh.b0 , s ) ;
     } 
     if ( mem [p + 3 ].cint != 0 ) 
     {
-      print ( 318 ) ;
+      print ( 320 ) ;
       printglue ( mem [p + 3 ].cint , mem [p ].hh.b1 , s ) ;
     } 
   } 
@@ -3668,7 +3696,7 @@ void
 zprintfamandchar ( halfword p ) 
 {
   printfamandchar_regmem 
-  printesc ( 485 ) ;
+  printesc ( 486 ) ;
   printint ( mem [p ].hh.b0 ) ;
   printchar ( 32 ) ;
   print ( mem [p ].hh.b1 ) ;
@@ -3691,7 +3719,7 @@ zprintsubsidiarydata ( halfword p , ASCIIcode c )
   if ( ( poolptr - strstart [strptr ]) >= depththreshold ) 
   {
     if ( mem [p ].hh .v.RH != 0 ) 
-    print ( 319 ) ;
+    print ( 321 ) ;
   } 
   else {
       
@@ -3716,7 +3744,7 @@ zprintsubsidiarydata ( halfword p , ASCIIcode c )
       {
 	println () ;
 	printcurrentstring () ;
-	print ( 1278 ) ;
+	print ( 1283 ) ;
       } 
       else showinfo () ;
       break ;
@@ -3733,19 +3761,19 @@ zprintstyle ( integer c )
   printstyle_regmem 
   switch ( c / 2 ) 
   {case 0 : 
-    printesc ( 1279 ) ;
+    printesc ( 1284 ) ;
     break ;
   case 1 : 
-    printesc ( 1280 ) ;
+    printesc ( 1285 ) ;
     break ;
   case 2 : 
-    printesc ( 1281 ) ;
+    printesc ( 1286 ) ;
     break ;
   case 3 : 
-    printesc ( 1282 ) ;
+    printesc ( 1287 ) ;
     break ;
     default: 
-    print ( 1283 ) ;
+    print ( 1288 ) ;
     break ;
   } 
 } 
@@ -3755,61 +3783,61 @@ zprintskipparam ( integer n )
   printskipparam_regmem 
   switch ( n ) 
   {case 0 : 
-    printesc ( 394 ) ;
-    break ;
-  case 1 : 
     printesc ( 395 ) ;
     break ;
-  case 2 : 
+  case 1 : 
     printesc ( 396 ) ;
     break ;
-  case 3 : 
+  case 2 : 
     printesc ( 397 ) ;
     break ;
-  case 4 : 
+  case 3 : 
     printesc ( 398 ) ;
     break ;
-  case 5 : 
+  case 4 : 
     printesc ( 399 ) ;
     break ;
-  case 6 : 
+  case 5 : 
     printesc ( 400 ) ;
     break ;
-  case 7 : 
+  case 6 : 
     printesc ( 401 ) ;
     break ;
-  case 8 : 
+  case 7 : 
     printesc ( 402 ) ;
     break ;
-  case 9 : 
+  case 8 : 
     printesc ( 403 ) ;
     break ;
-  case 10 : 
+  case 9 : 
     printesc ( 404 ) ;
     break ;
-  case 11 : 
+  case 10 : 
     printesc ( 405 ) ;
     break ;
-  case 12 : 
+  case 11 : 
     printesc ( 406 ) ;
     break ;
-  case 13 : 
+  case 12 : 
     printesc ( 407 ) ;
     break ;
-  case 14 : 
+  case 13 : 
     printesc ( 408 ) ;
     break ;
-  case 15 : 
+  case 14 : 
     printesc ( 409 ) ;
     break ;
-  case 16 : 
+  case 15 : 
     printesc ( 410 ) ;
     break ;
-  case 17 : 
+  case 16 : 
     printesc ( 411 ) ;
     break ;
+  case 17 : 
+    printesc ( 412 ) ;
+    break ;
     default: 
-    print ( 412 ) ;
+    print ( 413 ) ;
     break ;
   } 
 } 
@@ -3822,7 +3850,7 @@ zshownodelist ( integer p )
   if ( ( poolptr - strstart [strptr ]) > depththreshold ) 
   {
     if ( p > -268435455L ) 
-    print ( 319 ) ;
+    print ( 321 ) ;
     return ;
   } 
   n = 0 ;
@@ -3832,13 +3860,13 @@ zshownodelist ( integer p )
     printcurrentstring () ;
     if ( p > memend ) 
     {
-      print ( 320 ) ;
+      print ( 322 ) ;
       return ;
     } 
     incr ( n ) ;
     if ( n > breadthmax ) 
     {
-      print ( 321 ) ;
+      print ( 323 ) ;
       return ;
     } 
     if ( ( p >= himemmin ) ) 
@@ -3852,29 +3880,29 @@ zshownodelist ( integer p )
 	printesc ( 104 ) ;
 	else if ( mem [p ].hh.b0 == 1 ) 
 	printesc ( 118 ) ;
-	else printesc ( 326 ) ;
-	print ( 327 ) ;
+	else printesc ( 328 ) ;
+	print ( 329 ) ;
 	printscaled ( mem [p + 3 ].cint ) ;
 	printchar ( 43 ) ;
 	printscaled ( mem [p + 2 ].cint ) ;
-	print ( 328 ) ;
+	print ( 330 ) ;
 	printscaled ( mem [p + 1 ].cint ) ;
 	if ( mem [p ].hh.b0 == 13 ) 
 	{
 	  if ( mem [p ].hh.b1 != 0 ) 
 	  {
-	    print ( 286 ) ;
+	    print ( 288 ) ;
 	    printint ( mem [p ].hh.b1 + 1 ) ;
-	    print ( 330 ) ;
+	    print ( 332 ) ;
 	  } 
 	  if ( mem [p + 6 ].cint != 0 ) 
 	  {
-	    print ( 331 ) ;
+	    print ( 333 ) ;
 	    printglue ( mem [p + 6 ].cint , mem [p + 5 ].hh.b1 , 0 ) ;
 	  } 
 	  if ( mem [p + 4 ].cint != 0 ) 
 	  {
-	    print ( 332 ) ;
+	    print ( 334 ) ;
 	    printglue ( mem [p + 4 ].cint , mem [p + 5 ].hh.b0 , 0 ) ;
 	  } 
 	} 
@@ -3883,14 +3911,14 @@ zshownodelist ( integer p )
 	  g = mem [p + 6 ].gr ;
 	  if ( ( g != 0.0 ) && ( mem [p + 5 ].hh.b0 != 0 ) ) 
 	  {
-	    print ( 333 ) ;
+	    print ( 335 ) ;
 	    if ( mem [p + 5 ].hh.b0 == 2 ) 
-	    print ( 334 ) ;
+	    print ( 336 ) ;
 	    if ( fabs ( g ) > 20000.0 ) 
 	    {
 	      if ( g > 0.0 ) 
 	      printchar ( 62 ) ;
-	      else print ( 335 ) ;
+	      else print ( 337 ) ;
 	      printglue ( 20000 * 65536L , mem [p + 5 ].hh.b1 , 0 ) ;
 	    } 
 	    else printglue ( round ( 65536L * g ) , mem [p + 5 ].hh.b1 , 0 ) 
@@ -3898,13 +3926,13 @@ zshownodelist ( integer p )
 	  } 
 	  if ( mem [p + 4 ].cint != 0 ) 
 	  {
-	    print ( 329 ) ;
+	    print ( 331 ) ;
 	    printscaled ( mem [p + 4 ].cint ) ;
 	  } 
 	  if ( ( eTeXmode == 1 ) ) {
 	      
 	    if ( ( mem [p ].hh.b0 == 0 ) && ( ( mem [p ].hh.b1 ) == 2 ) ) 
-	    print ( 2045 ) ;
+	    print ( 2052 ) ;
 	  } 
 	} 
 	{
@@ -3919,25 +3947,25 @@ zshownodelist ( integer p )
       break ;
     case 2 : 
       {
-	printesc ( 336 ) ;
+	printesc ( 338 ) ;
 	printruledimen ( mem [p + 3 ].cint ) ;
 	printchar ( 43 ) ;
 	printruledimen ( mem [p + 2 ].cint ) ;
-	print ( 328 ) ;
+	print ( 330 ) ;
 	printruledimen ( mem [p + 1 ].cint ) ;
       } 
       break ;
     case 3 : 
       {
-	printesc ( 337 ) ;
+	printesc ( 339 ) ;
 	printint ( mem [p ].hh.b1 ) ;
-	print ( 338 ) ;
+	print ( 340 ) ;
 	printscaled ( mem [p + 3 ].cint ) ;
-	print ( 339 ) ;
+	print ( 341 ) ;
 	printspec ( mem [p + 4 ].hh .v.RH , 0 ) ;
 	printchar ( 44 ) ;
 	printscaled ( mem [p + 2 ].cint ) ;
-	print ( 340 ) ;
+	print ( 342 ) ;
 	printint ( mem [p + 1 ].cint ) ;
 	{
 	  {
@@ -3953,7 +3981,7 @@ zshownodelist ( integer p )
       switch ( mem [p ].hh.b1 ) 
       {case 0 : 
 	{
-	  printwritewhatsit ( 1740 , p ) ;
+	  printwritewhatsit ( 1745 , p ) ;
 	  printchar ( 61 ) ;
 	  printfilename ( mem [p + 1 ].hh .v.RH , mem [p + 2 ].hh .v.LH , 
 	  mem [p + 2 ].hh .v.RH ) ;
@@ -3961,16 +3989,16 @@ zshownodelist ( integer p )
 	break ;
       case 1 : 
 	{
-	  printwritewhatsit ( 686 , p ) ;
+	  printwritewhatsit ( 688 , p ) ;
 	  printmark ( mem [p + 1 ].hh .v.RH ) ;
 	} 
 	break ;
       case 2 : 
-	printwritewhatsit ( 1741 , p ) ;
+	printwritewhatsit ( 1746 , p ) ;
 	break ;
       case 3 : 
 	{
-	  printesc ( 1742 ) ;
+	  printesc ( 1747 ) ;
 	  if ( mem [p + 1 ].hh.b0 != 64 ) 
 	  {
 	    printchar ( 60 ) ;
@@ -3988,16 +4016,16 @@ zshownodelist ( integer p )
 	break ;
       case 4 : 
 	{
-	  printesc ( 1742 ) ;
-	  print ( 1900 ) ;
+	  printesc ( 1747 ) ;
+	  print ( 1906 ) ;
 	  printmark ( mem [p + 1 ].hh .v.RH ) ;
 	} 
 	break ;
       case 5 : 
 	{
-	  printesc ( 1744 ) ;
+	  printesc ( 1749 ) ;
 	  printint ( mem [p + 1 ].hh .v.RH ) ;
-	  print ( 1901 ) ;
+	  print ( 1907 ) ;
 	  printint ( mem [p + 1 ].hh.b0 ) ;
 	  printchar ( 44 ) ;
 	  printint ( mem [p + 1 ].hh.b1 ) ;
@@ -4007,21 +4035,21 @@ zshownodelist ( integer p )
       case 7 : 
       case 8 : 
 	{
-	  printesc ( 1745 ) ;
+	  printesc ( 1750 ) ;
 	  if ( mem [p ].hh.b1 == 8 ) 
-	  print ( 1900 ) ;
+	  print ( 1906 ) ;
 	  switch ( mem [p + 1 ].hh .v.LH ) 
 	  {case 0 : 
 	    ;
 	    break ;
 	  case 1 : 
-	    print ( 1011 ) ;
+	    print ( 1015 ) ;
 	    break ;
 	  case 2 : 
-	    print ( 1902 ) ;
+	    print ( 1908 ) ;
 	    break ;
 	    default: 
-	    confusion ( 1903 ) ;
+	    confusion ( 1909 ) ;
 	    break ;
 	  } 
 	  printmark ( mem [p + 1 ].hh .v.RH ) ;
@@ -4029,23 +4057,23 @@ zshownodelist ( integer p )
 	break ;
       case 40 : 
 	{
-	  printesc ( 1904 ) ;
+	  printesc ( 1910 ) ;
 	  printint ( mem [p + 1 ].hh .v.RH ) ;
 	  switch ( mem [p + 1 ].hh .v.LH ) 
 	  {case 0 : 
-	    print ( 1905 ) ;
+	    print ( 1911 ) ;
 	    break ;
 	  case 1 : 
-	    print ( 1906 ) ;
+	    print ( 1912 ) ;
 	    break ;
 	  case 2 : 
-	    print ( 1907 ) ;
+	    print ( 1913 ) ;
 	    break ;
 	  case 3 : 
-	    print ( 1908 ) ;
+	    print ( 1914 ) ;
 	    break ;
 	    default: 
-	    confusion ( 1142 ) ;
+	    confusion ( 1146 ) ;
 	    break ;
 	  } 
 	  if ( mem [p + 1 ].hh .v.LH <= 1 ) 
@@ -4054,98 +4082,98 @@ zshownodelist ( integer p )
 	break ;
       case 41 : 
 	{
-	  printesc ( 1746 ) ;
+	  printesc ( 1751 ) ;
 	  printmark ( mem [p + 1 ].hh .v.RH ) ;
 	} 
 	break ;
       case 42 : 
 	{
-	  printesc ( 1747 ) ;
+	  printesc ( 1752 ) ;
 	} 
 	break ;
       case 43 : 
 	{
-	  printesc ( 1748 ) ;
+	  printesc ( 1753 ) ;
 	} 
 	break ;
       case 10 : 
 	{
-	  printesc ( 1750 ) ;
+	  printesc ( 1755 ) ;
 	  if ( pdfmem [objtab [mem [p + 1 ].hh .v.LH ].int4 + 1 ]> 0 ) 
 	  {
 	    if ( pdfmem [objtab [mem [p + 1 ].hh .v.LH ].int4 + 2 ]!= 
 	    -268435455L ) 
 	    {
-	      print ( 1909 ) ;
+	      print ( 1915 ) ;
 	      printmark ( pdfmem [objtab [mem [p + 1 ].hh .v.LH ].int4 + 
 	      2 ]) ;
 	    } 
-	    print ( 1910 ) ;
+	    print ( 1916 ) ;
 	  } 
 	  if ( pdfmem [objtab [mem [p + 1 ].hh .v.LH ].int4 + 3 ]> 0 ) 
-	  print ( 1911 ) ;
+	  print ( 1917 ) ;
 	  printmark ( pdfmem [objtab [mem [p + 1 ].hh .v.LH ].int4 + 0 ]
 	  ) ;
 	} 
 	break ;
       case 12 : 
 	{
-	  printesc ( 1752 ) ;
+	  printesc ( 1757 ) ;
 	  print ( 40 ) ;
 	  printscaled ( pdfmem [objtab [mem [p + 4 ].hh .v.LH ].int4 + 1 
 	  ]) ;
 	  printchar ( 43 ) ;
 	  printscaled ( pdfmem [objtab [mem [p + 4 ].hh .v.LH ].int4 + 2 
 	  ]) ;
-	  print ( 328 ) ;
+	  print ( 330 ) ;
 	  printscaled ( pdfmem [objtab [mem [p + 4 ].hh .v.LH ].int4 + 0 
 	  ]) ;
 	} 
 	break ;
       case 14 : 
 	{
-	  printesc ( 1754 ) ;
+	  printesc ( 1759 ) ;
 	  print ( 40 ) ;
 	  printscaled ( pdfmem [objtab [mem [p + 4 ].hh .v.LH ].int4 + 1 
 	  ]) ;
 	  printchar ( 43 ) ;
 	  printscaled ( pdfmem [objtab [mem [p + 4 ].hh .v.LH ].int4 + 2 
 	  ]) ;
-	  print ( 328 ) ;
+	  print ( 330 ) ;
 	  printscaled ( pdfmem [objtab [mem [p + 4 ].hh .v.LH ].int4 + 0 
 	  ]) ;
 	} 
 	break ;
       case 15 : 
 	{
-	  printesc ( 1755 ) ;
+	  printesc ( 1760 ) ;
 	  print ( 40 ) ;
 	  printruledimen ( mem [p + 2 ].cint ) ;
 	  printchar ( 43 ) ;
 	  printruledimen ( mem [p + 3 ].cint ) ;
-	  print ( 328 ) ;
+	  print ( 330 ) ;
 	  printruledimen ( mem [p + 1 ].cint ) ;
 	  printmark ( mem [p + 5 ].hh .v.LH ) ;
 	} 
 	break ;
       case 16 : 
 	{
-	  printesc ( 1756 ) ;
+	  printesc ( 1761 ) ;
 	  print ( 40 ) ;
 	  printruledimen ( mem [p + 2 ].cint ) ;
 	  printchar ( 43 ) ;
 	  printruledimen ( mem [p + 3 ].cint ) ;
-	  print ( 328 ) ;
+	  print ( 330 ) ;
 	  printruledimen ( mem [p + 1 ].cint ) ;
 	  if ( mem [p + 5 ].hh .v.LH != -268435455L ) 
 	  {
-	    print ( 1909 ) ;
+	    print ( 1915 ) ;
 	    printmark ( mem [p + 5 ].hh .v.LH ) ;
 	  } 
-	  print ( 1912 ) ;
+	  print ( 1918 ) ;
 	  if ( mem [mem [p + 5 ].hh .v.RH ].hh.b0 == 3 ) 
 	  {
-	    print ( 1913 ) ;
+	    print ( 1919 ) ;
 	    printmark ( mem [mem [p + 5 ].hh .v.RH + 2 ].hh .v.LH ) ;
 	  } 
 	  else {
@@ -4153,7 +4181,7 @@ zshownodelist ( integer p )
 	    if ( mem [mem [p + 5 ].hh .v.RH + 1 ].hh .v.LH != -268435455L 
 	    ) 
 	    {
-	      print ( 1911 ) ;
+	      print ( 1917 ) ;
 	      printmark ( mem [mem [p + 5 ].hh .v.RH + 1 ].hh .v.LH ) ;
 	    } 
 	    switch ( mem [mem [p + 5 ].hh .v.RH ].hh.b0 ) 
@@ -4161,19 +4189,19 @@ zshownodelist ( integer p )
 	      {
 		if ( ( mem [mem [p + 5 ].hh .v.RH ].hh.b1 % 2 ) == 1 ) 
 		{
-		  print ( 1914 ) ;
+		  print ( 1920 ) ;
 		  printmark ( mem [mem [p + 5 ].hh .v.RH ].hh .v.RH ) ;
 		} 
 		else {
 		    
-		  print ( 1915 ) ;
+		  print ( 1921 ) ;
 		  printint ( mem [mem [p + 5 ].hh .v.RH ].hh .v.RH ) ;
 		} 
 	      } 
 	      break ;
 	    case 0 : 
 	      {
-		print ( 1011 ) ;
+		print ( 1015 ) ;
 		printint ( mem [mem [p + 5 ].hh .v.RH ].hh .v.RH ) ;
 		printmark ( mem [mem [p + 5 ].hh .v.RH + 2 ].hh .v.LH ) ;
 	      } 
@@ -4182,87 +4210,87 @@ zshownodelist ( integer p )
 	      {
 		if ( ( mem [mem [p + 5 ].hh .v.RH ].hh.b1 % 2 ) == 1 ) 
 		{
-		  print ( 1916 ) ;
+		  print ( 1922 ) ;
 		  printmark ( mem [mem [p + 5 ].hh .v.RH ].hh .v.RH ) ;
 		} 
 		else {
 		    
-		  print ( 1917 ) ;
+		  print ( 1923 ) ;
 		  printint ( mem [mem [p + 5 ].hh .v.RH ].hh .v.RH ) ;
 		} 
 	      } 
 	      break ;
 	      default: 
-	      pdferror ( 1918 , 1919 ) ;
+	      pdferror ( 1924 , 1925 ) ;
 	      break ;
 	    } 
 	  } 
 	} 
 	break ;
       case 17 : 
-	printesc ( 1757 ) ;
+	printesc ( 1762 ) ;
 	break ;
       case 19 : 
 	{
-	  printesc ( 1759 ) ;
+	  printesc ( 1764 ) ;
 	  if ( mem [p + 6 ].hh .v.RH != -268435455L ) 
 	  {
-	    print ( 1920 ) ;
+	    print ( 1926 ) ;
 	    printint ( mem [p + 6 ].hh .v.RH ) ;
 	  } 
 	  if ( mem [p + 5 ].hh.b1 > 0 ) 
 	  {
-	    print ( 1921 ) ;
+	    print ( 1927 ) ;
 	    printmark ( mem [p + 5 ].hh .v.RH ) ;
 	  } 
 	  else {
 	      
-	    print ( 1922 ) ;
+	    print ( 1928 ) ;
 	    printint ( mem [p + 5 ].hh .v.RH ) ;
 	  } 
 	  print ( 32 ) ;
 	  switch ( mem [p + 5 ].hh.b0 ) 
 	  {case 0 : 
 	    {
-	      print ( 1860 ) ;
+	      print ( 1866 ) ;
 	      if ( mem [p + 6 ].hh .v.LH != -268435455L ) 
 	      {
-		print ( 1923 ) ;
+		print ( 1929 ) ;
 		printint ( mem [p + 6 ].hh .v.LH ) ;
 	      } 
 	    } 
 	    break ;
 	  case 5 : 
-	    print ( 1862 ) ;
+	    print ( 1868 ) ;
 	    break ;
 	  case 6 : 
-	    print ( 1863 ) ;
+	    print ( 1869 ) ;
 	    break ;
 	  case 4 : 
-	    print ( 1864 ) ;
+	    print ( 1870 ) ;
 	    break ;
 	  case 2 : 
-	    print ( 1865 ) ;
+	    print ( 1871 ) ;
 	    break ;
 	  case 3 : 
-	    print ( 1866 ) ;
+	    print ( 1872 ) ;
 	    break ;
 	  case 7 : 
 	    {
-	      print ( 1867 ) ;
+	      print ( 1873 ) ;
 	      print ( 40 ) ;
 	      printruledimen ( mem [p + 2 ].cint ) ;
 	      printchar ( 43 ) ;
 	      printruledimen ( mem [p + 3 ].cint ) ;
-	      print ( 328 ) ;
+	      print ( 330 ) ;
 	      printruledimen ( mem [p + 1 ].cint ) ;
 	    } 
 	    break ;
 	  case 1 : 
-	    print ( 1868 ) ;
+	    print ( 1874 ) ;
 	    break ;
 	    default: 
-	    print ( 1924 ) ;
+	    print ( 1930 ) ;
 	    break ;
 	  } 
 	} 
@@ -4271,43 +4299,43 @@ zshownodelist ( integer p )
       case 21 : 
 	{
 	  if ( mem [p ].hh.b1 == 20 ) 
-	  printesc ( 1760 ) ;
-	  else printesc ( 1761 ) ;
+	  printesc ( 1765 ) ;
+	  else printesc ( 1766 ) ;
 	  print ( 40 ) ;
 	  printruledimen ( mem [p + 2 ].cint ) ;
 	  printchar ( 43 ) ;
 	  printruledimen ( mem [p + 3 ].cint ) ;
-	  print ( 328 ) ;
+	  print ( 330 ) ;
 	  printruledimen ( mem [p + 1 ].cint ) ;
 	  if ( mem [p + 6 ].hh .v.LH != -268435455L ) 
 	  {
-	    print ( 1909 ) ;
+	    print ( 1915 ) ;
 	    printmark ( mem [p + 6 ].hh .v.LH ) ;
 	  } 
 	  if ( mem [p + 5 ].hh.b1 > 0 ) 
 	  {
-	    print ( 1921 ) ;
+	    print ( 1927 ) ;
 	    printmark ( mem [p + 5 ].hh .v.RH ) ;
 	  } 
 	  else {
 	      
-	    print ( 1922 ) ;
+	    print ( 1928 ) ;
 	    printint ( mem [p + 5 ].hh .v.RH ) ;
 	  } 
 	} 
 	break ;
       case 22 : 
-	printesc ( 1762 ) ;
+	printesc ( 1767 ) ;
 	break ;
       case 23 : 
-	printesc ( 1763 ) ;
+	printesc ( 1768 ) ;
 	break ;
       case 36 : 
-	printesc ( 1764 ) ;
+	printesc ( 1769 ) ;
 	break ;
       case 37 : 
 	{
-	  printesc ( 1765 ) ;
+	  printesc ( 1770 ) ;
 	  printchar ( 32 ) ;
 	  printspec ( mem [p + 1 ].hh .v.LH , 0 ) ;
 	  printchar ( 32 ) ;
@@ -4316,40 +4344,40 @@ zshownodelist ( integer p )
 	break ;
       case 38 : 
 	{
-	  printesc ( 1766 ) ;
+	  printesc ( 1771 ) ;
 	  printchar ( 32 ) ;
 	  printint ( mem [p + 1 ].cint ) ;
 	} 
 	break ;
       case 45 : 
-	printesc ( 1781 ) ;
+	printesc ( 1786 ) ;
 	break ;
       case 46 : 
-	printesc ( 1782 ) ;
+	printesc ( 1787 ) ;
 	break ;
       case 47 : 
-	printesc ( 1783 ) ;
+	printesc ( 1788 ) ;
 	break ;
       case 48 : 
-	printesc ( 1784 ) ;
+	printesc ( 1789 ) ;
 	break ;
       case 49 : 
-	printesc ( 1785 ) ;
+	printesc ( 1790 ) ;
 	break ;
 	default: 
-	print ( 1925 ) ;
+	print ( 1931 ) ;
 	break ;
       } 
       break ;
     case 10 : 
       if ( mem [p ].hh.b1 >= 100 ) 
       {
-	printesc ( 345 ) ;
+	printesc ( 265 ) ;
 	if ( mem [p ].hh.b1 == 101 ) 
 	printchar ( 99 ) ;
 	else if ( mem [p ].hh.b1 == 102 ) 
 	printchar ( 120 ) ;
-	print ( 346 ) ;
+	print ( 347 ) ;
 	printspec ( mem [p + 1 ].hh .v.LH , 0 ) ;
 	{
 	  {
@@ -4362,15 +4390,15 @@ zshownodelist ( integer p )
       } 
       else {
 	  
-	printesc ( 341 ) ;
+	printesc ( 343 ) ;
 	if ( mem [p ].hh.b1 != 0 ) 
 	{
 	  printchar ( 40 ) ;
 	  if ( mem [p ].hh.b1 < 98 ) 
 	  printskipparam ( mem [p ].hh.b1 - 1 ) ;
 	  else if ( mem [p ].hh.b1 == 98 ) 
-	  printesc ( 342 ) ;
-	  else printesc ( 343 ) ;
+	  printesc ( 344 ) ;
+	  else printesc ( 345 ) ;
 	  printchar ( 41 ) ;
 	} 
 	if ( mem [p ].hh.b1 != 98 ) 
@@ -4378,44 +4406,44 @@ zshownodelist ( integer p )
 	  printchar ( 32 ) ;
 	  if ( mem [p ].hh.b1 < 98 ) 
 	  printspec ( mem [p + 1 ].hh .v.LH , 0 ) ;
-	  else printspec ( mem [p + 1 ].hh .v.LH , 344 ) ;
+	  else printspec ( mem [p + 1 ].hh .v.LH , 346 ) ;
 	} 
       } 
       break ;
     case 40 : 
       {
-	printesc ( 322 ) ;
+	printesc ( 324 ) ;
 	printscaled ( mem [p + 1 ].cint ) ;
 	if ( mem [p ].hh.b1 == 0 ) 
-	print ( 323 ) ;
-	else print ( 324 ) ;
+	print ( 325 ) ;
+	else print ( 326 ) ;
       } 
       break ;
     case 11 : 
       if ( mem [p ].hh.b1 != 99 ) 
       {
-	printesc ( 322 ) ;
+	printesc ( 324 ) ;
 	if ( mem [p ].hh.b1 != 0 ) 
 	printchar ( 32 ) ;
 	printscaled ( mem [p + 1 ].cint ) ;
 	if ( mem [p ].hh.b1 == 2 ) 
-	print ( 347 ) ;
-	if ( mem [p ].hh.b1 == 3 ) 
 	print ( 348 ) ;
+	if ( mem [p ].hh.b1 == 3 ) 
+	print ( 349 ) ;
       } 
       else {
 	  
-	printesc ( 349 ) ;
+	printesc ( 350 ) ;
 	printscaled ( mem [p + 1 ].cint ) ;
-	print ( 344 ) ;
+	print ( 346 ) ;
       } 
       break ;
     case 9 : 
       if ( mem [p ].hh.b1 > 1 ) 
       {
 	if ( odd ( mem [p ].hh.b1 ) ) 
-	printesc ( 350 ) ;
-	else printesc ( 351 ) ;
+	printesc ( 351 ) ;
+	else printesc ( 352 ) ;
 	if ( mem [p ].hh.b1 > 8 ) 
 	printchar ( 82 ) ;
 	else if ( mem [p ].hh.b1 > 4 ) 
@@ -4424,13 +4452,13 @@ zshownodelist ( integer p )
       } 
       else {
 	  
-	printesc ( 352 ) ;
+	printesc ( 353 ) ;
 	if ( mem [p ].hh.b1 == 0 ) 
-	print ( 353 ) ;
-	else print ( 354 ) ;
+	print ( 354 ) ;
+	else print ( 355 ) ;
 	if ( mem [p + 1 ].cint != 0 ) 
 	{
-	  print ( 355 ) ;
+	  print ( 356 ) ;
 	  printscaled ( mem [p + 1 ].cint ) ;
 	} 
       } 
@@ -4438,7 +4466,7 @@ zshownodelist ( integer p )
     case 6 : 
       {
 	printfontandchar ( p + 1 ) ;
-	print ( 356 ) ;
+	print ( 357 ) ;
 	if ( mem [p ].hh.b1 > 1 ) 
 	printchar ( 124 ) ;
 	fontinshortdisplay = mem [p + 1 ].hh.b0 ;
@@ -4450,16 +4478,16 @@ zshownodelist ( integer p )
       break ;
     case 12 : 
       {
-	printesc ( 357 ) ;
+	printesc ( 358 ) ;
 	printint ( mem [p + 1 ].cint ) ;
       } 
       break ;
     case 7 : 
       {
-	printesc ( 358 ) ;
+	printesc ( 359 ) ;
 	if ( mem [p ].hh.b1 > 0 ) 
 	{
-	  print ( 359 ) ;
+	  print ( 360 ) ;
 	  printint ( mem [p ].hh.b1 ) ;
 	} 
 	{
@@ -4480,7 +4508,7 @@ zshownodelist ( integer p )
       break ;
     case 4 : 
       {
-	printesc ( 360 ) ;
+	printesc ( 361 ) ;
 	if ( mem [p + 1 ].hh .v.LH != 0 ) 
 	{
 	  printchar ( 115 ) ;
@@ -4491,9 +4519,9 @@ zshownodelist ( integer p )
       break ;
     case 5 : 
       {
-	printesc ( 361 ) ;
+	printesc ( 362 ) ;
 	if ( mem [p ].hh.b1 != 0 ) 
-	print ( 362 ) ;
+	print ( 363 ) ;
 	{
 	  {
 	    strpool [poolptr ]= 46 ;
@@ -4509,7 +4537,7 @@ zshownodelist ( integer p )
       break ;
     case 15 : 
       {
-	printesc ( 612 ) ;
+	printesc ( 614 ) ;
 	{
 	  strpool [poolptr ]= 68 ;
 	  incr ( poolptr ) ;
@@ -4554,61 +4582,61 @@ zshownodelist ( integer p )
       {
 	switch ( mem [p ].hh.b0 ) 
 	{case 16 : 
-	  printesc ( 1284 ) ;
-	  break ;
-	case 17 : 
-	  printesc ( 1285 ) ;
-	  break ;
-	case 18 : 
-	  printesc ( 1286 ) ;
-	  break ;
-	case 19 : 
-	  printesc ( 1287 ) ;
-	  break ;
-	case 20 : 
-	  printesc ( 1288 ) ;
-	  break ;
-	case 21 : 
 	  printesc ( 1289 ) ;
 	  break ;
-	case 22 : 
+	case 17 : 
 	  printesc ( 1290 ) ;
 	  break ;
-	case 23 : 
+	case 18 : 
 	  printesc ( 1291 ) ;
 	  break ;
-	case 27 : 
+	case 19 : 
 	  printesc ( 1292 ) ;
 	  break ;
-	case 26 : 
+	case 20 : 
 	  printesc ( 1293 ) ;
 	  break ;
+	case 21 : 
+	  printesc ( 1294 ) ;
+	  break ;
+	case 22 : 
+	  printesc ( 1295 ) ;
+	  break ;
+	case 23 : 
+	  printesc ( 1296 ) ;
+	  break ;
+	case 27 : 
+	  printesc ( 1297 ) ;
+	  break ;
+	case 26 : 
+	  printesc ( 1298 ) ;
+	  break ;
 	case 29 : 
-	  printesc ( 627 ) ;
+	  printesc ( 629 ) ;
 	  break ;
 	case 24 : 
 	  {
-	    printesc ( 621 ) ;
+	    printesc ( 623 ) ;
 	    printdelimiter ( p + 4 ) ;
 	  } 
 	  break ;
 	case 28 : 
 	  {
-	    printesc ( 592 ) ;
+	    printesc ( 594 ) ;
 	    printfamandchar ( p + 4 ) ;
 	  } 
 	  break ;
 	case 30 : 
 	  {
-	    printesc ( 1294 ) ;
+	    printesc ( 1299 ) ;
 	    printdelimiter ( p + 1 ) ;
 	  } 
 	  break ;
 	case 31 : 
 	  {
 	    if ( mem [p ].hh.b1 == 0 ) 
-	    printesc ( 1295 ) ;
-	    else printesc ( 1296 ) ;
+	    printesc ( 1300 ) ;
+	    else printesc ( 1301 ) ;
 	    printdelimiter ( p + 1 ) ;
 	  } 
 	  break ;
@@ -4618,8 +4646,8 @@ zshownodelist ( integer p )
 	  if ( mem [p ].hh.b1 != 0 ) {
 	      
 	    if ( mem [p ].hh.b1 == 1 ) 
-	    printesc ( 1297 ) ;
-	    else printesc ( 1298 ) ;
+	    printesc ( 1302 ) ;
+	    else printesc ( 1303 ) ;
 	  } 
 	  printsubsidiarydata ( p + 1 , 46 ) ;
 	} 
@@ -4629,22 +4657,22 @@ zshownodelist ( integer p )
       break ;
     case 25 : 
       {
-	printesc ( 1299 ) ;
+	printesc ( 1304 ) ;
 	if ( mem [p + 1 ].cint == 1073741824L ) 
-	print ( 1300 ) ;
+	print ( 1305 ) ;
 	else printscaled ( mem [p + 1 ].cint ) ;
 	if ( ( mem [p + 4 ].qqqq .b0 != 0 ) || ( mem [p + 4 ].qqqq .b1 != 
 	0 ) || ( mem [p + 4 ].qqqq .b2 != 0 ) || ( mem [p + 4 ].qqqq .b3 
 	!= 0 ) ) 
 	{
-	  print ( 1301 ) ;
+	  print ( 1306 ) ;
 	  printdelimiter ( p + 4 ) ;
 	} 
 	if ( ( mem [p + 5 ].qqqq .b0 != 0 ) || ( mem [p + 5 ].qqqq .b1 != 
 	0 ) || ( mem [p + 5 ].qqqq .b2 != 0 ) || ( mem [p + 5 ].qqqq .b3 
 	!= 0 ) ) 
 	{
-	  print ( 1302 ) ;
+	  print ( 1307 ) ;
 	  printdelimiter ( p + 5 ) ;
 	} 
 	printsubsidiarydata ( p + 2 , 92 ) ;
@@ -4652,7 +4680,7 @@ zshownodelist ( integer p )
       } 
       break ;
       default: 
-      print ( 325 ) ;
+      print ( 327 ) ;
       break ;
     } 
     p = mem [p ].hh .v.RH ;
@@ -4887,7 +4915,7 @@ zflushnodelist ( halfword p )
 	    freenode ( p , 2 ) ;
 	    break ;
 	    default: 
-	    confusion ( 1927 ) ;
+	    confusion ( 1933 ) ;
 	    break ;
 	  } 
 	  goto lab30 ;
@@ -4998,7 +5026,7 @@ zflushnodelist ( halfword p )
 	} 
 	break ;
 	default: 
-	confusion ( 363 ) ;
+	confusion ( 364 ) ;
 	break ;
       } 
       freenode ( p , 2 ) ;
@@ -5211,7 +5239,7 @@ zcopynodelist ( halfword p )
 	r = getnode ( 2 ) ;
 	break ;
 	default: 
-	confusion ( 1926 ) ;
+	confusion ( 1932 ) ;
 	break ;
       } 
       break ;
@@ -5283,7 +5311,7 @@ zcopynodelist ( halfword p )
       } 
       break ;
       default: 
-      confusion ( 364 ) ;
+      confusion ( 365 ) ;
       break ;
     } 
     while ( words > 0 ) {
@@ -5315,26 +5343,26 @@ zprintmode ( integer m )
   if ( m > 0 ) 
   switch ( m / ( 104 ) ) 
   {case 0 : 
-    print ( 365 ) ;
-    break ;
-  case 1 : 
     print ( 366 ) ;
     break ;
-  case 2 : 
+  case 1 : 
     print ( 367 ) ;
+    break ;
+  case 2 : 
+    print ( 368 ) ;
     break ;
   } 
   else if ( m == 0 ) 
-  print ( 368 ) ;
+  print ( 369 ) ;
   else switch ( ( - (integer) m ) / ( 104 ) ) 
   {case 0 : 
-    print ( 369 ) ;
-    break ;
-  case 1 : 
     print ( 370 ) ;
     break ;
-  case 2 : 
+  case 1 : 
     print ( 371 ) ;
+    break ;
+  case 2 : 
+    print ( 372 ) ;
     break ;
   } 
 } 
@@ -5345,26 +5373,26 @@ zprintinmode ( integer m )
   if ( m > 0 ) 
   switch ( m / ( 104 ) ) 
   {case 0 : 
-    print ( 372 ) ;
-    break ;
-  case 1 : 
     print ( 373 ) ;
     break ;
-  case 2 : 
+  case 1 : 
     print ( 374 ) ;
+    break ;
+  case 2 : 
+    print ( 375 ) ;
     break ;
   } 
   else if ( m == 0 ) 
-  print ( 375 ) ;
+  print ( 376 ) ;
   else switch ( ( - (integer) m ) / ( 104 ) ) 
   {case 0 : 
-    print ( 376 ) ;
-    break ;
-  case 1 : 
     print ( 377 ) ;
     break ;
-  case 2 : 
+  case 1 : 
     print ( 378 ) ;
+    break ;
+  case 2 : 
+    print ( 379 ) ;
     break ;
   } 
 } 
@@ -5376,7 +5404,7 @@ pushnest ( void )
   {
     maxneststack = nestptr ;
     if ( nestptr == nestsize ) 
-    overflow ( 379 , nestsize ) ;
+    overflow ( 380 , nestsize ) ;
   } 
   nest [nestptr ]= curlist ;
   incr ( nestptr ) ;
@@ -5411,24 +5439,24 @@ showactivities ( void )
   halfword q, r  ;
   integer t  ;
   nest [nestptr ]= curlist ;
-  printnl ( 345 ) ;
+  printnl ( 265 ) ;
   println () ;
   {register integer for_end; p = nestptr ;for_end = 0 ; if ( p >= for_end) 
   do 
     {
       m = nest [p ].modefield ;
       a = nest [p ].auxfield ;
-      printnl ( 380 ) ;
+      printnl ( 381 ) ;
       printmode ( m ) ;
-      print ( 381 ) ;
+      print ( 382 ) ;
       printint ( abs ( nest [p ].mlfield ) ) ;
       if ( m == 105 ) {
 	  
 	if ( nest [p ].pgfield != 8585216L ) 
 	{
-	  print ( 382 ) ;
-	  printint ( nest [p ].pgfield % 65536L ) ;
 	  print ( 383 ) ;
+	  printint ( nest [p ].pgfield % 65536L ) ;
+	  print ( 384 ) ;
 	  printint ( nest [p ].pgfield / 4194304L ) ;
 	  printchar ( 44 ) ;
 	  printint ( ( nest [p ].pgfield / 65536L ) % 64 ) ;
@@ -5436,32 +5464,32 @@ showactivities ( void )
 	} 
       } 
       if ( nest [p ].mlfield < 0 ) 
-      print ( 384 ) ;
+      print ( 385 ) ;
       if ( p == 0 ) 
       {
 	if ( memtop - 2 != pagetail ) 
 	{
-	  printnl ( 1405 ) ;
+	  printnl ( 1410 ) ;
 	  if ( outputactive ) 
-	  print ( 1406 ) ;
+	  print ( 1411 ) ;
 	  showbox ( mem [memtop - 2 ].hh .v.RH ) ;
 	  if ( pagecontents > 0 ) 
 	  {
-	    printnl ( 1407 ) ;
+	    printnl ( 1412 ) ;
 	    printtotals () ;
-	    printnl ( 1408 ) ;
+	    printnl ( 1413 ) ;
 	    printscaled ( pagesofar [0 ]) ;
 	    r = mem [memtop ].hh .v.RH ;
 	    while ( r != memtop ) {
 		
 	      println () ;
-	      printesc ( 337 ) ;
+	      printesc ( 339 ) ;
 	      t = mem [r ].hh.b1 ;
 	      printint ( t ) ;
-	      print ( 1409 ) ;
-	      if ( eqtb [29388 + t ].cint == 1000 ) 
+	      print ( 1414 ) ;
+	      if ( eqtb [29390 + t ].cint == 1000 ) 
 	      t = mem [r + 3 ].cint ;
-	      else t = xovern ( mem [r + 3 ].cint , 1000 ) * eqtb [29388 + 
+	      else t = xovern ( mem [r + 3 ].cint , 1000 ) * eqtb [29390 + 
 	      t ].cint ;
 	      printscaled ( t ) ;
 	      if ( mem [r ].hh.b0 == 1 ) 
@@ -5474,44 +5502,44 @@ showactivities ( void )
 		  [r ].hh.b1 ) ) 
 		  incr ( t ) ;
 		} while ( ! ( q == mem [r + 1 ].hh .v.LH ) ) ;
-		print ( 1410 ) ;
+		print ( 1415 ) ;
 		printint ( t ) ;
-		print ( 1411 ) ;
+		print ( 1416 ) ;
 	      } 
 	      r = mem [r ].hh .v.RH ;
 	    } 
 	  } 
 	} 
 	if ( mem [memtop - 1 ].hh .v.RH != -268435455L ) 
-	printnl ( 385 ) ;
+	printnl ( 386 ) ;
       } 
       showbox ( mem [nest [p ].headfield ].hh .v.RH ) ;
       switch ( abs ( m ) / ( 104 ) ) 
       {case 0 : 
 	{
-	  printnl ( 386 ) ;
-	  if ( a .cint <= eqtb [29932 ].cint ) 
-	  print ( 387 ) ;
+	  printnl ( 387 ) ;
+	  if ( a .cint <= eqtb [29934 ].cint ) 
+	  print ( 388 ) ;
 	  else printscaled ( a .cint ) ;
 	  if ( nest [p ].pgfield != 0 ) 
 	  {
-	    print ( 388 ) ;
+	    print ( 389 ) ;
 	    printint ( nest [p ].pgfield ) ;
 	    if ( nest [p ].pgfield != 1 ) 
-	    print ( 389 ) ;
-	    else print ( 390 ) ;
+	    print ( 390 ) ;
+	    else print ( 391 ) ;
 	  } 
 	} 
 	break ;
       case 1 : 
 	{
-	  printnl ( 391 ) ;
+	  printnl ( 392 ) ;
 	  printint ( a .hh .v.LH ) ;
 	  if ( m > 0 ) {
 	      
 	    if ( a .hh .v.RH > 0 ) 
 	    {
-	      print ( 392 ) ;
+	      print ( 393 ) ;
 	      printint ( a .hh .v.RH ) ;
 	    } 
 	  } 
@@ -5520,7 +5548,7 @@ showactivities ( void )
       case 2 : 
 	if ( a .cint != -268435455L ) 
 	{
-	  print ( 393 ) ;
+	  print ( 394 ) ;
 	  showbox ( a .cint ) ;
 	} 
 	break ;
@@ -5534,340 +5562,346 @@ zprintparam ( integer n )
   printparam_regmem 
   switch ( n ) 
   {case 0 : 
-    printesc ( 441 ) ;
-    break ;
-  case 1 : 
     printesc ( 442 ) ;
     break ;
-  case 2 : 
+  case 1 : 
     printesc ( 443 ) ;
     break ;
-  case 3 : 
+  case 2 : 
     printesc ( 444 ) ;
     break ;
-  case 4 : 
+  case 3 : 
     printesc ( 445 ) ;
     break ;
-  case 5 : 
+  case 4 : 
     printesc ( 446 ) ;
     break ;
-  case 6 : 
+  case 5 : 
     printesc ( 447 ) ;
     break ;
-  case 7 : 
+  case 6 : 
     printesc ( 448 ) ;
     break ;
-  case 8 : 
+  case 7 : 
     printesc ( 449 ) ;
     break ;
-  case 9 : 
+  case 8 : 
     printesc ( 450 ) ;
     break ;
-  case 10 : 
+  case 9 : 
     printesc ( 451 ) ;
     break ;
-  case 11 : 
+  case 10 : 
     printesc ( 452 ) ;
     break ;
-  case 12 : 
+  case 11 : 
     printesc ( 453 ) ;
     break ;
-  case 13 : 
+  case 12 : 
     printesc ( 454 ) ;
     break ;
-  case 14 : 
+  case 13 : 
     printesc ( 455 ) ;
     break ;
-  case 15 : 
+  case 14 : 
     printesc ( 456 ) ;
     break ;
-  case 16 : 
+  case 15 : 
     printesc ( 457 ) ;
     break ;
-  case 17 : 
+  case 16 : 
     printesc ( 458 ) ;
     break ;
-  case 18 : 
+  case 17 : 
     printesc ( 459 ) ;
     break ;
-  case 19 : 
+  case 18 : 
     printesc ( 460 ) ;
     break ;
-  case 20 : 
+  case 19 : 
     printesc ( 461 ) ;
     break ;
-  case 21 : 
+  case 20 : 
     printesc ( 462 ) ;
     break ;
-  case 22 : 
+  case 21 : 
     printesc ( 463 ) ;
     break ;
-  case 23 : 
+  case 22 : 
     printesc ( 464 ) ;
     break ;
-  case 24 : 
+  case 23 : 
     printesc ( 465 ) ;
     break ;
-  case 25 : 
+  case 24 : 
     printesc ( 466 ) ;
     break ;
-  case 26 : 
+  case 25 : 
     printesc ( 467 ) ;
     break ;
-  case 27 : 
+  case 26 : 
     printesc ( 468 ) ;
     break ;
-  case 28 : 
+  case 27 : 
     printesc ( 469 ) ;
     break ;
-  case 29 : 
+  case 28 : 
     printesc ( 470 ) ;
     break ;
-  case 30 : 
+  case 29 : 
     printesc ( 471 ) ;
     break ;
-  case 31 : 
+  case 30 : 
     printesc ( 472 ) ;
     break ;
-  case 32 : 
+  case 31 : 
     printesc ( 473 ) ;
     break ;
-  case 33 : 
+  case 32 : 
     printesc ( 474 ) ;
     break ;
-  case 34 : 
+  case 33 : 
     printesc ( 475 ) ;
     break ;
-  case 35 : 
+  case 34 : 
     printesc ( 476 ) ;
     break ;
-  case 36 : 
+  case 35 : 
     printesc ( 477 ) ;
     break ;
-  case 37 : 
+  case 36 : 
     printesc ( 478 ) ;
     break ;
-  case 38 : 
+  case 37 : 
     printesc ( 479 ) ;
     break ;
-  case 39 : 
+  case 38 : 
     printesc ( 480 ) ;
     break ;
-  case 40 : 
+  case 39 : 
     printesc ( 481 ) ;
     break ;
-  case 41 : 
+  case 40 : 
     printesc ( 482 ) ;
     break ;
-  case 42 : 
+  case 41 : 
     printesc ( 483 ) ;
     break ;
-  case 43 : 
+  case 42 : 
     printesc ( 484 ) ;
     break ;
-  case 44 : 
+  case 43 : 
     printesc ( 485 ) ;
     break ;
-  case 45 : 
+  case 44 : 
     printesc ( 486 ) ;
     break ;
-  case 46 : 
+  case 45 : 
     printesc ( 487 ) ;
     break ;
-  case 47 : 
+  case 46 : 
     printesc ( 488 ) ;
     break ;
-  case 48 : 
+  case 47 : 
     printesc ( 489 ) ;
     break ;
-  case 49 : 
+  case 48 : 
     printesc ( 490 ) ;
     break ;
-  case 50 : 
+  case 49 : 
     printesc ( 491 ) ;
     break ;
-  case 51 : 
+  case 50 : 
     printesc ( 492 ) ;
     break ;
-  case 52 : 
+  case 51 : 
     printesc ( 493 ) ;
     break ;
-  case 53 : 
+  case 52 : 
     printesc ( 494 ) ;
     break ;
-  case 54 : 
+  case 53 : 
     printesc ( 495 ) ;
     break ;
-  case 55 : 
+  case 54 : 
     printesc ( 496 ) ;
     break ;
-  case 56 : 
+  case 55 : 
     printesc ( 497 ) ;
     break ;
-  case 57 : 
+  case 56 : 
     printesc ( 498 ) ;
     break ;
-  case 61 : 
+  case 57 : 
     printesc ( 499 ) ;
     break ;
-  case 62 : 
+  case 61 : 
     printesc ( 500 ) ;
     break ;
-  case 63 : 
+  case 62 : 
     printesc ( 501 ) ;
     break ;
-  case 64 : 
+  case 63 : 
     printesc ( 502 ) ;
     break ;
-  case 58 : 
+  case 64 : 
     printesc ( 503 ) ;
     break ;
-  case 59 : 
+  case 58 : 
     printesc ( 504 ) ;
     break ;
-  case 60 : 
+  case 59 : 
     printesc ( 505 ) ;
     break ;
-  case 65 : 
+  case 60 : 
     printesc ( 506 ) ;
     break ;
-  case 66 : 
+  case 65 : 
     printesc ( 507 ) ;
     break ;
-  case 86 : 
+  case 66 : 
     printesc ( 508 ) ;
     break ;
-  case 67 : 
+  case 86 : 
     printesc ( 509 ) ;
     break ;
-  case 68 : 
+  case 67 : 
     printesc ( 510 ) ;
     break ;
-  case 69 : 
+  case 68 : 
     printesc ( 511 ) ;
     break ;
-  case 70 : 
+  case 69 : 
     printesc ( 512 ) ;
     break ;
-  case 71 : 
+  case 70 : 
     printesc ( 513 ) ;
     break ;
-  case 72 : 
+  case 71 : 
     printesc ( 514 ) ;
     break ;
-  case 73 : 
+  case 72 : 
     printesc ( 515 ) ;
     break ;
-  case 74 : 
+  case 73 : 
     printesc ( 516 ) ;
     break ;
-  case 75 : 
+  case 74 : 
     printesc ( 517 ) ;
     break ;
-  case 76 : 
+  case 75 : 
     printesc ( 518 ) ;
     break ;
-  case 77 : 
+  case 76 : 
     printesc ( 519 ) ;
     break ;
-  case 78 : 
+  case 77 : 
     printesc ( 520 ) ;
     break ;
-  case 79 : 
+  case 78 : 
     printesc ( 521 ) ;
     break ;
-  case 80 : 
+  case 79 : 
     printesc ( 522 ) ;
     break ;
-  case 81 : 
+  case 80 : 
     printesc ( 523 ) ;
     break ;
-  case 82 : 
+  case 81 : 
     printesc ( 524 ) ;
     break ;
-  case 83 : 
+  case 82 : 
     printesc ( 525 ) ;
     break ;
-  case 84 : 
+  case 83 : 
     printesc ( 526 ) ;
     break ;
-  case 85 : 
+  case 84 : 
     printesc ( 527 ) ;
     break ;
-  case 87 : 
+  case 85 : 
     printesc ( 528 ) ;
     break ;
-  case 88 : 
+  case 87 : 
     printesc ( 529 ) ;
     break ;
-  case 89 : 
+  case 88 : 
     printesc ( 530 ) ;
     break ;
-  case 90 : 
+  case 89 : 
     printesc ( 531 ) ;
     break ;
-  case 91 : 
+  case 90 : 
     printesc ( 532 ) ;
     break ;
-  case 92 : 
+  case 91 : 
     printesc ( 533 ) ;
     break ;
-  case 93 : 
+  case 92 : 
     printesc ( 534 ) ;
     break ;
-  case 94 : 
+  case 93 : 
     printesc ( 535 ) ;
     break ;
-  case 95 : 
+  case 94 : 
     printesc ( 536 ) ;
     break ;
-  case 96 : 
+  case 95 : 
     printesc ( 537 ) ;
     break ;
-  case 97 : 
+  case 96 : 
     printesc ( 538 ) ;
     break ;
-  case 98 : 
+  case 97 : 
     printesc ( 539 ) ;
     break ;
-  case 99 : 
+  case 98 : 
     printesc ( 540 ) ;
     break ;
-  case 100 : 
+  case 99 : 
     printesc ( 541 ) ;
     break ;
+  case 100 : 
+    printesc ( 542 ) ;
+    break ;
   case 101 : 
-    printesc ( 1992 ) ;
+    printesc ( 543 ) ;
     break ;
   case 102 : 
-    printesc ( 1993 ) ;
-    break ;
-  case 103 : 
-    printesc ( 1994 ) ;
-    break ;
-  case 104 : 
-    printesc ( 1995 ) ;
-    break ;
-  case 105 : 
-    printesc ( 1996 ) ;
-    break ;
-  case 106 : 
-    printesc ( 1997 ) ;
-    break ;
-  case 107 : 
     printesc ( 1998 ) ;
     break ;
-  case 108 : 
+  case 103 : 
     printesc ( 1999 ) ;
     break ;
-  case 109 : 
+  case 104 : 
     printesc ( 2000 ) ;
     break ;
+  case 105 : 
+    printesc ( 2001 ) ;
+    break ;
+  case 106 : 
+    printesc ( 2002 ) ;
+    break ;
+  case 107 : 
+    printesc ( 2003 ) ;
+    break ;
+  case 108 : 
+    printesc ( 2004 ) ;
+    break ;
+  case 109 : 
+    printesc ( 2005 ) ;
+    break ;
   case 110 : 
-    printesc ( 2040 ) ;
+    printesc ( 2006 ) ;
+    break ;
+  case 111 : 
+    printesc ( 2007 ) ;
+    break ;
+  case 112 : 
+    printesc ( 2047 ) ;
     break ;
     default: 
-    print ( 542 ) ;
+    print ( 544 ) ;
     break ;
   } 
 } 
@@ -5897,7 +5931,7 @@ void
 zenddiagnostic ( boolean blankline ) 
 {
   enddiagnostic_regmem 
-  printnl ( 345 ) ;
+  printnl ( 265 ) ;
   if ( blankline ) 
   println () ;
   selector = oldsetting ;
@@ -5908,109 +5942,109 @@ zprintlengthparam ( integer n )
   printlengthparam_regmem 
   switch ( n ) 
   {case 0 : 
-    printesc ( 547 ) ;
-    break ;
-  case 1 : 
-    printesc ( 548 ) ;
-    break ;
-  case 2 : 
     printesc ( 549 ) ;
     break ;
-  case 3 : 
+  case 1 : 
     printesc ( 550 ) ;
     break ;
-  case 4 : 
+  case 2 : 
     printesc ( 551 ) ;
     break ;
-  case 5 : 
+  case 3 : 
     printesc ( 552 ) ;
     break ;
-  case 6 : 
+  case 4 : 
     printesc ( 553 ) ;
     break ;
-  case 7 : 
+  case 5 : 
     printesc ( 554 ) ;
     break ;
-  case 8 : 
+  case 6 : 
     printesc ( 555 ) ;
     break ;
-  case 9 : 
+  case 7 : 
     printesc ( 556 ) ;
     break ;
-  case 10 : 
+  case 8 : 
     printesc ( 557 ) ;
     break ;
-  case 11 : 
+  case 9 : 
     printesc ( 558 ) ;
     break ;
-  case 12 : 
+  case 10 : 
     printesc ( 559 ) ;
     break ;
-  case 13 : 
+  case 11 : 
     printesc ( 560 ) ;
     break ;
-  case 14 : 
+  case 12 : 
     printesc ( 561 ) ;
     break ;
-  case 15 : 
+  case 13 : 
     printesc ( 562 ) ;
     break ;
-  case 16 : 
+  case 14 : 
     printesc ( 563 ) ;
     break ;
-  case 17 : 
+  case 15 : 
     printesc ( 564 ) ;
     break ;
-  case 18 : 
+  case 16 : 
     printesc ( 565 ) ;
     break ;
-  case 19 : 
+  case 17 : 
     printesc ( 566 ) ;
     break ;
-  case 20 : 
+  case 18 : 
     printesc ( 567 ) ;
     break ;
-  case 21 : 
+  case 19 : 
     printesc ( 568 ) ;
     break ;
-  case 22 : 
+  case 20 : 
     printesc ( 569 ) ;
     break ;
-  case 23 : 
+  case 21 : 
     printesc ( 570 ) ;
     break ;
-  case 24 : 
+  case 22 : 
     printesc ( 571 ) ;
     break ;
-  case 25 : 
+  case 23 : 
     printesc ( 572 ) ;
     break ;
-  case 26 : 
+  case 24 : 
     printesc ( 573 ) ;
     break ;
-  case 27 : 
+  case 25 : 
     printesc ( 574 ) ;
     break ;
-  case 28 : 
+  case 26 : 
     printesc ( 575 ) ;
     break ;
-  case 29 : 
+  case 27 : 
     printesc ( 576 ) ;
     break ;
-  case 30 : 
+  case 28 : 
     printesc ( 577 ) ;
     break ;
-  case 31 : 
+  case 29 : 
     printesc ( 578 ) ;
     break ;
-  case 32 : 
+  case 30 : 
     printesc ( 579 ) ;
     break ;
-  case 33 : 
+  case 31 : 
     printesc ( 580 ) ;
     break ;
+  case 32 : 
+    printesc ( 581 ) ;
+    break ;
+  case 33 : 
+    printesc ( 582 ) ;
+    break ;
     default: 
-    print ( 581 ) ;
+    print ( 583 ) ;
     break ;
   } 
 } 
@@ -6022,58 +6056,58 @@ zprintcmdchr ( quarterword cmd , halfword chrcode )
   switch ( cmd ) 
   {case 1 : 
     {
-      print ( 648 ) ;
+      print ( 650 ) ;
       print ( chrcode ) ;
     } 
     break ;
   case 2 : 
     {
-      print ( 649 ) ;
+      print ( 651 ) ;
       print ( chrcode ) ;
     } 
     break ;
   case 3 : 
     {
-      print ( 650 ) ;
+      print ( 652 ) ;
       print ( chrcode ) ;
     } 
     break ;
   case 6 : 
     {
-      print ( 651 ) ;
+      print ( 653 ) ;
       print ( chrcode ) ;
     } 
     break ;
   case 7 : 
     {
-      print ( 652 ) ;
+      print ( 654 ) ;
       print ( chrcode ) ;
     } 
     break ;
   case 8 : 
     {
-      print ( 653 ) ;
+      print ( 655 ) ;
       print ( chrcode ) ;
     } 
     break ;
   case 9 : 
-    print ( 654 ) ;
+    print ( 656 ) ;
     break ;
   case 10 : 
     {
-      print ( 655 ) ;
+      print ( 657 ) ;
       print ( chrcode ) ;
     } 
     break ;
   case 11 : 
     {
-      print ( 656 ) ;
+      print ( 658 ) ;
       print ( chrcode ) ;
     } 
     break ;
   case 12 : 
     {
-      print ( 657 ) ;
+      print ( 659 ) ;
       print ( chrcode ) ;
     } 
     break ;
@@ -6083,302 +6117,302 @@ zprintcmdchr ( quarterword cmd , halfword chrcode )
     printskipparam ( chrcode - 26628 ) ;
     else if ( chrcode < 26902 ) 
     {
-      printesc ( 413 ) ;
+      printesc ( 414 ) ;
       printint ( chrcode - 26646 ) ;
     } 
     else {
 	
-      printesc ( 414 ) ;
+      printesc ( 415 ) ;
       printint ( chrcode - 26902 ) ;
     } 
     break ;
   case 72 : 
     if ( chrcode >= 27173 ) 
     {
-      printesc ( 428 ) ;
+      printesc ( 429 ) ;
       printint ( chrcode - 27173 ) ;
     } 
     else switch ( chrcode ) 
     {case 27159 : 
-      printesc ( 415 ) ;
-      break ;
-    case 27160 : 
       printesc ( 416 ) ;
       break ;
-    case 27161 : 
+    case 27160 : 
       printesc ( 417 ) ;
       break ;
-    case 27162 : 
+    case 27161 : 
       printesc ( 418 ) ;
       break ;
-    case 27163 : 
+    case 27162 : 
       printesc ( 419 ) ;
       break ;
-    case 27164 : 
+    case 27163 : 
       printesc ( 420 ) ;
       break ;
-    case 27165 : 
+    case 27164 : 
       printesc ( 421 ) ;
       break ;
-    case 27166 : 
+    case 27165 : 
       printesc ( 422 ) ;
       break ;
+    case 27166 : 
+      printesc ( 423 ) ;
+      break ;
     case 27172 : 
-      printesc ( 1991 ) ;
+      printesc ( 1997 ) ;
       break ;
     case 27168 : 
-      printesc ( 424 ) ;
-      break ;
-    case 27169 : 
       printesc ( 425 ) ;
       break ;
-    case 27170 : 
+    case 27169 : 
       printesc ( 426 ) ;
       break ;
-    case 27171 : 
+    case 27170 : 
       printesc ( 427 ) ;
       break ;
+    case 27171 : 
+      printesc ( 428 ) ;
+      break ;
       default: 
-      printesc ( 423 ) ;
+      printesc ( 424 ) ;
       break ;
     } 
     break ;
   case 73 : 
-    if ( chrcode < 29388 ) 
+    if ( chrcode < 29390 ) 
     printparam ( chrcode - 29277 ) ;
     else {
 	
-      printesc ( 545 ) ;
-      printint ( chrcode - 29388 ) ;
+      printesc ( 547 ) ;
+      printint ( chrcode - 29390 ) ;
     } 
     break ;
   case 74 : 
-    if ( chrcode < 29934 ) 
-    printlengthparam ( chrcode - 29900 ) ;
+    if ( chrcode < 29936 ) 
+    printlengthparam ( chrcode - 29902 ) ;
     else {
 	
-      printesc ( 582 ) ;
-      printint ( chrcode - 29934 ) ;
+      printesc ( 584 ) ;
+      printint ( chrcode - 29936 ) ;
     } 
     break ;
   case 45 : 
-    printesc ( 592 ) ;
-    break ;
-  case 90 : 
-    printesc ( 593 ) ;
-    break ;
-  case 40 : 
     printesc ( 594 ) ;
     break ;
-  case 41 : 
+  case 90 : 
     printesc ( 595 ) ;
     break ;
-  case 77 : 
-    printesc ( 606 ) ;
-    break ;
-  case 61 : 
+  case 40 : 
     printesc ( 596 ) ;
     break ;
-  case 42 : 
-    printesc ( 619 ) ;
-    break ;
-  case 16 : 
+  case 41 : 
     printesc ( 597 ) ;
     break ;
-  case 110 : 
-    printesc ( 588 ) ;
+  case 77 : 
+    printesc ( 608 ) ;
     break ;
-  case 88 : 
-    printesc ( 603 ) ;
-    break ;
-  case 101 : 
-    printesc ( 604 ) ;
-    break ;
-  case 102 : 
-    printesc ( 605 ) ;
-    break ;
-  case 15 : 
+  case 61 : 
     printesc ( 598 ) ;
     break ;
-  case 92 : 
+  case 42 : 
+    printesc ( 621 ) ;
+    break ;
+  case 16 : 
     printesc ( 599 ) ;
+    break ;
+  case 110 : 
+    printesc ( 590 ) ;
+    break ;
+  case 88 : 
+    printesc ( 605 ) ;
+    break ;
+  case 101 : 
+    printesc ( 606 ) ;
+    break ;
+  case 102 : 
+    printesc ( 607 ) ;
+    break ;
+  case 15 : 
+    printesc ( 600 ) ;
+    break ;
+  case 92 : 
+    printesc ( 601 ) ;
     break ;
   case 67 : 
     if ( chrcode == 10 ) 
-    printesc ( 600 ) ;
-    else printesc ( 589 ) ;
+    printesc ( 602 ) ;
+    else printesc ( 591 ) ;
     break ;
   case 62 : 
-    printesc ( 601 ) ;
+    printesc ( 603 ) ;
     break ;
   case 64 : 
     printesc ( 32 ) ;
     break ;
   case 105 : 
     if ( chrcode == 0 ) 
-    printesc ( 602 ) ;
-    else printesc ( 939 ) ;
+    printesc ( 604 ) ;
+    else printesc ( 941 ) ;
     break ;
   case 32 : 
-    printesc ( 607 ) ;
+    printesc ( 609 ) ;
     break ;
   case 36 : 
-    printesc ( 608 ) ;
+    printesc ( 610 ) ;
     break ;
   case 39 : 
     if ( chrcode == 0 ) 
-    printesc ( 609 ) ;
-    else printesc ( 585 ) ;
+    printesc ( 611 ) ;
+    else printesc ( 587 ) ;
     break ;
   case 37 : 
-    printesc ( 337 ) ;
+    printesc ( 339 ) ;
     break ;
   case 44 : 
     printesc ( 47 ) ;
     break ;
   case 18 : 
     {
-      printesc ( 360 ) ;
+      printesc ( 361 ) ;
       if ( chrcode > 0 ) 
       printchar ( 115 ) ;
     } 
     break ;
   case 46 : 
-    printesc ( 610 ) ;
-    break ;
-  case 17 : 
-    printesc ( 611 ) ;
-    break ;
-  case 54 : 
     printesc ( 612 ) ;
     break ;
-  case 91 : 
+  case 17 : 
     printesc ( 613 ) ;
     break ;
-  case 34 : 
+  case 54 : 
     printesc ( 614 ) ;
     break ;
-  case 65 : 
+  case 91 : 
     printesc ( 615 ) ;
+    break ;
+  case 34 : 
+    printesc ( 616 ) ;
+    break ;
+  case 65 : 
+    printesc ( 617 ) ;
     break ;
   case 106 : 
     if ( chrcode == 0 ) 
-    printesc ( 616 ) ;
-    else printesc ( 585 ) ;
+    printesc ( 618 ) ;
+    else printesc ( 587 ) ;
     break ;
   case 55 : 
-    printesc ( 342 ) ;
+    printesc ( 344 ) ;
     break ;
   case 63 : 
-    printesc ( 617 ) ;
+    printesc ( 619 ) ;
     break ;
   case 66 : 
-    printesc ( 621 ) ;
+    printesc ( 623 ) ;
     break ;
   case 96 : 
     if ( chrcode == 0 ) 
-    printesc ( 622 ) ;
-    else printesc ( 2055 ) ;
+    printesc ( 624 ) ;
+    else printesc ( 2062 ) ;
     break ;
   case 0 : 
-    printesc ( 623 ) ;
+    printesc ( 625 ) ;
     break ;
   case 98 : 
-    printesc ( 624 ) ;
+    printesc ( 626 ) ;
     break ;
   case 80 : 
-    printesc ( 620 ) ;
+    printesc ( 622 ) ;
     break ;
   case 84 : 
     switch ( chrcode ) 
     {case 27158 : 
-      printesc ( 618 ) ;
+      printesc ( 620 ) ;
       break ;
     case 27429 : 
-      printesc ( 2091 ) ;
+      printesc ( 2098 ) ;
       break ;
     case 27430 : 
-      printesc ( 2092 ) ;
+      printesc ( 2099 ) ;
       break ;
     case 27431 : 
-      printesc ( 2093 ) ;
+      printesc ( 2100 ) ;
       break ;
     case 27432 : 
-      printesc ( 2094 ) ;
+      printesc ( 2101 ) ;
       break ;
     } 
     break ;
   case 112 : 
     if ( chrcode == 0 ) 
-    printesc ( 625 ) ;
+    printesc ( 627 ) ;
     else if ( chrcode == 1 ) 
-    printesc ( 2030 ) ;
-    else printesc ( 2031 ) ;
+    printesc ( 2037 ) ;
+    else printesc ( 2038 ) ;
     break ;
   case 71 : 
     {
-      printesc ( 428 ) ;
+      printesc ( 429 ) ;
       if ( chrcode != membot ) 
       printsanum ( chrcode ) ;
     } 
     break ;
   case 38 : 
-    printesc ( 361 ) ;
+    printesc ( 362 ) ;
     break ;
   case 33 : 
     if ( chrcode == 0 ) 
-    printesc ( 626 ) ;
+    printesc ( 628 ) ;
     else switch ( chrcode ) 
     {case 6 : 
-      printesc ( 2041 ) ;
+      printesc ( 2048 ) ;
       break ;
     case 7 : 
-      printesc ( 2042 ) ;
+      printesc ( 2049 ) ;
       break ;
     case 10 : 
-      printesc ( 2043 ) ;
+      printesc ( 2050 ) ;
       break ;
       default: 
-      printesc ( 2044 ) ;
+      printesc ( 2051 ) ;
       break ;
     } 
     break ;
   case 56 : 
-    printesc ( 627 ) ;
+    printesc ( 629 ) ;
     break ;
   case 35 : 
-    printesc ( 628 ) ;
+    printesc ( 630 ) ;
     break ;
   case 103 : 
-    printesc ( 543 ) ;
+    printesc ( 545 ) ;
     break ;
   case 13 : 
-    printesc ( 690 ) ;
+    printesc ( 692 ) ;
     break ;
   case 107 : 
     if ( chrcode == 0 ) 
-    printesc ( 726 ) ;
+    printesc ( 728 ) ;
     else if ( chrcode == 2 ) 
-    printesc ( 2053 ) ;
-    else printesc ( 727 ) ;
+    printesc ( 2060 ) ;
+    else printesc ( 729 ) ;
     break ;
   case 113 : 
     {
       switch ( ( chrcode % 5 ) ) 
       {case 1 : 
-	printesc ( 729 ) ;
-	break ;
-      case 2 : 
-	printesc ( 730 ) ;
-	break ;
-      case 3 : 
 	printesc ( 731 ) ;
 	break ;
-      case 4 : 
+      case 2 : 
 	printesc ( 732 ) ;
 	break ;
+      case 3 : 
+	printesc ( 733 ) ;
+	break ;
+      case 4 : 
+	printesc ( 734 ) ;
+	break ;
 	default: 
-	printesc ( 728 ) ;
+	printesc ( 730 ) ;
 	break ;
       } 
       if ( chrcode >= 5 ) 
@@ -6395,428 +6429,409 @@ zprintcmdchr ( quarterword cmd , halfword chrcode )
 	chrcode = -268435455L ;
       } 
       if ( cmd == 0 ) 
-      printesc ( 545 ) ;
+      printesc ( 547 ) ;
       else if ( cmd == 1 ) 
-      printesc ( 582 ) ;
+      printesc ( 584 ) ;
       else if ( cmd == 2 ) 
-      printesc ( 413 ) ;
-      else printesc ( 414 ) ;
+      printesc ( 414 ) ;
+      else printesc ( 415 ) ;
       if ( chrcode != -268435455L ) 
       printsanum ( chrcode ) ;
     } 
     break ;
   case 79 : 
     if ( chrcode == 1 ) 
-    printesc ( 766 ) ;
-    else printesc ( 765 ) ;
+    printesc ( 768 ) ;
+    else printesc ( 767 ) ;
     break ;
   case 82 : 
     if ( chrcode == 0 ) 
-    printesc ( 767 ) ;
+    printesc ( 769 ) ;
     else if ( chrcode == 2 ) 
-    printesc ( 2036 ) ;
-    else printesc ( 768 ) ;
+    printesc ( 2043 ) ;
+    else printesc ( 770 ) ;
     break ;
   case 83 : 
     if ( chrcode == 1 ) 
-    printesc ( 769 ) ;
+    printesc ( 771 ) ;
     else if ( chrcode == 3 ) 
-    printesc ( 770 ) ;
-    else printesc ( 771 ) ;
+    printesc ( 772 ) ;
+    else printesc ( 773 ) ;
     break ;
   case 70 : 
     switch ( chrcode ) 
     {case 0 : 
-      printesc ( 772 ) ;
-      break ;
-    case 1 : 
-      printesc ( 773 ) ;
-      break ;
-    case 2 : 
       printesc ( 774 ) ;
       break ;
-    case 4 : 
+    case 1 : 
       printesc ( 775 ) ;
       break ;
-    case 3 : 
-      printesc ( 1988 ) ;
+    case 2 : 
+      printesc ( 776 ) ;
       break ;
-    case 20 : 
-      printesc ( 1989 ) ;
-      break ;
-    case 21 : 
-      printesc ( 2015 ) ;
-      break ;
-    case 22 : 
-      printesc ( 2016 ) ;
-      break ;
-    case 23 : 
-      printesc ( 2017 ) ;
-      break ;
-    case 24 : 
-      printesc ( 2018 ) ;
-      break ;
-    case 25 : 
-      printesc ( 2019 ) ;
-      break ;
-    case 28 : 
-      printesc ( 2020 ) ;
-      break ;
-    case 29 : 
-      printesc ( 2021 ) ;
-      break ;
-    case 30 : 
-      printesc ( 2022 ) ;
-      break ;
-    case 31 : 
-      printesc ( 2023 ) ;
-      break ;
-    case 32 : 
-      printesc ( 2024 ) ;
-      break ;
-    case 33 : 
-      printesc ( 2025 ) ;
-      break ;
-    case 34 : 
-      printesc ( 2026 ) ;
-      break ;
-    case 39 : 
-      printesc ( 2067 ) ;
-      break ;
-    case 40 : 
-      printesc ( 2068 ) ;
-      break ;
-    case 41 : 
-      printesc ( 2069 ) ;
-      break ;
-    case 42 : 
-      printesc ( 2070 ) ;
-      break ;
-    case 26 : 
-      printesc ( 2074 ) ;
-      break ;
-    case 27 : 
-      printesc ( 2075 ) ;
-      break ;
-    case 35 : 
-      printesc ( 2076 ) ;
-      break ;
-    case 36 : 
-      printesc ( 2077 ) ;
-      break ;
-    case 37 : 
-      printesc ( 2078 ) ;
-      break ;
-    case 38 : 
-      printesc ( 2079 ) ;
-      break ;
-    case 6 : 
+    case 4 : 
       printesc ( 777 ) ;
       break ;
-    case 7 : 
-      printesc ( 778 ) ;
+    case 3 : 
+      printesc ( 1994 ) ;
       break ;
-    case 8 : 
+    case 20 : 
+      printesc ( 1995 ) ;
+      break ;
+    case 21 : 
+      printesc ( 2022 ) ;
+      break ;
+    case 22 : 
+      printesc ( 2023 ) ;
+      break ;
+    case 23 : 
+      printesc ( 2024 ) ;
+      break ;
+    case 24 : 
+      printesc ( 2025 ) ;
+      break ;
+    case 25 : 
+      printesc ( 2026 ) ;
+      break ;
+    case 28 : 
+      printesc ( 2027 ) ;
+      break ;
+    case 29 : 
+      printesc ( 2028 ) ;
+      break ;
+    case 30 : 
+      printesc ( 2029 ) ;
+      break ;
+    case 31 : 
+      printesc ( 2030 ) ;
+      break ;
+    case 32 : 
+      printesc ( 2031 ) ;
+      break ;
+    case 33 : 
+      printesc ( 2032 ) ;
+      break ;
+    case 34 : 
+      printesc ( 2033 ) ;
+      break ;
+    case 39 : 
+      printesc ( 2074 ) ;
+      break ;
+    case 40 : 
+      printesc ( 2075 ) ;
+      break ;
+    case 41 : 
+      printesc ( 2076 ) ;
+      break ;
+    case 42 : 
+      printesc ( 2077 ) ;
+      break ;
+    case 26 : 
+      printesc ( 2081 ) ;
+      break ;
+    case 27 : 
+      printesc ( 2082 ) ;
+      break ;
+    case 35 : 
+      printesc ( 2083 ) ;
+      break ;
+    case 36 : 
+      printesc ( 2084 ) ;
+      break ;
+    case 37 : 
+      printesc ( 2085 ) ;
+      break ;
+    case 38 : 
+      printesc ( 2086 ) ;
+      break ;
+    case 6 : 
       printesc ( 779 ) ;
       break ;
-    case 9 : 
+    case 7 : 
       printesc ( 780 ) ;
       break ;
-    case 10 : 
+    case 8 : 
       printesc ( 781 ) ;
       break ;
-    case 11 : 
+    case 9 : 
       printesc ( 782 ) ;
       break ;
-    case 12 : 
+    case 10 : 
       printesc ( 783 ) ;
       break ;
-    case 13 : 
+    case 11 : 
       printesc ( 784 ) ;
       break ;
-    case 14 : 
+    case 12 : 
       printesc ( 785 ) ;
       break ;
-    case 15 : 
+    case 13 : 
       printesc ( 786 ) ;
       break ;
-    case 16 : 
+    case 14 : 
       printesc ( 787 ) ;
       break ;
-    case 17 : 
+    case 15 : 
       printesc ( 788 ) ;
       break ;
-    case 18 : 
+    case 16 : 
       printesc ( 789 ) ;
       break ;
-    case 19 : 
+    case 17 : 
       printesc ( 790 ) ;
       break ;
+    case 18 : 
+      printesc ( 791 ) ;
+      break ;
+    case 19 : 
+      printesc ( 792 ) ;
+      break ;
       default: 
-      printesc ( 776 ) ;
+      printesc ( 778 ) ;
       break ;
     } 
     break ;
   case 111 : 
     switch ( chrcode ) 
     {case 0 : 
-      printesc ( 849 ) ;
-      break ;
-    case 1 : 
-      printesc ( 850 ) ;
-      break ;
-    case 2 : 
       printesc ( 851 ) ;
       break ;
-    case 3 : 
+    case 1 : 
       printesc ( 852 ) ;
       break ;
-    case 4 : 
+    case 2 : 
       printesc ( 853 ) ;
       break ;
-    case 5 : 
-      printesc ( 882 ) ;
-      break ;
-    case 6 : 
+    case 3 : 
       printesc ( 854 ) ;
       break ;
-    case 7 : 
+    case 4 : 
       printesc ( 855 ) ;
       break ;
-    case 8 : 
+    case 5 : 
+      printesc ( 884 ) ;
+      break ;
+    case 6 : 
       printesc ( 856 ) ;
       break ;
-    case 9 : 
+    case 7 : 
       printesc ( 857 ) ;
       break ;
-    case 10 : 
+    case 8 : 
       printesc ( 858 ) ;
       break ;
-    case 11 : 
+    case 9 : 
       printesc ( 859 ) ;
       break ;
-    case 12 : 
+    case 10 : 
       printesc ( 860 ) ;
       break ;
-    case 16 : 
+    case 11 : 
       printesc ( 861 ) ;
       break ;
-    case 17 : 
+    case 12 : 
       printesc ( 862 ) ;
       break ;
-    case 13 : 
+    case 16 : 
       printesc ( 863 ) ;
       break ;
-    case 14 : 
+    case 17 : 
       printesc ( 864 ) ;
       break ;
-    case 15 : 
+    case 13 : 
       printesc ( 865 ) ;
       break ;
-    case 20 : 
+    case 14 : 
       printesc ( 866 ) ;
       break ;
-    case 21 : 
+    case 15 : 
       printesc ( 867 ) ;
       break ;
-    case 22 : 
+    case 20 : 
       printesc ( 868 ) ;
       break ;
-    case 23 : 
+    case 21 : 
       printesc ( 869 ) ;
       break ;
-    case 24 : 
+    case 22 : 
       printesc ( 870 ) ;
       break ;
-    case 25 : 
+    case 23 : 
       printesc ( 871 ) ;
       break ;
-    case 26 : 
+    case 24 : 
       printesc ( 872 ) ;
       break ;
-    case 27 : 
+    case 25 : 
       printesc ( 873 ) ;
       break ;
-    case 28 : 
+    case 26 : 
       printesc ( 874 ) ;
       break ;
-    case 18 : 
+    case 27 : 
       printesc ( 875 ) ;
       break ;
-    case 19 : 
+    case 28 : 
       printesc ( 876 ) ;
       break ;
-    case 29 : 
+    case 18 : 
       printesc ( 877 ) ;
       break ;
-    case 30 : 
+    case 19 : 
       printesc ( 878 ) ;
       break ;
-    case 31 : 
+    case 29 : 
+      printesc ( 879 ) ;
+      break ;
+    case 30 : 
       printesc ( 880 ) ;
       break ;
+    case 31 : 
+      printesc ( 882 ) ;
+      break ;
     case 32 : 
-      printesc ( 881 ) ;
+      printesc ( 883 ) ;
       break ;
       default: 
-      printesc ( 879 ) ;
+      printesc ( 881 ) ;
       break ;
     } 
     break ;
   case 108 : 
     {
       if ( chrcode >= 32 ) 
-      printesc ( 939 ) ;
+      printesc ( 941 ) ;
       switch ( chrcode % 32 ) 
       {case 1 : 
-	printesc ( 922 ) ;
-	break ;
-      case 2 : 
-	printesc ( 923 ) ;
-	break ;
-      case 3 : 
 	printesc ( 924 ) ;
 	break ;
-      case 4 : 
+      case 2 : 
 	printesc ( 925 ) ;
 	break ;
-      case 5 : 
+      case 3 : 
 	printesc ( 926 ) ;
 	break ;
-      case 6 : 
+      case 4 : 
 	printesc ( 927 ) ;
 	break ;
-      case 7 : 
+      case 5 : 
 	printesc ( 928 ) ;
 	break ;
-      case 8 : 
+      case 6 : 
 	printesc ( 929 ) ;
 	break ;
-      case 9 : 
+      case 7 : 
 	printesc ( 930 ) ;
 	break ;
-      case 10 : 
+      case 8 : 
 	printesc ( 931 ) ;
 	break ;
-      case 11 : 
+      case 9 : 
 	printesc ( 932 ) ;
 	break ;
-      case 12 : 
+      case 10 : 
 	printesc ( 933 ) ;
 	break ;
-      case 13 : 
+      case 11 : 
 	printesc ( 934 ) ;
 	break ;
-      case 14 : 
+      case 12 : 
 	printesc ( 935 ) ;
 	break ;
-      case 15 : 
+      case 13 : 
 	printesc ( 936 ) ;
 	break ;
-      case 16 : 
+      case 14 : 
 	printesc ( 937 ) ;
 	break ;
-      case 21 : 
+      case 15 : 
 	printesc ( 938 ) ;
 	break ;
+      case 16 : 
+	printesc ( 939 ) ;
+	break ;
+      case 21 : 
+	printesc ( 940 ) ;
+	break ;
       case 17 : 
-	printesc ( 2056 ) ;
+	printesc ( 2063 ) ;
 	break ;
       case 18 : 
-	printesc ( 2057 ) ;
+	printesc ( 2064 ) ;
 	break ;
       case 19 : 
-	printesc ( 2058 ) ;
+	printesc ( 2065 ) ;
 	break ;
       case 20 : 
-	printesc ( 2059 ) ;
+	printesc ( 2066 ) ;
 	break ;
       case 22 : 
-	printesc ( 2060 ) ;
+	printesc ( 2067 ) ;
 	break ;
       case 23 : 
-	printesc ( 2061 ) ;
+	printesc ( 2068 ) ;
 	break ;
 	default: 
-	printesc ( 921 ) ;
+	printesc ( 923 ) ;
 	break ;
       } 
     } 
     break ;
   case 109 : 
     if ( chrcode == 2 ) 
-    printesc ( 940 ) ;
+    printesc ( 942 ) ;
     else if ( chrcode == 4 ) 
-    printesc ( 941 ) ;
-    else printesc ( 942 ) ;
+    printesc ( 943 ) ;
+    else printesc ( 944 ) ;
     break ;
   case 4 : 
     if ( chrcode == 256 ) 
-    printesc ( 1317 ) ;
+    printesc ( 1322 ) ;
     else {
 	
-      print ( 1321 ) ;
+      print ( 1326 ) ;
       print ( chrcode ) ;
     } 
     break ;
   case 5 : 
     if ( chrcode == 257 ) 
-    printesc ( 1318 ) ;
-    else printesc ( 1319 ) ;
+    printesc ( 1323 ) ;
+    else printesc ( 1324 ) ;
     break ;
   case 81 : 
     switch ( chrcode ) 
     {case 0 : 
-      printesc ( 1395 ) ;
-      break ;
-    case 1 : 
-      printesc ( 1396 ) ;
-      break ;
-    case 2 : 
-      printesc ( 1397 ) ;
-      break ;
-    case 3 : 
-      printesc ( 1398 ) ;
-      break ;
-    case 4 : 
-      printesc ( 1399 ) ;
-      break ;
-    case 5 : 
       printesc ( 1400 ) ;
       break ;
-    case 6 : 
+    case 1 : 
       printesc ( 1401 ) ;
       break ;
-      default: 
+    case 2 : 
       printesc ( 1402 ) ;
+      break ;
+    case 3 : 
+      printesc ( 1403 ) ;
+      break ;
+    case 4 : 
+      printesc ( 1404 ) ;
+      break ;
+    case 5 : 
+      printesc ( 1405 ) ;
+      break ;
+    case 6 : 
+      printesc ( 1406 ) ;
+      break ;
+      default: 
+      printesc ( 1407 ) ;
       break ;
     } 
     break ;
   case 14 : 
     if ( chrcode == 1 ) 
-    printesc ( 1447 ) ;
-    else printesc ( 350 ) ;
+    printesc ( 1452 ) ;
+    else printesc ( 351 ) ;
     break ;
   case 26 : 
-    switch ( chrcode ) 
-    {case 4 : 
-      printesc ( 1448 ) ;
-      break ;
-    case 0 : 
-      printesc ( 1449 ) ;
-      break ;
-    case 1 : 
-      printesc ( 1450 ) ;
-      break ;
-    case 2 : 
-      printesc ( 1451 ) ;
-      break ;
-      default: 
-      printesc ( 1452 ) ;
-      break ;
-    } 
-    break ;
-  case 27 : 
     switch ( chrcode ) 
     {case 4 : 
       printesc ( 1453 ) ;
@@ -6835,137 +6850,156 @@ zprintcmdchr ( quarterword cmd , halfword chrcode )
       break ;
     } 
     break ;
+  case 27 : 
+    switch ( chrcode ) 
+    {case 4 : 
+      printesc ( 1458 ) ;
+      break ;
+    case 0 : 
+      printesc ( 1459 ) ;
+      break ;
+    case 1 : 
+      printesc ( 1460 ) ;
+      break ;
+    case 2 : 
+      printesc ( 1461 ) ;
+      break ;
+      default: 
+      printesc ( 1462 ) ;
+      break ;
+    } 
+    break ;
   case 28 : 
-    printesc ( 343 ) ;
+    printesc ( 345 ) ;
     break ;
   case 29 : 
-    printesc ( 322 ) ;
+    printesc ( 324 ) ;
     break ;
   case 30 : 
-    printesc ( 349 ) ;
+    printesc ( 350 ) ;
     break ;
   case 21 : 
     if ( chrcode == 1 ) 
-    printesc ( 1475 ) ;
-    else printesc ( 1476 ) ;
+    printesc ( 1480 ) ;
+    else printesc ( 1481 ) ;
     break ;
   case 22 : 
     if ( chrcode == 1 ) 
-    printesc ( 1477 ) ;
-    else printesc ( 1478 ) ;
+    printesc ( 1482 ) ;
+    else printesc ( 1483 ) ;
     break ;
   case 20 : 
     switch ( chrcode ) 
     {case 0 : 
-      printesc ( 430 ) ;
+      printesc ( 431 ) ;
       break ;
     case 1 : 
-      printesc ( 1479 ) ;
+      printesc ( 1484 ) ;
       break ;
     case 2 : 
-      printesc ( 1480 ) ;
+      printesc ( 1485 ) ;
       break ;
     case 3 : 
-      printesc ( 1390 ) ;
+      printesc ( 1395 ) ;
       break ;
     case 4 : 
-      printesc ( 1481 ) ;
+      printesc ( 1486 ) ;
       break ;
     case 5 : 
-      printesc ( 1392 ) ;
+      printesc ( 1397 ) ;
       break ;
       default: 
-      printesc ( 1482 ) ;
+      printesc ( 1487 ) ;
       break ;
     } 
     break ;
   case 31 : 
     if ( chrcode == 100 ) 
-    printesc ( 1484 ) ;
+    printesc ( 1489 ) ;
     else if ( chrcode == 101 ) 
-    printesc ( 1485 ) ;
+    printesc ( 1490 ) ;
     else if ( chrcode == 102 ) 
-    printesc ( 1486 ) ;
-    else printesc ( 1483 ) ;
+    printesc ( 1491 ) ;
+    else printesc ( 1488 ) ;
     break ;
   case 43 : 
     if ( chrcode == 0 ) 
-    printesc ( 1503 ) ;
+    printesc ( 1508 ) ;
     else if ( chrcode == 1 ) 
-    printesc ( 1502 ) ;
-    else printesc ( 1504 ) ;
+    printesc ( 1507 ) ;
+    else printesc ( 1509 ) ;
     break ;
   case 25 : 
     if ( chrcode == 10 ) 
-    printesc ( 1516 ) ;
+    printesc ( 1521 ) ;
     else if ( chrcode == 11 ) 
-    printesc ( 1515 ) ;
-    else printesc ( 1514 ) ;
+    printesc ( 1520 ) ;
+    else printesc ( 1519 ) ;
     break ;
   case 23 : 
     if ( chrcode == 1 ) 
-    printesc ( 1518 ) ;
-    else printesc ( 1517 ) ;
+    printesc ( 1523 ) ;
+    else printesc ( 1522 ) ;
     break ;
   case 24 : 
     if ( chrcode == 1 ) 
-    printesc ( 1520 ) ;
+    printesc ( 1525 ) ;
     else if ( chrcode == 2 ) 
-    printesc ( 2089 ) ;
+    printesc ( 2096 ) ;
     else if ( chrcode == 3 ) 
-    printesc ( 2090 ) ;
-    else printesc ( 1519 ) ;
+    printesc ( 2097 ) ;
+    else printesc ( 1524 ) ;
     break ;
   case 47 : 
     if ( chrcode == 1 ) 
     printesc ( 45 ) ;
-    else printesc ( 358 ) ;
+    else printesc ( 359 ) ;
     break ;
   case 48 : 
     if ( chrcode == 1 ) 
-    printesc ( 1553 ) ;
-    else printesc ( 1552 ) ;
+    printesc ( 1558 ) ;
+    else printesc ( 1557 ) ;
     break ;
   case 50 : 
     switch ( chrcode ) 
     {case 16 : 
-      printesc ( 1284 ) ;
-      break ;
-    case 17 : 
-      printesc ( 1285 ) ;
-      break ;
-    case 18 : 
-      printesc ( 1286 ) ;
-      break ;
-    case 19 : 
-      printesc ( 1287 ) ;
-      break ;
-    case 20 : 
-      printesc ( 1288 ) ;
-      break ;
-    case 21 : 
       printesc ( 1289 ) ;
       break ;
-    case 22 : 
+    case 17 : 
       printesc ( 1290 ) ;
       break ;
-    case 23 : 
+    case 18 : 
       printesc ( 1291 ) ;
       break ;
-    case 26 : 
+    case 19 : 
+      printesc ( 1292 ) ;
+      break ;
+    case 20 : 
       printesc ( 1293 ) ;
       break ;
+    case 21 : 
+      printesc ( 1294 ) ;
+      break ;
+    case 22 : 
+      printesc ( 1295 ) ;
+      break ;
+    case 23 : 
+      printesc ( 1296 ) ;
+      break ;
+    case 26 : 
+      printesc ( 1298 ) ;
+      break ;
       default: 
-      printesc ( 1292 ) ;
+      printesc ( 1297 ) ;
       break ;
     } 
     break ;
   case 51 : 
     if ( chrcode == 1 ) 
-    printesc ( 1297 ) ;
+    printesc ( 1302 ) ;
     else if ( chrcode == 2 ) 
-    printesc ( 1298 ) ;
-    else printesc ( 1554 ) ;
+    printesc ( 1303 ) ;
+    else printesc ( 1559 ) ;
     break ;
   case 53 : 
     printstyle ( chrcode ) ;
@@ -6973,238 +7007,238 @@ zprintcmdchr ( quarterword cmd , halfword chrcode )
   case 52 : 
     switch ( chrcode ) 
     {case 1 : 
-      printesc ( 1573 ) ;
+      printesc ( 1578 ) ;
       break ;
     case 2 : 
-      printesc ( 1574 ) ;
+      printesc ( 1579 ) ;
       break ;
     case 3 : 
-      printesc ( 1575 ) ;
+      printesc ( 1580 ) ;
       break ;
     case 4 : 
-      printesc ( 1576 ) ;
+      printesc ( 1581 ) ;
       break ;
     case 5 : 
-      printesc ( 1577 ) ;
+      printesc ( 1582 ) ;
       break ;
       default: 
-      printesc ( 1572 ) ;
+      printesc ( 1577 ) ;
       break ;
     } 
     break ;
   case 49 : 
     if ( chrcode == 30 ) 
-    printesc ( 1294 ) ;
+    printesc ( 1299 ) ;
     else if ( chrcode == 1 ) 
-    printesc ( 1296 ) ;
-    else printesc ( 1295 ) ;
+    printesc ( 1301 ) ;
+    else printesc ( 1300 ) ;
     break ;
   case 93 : 
     if ( chrcode == 1 ) 
-    printesc ( 1597 ) ;
+    printesc ( 1602 ) ;
     else if ( chrcode == 2 ) 
-    printesc ( 1598 ) ;
+    printesc ( 1603 ) ;
     else if ( chrcode == 8 ) 
-    printesc ( 1611 ) ;
-    else printesc ( 1599 ) ;
+    printesc ( 1616 ) ;
+    else printesc ( 1604 ) ;
     break ;
   case 97 : 
     if ( chrcode == 0 ) 
-    printesc ( 1600 ) ;
+    printesc ( 1605 ) ;
     else if ( chrcode == 1 ) 
-    printesc ( 1601 ) ;
+    printesc ( 1606 ) ;
     else if ( chrcode == 2 ) 
-    printesc ( 1602 ) ;
-    else printesc ( 1603 ) ;
+    printesc ( 1607 ) ;
+    else printesc ( 1608 ) ;
     break ;
   case 94 : 
     if ( chrcode != 0 ) {
 	
       if ( chrcode == 10 ) 
-      printesc ( 1622 ) ;
+      printesc ( 1627 ) ;
       else if ( chrcode == 11 ) 
-      printesc ( 1623 ) ;
-      else printesc ( 1621 ) ;
+      printesc ( 1628 ) ;
+      else printesc ( 1626 ) ;
     } 
-    else printesc ( 1620 ) ;
+    else printesc ( 1625 ) ;
     break ;
   case 95 : 
     switch ( chrcode ) 
     {case 0 : 
-      printesc ( 1629 ) ;
-      break ;
-    case 1 : 
-      printesc ( 1630 ) ;
-      break ;
-    case 2 : 
-      printesc ( 1631 ) ;
-      break ;
-    case 3 : 
-      printesc ( 1632 ) ;
-      break ;
-    case 4 : 
-      printesc ( 1633 ) ;
-      break ;
-    case 5 : 
       printesc ( 1634 ) ;
       break ;
-    case 7 : 
+    case 1 : 
+      printesc ( 1635 ) ;
+      break ;
+    case 2 : 
       printesc ( 1636 ) ;
       break ;
+    case 3 : 
+      printesc ( 1637 ) ;
+      break ;
+    case 4 : 
+      printesc ( 1638 ) ;
+      break ;
+    case 5 : 
+      printesc ( 1639 ) ;
+      break ;
+    case 7 : 
+      printesc ( 1641 ) ;
+      break ;
       default: 
-      printesc ( 1635 ) ;
+      printesc ( 1640 ) ;
       break ;
     } 
     break ;
   case 68 : 
     {
-      printesc ( 597 ) ;
+      printesc ( 599 ) ;
       printhex ( chrcode ) ;
     } 
     break ;
   case 69 : 
     {
-      printesc ( 611 ) ;
+      printesc ( 613 ) ;
       printhex ( chrcode ) ;
     } 
     break ;
   case 85 : 
     if ( chrcode == 27690 ) 
-    printesc ( 1641 ) ;
+    printesc ( 1646 ) ;
     else if ( chrcode == 27691 ) 
-    printesc ( 1642 ) ;
+    printesc ( 1647 ) ;
     else if ( chrcode == 27692 ) 
-    printesc ( 1643 ) ;
+    printesc ( 1648 ) ;
     else if ( chrcode == 27741 ) 
-    printesc ( 436 ) ;
-    else if ( chrcode == 28765 ) 
-    printesc ( 440 ) ;
-    else if ( chrcode == 27997 ) 
     printesc ( 437 ) ;
-    else if ( chrcode == 28253 ) 
+    else if ( chrcode == 28765 ) 
+    printesc ( 441 ) ;
+    else if ( chrcode == 27997 ) 
     printesc ( 438 ) ;
-    else if ( chrcode == 28509 ) 
+    else if ( chrcode == 28253 ) 
     printesc ( 439 ) ;
-    else printesc ( 546 ) ;
+    else if ( chrcode == 28509 ) 
+    printesc ( 440 ) ;
+    else printesc ( 548 ) ;
     break ;
   case 86 : 
     printsize ( chrcode - 27693 ) ;
     break ;
   case 99 : 
     if ( chrcode == 1 ) 
-    printesc ( 1376 ) ;
-    else printesc ( 1364 ) ;
+    printesc ( 1381 ) ;
+    else printesc ( 1369 ) ;
     break ;
   case 78 : 
     switch ( chrcode ) 
     {case 0 : 
-      printesc ( 1659 ) ;
-      break ;
-    case 1 : 
-      printesc ( 1660 ) ;
-      break ;
-    case 2 : 
-      printesc ( 1661 ) ;
-      break ;
-    case 3 : 
-      printesc ( 1662 ) ;
-      break ;
-    case 4 : 
-      printesc ( 1663 ) ;
-      break ;
-    case 5 : 
       printesc ( 1664 ) ;
       break ;
-    case 7 : 
+    case 1 : 
       printesc ( 1665 ) ;
       break ;
-    case 8 : 
+    case 2 : 
       printesc ( 1666 ) ;
       break ;
-    case 9 : 
+    case 3 : 
       printesc ( 1667 ) ;
       break ;
-    case 10 : 
+    case 4 : 
       printesc ( 1668 ) ;
       break ;
-    case 11 : 
+    case 5 : 
       printesc ( 1669 ) ;
       break ;
-    case 6 : 
+    case 7 : 
       printesc ( 1670 ) ;
+      break ;
+    case 8 : 
+      printesc ( 1671 ) ;
+      break ;
+    case 9 : 
+      printesc ( 1672 ) ;
+      break ;
+    case 10 : 
+      printesc ( 1673 ) ;
+      break ;
+    case 11 : 
+      printesc ( 1674 ) ;
+      break ;
+    case 6 : 
+      printesc ( 1675 ) ;
       break ;
     } 
     break ;
   case 87 : 
     {
-      print ( 1677 ) ;
+      print ( 1682 ) ;
       slowprint ( fontname [chrcode ]) ;
       if ( fontsize [chrcode ]!= fontdsize [chrcode ]) 
       {
-	print ( 905 ) ;
+	print ( 907 ) ;
 	printscaled ( fontsize [chrcode ]) ;
-	print ( 312 ) ;
+	print ( 314 ) ;
       } 
     } 
     break ;
   case 100 : 
     switch ( chrcode ) 
     {case 0 : 
-      printesc ( 274 ) ;
-      break ;
-    case 1 : 
-      printesc ( 275 ) ;
-      break ;
-    case 2 : 
       printesc ( 276 ) ;
       break ;
+    case 1 : 
+      printesc ( 277 ) ;
+      break ;
+    case 2 : 
+      printesc ( 278 ) ;
+      break ;
       default: 
-      printesc ( 1678 ) ;
+      printesc ( 1683 ) ;
       break ;
     } 
     break ;
   case 60 : 
     if ( chrcode == 0 ) 
-    printesc ( 1680 ) ;
-    else printesc ( 1679 ) ;
+    printesc ( 1685 ) ;
+    else printesc ( 1684 ) ;
     break ;
   case 58 : 
     if ( chrcode == 0 ) 
-    printesc ( 1681 ) ;
-    else printesc ( 1682 ) ;
+    printesc ( 1686 ) ;
+    else printesc ( 1687 ) ;
     break ;
   case 57 : 
     if ( chrcode == 27997 ) 
-    printesc ( 1688 ) ;
-    else printesc ( 1689 ) ;
+    printesc ( 1693 ) ;
+    else printesc ( 1694 ) ;
     break ;
   case 19 : 
     switch ( chrcode ) 
     {case 1 : 
-      printesc ( 1691 ) ;
+      printesc ( 1696 ) ;
       break ;
     case 2 : 
-      printesc ( 1692 ) ;
+      printesc ( 1697 ) ;
       break ;
     case 3 : 
-      printesc ( 1693 ) ;
+      printesc ( 1698 ) ;
       break ;
     case 4 : 
-      printesc ( 2027 ) ;
+      printesc ( 2034 ) ;
       break ;
     case 5 : 
-      printesc ( 2029 ) ;
+      printesc ( 2036 ) ;
       break ;
     case 6 : 
-      printesc ( 2032 ) ;
+      printesc ( 2039 ) ;
       break ;
       default: 
-      printesc ( 1690 ) ;
+      printesc ( 1695 ) ;
       break ;
     } 
     break ;
   case 104 : 
-    print ( 1700 ) ;
+    print ( 1705 ) ;
     break ;
   case 114 : 
   case 115 : 
@@ -7215,175 +7249,175 @@ zprintcmdchr ( quarterword cmd , halfword chrcode )
       if ( mem [mem [chrcode ].hh .v.RH ].hh .v.LH == 3585 ) 
       n = n + 4 ;
       if ( odd ( n / 4 ) ) 
-      printesc ( 1611 ) ;
+      printesc ( 1616 ) ;
       if ( odd ( n ) ) 
-      printesc ( 1597 ) ;
+      printesc ( 1602 ) ;
       if ( odd ( n / 2 ) ) 
-      printesc ( 1598 ) ;
+      printesc ( 1603 ) ;
       if ( n > 0 ) 
       printchar ( 32 ) ;
-      print ( 1701 ) ;
+      print ( 1706 ) ;
     } 
     break ;
   case 118 : 
-    printesc ( 1702 ) ;
+    printesc ( 1707 ) ;
     break ;
   case 59 : 
     switch ( chrcode ) 
     {case 0 : 
-      printesc ( 1740 ) ;
-      break ;
-    case 1 : 
-      printesc ( 686 ) ;
-      break ;
-    case 2 : 
-      printesc ( 1741 ) ;
-      break ;
-    case 3 : 
-      printesc ( 1742 ) ;
-      break ;
-    case 5 : 
-      printesc ( 1743 ) ;
-      break ;
-    case 6 : 
-      printesc ( 1744 ) ;
-      break ;
-    case 15 : 
-      printesc ( 1755 ) ;
-      break ;
-    case 25 : 
-      printesc ( 1768 ) ;
-      break ;
-    case 19 : 
-      printesc ( 1759 ) ;
-      break ;
-    case 17 : 
-      printesc ( 1757 ) ;
-      break ;
-    case 22 : 
-      printesc ( 1762 ) ;
-      break ;
-    case 27 : 
-      printesc ( 1771 ) ;
-      break ;
-    case 34 : 
-      printesc ( 1778 ) ;
-      break ;
-    case 28 : 
-      printesc ( 1770 ) ;
-      break ;
-    case 24 : 
-      printesc ( 1767 ) ;
-      break ;
-    case 7 : 
       printesc ( 1745 ) ;
       break ;
-    case 40 : 
-      printesc ( 1142 ) ;
+    case 1 : 
+      printesc ( 688 ) ;
       break ;
-    case 41 : 
+    case 2 : 
       printesc ( 1746 ) ;
       break ;
-    case 42 : 
+    case 3 : 
       printesc ( 1747 ) ;
       break ;
-    case 43 : 
+    case 5 : 
       printesc ( 1748 ) ;
       break ;
-    case 29 : 
-      printesc ( 1772 ) ;
-      break ;
-    case 30 : 
-      printesc ( 1773 ) ;
-      break ;
-    case 26 : 
-      printesc ( 1769 ) ;
-      break ;
-    case 9 : 
+    case 6 : 
       printesc ( 1749 ) ;
       break ;
-    case 18 : 
-      printesc ( 1758 ) ;
-      break ;
-    case 10 : 
-      printesc ( 1750 ) ;
-      break ;
-    case 12 : 
-      printesc ( 1752 ) ;
-      break ;
-    case 14 : 
-      printesc ( 1754 ) ;
-      break ;
-    case 23 : 
-      printesc ( 1763 ) ;
-      break ;
-    case 36 : 
-      printesc ( 1764 ) ;
-      break ;
-    case 38 : 
-      printesc ( 1766 ) ;
-      break ;
-    case 37 : 
-      printesc ( 1765 ) ;
-      break ;
-    case 16 : 
-      printesc ( 1756 ) ;
-      break ;
-    case 21 : 
-      printesc ( 1761 ) ;
-      break ;
-    case 20 : 
+    case 15 : 
       printesc ( 1760 ) ;
       break ;
-    case 31 : 
-      printesc ( 1774 ) ;
+    case 25 : 
+      printesc ( 1773 ) ;
       break ;
-    case 32 : 
-      printesc ( 1775 ) ;
+    case 19 : 
+      printesc ( 1764 ) ;
       break ;
-    case 11 : 
-      printesc ( 1751 ) ;
+    case 17 : 
+      printesc ( 1762 ) ;
       break ;
-    case 13 : 
-      printesc ( 1753 ) ;
+    case 22 : 
+      printesc ( 1767 ) ;
       break ;
-    case 33 : 
+    case 27 : 
       printesc ( 1776 ) ;
       break ;
-    case 35 : 
-      printesc ( 1777 ) ;
-      break ;
-    case 44 : 
-      printesc ( 1780 ) ;
-      break ;
-    case 39 : 
-      printesc ( 1779 ) ;
-      break ;
-    case 45 : 
-      printesc ( 1781 ) ;
-      break ;
-    case 46 : 
-      printesc ( 1782 ) ;
-      break ;
-    case 47 : 
+    case 34 : 
       printesc ( 1783 ) ;
       break ;
-    case 48 : 
-      printesc ( 1784 ) ;
+    case 28 : 
+      printesc ( 1775 ) ;
       break ;
-    case 49 : 
+    case 24 : 
+      printesc ( 1772 ) ;
+      break ;
+    case 7 : 
+      printesc ( 1750 ) ;
+      break ;
+    case 40 : 
+      printesc ( 1146 ) ;
+      break ;
+    case 41 : 
+      printesc ( 1751 ) ;
+      break ;
+    case 42 : 
+      printesc ( 1752 ) ;
+      break ;
+    case 43 : 
+      printesc ( 1753 ) ;
+      break ;
+    case 29 : 
+      printesc ( 1777 ) ;
+      break ;
+    case 30 : 
+      printesc ( 1778 ) ;
+      break ;
+    case 26 : 
+      printesc ( 1774 ) ;
+      break ;
+    case 9 : 
+      printesc ( 1754 ) ;
+      break ;
+    case 18 : 
+      printesc ( 1763 ) ;
+      break ;
+    case 10 : 
+      printesc ( 1755 ) ;
+      break ;
+    case 12 : 
+      printesc ( 1757 ) ;
+      break ;
+    case 14 : 
+      printesc ( 1759 ) ;
+      break ;
+    case 23 : 
+      printesc ( 1768 ) ;
+      break ;
+    case 36 : 
+      printesc ( 1769 ) ;
+      break ;
+    case 38 : 
+      printesc ( 1771 ) ;
+      break ;
+    case 37 : 
+      printesc ( 1770 ) ;
+      break ;
+    case 16 : 
+      printesc ( 1761 ) ;
+      break ;
+    case 21 : 
+      printesc ( 1766 ) ;
+      break ;
+    case 20 : 
+      printesc ( 1765 ) ;
+      break ;
+    case 31 : 
+      printesc ( 1779 ) ;
+      break ;
+    case 32 : 
+      printesc ( 1780 ) ;
+      break ;
+    case 11 : 
+      printesc ( 1756 ) ;
+      break ;
+    case 13 : 
+      printesc ( 1758 ) ;
+      break ;
+    case 33 : 
+      printesc ( 1781 ) ;
+      break ;
+    case 35 : 
+      printesc ( 1782 ) ;
+      break ;
+    case 44 : 
       printesc ( 1785 ) ;
       break ;
-    case 50 : 
+    case 39 : 
+      printesc ( 1784 ) ;
+      break ;
+    case 45 : 
       printesc ( 1786 ) ;
       break ;
+    case 46 : 
+      printesc ( 1787 ) ;
+      break ;
+    case 47 : 
+      printesc ( 1788 ) ;
+      break ;
+    case 48 : 
+      printesc ( 1789 ) ;
+      break ;
+    case 49 : 
+      printesc ( 1790 ) ;
+      break ;
+    case 50 : 
+      printesc ( 1791 ) ;
+      break ;
       default: 
-      print ( 1787 ) ;
+      print ( 1792 ) ;
       break ;
     } 
     break ;
     default: 
-    print ( 658 ) ;
+    print ( 660 ) ;
     break ;
   } 
 } 
@@ -7394,7 +7428,7 @@ zshoweqtb ( halfword n )
   showeqtb_regmem 
   if ( n < 1 ) 
   printchar ( 63 ) ;
-  else if ( ( n < 26628 ) || ( ( n > 30189 ) && ( n <= eqtbtop ) ) ) 
+  else if ( ( n < 26628 ) || ( ( n > 30191 ) && ( n <= eqtbtop ) ) ) 
   {
     sprintcs ( n ) ;
     printchar ( 61 ) ;
@@ -7413,22 +7447,22 @@ zshoweqtb ( halfword n )
       printskipparam ( n - 26628 ) ;
       printchar ( 61 ) ;
       if ( n < 26643 ) 
-      printspec ( eqtb [n ].hh .v.RH , 312 ) ;
-      else printspec ( eqtb [n ].hh .v.RH , 344 ) ;
+      printspec ( eqtb [n ].hh .v.RH , 314 ) ;
+      else printspec ( eqtb [n ].hh .v.RH , 346 ) ;
     } 
     else if ( n < 26902 ) 
     {
-      printesc ( 413 ) ;
+      printesc ( 414 ) ;
       printint ( n - 26646 ) ;
       printchar ( 61 ) ;
-      printspec ( eqtb [n ].hh .v.RH , 312 ) ;
+      printspec ( eqtb [n ].hh .v.RH , 314 ) ;
     } 
     else {
 	
-      printesc ( 414 ) ;
+      printesc ( 415 ) ;
       printint ( n - 26902 ) ;
       printchar ( 61 ) ;
-      printspec ( eqtb [n ].hh .v.RH , 344 ) ;
+      printspec ( eqtb [n ].hh .v.RH , 346 ) ;
     } 
   } 
   else if ( n < 29277 ) {
@@ -7445,7 +7479,7 @@ zshoweqtb ( halfword n )
 	printchar ( 32 ) ;
 	printint ( mem [eqtb [n ].hh .v.RH + 2 ].cint ) ;
 	if ( mem [eqtb [n ].hh .v.RH + 1 ].cint > 1 ) 
-	printesc ( 429 ) ;
+	printesc ( 430 ) ;
       } 
       else printint ( mem [eqtb [27158 ].hh .v.RH ].hh .v.LH ) ;
     } 
@@ -7459,7 +7493,7 @@ zshoweqtb ( halfword n )
     } 
     else if ( n < 27433 ) 
     {
-      printesc ( 428 ) ;
+      printesc ( 429 ) ;
       printint ( n - 27173 ) ;
       printchar ( 61 ) ;
       if ( eqtb [n ].hh .v.RH != -268435455L ) 
@@ -7468,11 +7502,11 @@ zshoweqtb ( halfword n )
     } 
     else if ( n < 27689 ) 
     {
-      printesc ( 430 ) ;
+      printesc ( 431 ) ;
       printint ( n - 27433 ) ;
       printchar ( 61 ) ;
       if ( eqtb [n ].hh .v.RH == -268435455L ) 
-      print ( 431 ) ;
+      print ( 432 ) ;
       else {
 	  
 	depththreshold = 0 ;
@@ -7483,20 +7517,20 @@ zshoweqtb ( halfword n )
     else if ( n < 27741 ) 
     {
       if ( n == 27689 ) 
-      print ( 432 ) ;
+      print ( 433 ) ;
       else if ( n < 27709 ) 
       {
-	printesc ( 433 ) ;
+	printesc ( 434 ) ;
 	printint ( n - 27693 ) ;
       } 
       else if ( n < 27725 ) 
       {
-	printesc ( 434 ) ;
+	printesc ( 435 ) ;
 	printint ( n - 27709 ) ;
       } 
       else {
 	  
-	printesc ( 435 ) ;
+	printesc ( 436 ) ;
 	printint ( n - 27725 ) ;
       } 
       printchar ( 61 ) ;
@@ -7506,22 +7540,22 @@ zshoweqtb ( halfword n )
     {
       if ( n < 27997 ) 
       {
-	printesc ( 436 ) ;
+	printesc ( 437 ) ;
 	printint ( n - 27741 ) ;
       } 
       else if ( n < 28253 ) 
       {
-	printesc ( 437 ) ;
+	printesc ( 438 ) ;
 	printint ( n - 27997 ) ;
       } 
       else if ( n < 28509 ) 
       {
-	printesc ( 438 ) ;
+	printesc ( 439 ) ;
 	printint ( n - 28253 ) ;
       } 
       else {
 	  
-	printesc ( 439 ) ;
+	printesc ( 440 ) ;
 	printint ( n - 28509 ) ;
       } 
       printchar ( 61 ) ;
@@ -7529,41 +7563,41 @@ zshoweqtb ( halfword n )
     } 
     else {
 	
-      printesc ( 440 ) ;
+      printesc ( 441 ) ;
       printint ( n - 28765 ) ;
       printchar ( 61 ) ;
       printint ( eqtb [n ].hh .v.RH ) ;
     } 
   } 
-  else if ( n < 29900 ) 
+  else if ( n < 29902 ) 
   {
-    if ( n < 29388 ) 
+    if ( n < 29390 ) 
     printparam ( n - 29277 ) ;
-    else if ( n < 29644 ) 
+    else if ( n < 29646 ) 
     {
-      printesc ( 545 ) ;
-      printint ( n - 29388 ) ;
+      printesc ( 547 ) ;
+      printint ( n - 29390 ) ;
     } 
     else {
 	
-      printesc ( 546 ) ;
-      printint ( n - 29644 ) ;
+      printesc ( 548 ) ;
+      printint ( n - 29646 ) ;
     } 
     printchar ( 61 ) ;
     printint ( eqtb [n ].cint ) ;
   } 
-  else if ( n <= 30189 ) 
+  else if ( n <= 30191 ) 
   {
-    if ( n < 29934 ) 
-    printlengthparam ( n - 29900 ) ;
+    if ( n < 29936 ) 
+    printlengthparam ( n - 29902 ) ;
     else {
 	
-      printesc ( 582 ) ;
-      printint ( n - 29934 ) ;
+      printesc ( 584 ) ;
+      printint ( n - 29936 ) ;
     } 
     printchar ( 61 ) ;
     printscaled ( eqtb [n ].cint ) ;
-    print ( 312 ) ;
+    print ( 314 ) ;
   } 
   else printchar ( 63 ) ;
 } 
@@ -7607,14 +7641,14 @@ zidlookup ( integer j , integer l )
 	  if ( hashhigh < hashextra ) 
 	  {
 	    incr ( hashhigh ) ;
-	    hash [p ].v.LH = hashhigh + 30189 ;
-	    p = hashhigh + 30189 ;
+	    hash [p ].v.LH = hashhigh + 30191 ;
+	    p = hashhigh + 30191 ;
 	  } 
 	  else {
 	      
 	    do {
 		if ( ( hashused == 514 ) ) 
-	      overflow ( 586 , 15000 + hashextra ) ;
+	      overflow ( 588 , 15000 + hashextra ) ;
 	      decr ( hashused ) ;
 	    } while ( ! ( hash [hashused ].v.RH == 0 ) ) ;
 	    hash [p ].v.LH = hashused ;
@@ -7708,7 +7742,7 @@ zprimlookup ( strnumber s )
 	{
 	  do {
 	      if ( ( primused == 1 ) ) 
-	    overflow ( 587 , 2100 ) ;
+	    overflow ( 589 , 2100 ) ;
 	    decr ( primused ) ;
 	  } while ( ! ( prim [primused ].v.RH == 0 ) ) ;
 	  prim [p ].v.LH = primused ;
@@ -7744,7 +7778,7 @@ zprintgroup ( boolean e )
   switch ( curgroup ) 
   {case 0 : 
     {
-      print ( 2001 ) ;
+      print ( 2008 ) ;
       return ;
     } 
     break ;
@@ -7752,67 +7786,67 @@ zprintgroup ( boolean e )
   case 14 : 
     {
       if ( curgroup == 14 ) 
-      print ( 2002 ) ;
-      print ( 2003 ) ;
+      print ( 2009 ) ;
+      print ( 2010 ) ;
     } 
     break ;
   case 2 : 
   case 3 : 
     {
       if ( curgroup == 3 ) 
-      print ( 2004 ) ;
-      print ( 1482 ) ;
+      print ( 2011 ) ;
+      print ( 1487 ) ;
     } 
     break ;
   case 4 : 
-    print ( 1392 ) ;
+    print ( 1397 ) ;
     break ;
   case 5 : 
-    print ( 1481 ) ;
+    print ( 1486 ) ;
     break ;
   case 6 : 
   case 7 : 
     {
       if ( curgroup == 7 ) 
-      print ( 2005 ) ;
-      print ( 2006 ) ;
+      print ( 2012 ) ;
+      print ( 2013 ) ;
     } 
     break ;
   case 8 : 
-    print ( 415 ) ;
+    print ( 416 ) ;
     break ;
   case 10 : 
-    print ( 2007 ) ;
+    print ( 2014 ) ;
     break ;
   case 11 : 
-    print ( 337 ) ;
+    print ( 339 ) ;
     break ;
   case 12 : 
-    print ( 627 ) ;
+    print ( 629 ) ;
     break ;
   case 9 : 
   case 13 : 
   case 15 : 
   case 16 : 
     {
-      print ( 352 ) ;
+      print ( 353 ) ;
       if ( curgroup == 13 ) 
-      print ( 2008 ) ;
+      print ( 2015 ) ;
       else if ( curgroup == 15 ) 
-      print ( 2009 ) ;
+      print ( 2016 ) ;
       else if ( curgroup == 16 ) 
-      print ( 2010 ) ;
+      print ( 2017 ) ;
     } 
     break ;
   } 
-  print ( 2011 ) ;
+  print ( 2018 ) ;
   printint ( curlevel ) ;
   printchar ( 41 ) ;
   if ( savestack [saveptr - 1 ].cint != 0 ) 
   {
     if ( e ) 
-    print ( 381 ) ;
-    else print ( 2012 ) ;
+    print ( 382 ) ;
+    else print ( 2019 ) ;
     printint ( savestack [saveptr - 1 ].cint ) ;
   } 
 } 
@@ -7824,8 +7858,8 @@ zgrouptrace ( boolean e )
   begindiagnostic () ;
   printchar ( 123 ) ;
   if ( e ) 
-  print ( 2013 ) ;
-  else print ( 2014 ) ;
+  print ( 2020 ) ;
+  else print ( 2021 ) ;
   printgroup ( e ) ;
   printchar ( 125 ) ;
   enddiagnostic ( false ) ;
@@ -7909,7 +7943,7 @@ groupwarning ( void )
   w = false ;
   while ( ( grpstack [i ]== curboundary ) && ( i > 0 ) ) {
       
-    if ( eqtb [29382 ].cint > 0 ) 
+    if ( eqtb [29383 ].cint > 0 ) 
     {
       while ( ( inputstack [baseptr ].statefield == 0 ) || ( inputstack [
       baseptr ].indexfield > i ) ) decr ( baseptr ) ;
@@ -7921,11 +7955,11 @@ groupwarning ( void )
   } 
   if ( w ) 
   {
-    printnl ( 2063 ) ;
+    printnl ( 2070 ) ;
     printgroup ( true ) ;
-    print ( 2064 ) ;
+    print ( 2071 ) ;
     println () ;
-    if ( eqtb [29382 ].cint > 1 ) 
+    if ( eqtb [29383 ].cint > 1 ) 
     showcontext () ;
     if ( history == 0 ) 
     history = 1 ;
@@ -7943,7 +7977,7 @@ ifwarning ( void )
   w = false ;
   while ( ifstack [i ]== condptr ) {
       
-    if ( eqtb [29382 ].cint > 0 ) 
+    if ( eqtb [29383 ].cint > 0 ) 
     {
       while ( ( inputstack [baseptr ].statefield == 0 ) || ( inputstack [
       baseptr ].indexfield > i ) ) decr ( baseptr ) ;
@@ -7955,16 +7989,16 @@ ifwarning ( void )
   } 
   if ( w ) 
   {
-    printnl ( 2063 ) ;
+    printnl ( 2070 ) ;
     printcmdchr ( 108 , curif ) ;
     if ( ifline != 0 ) 
     {
-      print ( 2033 ) ;
+      print ( 2040 ) ;
       printint ( ifline ) ;
     } 
-    print ( 2064 ) ;
+    print ( 2071 ) ;
     println () ;
-    if ( eqtb [29382 ].cint > 1 ) 
+    if ( eqtb [29383 ].cint > 1 ) 
     showcontext () ;
     if ( history == 0 ) 
     history = 1 ;
@@ -7985,9 +8019,9 @@ filewarning ( void )
   while ( grpstack [inopen ]!= saveptr ) {
       
     decr ( curlevel ) ;
-    printnl ( 2065 ) ;
+    printnl ( 2072 ) ;
     printgroup ( true ) ;
-    print ( 2066 ) ;
+    print ( 2073 ) ;
     curgroup = savestack [saveptr ].hh.b1 ;
     saveptr = savestack [saveptr ].hh .v.RH ;
   } 
@@ -8000,16 +8034,16 @@ filewarning ( void )
   i = ifline ;
   while ( ifstack [inopen ]!= condptr ) {
       
-    printnl ( 2065 ) ;
+    printnl ( 2072 ) ;
     printcmdchr ( 108 , curif ) ;
     if ( iflimit == 2 ) 
-    printesc ( 942 ) ;
+    printesc ( 944 ) ;
     if ( ifline != 0 ) 
     {
-      print ( 2033 ) ;
+      print ( 2040 ) ;
       printint ( ifline ) ;
     } 
-    print ( 2066 ) ;
+    print ( 2073 ) ;
     ifline = mem [condptr + 1 ].cint ;
     curif = mem [condptr ].hh.b1 ;
     iflimit = mem [condptr ].hh.b0 ;
@@ -8020,7 +8054,7 @@ filewarning ( void )
   curif = c ;
   ifline = i ;
   println () ;
-  if ( eqtb [29382 ].cint > 1 ) 
+  if ( eqtb [29383 ].cint > 1 ) 
   showcontext () ;
   if ( history == 0 ) 
   history = 1 ;
@@ -8091,7 +8125,7 @@ zshowsa ( halfword p , strnumber s )
     printcmdchr ( 89 , p ) ;
     else if ( t == 4 ) 
     {
-      printesc ( 430 ) ;
+      printesc ( 431 ) ;
       printsanum ( p ) ;
     } 
     else if ( t == 5 ) 
@@ -8103,19 +8137,19 @@ zshowsa ( halfword p , strnumber s )
     else if ( t == 1 ) 
     {
       printscaled ( mem [p + 2 ].cint ) ;
-      print ( 312 ) ;
+      print ( 314 ) ;
     } 
     else {
 	
       p = mem [p + 1 ].hh .v.RH ;
       if ( t == 2 ) 
-      printspec ( p , 312 ) ;
+      printspec ( p , 314 ) ;
       else if ( t == 3 ) 
-      printspec ( p , 344 ) ;
+      printspec ( p , 346 ) ;
       else if ( t == 4 ) {
 	  
 	if ( p == -268435455L ) 
-	print ( 431 ) ;
+	print ( 432 ) ;
 	else {
 	    
 	  depththreshold = 0 ;
@@ -8147,7 +8181,7 @@ zsasave ( halfword p )
     {
       maxsavestack = saveptr ;
       if ( maxsavestack > savesize - 7 ) 
-      overflow ( 629 , savesize ) ;
+      overflow ( 631 , savesize ) ;
     } 
     savestack [saveptr ].hh.b0 = 4 ;
     savestack [saveptr ].hh.b1 = salevel ;
@@ -8205,8 +8239,8 @@ zsadef ( halfword p , halfword e )
   {
 	;
 #ifdef STAT
-    if ( eqtb [29378 ].cint > 0 ) 
-    showsa ( p , 631 ) ;
+    if ( eqtb [29379 ].cint > 0 ) 
+    showsa ( p , 633 ) ;
 #endif /* STAT */
     sadestroy ( p ) ;
   } 
@@ -8214,8 +8248,8 @@ zsadef ( halfword p , halfword e )
       
 	;
 #ifdef STAT
-    if ( eqtb [29378 ].cint > 0 ) 
-    showsa ( p , 632 ) ;
+    if ( eqtb [29379 ].cint > 0 ) 
+    showsa ( p , 634 ) ;
 #endif /* STAT */
     if ( mem [p ].hh.b1 == curlevel ) 
     sadestroy ( p ) ;
@@ -8224,8 +8258,8 @@ zsadef ( halfword p , halfword e )
     mem [p + 1 ].hh .v.RH = e ;
 	;
 #ifdef STAT
-    if ( eqtb [29378 ].cint > 0 ) 
-    showsa ( p , 633 ) ;
+    if ( eqtb [29379 ].cint > 0 ) 
+    showsa ( p , 635 ) ;
 #endif /* STAT */
   } 
   deletesaref ( p ) ;
@@ -8239,16 +8273,16 @@ zsawdef ( halfword p , integer w )
   {
 	;
 #ifdef STAT
-    if ( eqtb [29378 ].cint > 0 ) 
-    showsa ( p , 631 ) ;
+    if ( eqtb [29379 ].cint > 0 ) 
+    showsa ( p , 633 ) ;
 #endif /* STAT */
   } 
   else {
       
 	;
 #ifdef STAT
-    if ( eqtb [29378 ].cint > 0 ) 
-    showsa ( p , 632 ) ;
+    if ( eqtb [29379 ].cint > 0 ) 
+    showsa ( p , 634 ) ;
 #endif /* STAT */
     if ( mem [p ].hh.b1 != curlevel ) 
     sasave ( p ) ;
@@ -8256,8 +8290,8 @@ zsawdef ( halfword p , integer w )
     mem [p + 2 ].cint = w ;
 	;
 #ifdef STAT
-    if ( eqtb [29378 ].cint > 0 ) 
-    showsa ( p , 633 ) ;
+    if ( eqtb [29379 ].cint > 0 ) 
+    showsa ( p , 635 ) ;
 #endif /* STAT */
   } 
   deletesaref ( p ) ;
@@ -8269,16 +8303,16 @@ zgsadef ( halfword p , halfword e )
   incr ( mem [p + 1 ].hh .v.LH ) ;
 	;
 #ifdef STAT
-  if ( eqtb [29378 ].cint > 0 ) 
-  showsa ( p , 634 ) ;
+  if ( eqtb [29379 ].cint > 0 ) 
+  showsa ( p , 636 ) ;
 #endif /* STAT */
   sadestroy ( p ) ;
   mem [p ].hh.b1 = 1 ;
   mem [p + 1 ].hh .v.RH = e ;
 	;
 #ifdef STAT
-  if ( eqtb [29378 ].cint > 0 ) 
-  showsa ( p , 633 ) ;
+  if ( eqtb [29379 ].cint > 0 ) 
+  showsa ( p , 635 ) ;
 #endif /* STAT */
   deletesaref ( p ) ;
 } 
@@ -8289,15 +8323,15 @@ zgsawdef ( halfword p , integer w )
   incr ( mem [p + 1 ].hh .v.LH ) ;
 	;
 #ifdef STAT
-  if ( eqtb [29378 ].cint > 0 ) 
-  showsa ( p , 634 ) ;
+  if ( eqtb [29379 ].cint > 0 ) 
+  showsa ( p , 636 ) ;
 #endif /* STAT */
   mem [p ].hh.b1 = 1 ;
   mem [p + 2 ].cint = w ;
 	;
 #ifdef STAT
-  if ( eqtb [29378 ].cint > 0 ) 
-  showsa ( p , 633 ) ;
+  if ( eqtb [29379 ].cint > 0 ) 
+  showsa ( p , 635 ) ;
 #endif /* STAT */
   deletesaref ( p ) ;
 } 
@@ -8315,7 +8349,7 @@ sarestore ( void )
 	;
 #ifdef STAT
       if ( eqtb [29314 ].cint > 0 ) 
-      showsa ( p , 636 ) ;
+      showsa ( p , 638 ) ;
 #endif /* STAT */
     } 
     else {
@@ -8335,7 +8369,7 @@ sarestore ( void )
 	;
 #ifdef STAT
       if ( eqtb [29314 ].cint > 0 ) 
-      showsa ( p , 637 ) ;
+      showsa ( p , 639 ) ;
 #endif /* STAT */
     } 
     deletesaref ( p ) ;
@@ -8354,7 +8388,7 @@ znewsavelevel ( groupcode c )
   {
     maxsavestack = saveptr ;
     if ( maxsavestack > savesize - 7 ) 
-    overflow ( 629 , savesize ) ;
+    overflow ( 631 , savesize ) ;
   } 
   if ( ( eTeXmode == 1 ) ) 
   {
@@ -8365,12 +8399,12 @@ znewsavelevel ( groupcode c )
   savestack [saveptr ].hh.b1 = curgroup ;
   savestack [saveptr ].hh .v.RH = curboundary ;
   if ( curlevel == 255 ) 
-  overflow ( 630 , 255 ) ;
+  overflow ( 632 , 255 ) ;
   curboundary = saveptr ;
   curgroup = c ;
 	;
 #ifdef STAT
-  if ( eqtb [29379 ].cint > 0 ) 
+  if ( eqtb [29380 ].cint > 0 ) 
   grouptrace ( false ) ;
 #endif /* STAT */
   incr ( curlevel ) ;
@@ -8419,7 +8453,7 @@ zeqsave ( halfword p , quarterword l )
   {
     maxsavestack = saveptr ;
     if ( maxsavestack > savesize - 7 ) 
-    overflow ( 629 , savesize ) ;
+    overflow ( 631 , savesize ) ;
   } 
   if ( l == 0 ) 
   savestack [saveptr ].hh.b0 = 1 ;
@@ -8442,16 +8476,16 @@ zeqdefine ( halfword p , quarterword t , halfword e )
   {
 	;
 #ifdef STAT
-    if ( eqtb [29378 ].cint > 0 ) 
-    restoretrace ( p , 631 ) ;
+    if ( eqtb [29379 ].cint > 0 ) 
+    restoretrace ( p , 633 ) ;
 #endif /* STAT */
     eqdestroy ( eqtb [p ]) ;
     return ;
   } 
 	;
 #ifdef STAT
-  if ( eqtb [29378 ].cint > 0 ) 
-  restoretrace ( p , 632 ) ;
+  if ( eqtb [29379 ].cint > 0 ) 
+  restoretrace ( p , 634 ) ;
 #endif /* STAT */
   if ( eqtb [p ].hh.b1 == curlevel ) 
   eqdestroy ( eqtb [p ]) ;
@@ -8462,8 +8496,8 @@ zeqdefine ( halfword p , quarterword t , halfword e )
   eqtb [p ].hh .v.RH = e ;
 	;
 #ifdef STAT
-  if ( eqtb [29378 ].cint > 0 ) 
-  restoretrace ( p , 633 ) ;
+  if ( eqtb [29379 ].cint > 0 ) 
+  restoretrace ( p , 635 ) ;
 #endif /* STAT */
 } 
 void 
@@ -8474,15 +8508,15 @@ zeqworddefine ( halfword p , integer w )
   {
 	;
 #ifdef STAT
-    if ( eqtb [29378 ].cint > 0 ) 
-    restoretrace ( p , 631 ) ;
+    if ( eqtb [29379 ].cint > 0 ) 
+    restoretrace ( p , 633 ) ;
 #endif /* STAT */
     return ;
   } 
 	;
 #ifdef STAT
-  if ( eqtb [29378 ].cint > 0 ) 
-  restoretrace ( p , 632 ) ;
+  if ( eqtb [29379 ].cint > 0 ) 
+  restoretrace ( p , 634 ) ;
 #endif /* STAT */
   if ( xeqlevel [p ]!= curlevel ) 
   {
@@ -8492,8 +8526,8 @@ zeqworddefine ( halfword p , integer w )
   eqtb [p ].cint = w ;
 	;
 #ifdef STAT
-  if ( eqtb [29378 ].cint > 0 ) 
-  restoretrace ( p , 633 ) ;
+  if ( eqtb [29379 ].cint > 0 ) 
+  restoretrace ( p , 635 ) ;
 #endif /* STAT */
 } 
 void 
@@ -8502,8 +8536,8 @@ zgeqdefine ( halfword p , quarterword t , halfword e )
   geqdefine_regmem 
 	;
 #ifdef STAT
-  if ( eqtb [29378 ].cint > 0 ) 
-  restoretrace ( p , 634 ) ;
+  if ( eqtb [29379 ].cint > 0 ) 
+  restoretrace ( p , 636 ) ;
 #endif /* STAT */
   {
     eqdestroy ( eqtb [p ]) ;
@@ -8513,8 +8547,8 @@ zgeqdefine ( halfword p , quarterword t , halfword e )
   } 
 	;
 #ifdef STAT
-  if ( eqtb [29378 ].cint > 0 ) 
-  restoretrace ( p , 633 ) ;
+  if ( eqtb [29379 ].cint > 0 ) 
+  restoretrace ( p , 635 ) ;
 #endif /* STAT */
 } 
 void 
@@ -8523,8 +8557,8 @@ zgeqworddefine ( halfword p , integer w )
   geqworddefine_regmem 
 	;
 #ifdef STAT
-  if ( eqtb [29378 ].cint > 0 ) 
-  restoretrace ( p , 634 ) ;
+  if ( eqtb [29379 ].cint > 0 ) 
+  restoretrace ( p , 636 ) ;
 #endif /* STAT */
   {
     eqtb [p ].cint = w ;
@@ -8532,8 +8566,8 @@ zgeqworddefine ( halfword p , integer w )
   } 
 	;
 #ifdef STAT
-  if ( eqtb [29378 ].cint > 0 ) 
-  restoretrace ( p , 633 ) ;
+  if ( eqtb [29379 ].cint > 0 ) 
+  restoretrace ( p , 635 ) ;
 #endif /* STAT */
 } 
 void 
@@ -8546,7 +8580,7 @@ zsaveforafter ( halfword t )
     {
       maxsavestack = saveptr ;
       if ( maxsavestack > savesize - 7 ) 
-      overflow ( 629 , savesize ) ;
+      overflow ( 631 , savesize ) ;
     } 
     savestack [saveptr ].hh.b0 = 2 ;
     savestack [saveptr ].hh.b1 = 0 ;
@@ -8611,7 +8645,7 @@ unsave ( void )
 	  decr ( saveptr ) ;
 	} 
 	else savestack [saveptr ]= eqtb [26627 ];
-	if ( ( p < 29277 ) || ( p > 30189 ) ) {
+	if ( ( p < 29277 ) || ( p > 30191 ) ) {
 	    
 	  if ( eqtb [p ].hh.b1 == 1 ) 
 	  {
@@ -8619,7 +8653,7 @@ unsave ( void )
 	;
 #ifdef STAT
 	    if ( eqtb [29314 ].cint > 0 ) 
-	    restoretrace ( p , 636 ) ;
+	    restoretrace ( p , 638 ) ;
 #endif /* STAT */
 	  } 
 	  else {
@@ -8629,7 +8663,7 @@ unsave ( void )
 	;
 #ifdef STAT
 	    if ( eqtb [29314 ].cint > 0 ) 
-	    restoretrace ( p , 637 ) ;
+	    restoretrace ( p , 639 ) ;
 #endif /* STAT */
 	  } 
 	} 
@@ -8640,7 +8674,7 @@ unsave ( void )
 	;
 #ifdef STAT
 	  if ( eqtb [29314 ].cint > 0 ) 
-	  restoretrace ( p , 637 ) ;
+	  restoretrace ( p , 639 ) ;
 #endif /* STAT */
 	} 
 	else {
@@ -8648,7 +8682,7 @@ unsave ( void )
 	;
 #ifdef STAT
 	  if ( eqtb [29314 ].cint > 0 ) 
-	  restoretrace ( p , 636 ) ;
+	  restoretrace ( p , 638 ) ;
 #endif /* STAT */
 	} 
       } 
@@ -8656,7 +8690,7 @@ unsave ( void )
     lab30: 
 	;
 #ifdef STAT
-    if ( eqtb [29379 ].cint > 0 ) 
+    if ( eqtb [29380 ].cint > 0 ) 
     grouptrace ( true ) ;
 #endif /* STAT */
     if ( grpstack [inopen ]== curboundary ) 
@@ -8666,7 +8700,7 @@ unsave ( void )
     if ( ( eTeXmode == 1 ) ) 
     decr ( saveptr ) ;
   } 
-  else confusion ( 635 ) ;
+  else confusion ( 637 ) ;
 } 
 void 
 preparemag ( void ) 
@@ -8680,15 +8714,15 @@ preparemag ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 639 ) ;
+      print ( 641 ) ;
     } 
     printint ( eqtb [29294 ].cint ) ;
-    print ( 640 ) ;
-    printnl ( 641 ) ;
+    print ( 642 ) ;
+    printnl ( 643 ) ;
     {
       helpptr = 2 ;
-      helpline [1 ]= 642 ;
-      helpline [0 ]= 643 ;
+      helpline [1 ]= 644 ;
+      helpline [0 ]= 645 ;
     } 
     interror ( magset ) ;
     geqworddefine ( 29294 , magset ) ;
@@ -8701,11 +8735,11 @@ preparemag ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 644 ) ;
+      print ( 646 ) ;
     } 
     {
       helpptr = 1 ;
-      helpline [0 ]= 645 ;
+      helpline [0 ]= 647 ;
     } 
     interror ( eqtb [29294 ].cint ) ;
     geqworddefine ( 29294 , 1000 ) ;
@@ -8749,17 +8783,17 @@ showcurcmdchr ( void )
   if ( curlist .modefield != shownmode ) 
   {
     printmode ( curlist .modefield ) ;
-    print ( 659 ) ;
+    print ( 661 ) ;
     shownmode = curlist .modefield ;
   } 
   printcmdchr ( curcmd , curchr ) ;
-  if ( eqtb [29380 ].cint > 0 ) {
+  if ( eqtb [29381 ].cint > 0 ) {
       
     if ( curcmd >= 108 ) {
 	
       if ( curcmd <= 109 ) 
       {
-	print ( 659 ) ;
+	print ( 661 ) ;
 	if ( curcmd == 109 ) 
 	{
 	  printcmdchr ( 108 , curif ) ;
@@ -8778,12 +8812,12 @@ showcurcmdchr ( void )
 	  incr ( n ) ;
 	  p = mem [p ].hh .v.RH ;
 	} 
-	print ( 660 ) ;
+	print ( 662 ) ;
 	printint ( n ) ;
 	printchar ( 41 ) ;
 	if ( l != 0 ) 
 	{
-	  print ( 2033 ) ;
+	  print ( 2040 ) ;
 	  printint ( l ) ;
 	} 
       } 
@@ -8833,12 +8867,12 @@ showcontext ( void )
 	    if ( ( curinput .namefield == 0 ) ) {
 		
 	      if ( baseptr == 0 ) 
-	      printnl ( 665 ) ;
-	      else printnl ( 666 ) ;
+	      printnl ( 667 ) ;
+	      else printnl ( 668 ) ;
 	    } 
 	    else {
 		
-	      printnl ( 667 ) ;
+	      printnl ( 669 ) ;
 	      if ( curinput .namefield == 17 ) 
 	      printchar ( 42 ) ;
 	      else printint ( curinput .namefield - 1 ) ;
@@ -8847,7 +8881,7 @@ showcontext ( void )
 	  } 
 	  else {
 	      
-	    printnl ( 668 ) ;
+	    printnl ( 670 ) ;
 	    if ( curinput .indexfield == inopen ) 
 	    printint ( line ) ;
 	    else printint ( linestack [curinput .indexfield + 1 ]) ;
@@ -8885,19 +8919,19 @@ showcontext ( void )
 	    
 	  switch ( curinput .indexfield ) 
 	  {case 0 : 
-	    printnl ( 669 ) ;
+	    printnl ( 671 ) ;
 	    break ;
 	  case 1 : 
 	  case 2 : 
-	    printnl ( 670 ) ;
+	    printnl ( 672 ) ;
 	    break ;
 	  case 3 : 
 	    if ( curinput .locfield == -268435455L ) 
-	    printnl ( 671 ) ;
-	    else printnl ( 672 ) ;
+	    printnl ( 673 ) ;
+	    else printnl ( 674 ) ;
 	    break ;
 	  case 4 : 
-	    printnl ( 673 ) ;
+	    printnl ( 675 ) ;
 	    break ;
 	  case 5 : 
 	    {
@@ -8906,37 +8940,37 @@ showcontext ( void )
 	    } 
 	    break ;
 	  case 6 : 
-	    printnl ( 674 ) ;
-	    break ;
-	  case 7 : 
-	    printnl ( 675 ) ;
-	    break ;
-	  case 8 : 
 	    printnl ( 676 ) ;
 	    break ;
-	  case 9 : 
+	  case 7 : 
 	    printnl ( 677 ) ;
 	    break ;
-	  case 10 : 
+	  case 8 : 
 	    printnl ( 678 ) ;
 	    break ;
-	  case 11 : 
+	  case 9 : 
 	    printnl ( 679 ) ;
 	    break ;
-	  case 12 : 
+	  case 10 : 
 	    printnl ( 680 ) ;
 	    break ;
-	  case 13 : 
+	  case 11 : 
 	    printnl ( 681 ) ;
 	    break ;
-	  case 14 : 
+	  case 12 : 
 	    printnl ( 682 ) ;
 	    break ;
-	  case 19 : 
+	  case 13 : 
 	    printnl ( 683 ) ;
 	    break ;
-	  case 20 : 
+	  case 14 : 
 	    printnl ( 684 ) ;
+	    break ;
+	  case 19 : 
+	    printnl ( 685 ) ;
+	    break ;
+	  case 20 : 
+	    printnl ( 686 ) ;
 	    break ;
 	    default: 
 	    printnl ( 63 ) ;
@@ -8972,7 +9006,7 @@ showcontext ( void )
 	} 
 	else {
 	    
-	  print ( 277 ) ;
+	  print ( 279 ) ;
 	  p = l + firstcount - halferrorline + 3 ;
 	  n = halferrorline ;
 	} 
@@ -8993,13 +9027,13 @@ showcontext ( void )
 	  printchar ( trickbuf [q % errorline ]) ;
 	while ( q++ < for_end ) ;} 
 	if ( m + n > errorline ) 
-	print ( 277 ) ;
+	print ( 279 ) ;
 	incr ( nn ) ;
       } 
     } 
     else if ( nn == eqtb [29331 ].cint ) 
     {
-      printnl ( 277 ) ;
+      printnl ( 279 ) ;
       incr ( nn ) ;
     } 
     if ( bottomline ) 
@@ -9017,7 +9051,7 @@ zbegintokenlist ( halfword p , quarterword t )
     {
       maxinstack = inputptr ;
       if ( inputptr == stacksize ) 
-      overflow ( 685 , stacksize ) ;
+      overflow ( 687 , stacksize ) ;
     } 
     inputstack [inputptr ]= curinput ;
     incr ( inputptr ) ;
@@ -9036,19 +9070,19 @@ zbegintokenlist ( halfword p , quarterword t )
       if ( eqtb [29307 ].cint > 1 ) 
       {
 	begindiagnostic () ;
-	printnl ( 345 ) ;
+	printnl ( 265 ) ;
 	switch ( t ) 
 	{case 14 : 
-	  printesc ( 360 ) ;
+	  printesc ( 361 ) ;
 	  break ;
 	case 20 : 
-	  printesc ( 686 ) ;
+	  printesc ( 688 ) ;
 	  break ;
 	  default: 
 	  printcmdchr ( 72 , t + 27153 ) ;
 	  break ;
 	} 
-	print ( 647 ) ;
+	print ( 649 ) ;
 	tokenshow ( p ) ;
 	enddiagnostic ( false ) ;
       } 
@@ -9074,14 +9108,14 @@ endtokenlist ( void )
 	flushlist ( paramstack [paramptr ]) ;
       } 
       else if ( ( curinput .indexfield == 6 ) && ( ! outputcanend ) ) 
-      fatalerror ( 687 ) ;
+      fatalerror ( 689 ) ;
     } 
   } 
   else if ( curinput .indexfield == 1 ) {
       
     if ( alignstate > 500000L ) 
     alignstate = 0 ;
-    else fatalerror ( 688 ) ;
+    else fatalerror ( 690 ) ;
   } 
   {
     decr ( inputptr ) ;
@@ -9112,7 +9146,7 @@ backinput ( void )
     {
       maxinstack = inputptr ;
       if ( inputptr == stacksize ) 
-      overflow ( 685 , stacksize ) ;
+      overflow ( 687 , stacksize ) ;
     } 
     inputstack [inputptr ]= curinput ;
     incr ( inputptr ) ;
@@ -9146,7 +9180,7 @@ beginfilereading ( void )
 {
   beginfilereading_regmem 
   if ( inopen == maxinopen ) 
-  overflow ( 689 , maxinopen ) ;
+  overflow ( 691 , maxinopen ) ;
   if ( first == bufsize ) 
   overflow ( 258 , bufsize ) ;
   incr ( inopen ) ;
@@ -9155,7 +9189,7 @@ beginfilereading ( void )
     {
       maxinstack = inputptr ;
       if ( inputptr == stacksize ) 
-      overflow ( 685 , stacksize ) ;
+      overflow ( 687 , stacksize ) ;
     } 
     inputstack [inputptr ]= curinput ;
     incr ( inputptr ) ;
@@ -9413,7 +9447,7 @@ checkoutervalidity ( void )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 697 ) ;
+	print ( 699 ) ;
       } 
       else {
 	  
@@ -9424,27 +9458,27 @@ checkoutervalidity ( void )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 264 ) ;
-	  print ( 698 ) ;
+	  print ( 700 ) ;
 	} 
       } 
       p = getavail () ;
       switch ( scannerstatus ) 
       {case 2 : 
 	{
-	  print ( 704 ) ;
+	  print ( 706 ) ;
 	  mem [p ].hh .v.LH = 637 ;
 	} 
 	break ;
       case 3 : 
 	{
-	  print ( 705 ) ;
+	  print ( 707 ) ;
 	  mem [p ].hh .v.LH = partoken ;
 	  longstate = 116 ;
 	} 
 	break ;
       case 4 : 
 	{
-	  print ( 706 ) ;
+	  print ( 708 ) ;
 	  mem [p ].hh .v.LH = 637 ;
 	  q = p ;
 	  p = getavail () ;
@@ -9455,20 +9489,20 @@ checkoutervalidity ( void )
 	break ;
       case 5 : 
 	{
-	  print ( 707 ) ;
+	  print ( 709 ) ;
 	  mem [p ].hh .v.LH = 637 ;
 	} 
 	break ;
       } 
       begintokenlist ( p , 4 ) ;
-      print ( 699 ) ;
+      print ( 701 ) ;
       sprintcs ( warningindex ) ;
       {
 	helpptr = 4 ;
-	helpline [3 ]= 700 ;
-	helpline [2 ]= 701 ;
-	helpline [1 ]= 702 ;
-	helpline [0 ]= 703 ;
+	helpline [3 ]= 702 ;
+	helpline [2 ]= 703 ;
+	helpline [1 ]= 704 ;
+	helpline [0 ]= 705 ;
       } 
       error () ;
     } 
@@ -9480,20 +9514,20 @@ checkoutervalidity ( void )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 691 ) ;
+	print ( 693 ) ;
       } 
       printcmdchr ( 108 , curif ) ;
-      print ( 692 ) ;
+      print ( 694 ) ;
       printint ( skipline ) ;
       {
 	helpptr = 3 ;
-	helpline [2 ]= 693 ;
-	helpline [1 ]= 694 ;
-	helpline [0 ]= 695 ;
+	helpline [2 ]= 695 ;
+	helpline [1 ]= 696 ;
+	helpline [0 ]= 697 ;
       } 
       if ( curcs != 0 ) 
       curcs = 0 ;
-      else helpline [2 ]= 696 ;
+      else helpline [2 ]= 698 ;
       curtok = 19613 ;
       inserror () ;
     } 
@@ -9801,12 +9835,12 @@ getnext ( void )
 	    if ( filelineerrorstylep ) 
 	    printfileline () ;
 	    else printnl ( 264 ) ;
-	    print ( 708 ) ;
+	    print ( 710 ) ;
 	  } 
 	  {
 	    helpptr = 2 ;
-	    helpline [1 ]= 709 ;
-	    helpline [0 ]= 710 ;
+	    helpline [1 ]= 711 ;
+	    helpline [0 ]= 712 ;
 	  } 
 	  deletionsallowed = false ;
 	  error () ;
@@ -9925,7 +9959,7 @@ getnext ( void )
 	} 
 	if ( forceeof ) 
 	{
-	  if ( eqtb [29382 ].cint > 0 ) {
+	  if ( eqtb [29383 ].cint > 0 ) {
 	      
 	    if ( ( grpstack [inopen ]!= curboundary ) || ( ifstack [inopen 
 	    ]!= condptr ) ) 
@@ -9969,7 +10003,7 @@ getnext ( void )
 	  ) 
 	  incr ( curinput .limitfield ) ;
 	  if ( curinput .limitfield == curinput .startfield ) 
-	  printnl ( 712 ) ;
+	  printnl ( 714 ) ;
 	  println () ;
 	  first = curinput .startfield ;
 	  {
@@ -9985,7 +10019,7 @@ getnext ( void )
 	  first = curinput .limitfield + 1 ;
 	  curinput .locfield = curinput .startfield ;
 	} 
-	else fatalerror ( 713 ) ;
+	else fatalerror ( 715 ) ;
       } 
       {
 	if ( interrupt != 0 ) 
@@ -10020,7 +10054,7 @@ getnext ( void )
 	else {
 	    
 	  if ( ( curcs == 15522 ) && ( curlist .modefield == 0 ) ) 
-	  fatalerror ( 711 ) ;
+	  fatalerror ( 713 ) ;
 	  checkoutervalidity () ;
 	} 
       } 
@@ -10072,7 +10106,7 @@ getnext ( void )
       if ( alignstate == 0 ) 
       {
 	if ( ( scannerstatus == 4 ) || ( curalign == -268435455L ) ) 
-	fatalerror ( 688 ) ;
+	fatalerror ( 690 ) ;
 	curcmd = mem [curalign + 5 ].hh .v.LH ;
 	mem [curalign + 5 ].hh .v.LH = curchr ;
 	if ( curcmd == 63 ) 
@@ -10104,7 +10138,7 @@ firmuptheline ( void )
       first = curinput .limitfield ;
       {
 	;
-	print ( 714 ) ;
+	print ( 716 ) ;
 	terminput () ;
       } 
       if ( last > first ) 
@@ -10230,16 +10264,16 @@ macrocall ( void )
 	    if ( filelineerrorstylep ) 
 	    printfileline () ;
 	    else printnl ( 264 ) ;
-	    print ( 747 ) ;
+	    print ( 749 ) ;
 	  } 
 	  sprintcs ( warningindex ) ;
-	  print ( 748 ) ;
+	  print ( 750 ) ;
 	  {
 	    helpptr = 4 ;
-	    helpline [3 ]= 749 ;
-	    helpline [2 ]= 750 ;
-	    helpline [1 ]= 751 ;
-	    helpline [0 ]= 752 ;
+	    helpline [3 ]= 751 ;
+	    helpline [2 ]= 752 ;
+	    helpline [1 ]= 753 ;
+	    helpline [0 ]= 754 ;
 	  } 
 	  error () ;
 	  goto lab10 ;
@@ -10292,15 +10326,15 @@ macrocall ( void )
 	      if ( filelineerrorstylep ) 
 	      printfileline () ;
 	      else printnl ( 264 ) ;
-	      print ( 742 ) ;
+	      print ( 744 ) ;
 	    } 
 	    sprintcs ( warningindex ) ;
-	    print ( 743 ) ;
+	    print ( 745 ) ;
 	    {
 	      helpptr = 3 ;
-	      helpline [2 ]= 744 ;
-	      helpline [1 ]= 745 ;
-	      helpline [0 ]= 746 ;
+	      helpline [2 ]= 746 ;
+	      helpline [1 ]= 747 ;
+	      helpline [0 ]= 748 ;
 	    } 
 	    backerror () ;
 	  } 
@@ -10353,15 +10387,15 @@ macrocall ( void )
 		    if ( filelineerrorstylep ) 
 		    printfileline () ;
 		    else printnl ( 264 ) ;
-		    print ( 742 ) ;
+		    print ( 744 ) ;
 		  } 
 		  sprintcs ( warningindex ) ;
-		  print ( 743 ) ;
+		  print ( 745 ) ;
 		  {
 		    helpptr = 3 ;
-		    helpline [2 ]= 744 ;
-		    helpline [1 ]= 745 ;
-		    helpline [0 ]= 746 ;
+		    helpline [2 ]= 746 ;
+		    helpline [1 ]= 747 ;
+		    helpline [0 ]= 748 ;
 		  } 
 		  backerror () ;
 		} 
@@ -10403,18 +10437,18 @@ macrocall ( void )
 	    if ( filelineerrorstylep ) 
 	    printfileline () ;
 	    else printnl ( 264 ) ;
-	    print ( 734 ) ;
+	    print ( 736 ) ;
 	  } 
 	  sprintcs ( warningindex ) ;
-	  print ( 735 ) ;
+	  print ( 737 ) ;
 	  {
 	    helpptr = 6 ;
-	    helpline [5 ]= 736 ;
-	    helpline [4 ]= 737 ;
-	    helpline [3 ]= 738 ;
-	    helpline [2 ]= 739 ;
-	    helpline [1 ]= 740 ;
-	    helpline [0 ]= 741 ;
+	    helpline [5 ]= 738 ;
+	    helpline [4 ]= 739 ;
+	    helpline [3 ]= 740 ;
+	    helpline [2 ]= 741 ;
+	    helpline [1 ]= 742 ;
+	    helpline [0 ]= 743 ;
 	  } 
 	  incr ( alignstate ) ;
 	  longstate = 114 ;
@@ -10479,7 +10513,7 @@ macrocall ( void )
 	    begindiagnostic () ;
 	    printnl ( matchchr ) ;
 	    printint ( n ) ;
-	    print ( 753 ) ;
+	    print ( 755 ) ;
 	    showtokenlist ( pstack [n - 1 ], -268435455L , 1000 ) ;
 	    enddiagnostic ( false ) ;
 	  } 
@@ -10498,7 +10532,7 @@ macrocall ( void )
     {
       maxparamstack = paramptr + n ;
       if ( maxparamstack > paramsize ) 
-      overflow ( 733 , paramsize ) ;
+      overflow ( 735 , paramsize ) ;
     } 
     {register integer for_end; m = 0 ;for_end = n - 1 ; if ( m <= for_end) 
     do 
@@ -10676,7 +10710,7 @@ expand ( void )
   smallnumber savescannerstatus  ;
   incr ( expanddepthcount ) ;
   if ( expanddepthcount >= expanddepth ) 
-  overflow ( 715 , expanddepth ) ;
+  overflow ( 717 , expanddepth ) ;
   cvbackup = curval ;
   cvlbackup = curvallevel ;
   radixbackup = radix ;
@@ -10735,15 +10769,15 @@ expand ( void )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 264 ) ;
-	  print ( 796 ) ;
+	  print ( 798 ) ;
 	} 
-	printesc ( 939 ) ;
-	print ( 2062 ) ;
+	printesc ( 941 ) ;
+	print ( 2069 ) ;
 	printcmdchr ( curcmd , curchr ) ;
 	printchar ( 39 ) ;
 	{
 	  helpptr = 1 ;
-	  helpline [0 ]= 710 ;
+	  helpline [0 ]= 712 ;
 	} 
 	backerror () ;
       } 
@@ -10822,14 +10856,14 @@ expand ( void )
 	    if ( filelineerrorstylep ) 
 	    printfileline () ;
 	    else printnl ( 264 ) ;
-	    print ( 722 ) ;
+	    print ( 724 ) ;
 	  } 
-	  printesc ( 589 ) ;
-	  print ( 723 ) ;
+	  printesc ( 591 ) ;
+	  print ( 725 ) ;
 	  {
 	    helpptr = 2 ;
-	    helpline [1 ]= 724 ;
-	    helpline [0 ]= 725 ;
+	    helpline [1 ]= 726 ;
+	    helpline [0 ]= 727 ;
 	  } 
 	  backerror () ;
 	} 
@@ -10877,7 +10911,7 @@ expand ( void )
       break ;
     case 109 : 
       {
-	if ( eqtb [29380 ].cint > 0 ) {
+	if ( eqtb [29381 ].cint > 0 ) {
 	    
 	  if ( eqtb [29313 ].cint <= 1 ) 
 	  showcurcmdchr () ;
@@ -10894,12 +10928,12 @@ expand ( void )
 	      if ( filelineerrorstylep ) 
 	      printfileline () ;
 	      else printnl ( 264 ) ;
-	      print ( 943 ) ;
+	      print ( 945 ) ;
 	    } 
 	    printcmdchr ( 109 , curchr ) ;
 	    {
 	      helpptr = 1 ;
-	      helpline [0 ]= 944 ;
+	      helpline [0 ]= 946 ;
 	    } 
 	    error () ;
 	  } 
@@ -10937,15 +10971,15 @@ expand ( void )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 264 ) ;
-	  print ( 716 ) ;
+	  print ( 718 ) ;
 	} 
 	{
 	  helpptr = 5 ;
-	  helpline [4 ]= 717 ;
-	  helpline [3 ]= 718 ;
-	  helpline [2 ]= 719 ;
-	  helpline [1 ]= 720 ;
-	  helpline [0 ]= 721 ;
+	  helpline [4 ]= 719 ;
+	  helpline [3 ]= 720 ;
+	  helpline [2 ]= 721 ;
+	  helpline [1 ]= 722 ;
+	  helpline [0 ]= 723 ;
 	} 
 	error () ;
       } 
@@ -11018,14 +11052,14 @@ scanleftbrace ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 754 ) ;
+      print ( 756 ) ;
     } 
     {
       helpptr = 4 ;
-      helpline [3 ]= 755 ;
-      helpline [2 ]= 756 ;
-      helpline [1 ]= 757 ;
-      helpline [0 ]= 758 ;
+      helpline [3 ]= 757 ;
+      helpline [2 ]= 758 ;
+      helpline [1 ]= 759 ;
+      helpline [0 ]= 760 ;
     } 
     backerror () ;
     curtok = 379 ;
@@ -11094,11 +11128,11 @@ muerror ( void )
     if ( filelineerrorstylep ) 
     printfileline () ;
     else printnl ( 264 ) ;
-    print ( 759 ) ;
+    print ( 761 ) ;
   } 
   {
     helpptr = 1 ;
-    helpline [0 ]= 760 ;
+    helpline [0 ]= 762 ;
   } 
   error () ;
 } 
@@ -11115,12 +11149,12 @@ scaneightbitint ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 798 ) ;
+      print ( 800 ) ;
     } 
     {
       helpptr = 2 ;
-      helpline [1 ]= 799 ;
-      helpline [0 ]= 800 ;
+      helpline [1 ]= 801 ;
+      helpline [0 ]= 802 ;
     } 
     interror ( curval ) ;
     curval = 0 ;
@@ -11139,12 +11173,12 @@ scancharnum ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 801 ) ;
+      print ( 803 ) ;
     } 
     {
       helpptr = 2 ;
-      helpline [1 ]= 802 ;
-      helpline [0 ]= 800 ;
+      helpline [1 ]= 804 ;
+      helpline [0 ]= 802 ;
     } 
     interror ( curval ) ;
     curval = 0 ;
@@ -11163,12 +11197,12 @@ scanfourbitint ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 803 ) ;
+      print ( 805 ) ;
     } 
     {
       helpptr = 2 ;
-      helpline [1 ]= 804 ;
-      helpline [0 ]= 800 ;
+      helpline [1 ]= 806 ;
+      helpline [0 ]= 802 ;
     } 
     interror ( curval ) ;
     curval = 0 ;
@@ -11187,12 +11221,12 @@ scanfifteenbitint ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 805 ) ;
+      print ( 807 ) ;
     } 
     {
       helpptr = 2 ;
-      helpline [1 ]= 806 ;
-      helpline [0 ]= 800 ;
+      helpline [1 ]= 808 ;
+      helpline [0 ]= 802 ;
     } 
     interror ( curval ) ;
     curval = 0 ;
@@ -11211,12 +11245,12 @@ scantwentysevenbitint ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 807 ) ;
+      print ( 809 ) ;
     } 
     {
       helpptr = 2 ;
-      helpline [1 ]= 808 ;
-      helpline [0 ]= 800 ;
+      helpline [1 ]= 810 ;
+      helpline [0 ]= 802 ;
     } 
     interror ( curval ) ;
     curval = 0 ;
@@ -11235,12 +11269,12 @@ scanregisternum ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 798 ) ;
+      print ( 800 ) ;
     } 
     {
       helpptr = 2 ;
       helpline [1 ]= maxreghelpline ;
-      helpline [0 ]= 800 ;
+      helpline [0 ]= 802 ;
     } 
     interror ( curval ) ;
     curval = 0 ;
@@ -11259,12 +11293,12 @@ scanfourbitintor18 ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 803 ) ;
+      print ( 805 ) ;
     } 
     {
       helpptr = 2 ;
-      helpline [1 ]= 804 ;
-      helpline [0 ]= 800 ;
+      helpline [1 ]= 806 ;
+      helpline [0 ]= 802 ;
     } 
     interror ( curval ) ;
     curval = 0 ;
@@ -11328,10 +11362,10 @@ zeffectivechar ( boolean errp , internalfontnumber f , quarterword c )
   if ( errp ) 
   {
     begindiagnostic () ;
-    printnl ( 995 ) ;
-    print ( 2095 ) ;
+    printnl ( 999 ) ;
+    print ( 2102 ) ;
     print ( c ) ;
-    print ( 996 ) ;
+    print ( 1000 ) ;
     slowprint ( fontname [f ]) ;
     printchar ( 33 ) ;
     enddiagnostic ( false ) ;
@@ -11406,12 +11440,12 @@ scanfontident ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 987 ) ;
+      print ( 991 ) ;
     } 
     {
       helpptr = 2 ;
-      helpline [1 ]= 988 ;
-      helpline [0 ]= 989 ;
+      helpline [1 ]= 992 ;
+      helpline [0 ]= 993 ;
     } 
     backerror () ;
     f = 0 ;
@@ -11446,7 +11480,7 @@ zfindfontdimen ( boolean writing )
 	  
 	do {
 	    if ( fmemptr == fontmemsize ) 
-	  overflow ( 994 , fontmemsize ) ;
+	  overflow ( 998 , fontmemsize ) ;
 	  fontinfo [fmemptr ].cint = 0 ;
 	  incr ( fmemptr ) ;
 	  incr ( fontparams [f ]) ;
@@ -11464,16 +11498,16 @@ zfindfontdimen ( boolean writing )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 969 ) ;
+      print ( 971 ) ;
     } 
     printesc ( hash [17626 + f ].v.RH ) ;
-    print ( 990 ) ;
+    print ( 994 ) ;
     printint ( fontparams [f ]) ;
-    print ( 991 ) ;
+    print ( 995 ) ;
     {
       helpptr = 2 ;
-      helpline [1 ]= 992 ;
-      helpline [0 ]= 993 ;
+      helpline [1 ]= 996 ;
+      helpline [0 ]= 997 ;
     } 
     error () ;
   } 
@@ -11540,13 +11574,13 @@ zscansomethinginternal ( smallnumber level , boolean negative )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 761 ) ;
+	print ( 763 ) ;
       } 
       {
 	helpptr = 3 ;
-	helpline [2 ]= 762 ;
-	helpline [1 ]= 763 ;
-	helpline [0 ]= 764 ;
+	helpline [2 ]= 764 ;
+	helpline [1 ]= 765 ;
+	helpline [0 ]= 766 ;
       } 
       backerror () ;
       {
@@ -11619,15 +11653,15 @@ zscansomethinginternal ( smallnumber level , boolean negative )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 791 ) ;
+	print ( 793 ) ;
       } 
       printcmdchr ( 79 , m ) ;
       {
 	helpptr = 4 ;
-	helpline [3 ]= 792 ;
-	helpline [2 ]= 793 ;
-	helpline [1 ]= 794 ;
-	helpline [0 ]= 795 ;
+	helpline [3 ]= 794 ;
+	helpline [2 ]= 795 ;
+	helpline [1 ]= 796 ;
+	helpline [0 ]= 797 ;
       } 
       error () ;
       if ( level != 5 ) 
@@ -11856,10 +11890,10 @@ zscansomethinginternal ( smallnumber level , boolean negative )
 	} 
 	else switch ( curvallevel ) 
 	{case 0 : 
-	  curval = eqtb [29388 + curval ].cint ;
+	  curval = eqtb [29390 + curval ].cint ;
 	  break ;
 	case 1 : 
-	  curval = eqtb [29934 + curval ].cint ;
+	  curval = eqtb [29936 + curval ].cint ;
 	  break ;
 	case 2 : 
 	  curval = eqtb [26646 + curval ].hh .v.RH ;
@@ -12210,14 +12244,14 @@ zscansomethinginternal ( smallnumber level , boolean negative )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 796 ) ;
+	print ( 798 ) ;
       } 
       printcmdchr ( curcmd , curchr ) ;
-      print ( 797 ) ;
-      printesc ( 625 ) ;
+      print ( 799 ) ;
+      printesc ( 627 ) ;
       {
 	helpptr = 1 ;
-	helpline [0 ]= 795 ;
+	helpline [0 ]= 797 ;
       } 
       error () ;
       if ( level != 5 ) 
@@ -12302,12 +12336,12 @@ scanint ( void )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 809 ) ;
+	print ( 811 ) ;
       } 
       {
 	helpptr = 2 ;
-	helpline [1 ]= 810 ;
-	helpline [0 ]= 811 ;
+	helpline [1 ]= 812 ;
+	helpline [0 ]= 813 ;
       } 
       curval = 48 ;
       backerror () ;
@@ -12387,12 +12421,12 @@ scanint ( void )
 	    if ( filelineerrorstylep ) 
 	    printfileline () ;
 	    else printnl ( 264 ) ;
-	    print ( 812 ) ;
+	    print ( 814 ) ;
 	  } 
 	  {
 	    helpptr = 2 ;
-	    helpline [1 ]= 813 ;
-	    helpline [0 ]= 814 ;
+	    helpline [1 ]= 815 ;
+	    helpline [0 ]= 816 ;
 	  } 
 	  error () ;
 	  curval = 2147483647L ;
@@ -12411,13 +12445,13 @@ scanint ( void )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 761 ) ;
+	print ( 763 ) ;
       } 
       {
 	helpptr = 3 ;
-	helpline [2 ]= 762 ;
-	helpline [1 ]= 763 ;
-	helpline [0 ]= 764 ;
+	helpline [2 ]= 764 ;
+	helpline [1 ]= 765 ;
+	helpline [0 ]= 766 ;
       } 
       backerror () ;
     } 
@@ -12459,16 +12493,18 @@ zscandimen ( boolean mu , boolean inf , boolean shortcut )
       if ( mu ) 
       {
 	scansomethinginternal ( 3 , false ) ;
-	if ( curvallevel >= 2 ) 
-	{
-	  v = mem [curval + 1 ].cint ;
-	  deleteglueref ( curval ) ;
-	  curval = v ;
-	} 
-	if ( curvallevel == 3 ) 
-	goto lab89 ;
 	if ( curvallevel != 0 ) 
-	muerror () ;
+	{
+	  if ( curvallevel >= 2 ) 
+	  {
+	    v = mem [curval + 1 ].cint ;
+	    deleteglueref ( curval ) ;
+	    curval = v ;
+	  } 
+	  if ( curvallevel != 3 ) 
+	  muerror () ;
+	  goto lab89 ;
+	} 
       } 
       else {
 	  
@@ -12540,7 +12576,7 @@ zscandimen ( boolean mu , boolean inf , boolean shortcut )
   } 
   if ( inf ) {
       
-    if ( scankeyword ( 316 ) ) 
+    if ( scankeyword ( 318 ) ) 
     {
       curorder = 1 ;
       while ( scankeyword ( 108 ) ) {
@@ -12553,12 +12589,12 @@ zscandimen ( boolean mu , boolean inf , boolean shortcut )
 	    if ( filelineerrorstylep ) 
 	    printfileline () ;
 	    else printnl ( 264 ) ;
-	    print ( 816 ) ;
+	    print ( 818 ) ;
 	  } 
-	  print ( 817 ) ;
+	  print ( 819 ) ;
 	  {
 	    helpptr = 1 ;
-	    helpline [0 ]= 818 ;
+	    helpline [0 ]= 820 ;
 	  } 
 	  error () ;
 	} 
@@ -12593,12 +12629,12 @@ zscandimen ( boolean mu , boolean inf , boolean shortcut )
   } 
   if ( mu ) 
   goto lab45 ;
-  if ( scankeyword ( 819 ) ) 
+  if ( scankeyword ( 821 ) ) 
   v = ( fontinfo [6 + parambase [eqtb [27689 ].hh .v.RH ]].cint ) ;
-  else if ( scankeyword ( 820 ) ) 
+  else if ( scankeyword ( 822 ) ) 
   v = ( fontinfo [5 + parambase [eqtb [27689 ].hh .v.RH ]].cint ) ;
-  else if ( scankeyword ( 821 ) ) 
-  v = eqtb [29933 ].cint ;
+  else if ( scankeyword ( 823 ) ) 
+  v = eqtb [29935 ].cint ;
   else goto lab45 ;
   {
     getxtoken () ;
@@ -12611,7 +12647,7 @@ zscandimen ( boolean mu , boolean inf , boolean shortcut )
   lab45: ;
   if ( mu ) {
       
-    if ( scankeyword ( 344 ) ) 
+    if ( scankeyword ( 346 ) ) 
     goto lab88 ;
     else {
 	
@@ -12621,21 +12657,21 @@ zscandimen ( boolean mu , boolean inf , boolean shortcut )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 816 ) ;
+	print ( 818 ) ;
       } 
-      print ( 822 ) ;
+      print ( 824 ) ;
       {
 	helpptr = 4 ;
-	helpline [3 ]= 823 ;
-	helpline [2 ]= 824 ;
-	helpline [1 ]= 825 ;
-	helpline [0 ]= 826 ;
+	helpline [3 ]= 825 ;
+	helpline [2 ]= 826 ;
+	helpline [1 ]= 827 ;
+	helpline [0 ]= 828 ;
       } 
       error () ;
       goto lab88 ;
     } 
   } 
-  if ( scankeyword ( 815 ) ) 
+  if ( scankeyword ( 817 ) ) 
   {
     preparemag () ;
     if ( eqtb [29294 ].cint != 1000 ) 
@@ -12646,54 +12682,54 @@ zscandimen ( boolean mu , boolean inf , boolean shortcut )
       f = f % 65536L ;
     } 
   } 
-  if ( scankeyword ( 312 ) ) 
+  if ( scankeyword ( 314 ) ) 
   goto lab88 ;
-  if ( scankeyword ( 827 ) ) 
+  if ( scankeyword ( 829 ) ) 
   {
     num = 7227 ;
     denom = 100 ;
   } 
-  else if ( scankeyword ( 828 ) ) 
+  else if ( scankeyword ( 830 ) ) 
   {
     num = 12 ;
     denom = 1 ;
   } 
-  else if ( scankeyword ( 829 ) ) 
+  else if ( scankeyword ( 831 ) ) 
   {
     num = 7227 ;
     denom = 254 ;
   } 
-  else if ( scankeyword ( 830 ) ) 
+  else if ( scankeyword ( 832 ) ) 
   {
     num = 7227 ;
     denom = 2540 ;
   } 
-  else if ( scankeyword ( 831 ) ) 
+  else if ( scankeyword ( 833 ) ) 
   {
     num = 7227 ;
     denom = 7200 ;
   } 
-  else if ( scankeyword ( 832 ) ) 
+  else if ( scankeyword ( 834 ) ) 
   {
     num = 1238 ;
     denom = 1157 ;
   } 
-  else if ( scankeyword ( 833 ) ) 
+  else if ( scankeyword ( 835 ) ) 
   {
     num = 14856 ;
     denom = 1157 ;
   } 
-  else if ( scankeyword ( 834 ) ) 
+  else if ( scankeyword ( 836 ) ) 
   {
     num = 685 ;
     denom = 642 ;
   } 
-  else if ( scankeyword ( 835 ) ) 
+  else if ( scankeyword ( 837 ) ) 
   {
     num = 1370 ;
     denom = 107 ;
   } 
-  else if ( scankeyword ( 836 ) ) 
+  else if ( scankeyword ( 838 ) ) 
   goto lab30 ;
   else {
       
@@ -12703,17 +12739,17 @@ zscandimen ( boolean mu , boolean inf , boolean shortcut )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 816 ) ;
+      print ( 818 ) ;
     } 
-    print ( 837 ) ;
+    print ( 839 ) ;
     {
       helpptr = 6 ;
-      helpline [5 ]= 838 ;
-      helpline [4 ]= 839 ;
-      helpline [3 ]= 840 ;
-      helpline [2 ]= 824 ;
-      helpline [1 ]= 825 ;
-      helpline [0 ]= 826 ;
+      helpline [5 ]= 840 ;
+      helpline [4 ]= 841 ;
+      helpline [3 ]= 842 ;
+      helpline [2 ]= 826 ;
+      helpline [1 ]= 827 ;
+      helpline [0 ]= 828 ;
     } 
     error () ;
     goto lab32 ;
@@ -12740,12 +12776,12 @@ zscandimen ( boolean mu , boolean inf , boolean shortcut )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 841 ) ;
+      print ( 843 ) ;
     } 
     {
       helpptr = 2 ;
-      helpline [1 ]= 842 ;
-      helpline [0 ]= 843 ;
+      helpline [1 ]= 844 ;
+      helpline [0 ]= 845 ;
     } 
     error () ;
     curval = 1073741823L ;
@@ -12795,13 +12831,13 @@ zscanglue ( smallnumber level )
   } 
   q = newspec ( membot ) ;
   mem [q + 1 ].cint = curval ;
-  if ( scankeyword ( 844 ) ) 
+  if ( scankeyword ( 846 ) ) 
   {
     scandimen ( mu , true , false ) ;
     mem [q + 2 ].cint = curval ;
     mem [q ].hh.b0 = curorder ;
   } 
-  if ( scankeyword ( 845 ) ) 
+  if ( scankeyword ( 847 ) ) 
   {
     scandimen ( mu , true , false ) ;
     mem [q + 3 ].cint = curval ;
@@ -12993,7 +13029,7 @@ scanexpr ( void )
   p = -268435455L ;
   incr ( expanddepthcount ) ;
   if ( expanddepthcount >= expanddepth ) 
-  overflow ( 715 , expanddepth ) ;
+  overflow ( 717 , expanddepth ) ;
   lab20: r = 0 ;
   e = 0 ;
   s = 0 ;
@@ -13054,11 +13090,11 @@ scanexpr ( void )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 2072 ) ;
+	print ( 2079 ) ;
       } 
       {
 	helpptr = 1 ;
-	helpline [0 ]= 2073 ;
+	helpline [0 ]= 2080 ;
       } 
       backerror () ;
     } 
@@ -13217,12 +13253,12 @@ scanexpr ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 1649 ) ;
+      print ( 1654 ) ;
     } 
     {
       helpptr = 2 ;
-      helpline [1 ]= 2071 ;
-      helpline [0 ]= 1651 ;
+      helpline [1 ]= 2078 ;
+      helpline [0 ]= 1656 ;
     } 
     error () ;
     if ( l >= 2 ) 
@@ -13262,19 +13298,19 @@ scanrulespec ( void )
     mem [q + 3 ].cint = 26214 ;
     mem [q + 2 ].cint = 0 ;
   } 
-  lab21: if ( scankeyword ( 846 ) ) 
+  lab21: if ( scankeyword ( 848 ) ) 
   {
     scandimen ( false , false , false ) ;
     mem [q + 1 ].cint = curval ;
     goto lab21 ;
   } 
-  if ( scankeyword ( 847 ) ) 
+  if ( scankeyword ( 849 ) ) 
   {
     scandimen ( false , false , false ) ;
     mem [q + 3 ].cint = curval ;
     goto lab21 ;
   } 
-  if ( scankeyword ( 848 ) ) 
+  if ( scankeyword ( 850 ) ) 
   {
     scandimen ( false , false , false ) ;
     mem [q + 2 ].cint = curval ;
@@ -13422,14 +13458,14 @@ pseudostart ( void )
   line = 0 ;
   curinput .limitfield = curinput .startfield ;
   curinput .locfield = curinput .limitfield + 1 ;
-  if ( eqtb [29381 ].cint > 0 ) 
+  if ( eqtb [29382 ].cint > 0 ) 
   {
     if ( termoffset > maxprintline - 3 ) 
     println () ;
     else if ( ( termoffset > 0 ) || ( fileoffset > 0 ) ) 
     printchar ( 32 ) ;
     curinput .namefield = 19 ;
-    print ( 2054 ) ;
+    print ( 2061 ) ;
     incr ( openparens ) ;
     fflush ( stdout ) ;
   } 
@@ -13563,18 +13599,18 @@ thetoks ( void )
     case 1 : 
       {
 	printscaled ( curval ) ;
-	print ( 312 ) ;
+	print ( 314 ) ;
       } 
       break ;
     case 2 : 
       {
-	printspec ( curval , 312 ) ;
+	printspec ( curval , 314 ) ;
 	deleteglueref ( curval ) ;
       } 
       break ;
     case 3 : 
       {
-	printspec ( curval , 344 ) ;
+	printspec ( curval , 346 ) ;
 	deleteglueref ( curval ) ;
       } 
       break ;
@@ -13601,7 +13637,7 @@ convtoks ( void )
   smallnumber savescannerstatus  ;
   halfword savedefref  ;
   halfword savewarningindex  ;
-  boolean bool  ;
+  boolean booltemp  ;
   integer i  ;
   integer j  ;
   poolpointer b  ;
@@ -13670,7 +13706,7 @@ convtoks ( void )
     {
       scanfontident () ;
       if ( curval == 0 ) 
-      pdferror ( 603 , 883 ) ;
+      pdferror ( 605 , 885 ) ;
       if ( c != 11 ) 
       {
 	pdfcheckvfcurval () ;
@@ -13683,7 +13719,7 @@ convtoks ( void )
     {
       scanint () ;
       if ( curval <= 0 ) 
-      pdferror ( 884 , 885 ) ;
+      pdferror ( 886 , 887 ) ;
     } 
     break ;
   case 16 : 
@@ -13700,7 +13736,7 @@ convtoks ( void )
 	else p = mem [curptr + 1 ].hh .v.RH ;
       } 
       if ( ( p == -268435455L ) || ( mem [p ].hh.b0 != 0 ) ) 
-      pdferror ( 886 , 887 ) ;
+      pdferror ( 888 , 889 ) ;
     } 
     break ;
   case 13 : 
@@ -13881,7 +13917,7 @@ convtoks ( void )
       savedefref = defref ;
       if ( strstart [strptr ]< poolptr ) 
       u = makestring () ;
-      bool = scankeyword ( 888 ) ;
+      booltemp = scankeyword ( 890 ) ;
       scanpdfexttoks () ;
       s = tokenstostring ( defref ) ;
       deletetokenref ( defref ) ;
@@ -13889,7 +13925,7 @@ convtoks ( void )
       warningindex = savewarningindex ;
       scannerstatus = savescannerstatus ;
       b = poolptr ;
-      getmd5sum ( s , bool ) ;
+      getmd5sum ( s , booltemp ) ;
       mem [memtop - 12 ].hh .v.RH = strtoks ( b ) ;
       flushstr ( s ) ;
       begintokenlist ( mem [memtop - 3 ].hh .v.RH , 4 ) ;
@@ -13909,7 +13945,7 @@ convtoks ( void )
       if ( strstart [strptr ]< poolptr ) 
       u = makestring () ;
       curval = 0 ;
-      if ( ( scankeyword ( 889 ) ) ) 
+      if ( ( scankeyword ( 891 ) ) ) 
       {
 	scanint () ;
 	if ( ( curval < 0 ) ) 
@@ -13920,12 +13956,12 @@ convtoks ( void )
 	    if ( filelineerrorstylep ) 
 	    printfileline () ;
 	    else printnl ( 264 ) ;
-	    print ( 890 ) ;
+	    print ( 892 ) ;
 	  } 
 	  {
 	    helpptr = 2 ;
-	    helpline [1 ]= 891 ;
-	    helpline [0 ]= 800 ;
+	    helpline [1 ]= 893 ;
+	    helpline [0 ]= 802 ;
 	  } 
 	  interror ( curval ) ;
 	  curval = 0 ;
@@ -13933,7 +13969,7 @@ convtoks ( void )
       } 
       i = curval ;
       curval = 0 ;
-      if ( ( scankeyword ( 892 ) ) ) 
+      if ( ( scankeyword ( 894 ) ) ) 
       {
 	scanint () ;
 	if ( ( curval < 0 ) ) 
@@ -13944,12 +13980,12 @@ convtoks ( void )
 	    if ( filelineerrorstylep ) 
 	    printfileline () ;
 	    else printnl ( 264 ) ;
-	    print ( 893 ) ;
+	    print ( 895 ) ;
 	  } 
 	  {
 	    helpptr = 2 ;
-	    helpline [1 ]= 894 ;
-	    helpline [0 ]= 800 ;
+	    helpline [1 ]= 896 ;
+	    helpline [0 ]= 802 ;
 	  } 
 	  interror ( curval ) ;
 	  curval = 0 ;
@@ -13982,9 +14018,9 @@ convtoks ( void )
       savedefref = defref ;
       if ( strstart [strptr ]< poolptr ) 
       u = makestring () ;
-      bool = scankeyword ( 895 ) ;
+      booltemp = scankeyword ( 897 ) ;
       i = -1 ;
-      if ( scankeyword ( 896 ) ) 
+      if ( scankeyword ( 898 ) ) 
       {
 	scanint () ;
 	i = curval ;
@@ -13999,7 +14035,7 @@ convtoks ( void )
       warningindex = savewarningindex ;
       scannerstatus = savescannerstatus ;
       b = poolptr ;
-      matchstrings ( s , t , i , bool ) ;
+      matchstrings ( s , t , i , booltemp ) ;
       mem [memtop - 12 ].hh .v.RH = strtoks ( b ) ;
       flushstr ( t ) ;
       flushstr ( s ) ;
@@ -14023,12 +14059,12 @@ convtoks ( void )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 264 ) ;
-	  print ( 897 ) ;
+	  print ( 899 ) ;
 	} 
 	{
 	  helpptr = 2 ;
-	  helpline [1 ]= 898 ;
-	  helpline [0 ]= 800 ;
+	  helpline [1 ]= 900 ;
+	  helpline [0 ]= 802 ;
 	} 
 	interror ( curval ) ;
 	curval = 0 ;
@@ -14060,10 +14096,10 @@ convtoks ( void )
     break ;
   case 19 : 
     {
-      bool = scankeyword ( 899 ) ;
-      if ( scankeyword ( 900 ) ) 
+      booltemp = scankeyword ( 901 ) ;
+      if ( scankeyword ( 902 ) ) 
       curval = 2 ;
-      else if ( scankeyword ( 899 ) ) 
+      else if ( scankeyword ( 901 ) ) 
       curval = 1 ;
       else curval = 0 ;
       savescannerstatus = scannerstatus ;
@@ -14077,7 +14113,7 @@ convtoks ( void )
       defref = savedefref ;
       warningindex = savewarningindex ;
       scannerstatus = savescannerstatus ;
-      curval = newcolorstack ( s , curval , bool ) ;
+      curval = newcolorstack ( s , curval , booltemp ) ;
       flushstr ( s ) ;
       curvallevel = 0 ;
       if ( curval < 0 ) 
@@ -14088,12 +14124,12 @@ convtoks ( void )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 264 ) ;
-	  print ( 901 ) ;
+	  print ( 903 ) ;
 	} 
 	{
 	  helpptr = 2 ;
-	  helpline [1 ]= 902 ;
-	  helpline [0 ]= 903 ;
+	  helpline [1 ]= 904 ;
+	  helpline [0 ]= 905 ;
 	} 
 	error () ;
 	curval = 0 ;
@@ -14126,7 +14162,7 @@ convtoks ( void )
       scanint () ;
       j = curval ;
       if ( ( j < 1 ) || ( j > 4 ) ) 
-      pdferror ( 881 , 904 ) ;
+      pdferror ( 883 , 906 ) ;
     } 
     break ;
   } 
@@ -14153,9 +14189,9 @@ convtoks ( void )
       print ( fontname [curval ]) ;
       if ( fontsize [curval ]!= fontdsize [curval ]) 
       {
-	print ( 905 ) ;
+	print ( 907 ) ;
 	printscaled ( fontsize [curval ]) ;
-	print ( 312 ) ;
+	print ( 314 ) ;
       } 
     } 
     break ;
@@ -14184,7 +14220,7 @@ convtoks ( void )
   case 11 : 
     {
       printscaled ( fontsize [curval ]) ;
-      print ( 312 ) ;
+      print ( 314 ) ;
     } 
     break ;
   case 12 : 
@@ -14211,7 +14247,7 @@ convtoks ( void )
       .hh.b0 == 40 ) && ( mem [p ].hh.b1 == 0 ) ) 
       printscaled ( mem [p + 1 ].cint ) ;
       else print ( 48 ) ;
-      print ( 312 ) ;
+      print ( 314 ) ;
     } 
     break ;
   case 17 : 
@@ -14236,7 +14272,7 @@ convtoks ( void )
       .hh.b0 == 40 ) && ( mem [p ].hh.b1 == 1 ) ) 
       printscaled ( mem [p + 1 ].cint ) ;
       else print ( 48 ) ;
-      print ( 312 ) ;
+      print ( 314 ) ;
     } 
     break ;
   case 13 : 
@@ -14263,7 +14299,7 @@ convtoks ( void )
       if ( mem [p ].hh.b1 == i ) 
       printscaled ( mem [p + 3 ].cint ) ;
       else print ( 48 ) ;
-      print ( 312 ) ;
+      print ( 314 ) ;
     } 
     break ;
   case 32 : 
@@ -14286,7 +14322,7 @@ convtoks ( void )
 	} 
       } 
       else printscaled ( 0 ) ;
-      print ( 312 ) ;
+      print ( 314 ) ;
     } 
     break ;
   case 33 : 
@@ -14352,12 +14388,12 @@ zscantoks ( boolean macrodef , boolean xpand )
 	    if ( filelineerrorstylep ) 
 	    printfileline () ;
 	    else printnl ( 264 ) ;
-	    print ( 908 ) ;
+	    print ( 910 ) ;
 	  } 
 	  {
 	    helpptr = 2 ;
-	    helpline [1 ]= 909 ;
-	    helpline [0 ]= 910 ;
+	    helpline [1 ]= 911 ;
+	    helpline [0 ]= 912 ;
 	  } 
 	  error () ;
 	  goto lab22 ;
@@ -14373,12 +14409,12 @@ zscantoks ( boolean macrodef , boolean xpand )
 	      if ( filelineerrorstylep ) 
 	      printfileline () ;
 	      else printnl ( 264 ) ;
-	      print ( 911 ) ;
+	      print ( 913 ) ;
 	    } 
 	    {
 	      helpptr = 2 ;
-	      helpline [1 ]= 912 ;
-	      helpline [0 ]= 913 ;
+	      helpline [1 ]= 914 ;
+	      helpline [0 ]= 915 ;
 	    } 
 	    backerror () ;
 	  } 
@@ -14407,13 +14443,13 @@ zscantoks ( boolean macrodef , boolean xpand )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 754 ) ;
+	print ( 756 ) ;
       } 
       incr ( alignstate ) ;
       {
 	helpptr = 2 ;
-	helpline [1 ]= 906 ;
-	helpline [0 ]= 907 ;
+	helpline [1 ]= 908 ;
+	helpline [0 ]= 909 ;
       } 
       error () ;
       goto lab40 ;
@@ -14483,14 +14519,14 @@ zscantoks ( boolean macrodef , boolean xpand )
 	      if ( filelineerrorstylep ) 
 	      printfileline () ;
 	      else printnl ( 264 ) ;
-	      print ( 914 ) ;
+	      print ( 916 ) ;
 	    } 
 	    sprintcs ( warningindex ) ;
 	    {
 	      helpptr = 3 ;
-	      helpline [2 ]= 915 ;
-	      helpline [1 ]= 916 ;
-	      helpline [0 ]= 917 ;
+	      helpline [2 ]= 917 ;
+	      helpline [1 ]= 918 ;
+	      helpline [0 ]= 919 ;
 	    } 
 	    backerror () ;
 	    curtok = s ;
@@ -14551,7 +14587,7 @@ zreadtoks ( integer n , halfword r , halfword j )
 	if ( n < 0 ) 
 	{
 	  ;
-	  print ( 345 ) ;
+	  print ( 265 ) ;
 	  terminput () ;
 	} 
 	else {
@@ -14570,7 +14606,7 @@ zreadtoks ( integer n , halfword r , halfword j )
       else {
 	  
 	curinput .limitfield = 0 ;
-	fatalerror ( 918 ) ;
+	fatalerror ( 920 ) ;
       } 
     } 
     else if ( readopen [m ]== 1 ) {
@@ -14598,12 +14634,12 @@ zreadtoks ( integer n , halfword r , halfword j )
 	    if ( filelineerrorstylep ) 
 	    printfileline () ;
 	    else printnl ( 264 ) ;
-	    print ( 919 ) ;
+	    print ( 921 ) ;
 	  } 
-	  printesc ( 622 ) ;
+	  printesc ( 624 ) ;
 	  {
 	    helpptr = 1 ;
-	    helpline [0 ]= 920 ;
+	    helpline [0 ]= 922 ;
 	  } 
 	  alignstate = 1000000L ;
 	  curinput .limitfield = 0 ;
@@ -14686,7 +14722,7 @@ passtext ( void )
     incr ( l ) ;
   } 
   lab30: scannerstatus = savescannerstatus ;
-  if ( eqtb [29380 ].cint > 0 ) 
+  if ( eqtb [29381 ].cint > 0 ) 
   showcurcmdchr () ;
 } 
 void 
@@ -14702,7 +14738,7 @@ zchangeiflimit ( smallnumber l , halfword p )
     while ( true ) {
 	
       if ( q == -268435455L ) 
-      confusion ( 921 ) ;
+      confusion ( 923 ) ;
       if ( mem [q ].hh .v.RH == p ) 
       {
 	mem [q ].hh.b0 = l ;
@@ -14725,7 +14761,7 @@ conditional ( void )
   halfword savecondptr  ;
   smallnumber thisif  ;
   boolean isunless  ;
-  if ( eqtb [29380 ].cint > 0 ) {
+  if ( eqtb [29381 ].cint > 0 ) {
       
     if ( eqtb [29313 ].cint <= 1 ) 
     showcurcmdchr () ;
@@ -14810,12 +14846,12 @@ conditional ( void )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 264 ) ;
-	  print ( 947 ) ;
+	  print ( 949 ) ;
 	} 
 	printcmdchr ( 108 , thisif ) ;
 	{
 	  helpptr = 1 ;
-	  helpline [0 ]= 948 ;
+	  helpline [0 ]= 950 ;
 	} 
 	backerror () ;
 	r = 61 ;
@@ -14959,14 +14995,14 @@ conditional ( void )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 264 ) ;
-	  print ( 722 ) ;
+	  print ( 724 ) ;
 	} 
-	printesc ( 589 ) ;
-	print ( 723 ) ;
+	printesc ( 591 ) ;
+	print ( 725 ) ;
 	{
 	  helpptr = 2 ;
-	  helpline [1 ]= 724 ;
-	  helpline [0 ]= 725 ;
+	  helpline [1 ]= 726 ;
+	  helpline [0 ]= 727 ;
 	} 
 	backerror () ;
       } 
@@ -15019,12 +15055,12 @@ conditional ( void )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 264 ) ;
-	  print ( 947 ) ;
+	  print ( 949 ) ;
 	} 
 	printcmdchr ( 108 , thisif ) ;
 	{
 	  helpptr = 1 ;
-	  helpline [0 ]= 948 ;
+	  helpline [0 ]= 950 ;
 	} 
 	backerror () ;
 	r = 61 ;
@@ -15065,7 +15101,7 @@ conditional ( void )
       if ( eqtb [29313 ].cint > 1 ) 
       {
 	begindiagnostic () ;
-	print ( 949 ) ;
+	print ( 951 ) ;
 	printint ( n ) ;
 	printchar ( 125 ) ;
 	enddiagnostic ( false ) ;
@@ -15115,8 +15151,8 @@ conditional ( void )
   {
     begindiagnostic () ;
     if ( b ) 
-    print ( 945 ) ;
-    else print ( 946 ) ;
+    print ( 947 ) ;
+    else print ( 948 ) ;
     enddiagnostic ( false ) ;
   } 
   if ( b ) 
@@ -15137,12 +15173,12 @@ conditional ( void )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 943 ) ;
+	print ( 945 ) ;
       } 
-      printesc ( 941 ) ;
+      printesc ( 943 ) ;
       {
 	helpptr = 1 ;
-	helpline [0 ]= 944 ;
+	helpline [0 ]= 946 ;
       } 
       error () ;
     } 
@@ -15303,7 +15339,7 @@ endname ( void )
     } 
   } 
   if ( areadelimiter == 0 ) 
-  curarea = 345 ;
+  curarea = 265 ;
   else {
       
     curarea = strptr ;
@@ -15325,7 +15361,7 @@ endname ( void )
   } 
   if ( extdelimiter == 0 ) 
   {
-    curext = 345 ;
+    curext = 265 ;
     curname = slowmakestring () ;
   } 
   else {
@@ -15560,7 +15596,7 @@ void
 zpackjobname ( strnumber s ) 
 {
   packjobname_regmem 
-  curarea = 345 ;
+  curarea = 265 ;
   curext = s ;
   curname = jobname ;
   packfilename ( curname , curarea , curext ) ;
@@ -15575,14 +15611,14 @@ zpromptfilename ( strnumber s , strnumber e )
   strnumber savedcurarea  ;
   if ( interaction == 2 ) 
   ;
-  if ( s == 951 ) 
+  if ( s == 953 ) 
   {
     if ( interaction == 3 ) 
     ;
     if ( filelineerrorstylep ) 
     printfileline () ;
     else printnl ( 264 ) ;
-    print ( 952 ) ;
+    print ( 954 ) ;
   } 
   else {
       
@@ -15591,32 +15627,32 @@ zpromptfilename ( strnumber s , strnumber e )
     if ( filelineerrorstylep ) 
     printfileline () ;
     else printnl ( 264 ) ;
-    print ( 953 ) ;
+    print ( 955 ) ;
   } 
   printfilename ( curname , curarea , curext ) ;
-  print ( 954 ) ;
-  if ( ( e == 955 ) || ( e == 345 ) ) 
+  print ( 956 ) ;
+  if ( ( e == 957 ) || ( e == 265 ) ) 
   showcontext () ;
   println () ;
   printcstring ( promptfilenamehelpmsg ) ;
-  if ( ( e != 345 ) ) 
+  if ( ( e != 265 ) ) 
   {
-    print ( 956 ) ;
+    print ( 958 ) ;
     print ( e ) ;
     print ( 39 ) ;
   } 
   print ( 41 ) ;
   println () ;
-  printnl ( 957 ) ;
+  printnl ( 959 ) ;
   print ( s ) ;
   if ( interaction < 2 ) 
-  fatalerror ( 958 ) ;
+  fatalerror ( 960 ) ;
   savedcurname = curname ;
   savedcurext = curext ;
   savedcurarea = curarea ;
   {
     ;
-    print ( 659 ) ;
+    print ( 661 ) ;
     terminput () ;
   } 
   {
@@ -15634,13 +15670,13 @@ zpromptfilename ( strnumber s , strnumber e )
     lab30: endname () ;
   } 
   if ( ( ( strstart [curname + 1 ]- strstart [curname ]) == 0 ) && ( 
-  curext == 345 ) && ( curarea == 345 ) ) 
+  curext == 265 ) && ( curarea == 265 ) ) 
   {
     curname = savedcurname ;
     curext = savedcurext ;
     curarea = savedcurarea ;
   } 
-  else if ( curext == 345 ) 
+  else if ( curext == 265 ) 
   curext = e ;
   packfilename ( curname , curarea , curext ) ;
 } 
@@ -15654,26 +15690,26 @@ openlogfile ( void )
   constcstring months  ;
   oldsetting = selector ;
   if ( jobname == 0 ) 
-  jobname = getjobname ( 961 ) ;
-  packjobname ( 962 ) ;
+  jobname = getjobname ( 963 ) ;
+  packjobname ( 964 ) ;
   recorderchangefilename ( stringcast ( nameoffile + 1 ) ) ;
-  packjobname ( 963 ) ;
+  packjobname ( 965 ) ;
   while ( ! aopenout ( logfile ) ) {
       
     selector = 17 ;
-    promptfilename ( 965 , 963 ) ;
+    promptfilename ( 967 , 965 ) ;
   } 
   texmflogname = amakenamestring ( logfile ) ;
   selector = 18 ;
   logopened = true ;
   {
     if ( srcspecialsp || filelineerrorstylep || parsefirstlinep ) 
-    fprintf ( logfile , "%s%s%s",  "This is pdfTeX, Version 3.141592653" , "-2.6" ,     "-1.40.26" ) ;
+    fprintf ( logfile , "%s%s%s",  "This is pdfTeX, Version 3.141592653" , "-2.6" ,     "-1.40.28" ) ;
     else
-    fprintf ( logfile , "%s%s%s",  "This is pdfTeX, Version 3.141592653" , "-2.6" ,     "-1.40.26" ) ;
+    fprintf ( logfile , "%s%s%s",  "This is pdfTeX, Version 3.141592653" , "-2.6" ,     "-1.40.28" ) ;
     Fputs ( logfile ,  versionstring ) ;
     slowprint ( formatident ) ;
-    print ( 966 ) ;
+    print ( 968 ) ;
     printint ( sysday ) ;
     printchar ( 32 ) ;
     months = " JANFEBMARAPRMAYJUNJULAUGSEPOCTNOVDEC" ;
@@ -15743,7 +15779,7 @@ openlogfile ( void )
     } 
   } 
   inputstack [inputptr ]= curinput ;
-  printnl ( 964 ) ;
+  printnl ( 966 ) ;
   l = inputstack [0 ].limitfield ;
   if ( buffer [l ]== eqtb [29325 ].cint ) 
   decr ( l ) ;
@@ -15769,7 +15805,7 @@ startinput ( void )
     [curinput .indexfield ], kpsetexformat ) ) 
     goto lab30 ;
     endfilereading () ;
-    promptfilename ( 951 , 345 ) ;
+    promptfilename ( 953 , 265 ) ;
   } 
   lab30: curinput .namefield = amakenamestring ( inputfile [curinput 
   .indexfield ]) ;
@@ -15814,7 +15850,7 @@ startinput ( void )
       decr ( v ) ;
     } 
     else printchar ( 126 ) ;
-    slowprint ( 967 ) ;
+    slowprint ( 969 ) ;
     slowprint ( curname ) ;
     slowprint ( curext ) ;
     println () ;
@@ -15905,7 +15941,7 @@ zreadfontinfo ( halfword u , strnumber nom , strnumber aire , scaled s )
   strstart [aire + 1 ]- strstart [aire ]) > 255 ) ;
   if ( nametoolong ) 
   goto lab11 ;
-  packfilename ( nom , aire , 345 ) ;
+  packfilename ( nom , aire , 265 ) ;
   if ( ! bopenin ( tfmfile ) ) 
   goto lab11 ;
   fileopened = true ;
@@ -16029,29 +16065,29 @@ zreadfontinfo ( halfword u , strnumber nom , strnumber aire , scaled s )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 969 ) ;
+      print ( 971 ) ;
     } 
     sprintcs ( u ) ;
     printchar ( 61 ) ;
-    printfilename ( nom , aire , 345 ) ;
+    printfilename ( nom , aire , 265 ) ;
     if ( s >= 0 ) 
     {
-      print ( 905 ) ;
+      print ( 907 ) ;
       printscaled ( s ) ;
-      print ( 312 ) ;
+      print ( 314 ) ;
     } 
     else if ( s != -1000 ) 
     {
-      print ( 970 ) ;
+      print ( 972 ) ;
       printint ( - (integer) s ) ;
     } 
-    print ( 979 ) ;
+    print ( 981 ) ;
     {
       helpptr = 4 ;
-      helpline [3 ]= 980 ;
-      helpline [2 ]= 981 ;
-      helpline [1 ]= 982 ;
-      helpline [0 ]= 983 ;
+      helpline [3 ]= 982 ;
+      helpline [2 ]= 983 ;
+      helpline [1 ]= 984 ;
+      helpline [0 ]= 985 ;
     } 
     error () ;
     goto lab30 ;
@@ -16111,7 +16147,45 @@ zreadfontinfo ( halfword u , strnumber nom , strnumber aire , scaled s )
 	
       if ( s >= 0 ) 
       z = s ;
-      else z = xnoverd ( z , - (integer) s , 1000 ) ;
+      else {
+	  
+	savearitherror = aritherror ;
+	sw = z ;
+	z = xnoverd ( z , - (integer) s , 1000 ) ;
+	if ( aritherror || z >= 134217728L ) 
+	{
+	  {
+	    if ( interaction == 3 ) 
+	    ;
+	    if ( filelineerrorstylep ) 
+	    printfileline () ;
+	    else printnl ( 264 ) ;
+	    print ( 971 ) ;
+	  } 
+	  sprintcs ( u ) ;
+	  printchar ( 61 ) ;
+	  printfilename ( nom , aire , 265 ) ;
+	  if ( s >= 0 ) 
+	  {
+	    print ( 907 ) ;
+	    printscaled ( s ) ;
+	    print ( 314 ) ;
+	  } 
+	  else if ( s != -1000 ) 
+	  {
+	    print ( 972 ) ;
+	    printint ( - (integer) s ) ;
+	  } 
+	  print ( 986 ) ;
+	  {
+	    helpptr = 1 ;
+	    helpline [0 ]= 987 ;
+	  } 
+	  error () ;
+	  z = sw ;
+	} 
+	aritherror = savearitherror ;
+      } 
     } 
     fontsize [f ]= z ;
   } 
@@ -16173,7 +16247,7 @@ zreadfontinfo ( halfword u , strnumber nom , strnumber aire , scaled s )
     {
       alpha = 16 ;
       if ( z >= 134217728L ) 
-      pdferror ( 603 , 984 ) ;
+      pdferror ( 605 , 988 ) ;
       while ( z >= 8388608L ) {
 	  
 	z = z / 2 ;
@@ -16439,34 +16513,34 @@ zreadfontinfo ( halfword u , strnumber nom , strnumber aire , scaled s )
     if ( filelineerrorstylep ) 
     printfileline () ;
     else printnl ( 264 ) ;
-    print ( 969 ) ;
+    print ( 971 ) ;
   } 
   sprintcs ( u ) ;
   printchar ( 61 ) ;
-  printfilename ( nom , aire , 345 ) ;
+  printfilename ( nom , aire , 265 ) ;
   if ( s >= 0 ) 
   {
-    print ( 905 ) ;
+    print ( 907 ) ;
     printscaled ( s ) ;
-    print ( 312 ) ;
+    print ( 314 ) ;
   } 
   else if ( s != -1000 ) 
   {
-    print ( 970 ) ;
+    print ( 972 ) ;
     printint ( - (integer) s ) ;
   } 
   if ( fileopened ) 
-  print ( 971 ) ;
+  print ( 973 ) ;
   else if ( nametoolong ) 
-  print ( 972 ) ;
-  else print ( 973 ) ;
+  print ( 974 ) ;
+  else print ( 975 ) ;
   {
     helpptr = 5 ;
-    helpline [4 ]= 974 ;
-    helpline [3 ]= 975 ;
-    helpline [2 ]= 976 ;
-    helpline [1 ]= 977 ;
-    helpline [0 ]= 978 ;
+    helpline [4 ]= 976 ;
+    helpline [3 ]= 977 ;
+    helpline [2 ]= 978 ;
+    helpline [1 ]= 979 ;
+    helpline [0 ]= 980 ;
   } 
   error () ;
   lab30: if ( fileopened ) 
@@ -16484,7 +16558,7 @@ zstorescaledf ( scaled sq , scaled z )
   unsigned char beta  ;
   alpha = 16 ;
   if ( z >= 134217728L ) 
-  pdferror ( 603 , 984 ) ;
+  pdferror ( 605 , 988 ) ;
   while ( z >= 8388608L ) {
       
     z = z / 2 ;
@@ -16518,7 +16592,7 @@ zstorescaledf ( scaled sq , scaled z )
   Result = sw ;
   else if ( a == 255 ) 
   Result = sw - alpha ;
-  else pdferror ( 985 , 986 ) ;
+  else pdferror ( 989 , 990 ) ;
   return Result ;
 } 
 void 
@@ -16538,21 +16612,21 @@ zcharwarning ( internalfontnumber f , eightbits c )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 995 ) ;
+      print ( 999 ) ;
     } 
     else {
 	
       begindiagnostic () ;
-      printnl ( 995 ) ;
+      printnl ( 999 ) ;
     } 
     print ( c ) ;
     if ( eqtb [29312 ].cint > 2 ) 
     {
-      print ( 286 ) ;
+      print ( 288 ) ;
       printhex ( c ) ;
       print ( 41 ) ;
     } 
-    print ( 996 ) ;
+    print ( 1000 ) ;
     slowprint ( fontname [f ]) ;
     if ( eqtb [29312 ].cint < 3 ) 
     printchar ( 33 ) ;
@@ -16597,7 +16671,7 @@ dviswap ( void )
   if ( dviptr > ( 2147483647L - dvioffset ) ) 
   {
     curs = -2 ;
-    fatalerror ( 997 ) ;
+    fatalerror ( 1001 ) ;
   } 
   if ( dvilimit == dvibufsize ) 
   {
@@ -17061,12 +17135,12 @@ zspecialout ( halfword p )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 711 ) ;
+	print ( 713 ) ;
       } 
       {
 	helpptr = 2 ;
-	helpline [1 ]= 1937 ;
-	helpline [0 ]= 1435 ;
+	helpline [1 ]= 1943 ;
+	helpline [0 ]= 1440 ;
       } 
       error () ;
       do {
@@ -17173,12 +17247,12 @@ zwriteout ( halfword p )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 711 ) ;
+      print ( 713 ) ;
     } 
     {
       helpptr = 2 ;
-      helpline [1 ]= 1937 ;
-      helpline [0 ]= 1435 ;
+      helpline [1 ]= 1943 ;
+      helpline [0 ]= 1440 ;
     } 
     error () ;
     do {
@@ -17196,7 +17270,7 @@ zwriteout ( halfword p )
       
     if ( ( j == 17 ) && ( selector == 19 ) ) 
     selector = 18 ;
-    printnl ( 345 ) ;
+    printnl ( 265 ) ;
   } 
   activenoconvert = true ;
   if ( eqtb [29339 ].cint > 1 ) 
@@ -17220,14 +17294,14 @@ zwriteout ( halfword p )
     else selector = 19 ;
     if ( ! logopened ) 
     selector = 17 ;
-    printnl ( 1929 ) ;
+    printnl ( 1935 ) ;
     {register integer for_end; d = 0 ;for_end = ( poolptr - strstart [
     strptr ]) - 1 ; if ( d <= for_end) do 
       {
 	print ( strpool [strstart [strptr ]+ d ]) ;
       } 
     while ( d++ < for_end ) ;} 
-    print ( 1930 ) ;
+    print ( 1936 ) ;
     if ( shellenabledp ) 
     {
       {
@@ -17250,27 +17324,27 @@ zwriteout ( halfword p )
 	} 
       while ( d++ < for_end ) ;} 
       if ( clobbered ) 
-      print ( 1931 ) ;
+      print ( 1937 ) ;
       else {
 	  
 	runsystemret = runsystem ( conststringcast ( addressof ( strpool [
 	strstart [strptr ]]) ) ) ;
 	if ( runsystemret == -1 ) 
-	print ( 1932 ) ;
+	print ( 1938 ) ;
 	else if ( runsystemret == 0 ) 
-	print ( 1933 ) ;
+	print ( 1939 ) ;
 	else if ( runsystemret == 1 ) 
-	print ( 1934 ) ;
+	print ( 1940 ) ;
 	else if ( runsystemret == 2 ) 
-	print ( 1935 ) ;
+	print ( 1941 ) ;
       } 
     } 
     else {
 	
-      print ( 1936 ) ;
+      print ( 1942 ) ;
     } 
     printchar ( 46 ) ;
-    printnl ( 345 ) ;
+    printnl ( 265 ) ;
     println () ;
     poolptr = strstart [strptr ];
   } 
@@ -17305,11 +17379,11 @@ zoutwhat ( halfword p )
 	  curname = mem [p + 1 ].hh .v.RH ;
 	  curarea = mem [p + 2 ].hh .v.LH ;
 	  curext = mem [p + 2 ].hh .v.RH ;
-	  if ( curext == 345 ) 
-	  curext = 955 ;
+	  if ( curext == 265 ) 
+	  curext = 957 ;
 	  packfilename ( curname , curarea , curext ) ;
 	  while ( ! kpseoutnameok ( stringcast ( nameoffile + 1 ) ) || ! 
-	  aopenout ( writefile [j ]) ) promptfilename ( 1939 , 955 ) ;
+	  aopenout ( writefile [j ]) ) promptfilename ( 1945 , 957 ) ;
 	  writeopen [j ]= true ;
 	  if ( logopened && texmfyesno ( "log_openout" ) ) 
 	  {
@@ -17317,12 +17391,12 @@ zoutwhat ( halfword p )
 	    if ( ( eqtb [29306 ].cint <= 0 ) ) 
 	    selector = 18 ;
 	    else selector = 19 ;
-	    printnl ( 1940 ) ;
+	    printnl ( 1946 ) ;
 	    printint ( j ) ;
-	    print ( 1941 ) ;
+	    print ( 1947 ) ;
 	    printfilename ( curname , curarea , curext ) ;
-	    print ( 954 ) ;
-	    printnl ( 345 ) ;
+	    print ( 956 ) ;
+	    printnl ( 265 ) ;
 	    println () ;
 	    selector = oldsetting ;
 	  } 
@@ -17346,8 +17420,8 @@ zoutwhat ( halfword p )
     default: 
     {
       if ( ( 7 <= mem [p ].hh.b1 ) && ( mem [p ].hh.b1 <= 50 ) ) 
-      pdferror ( 1870 , 1938 ) ;
-      else confusion ( 1870 ) ;
+      pdferror ( 1876 , 1944 ) ;
+      else confusion ( 1876 ) ;
     } 
     break ;
   } 
@@ -17543,7 +17617,7 @@ zzreverse ( halfword thisbox , halfword t , scaled * curg , real * curglue )
 	} 
 	break ;
       case 14 : 
-	confusion ( 2050 ) ;
+	confusion ( 2057 ) ;
 	break ;
 	default: 
 	goto lab15 ;
@@ -17767,13 +17841,13 @@ hlistout ( void )
 		} 
 	      } 
 	      begindiagnostic () ;
-	      printnl ( 2096 ) ;
+	      printnl ( 2103 ) ;
 	      print ( c ) ;
-	      print ( 1638 ) ;
+	      print ( 1643 ) ;
 	      print ( accentc ) ;
 	      print ( 32 ) ;
 	      print ( basec ) ;
-	      print ( 996 ) ;
+	      print ( 1000 ) ;
 	      slowprint ( fontname [f ]) ;
 	      printchar ( 33 ) ;
 	      enddiagnostic ( false ) ;
@@ -17782,10 +17856,10 @@ hlistout ( void )
 	  } 
 	} 
 	begindiagnostic () ;
-	printnl ( 995 ) ;
-	print ( 2095 ) ;
+	printnl ( 999 ) ;
+	print ( 2102 ) ;
 	print ( c ) ;
-	print ( 996 ) ;
+	print ( 1000 ) ;
 	slowprint ( fontname [f ]) ;
 	printchar ( 33 ) ;
 	enddiagnostic ( false ) ;
@@ -17793,13 +17867,13 @@ hlistout ( void )
 	lab40: if ( eqtb [29312 ].cint > 99 ) 
 	{
 	  begindiagnostic () ;
-	  printnl ( 2097 ) ;
+	  printnl ( 2104 ) ;
 	  print ( c ) ;
-	  print ( 1638 ) ;
+	  print ( 1643 ) ;
 	  print ( accentc ) ;
 	  print ( 32 ) ;
 	  print ( basec ) ;
-	  print ( 996 ) ;
+	  print ( 1000 ) ;
 	  slowprint ( fontname [f ]) ;
 	  printchar ( 46 ) ;
 	  enddiagnostic ( false ) ;
@@ -18268,7 +18342,7 @@ vlistout ( void )
   while ( p != -268435455L ) {
       
     if ( ( p >= himemmin ) ) 
-    confusion ( 999 ) ;
+    confusion ( 1003 ) ;
     else {
 	
       switch ( mem [p ].hh.b0 ) 
@@ -18470,9 +18544,9 @@ zdvishipout ( halfword p )
   unsigned char oldsetting  ;
   if ( eqtb [29311 ].cint > 0 ) 
   {
-    printnl ( 345 ) ;
+    printnl ( 265 ) ;
     println () ;
-    print ( 1000 ) ;
+    print ( 1004 ) ;
   } 
   if ( termoffset > maxprintline - 9 ) 
   println () ;
@@ -18480,10 +18554,10 @@ zdvishipout ( halfword p )
   printchar ( 32 ) ;
   printchar ( 91 ) ;
   j = 9 ;
-  while ( ( eqtb [29388 + j ].cint == 0 ) && ( j > 0 ) ) decr ( j ) ;
+  while ( ( eqtb [29390 + j ].cint == 0 ) && ( j > 0 ) ) decr ( j ) ;
   {register integer for_end; k = 0 ;for_end = j ; if ( k <= for_end) do 
     {
-      printint ( eqtb [29388 + k ].cint ) ;
+      printint ( eqtb [29390 + k ].cint ) ;
       if ( k < j ) 
       printchar ( 46 ) ;
     } 
@@ -18497,8 +18571,8 @@ zdvishipout ( halfword p )
     enddiagnostic ( true ) ;
   } 
   if ( ( mem [p + 3 ].cint > 1073741823L ) || ( mem [p + 2 ].cint > 
-  1073741823L ) || ( mem [p + 3 ].cint + mem [p + 2 ].cint + eqtb [29919 
-  ].cint > 1073741823L ) || ( mem [p + 1 ].cint + eqtb [29918 ].cint > 
+  1073741823L ) || ( mem [p + 3 ].cint + mem [p + 2 ].cint + eqtb [29921 
+  ].cint > 1073741823L ) || ( mem [p + 1 ].cint + eqtb [29920 ].cint > 
   1073741823L ) ) 
   {
     {
@@ -18507,47 +18581,47 @@ zdvishipout ( halfword p )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 1004 ) ;
+      print ( 1008 ) ;
     } 
     {
       helpptr = 2 ;
-      helpline [1 ]= 1005 ;
-      helpline [0 ]= 1006 ;
+      helpline [1 ]= 1009 ;
+      helpline [0 ]= 1010 ;
     } 
     error () ;
     if ( eqtb [29311 ].cint <= 0 ) 
     {
       begindiagnostic () ;
-      printnl ( 1007 ) ;
+      printnl ( 1011 ) ;
       showbox ( p ) ;
       enddiagnostic ( true ) ;
     } 
     goto lab30 ;
   } 
-  if ( mem [p + 3 ].cint + mem [p + 2 ].cint + eqtb [29919 ].cint > maxv 
+  if ( mem [p + 3 ].cint + mem [p + 2 ].cint + eqtb [29921 ].cint > maxv 
   ) 
-  maxv = mem [p + 3 ].cint + mem [p + 2 ].cint + eqtb [29919 ].cint ;
-  if ( mem [p + 1 ].cint + eqtb [29918 ].cint > maxh ) 
-  maxh = mem [p + 1 ].cint + eqtb [29918 ].cint ;
+  maxv = mem [p + 3 ].cint + mem [p + 2 ].cint + eqtb [29921 ].cint ;
+  if ( mem [p + 1 ].cint + eqtb [29920 ].cint > maxh ) 
+  maxh = mem [p + 1 ].cint + eqtb [29920 ].cint ;
   dvih = 0 ;
   dviv = 0 ;
-  curh = eqtb [29918 ].cint ;
+  curh = eqtb [29920 ].cint ;
   dvif = 0 ;
-  curhoffset = eqtb [29918 ].cint ;
-  curvoffset = eqtb [29919 ].cint ;
-  if ( eqtb [29923 ].cint != 0 ) 
-  curpagewidth = eqtb [29923 ].cint ;
+  curhoffset = eqtb [29920 ].cint ;
+  curvoffset = eqtb [29921 ].cint ;
+  if ( eqtb [29925 ].cint != 0 ) 
+  curpagewidth = eqtb [29925 ].cint ;
   else curpagewidth = mem [p + 1 ].cint + 2 * curhoffset + 2 * 4736286L ;
-  if ( eqtb [29924 ].cint != 0 ) 
-  curpageheight = eqtb [29924 ].cint ;
+  if ( eqtb [29926 ].cint != 0 ) 
+  curpageheight = eqtb [29926 ].cint ;
   else curpageheight = mem [p + 3 ].cint + mem [p + 2 ].cint + 2 * 
   curvoffset + 2 * 4736286L ;
   if ( outputfilename == 0 ) 
   {
     if ( jobname == 0 ) 
     openlogfile () ;
-    packjobname ( 959 ) ;
-    while ( ! bopenout ( dvifile ) ) promptfilename ( 960 , 959 ) ;
+    packjobname ( 961 ) ;
+    while ( ! bopenout ( dvifile ) ) promptfilename ( 962 , 961 ) ;
     outputfilename = bmakenamestring ( dvifile ) ;
   } 
   if ( totalpages == 0 ) 
@@ -18591,7 +18665,7 @@ zdvishipout ( halfword p )
 	
       oldsetting = selector ;
       selector = 21 ;
-      print ( 998 ) ;
+      print ( 1002 ) ;
       printint ( eqtb [29300 ].cint ) ;
       printchar ( 46 ) ;
       printtwo ( eqtb [29299 ].cint ) ;
@@ -18627,11 +18701,11 @@ zdvishipout ( halfword p )
     dviswap () ;
   } 
   {register integer for_end; k = 0 ;for_end = 9 ; if ( k <= for_end) do 
-    dvifour ( eqtb [29388 + k ].cint ) ;
+    dvifour ( eqtb [29390 + k ].cint ) ;
   while ( k++ < for_end ) ;} 
   dvifour ( lastbop ) ;
   lastbop = pageloc ;
-  curv = mem [p + 3 ].cint + eqtb [29919 ].cint ;
+  curv = mem [p + 3 ].cint + eqtb [29921 ].cint ;
   tempptr = p ;
   if ( mem [p ].hh.b0 == 1 ) 
   vlistout () ;
@@ -18657,7 +18731,7 @@ zdvishipout ( halfword p )
     if ( dviptr > ( 2147483647L - dvioffset ) ) 
     {
       curs = -2 ;
-      fatalerror ( 997 ) ;
+      fatalerror ( 1001 ) ;
     } 
     if ( dviptr > 0 ) 
     {
@@ -18678,18 +18752,18 @@ zdvishipout ( halfword p )
     {
       {
 	println () ;
-	printnl ( 2047 ) ;
+	printnl ( 2054 ) ;
 	printint ( LRproblems / 10000 ) ;
-	print ( 2048 ) ;
+	print ( 2055 ) ;
 	printint ( LRproblems % 10000 ) ;
-	print ( 2049 ) ;
+	print ( 2056 ) ;
 	LRproblems = 0 ;
       } 
       printchar ( 41 ) ;
       println () ;
     } 
     if ( ( LRptr != -268435455L ) || ( curdir != 0 ) ) 
-    confusion ( 2051 ) ;
+    confusion ( 2058 ) ;
   } 
   if ( eqtb [29311 ].cint <= 0 ) 
   printchar ( 93 ) ;
@@ -18699,7 +18773,7 @@ zdvishipout ( halfword p )
 #ifdef STAT
   if ( eqtb [29308 ].cint > 1 ) 
   {
-    printnl ( 1001 ) ;
+    printnl ( 1005 ) ;
     printint ( varused ) ;
     printchar ( 38 ) ;
     printint ( dynused ) ;
@@ -18711,11 +18785,11 @@ zdvishipout ( halfword p )
 #ifdef STAT
   if ( eqtb [29308 ].cint > 1 ) 
   {
-    print ( 1002 ) ;
+    print ( 1006 ) ;
     printint ( varused ) ;
     printchar ( 38 ) ;
     printint ( dynused ) ;
-    print ( 1003 ) ;
+    print ( 1007 ) ;
     printint ( himemmin - lomemmax - 1 ) ;
     println () ;
   } 
@@ -18754,6 +18828,13 @@ getpdfomitcharset ( void )
 {
   register integer Result; getpdfomitcharset_regmem 
   Result = eqtb [29375 ].cint ;
+  return Result ;
+} 
+boolean 
+getptexuseunderscore ( void ) 
+{
+  register boolean Result; getptexuseunderscore_regmem 
+  Result = ( eqtb [29378 ].cint > 0 ) || ( eqtb [29351 ].cint >= 2 ) ;
   return Result ;
 } 
 internalfontnumber 
@@ -18795,7 +18876,7 @@ scaled
 zgettexdimen ( integer code ) 
 {
   register scaled Result; gettexdimen_regmem 
-  Result = eqtb [29900 + code ].cint ;
+  Result = eqtb [29902 + code ].cint ;
   return Result ;
 } 
 scaled 
@@ -18910,7 +18991,7 @@ zshortdisplayn ( integer p , integer m )
       case 4 : 
       case 5 : 
       case 13 : 
-	print ( 313 ) ;
+	print ( 315 ) ;
 	break ;
       case 2 : 
 	printchar ( 124 ) ;
@@ -18921,7 +19002,7 @@ zshortdisplayn ( integer p , integer m )
 	break ;
       case 9 : 
 	if ( mem [p ].hh.b1 >= 4 ) 
-	print ( 313 ) ;
+	print ( 315 ) ;
 	else printchar ( 36 ) ;
 	break ;
       case 6 : 
@@ -18957,7 +19038,7 @@ zpdfgetmem ( integer s )
   register integer Result; pdfgetmem_regmem 
   integer a  ;
   if ( s > suppdfmemsize - pdfmemptr ) 
-  overflow ( 1014 , pdfmemsize ) ;
+  overflow ( 1018 , pdfmemsize ) ;
   if ( pdfmemptr + s > pdfmemsize ) 
   {
     a = 0.2 * pdfmemsize ;
@@ -18998,13 +19079,13 @@ checkpdfversion ( void )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 1016 ) ;
+	print ( 1020 ) ;
       } 
       println () ;
       {
 	helpptr = 2 ;
-	helpline [1 ]= 1017 ;
-	helpline [0 ]= 1018 ;
+	helpline [1 ]= 1021 ;
+	helpline [0 ]= 1022 ;
       } 
       interror ( eqtb [29351 ].cint ) ;
       eqtb [29351 ].cint = 1 ;
@@ -19017,13 +19098,13 @@ checkpdfversion ( void )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 1019 ) ;
+	print ( 1023 ) ;
       } 
       println () ;
       {
 	helpptr = 2 ;
-	helpline [1 ]= 1020 ;
-	helpline [0 ]= 1021 ;
+	helpline [1 ]= 1024 ;
+	helpline [0 ]= 1025 ;
       } 
       interror ( eqtb [29352 ].cint ) ;
       eqtb [29352 ].cint = 4 ;
@@ -19044,14 +19125,14 @@ checkpdfversion ( void )
 	
       if ( fixedpdfobjcompresslevel > 0 ) 
       {
-	pdfwarning ( 1022 , 1023 , true , true ) ;
+	pdfwarning ( 1026 , 1027 , true , true ) ;
 	fixedpdfobjcompresslevel = 0 ;
       } 
       pdfosenable = false ;
     } 
     ensurepdfopen () ;
     fixpdfoutput () ;
-    pdfprint ( 1024 ) ;
+    pdfprint ( 1028 ) ;
     pdfprintint ( fixedpdfmajorversion ) ;
     pdfprint ( 46 ) ;
     {
@@ -19061,7 +19142,7 @@ checkpdfversion ( void )
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -19077,7 +19158,7 @@ checkpdfversion ( void )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -19091,7 +19172,7 @@ checkpdfversion ( void )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -19105,7 +19186,7 @@ checkpdfversion ( void )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -19119,7 +19200,7 @@ checkpdfversion ( void )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -19133,7 +19214,7 @@ checkpdfversion ( void )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -19147,7 +19228,7 @@ checkpdfversion ( void )
       
     if ( ( fixedpdfminorversion != eqtb [29352 ].cint ) || ( 
     fixedpdfmajorversion != eqtb [29351 ].cint ) ) 
-    pdferror ( 1025 , 1026 ) ;
+    pdferror ( 1029 , 1030 ) ;
   } 
 } 
 void 
@@ -19158,9 +19239,9 @@ ensurepdfopen ( void )
   return ;
   if ( jobname == 0 ) 
   openlogfile () ;
-  packjobname ( 1027 ) ;
+  packjobname ( 1031 ) ;
   if ( fixedpdfdraftmode == 0 ) 
-  while ( ! bopenout ( pdffile ) ) promptfilename ( 960 , 1027 ) ;
+  while ( ! bopenout ( pdffile ) ) promptfilename ( 962 , 1031 ) ;
   outputfilename = bmakenamestring ( pdffile ) ;
 } 
 void 
@@ -19195,7 +19276,7 @@ pdfflush ( void )
     } 
     pdfptr = 0 ;
     if ( savedpdfgone > pdfgone ) 
-    pdferror ( 1028 , 1029 ) ;
+    pdferror ( 1032 , 1033 ) ;
   } 
 } 
 void 
@@ -19203,13 +19284,13 @@ pdfbeginstream ( void )
 {
   pdfbeginstream_regmem 
   {
-    pdfprint ( 1030 ) ;
+    pdfprint ( 1034 ) ;
     {
       {
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -19226,13 +19307,13 @@ pdfbeginstream ( void )
   if ( eqtb [29343 ].cint > 0 ) 
   {
     {
-      pdfprint ( 1031 ) ;
+      pdfprint ( 1035 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -19243,13 +19324,13 @@ pdfbeginstream ( void )
       } 
     } 
     {
-      pdfprint ( 1032 ) ;
+      pdfprint ( 1036 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -19260,13 +19341,13 @@ pdfbeginstream ( void )
       } 
     } 
     {
-      pdfprint ( 1033 ) ;
+      pdfprint ( 1037 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -19282,13 +19363,13 @@ pdfbeginstream ( void )
   else {
       
     {
-      pdfprint ( 1032 ) ;
+      pdfprint ( 1036 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -19299,13 +19380,13 @@ pdfbeginstream ( void )
       } 
     } 
     {
-      pdfprint ( 1033 ) ;
+      pdfprint ( 1037 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -19334,7 +19415,7 @@ pdfendstream ( void )
       if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfosgetosbuf ( 1 ) ;
       else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-      overflow ( 1015 , pdfopbufsize ) ;
+      overflow ( 1019 , pdfopbufsize ) ;
       else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfflush () ;
     } 
@@ -19344,13 +19425,13 @@ pdfendstream ( void )
     } 
   } 
   {
-    pdfprint ( 1034 ) ;
+    pdfprint ( 1038 ) ;
     {
       {
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -19363,7 +19444,7 @@ pdfendstream ( void )
   pdfendobj () ;
 } 
 void 
-zadvcharwidth ( internalfontnumber f , eightbits c , eightbits dd ) 
+zadvcharwidth ( internalfontnumber f , eightbits c ) 
 {
   advcharwidth_regmem 
   scaled w, sout  ;
@@ -19374,21 +19455,21 @@ zadvcharwidth ( internalfontnumber f , eightbits c , eightbits dd )
   {
     if ( pdfcurTma == 0 ) 
     {
-      s = dividescaled ( w , pdffontsize [f ], dd ) ;
+      s = dividescaled ( w , pdffontsize [f ], 4 ) ;
       sout = scaledout ;
       pdfdeltah = pdfdeltah + sout ;
     } 
     else {
 	
       s = dividescaled ( roundxnoverd ( w , 1000 , 1000 + pdfcurTma ) , 
-      pdffontsize [f ], dd ) ;
+      pdffontsize [f ], 4 ) ;
       sout = roundxnoverd ( roundxnoverd ( pdffontsize [f ], abs ( s ) , 
       10000 ) , 1000 + pdfcurTma , 1000 ) ;
       if ( s < 0 ) 
       sout = - (integer) sout ;
       pdfdeltah = pdfdeltah + sout ;
     } 
-    advcharwidths = s ;
+    advcharwidths = round ( s / ((double) 10 ) ) ;
     advcharwidthsout = sout ;
   } 
   else pdfdeltah = pdfdeltah + getpkcharwidth ( f , w ) ;
@@ -19404,7 +19485,7 @@ zpdfprintreal ( integer m , integer d )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -19424,7 +19505,7 @@ zpdfprintreal ( integer m , integer d )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -19441,7 +19522,7 @@ zpdfprintreal ( integer m , integer d )
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -19479,7 +19560,7 @@ zpdfsetorigin ( scaled h , scaled v )
   if ( ( abs ( h - pdforiginh ) >= minbpval ) || ( abs ( v - pdforiginv ) >= 
   minbpval ) ) 
   {
-    pdfprint ( 1043 ) ;
+    pdfprint ( 1047 ) ;
     pdfprintbp ( h - pdforiginh ) ;
     pdforiginh = pdforiginh + scaledout ;
     {
@@ -19487,7 +19568,7 @@ zpdfsetorigin ( scaled h , scaled v )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -19499,13 +19580,13 @@ zpdfsetorigin ( scaled h , scaled v )
     pdfprintbp ( pdforiginv - v ) ;
     pdforiginv = pdforiginv - scaledout ;
     {
-      pdfprint ( 1044 ) ;
+      pdfprint ( 1048 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -19527,14 +19608,14 @@ zpdfsetorigintemp ( scaled h , scaled v )
   if ( ( abs ( h - pdforiginh ) >= minbpval ) || ( abs ( v - pdforiginv ) >= 
   minbpval ) ) 
   {
-    pdfprint ( 1043 ) ;
+    pdfprint ( 1047 ) ;
     pdfprintbp ( h - pdforiginh ) ;
     {
       {
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -19545,13 +19626,13 @@ zpdfsetorigintemp ( scaled h , scaled v )
     } 
     pdfprintbp ( pdforiginv - v ) ;
     {
-      pdfprint ( 1044 ) ;
+      pdfprint ( 1048 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -19569,7 +19650,7 @@ pdfendstring ( void )
   pdfendstring_regmem 
   if ( pdfdoingstring ) 
   {
-    pdfprint ( 1045 ) ;
+    pdfprint ( 1049 ) ;
     pdfdoingstring = false ;
   } 
 } 
@@ -19580,13 +19661,13 @@ pdfendstringnl ( void )
   if ( pdfdoingstring ) 
   {
     {
-      pdfprint ( 1045 ) ;
+      pdfprint ( 1049 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -19599,17 +19680,26 @@ pdfendstringnl ( void )
     pdfdoingstring = false ;
   } 
 } 
-void 
-zpdfsettextmatrix ( scaled v , scaled vout , internalfontnumber f ) 
+integer 
+zgetfontautoexpandratio ( internalfontnumber f ) 
 {
-  pdfsettextmatrix_regmem 
+  register integer Result; getfontautoexpandratio_regmem 
+  if ( pdffontautoexpand [f ]) 
+  Result = pdffontexpandratio [f ];
+  else Result = 0 ;
+  return Result ;
+} 
+void 
+zpdfsettextpos ( scaled v , scaled vout , internalfontnumber f ) 
+{
+  pdfsettextpos_regmem 
   integer pdfnewTma  ;
   {
     {
       if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfosgetosbuf ( 1 ) ;
       else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-      overflow ( 1015 , pdfopbufsize ) ;
+      overflow ( 1019 , pdfopbufsize ) ;
       else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfflush () ;
     } 
@@ -19618,15 +19708,11 @@ zpdfsettextmatrix ( scaled v , scaled vout , internalfontnumber f )
       incr ( pdfptr ) ;
     } 
   } 
-  if ( f == pdff ) 
-  pdfnewTma = pdfcurTma ;
-  else if ( ! pdffontautoexpand [f ]) 
-  pdfnewTma = 0 ;
-  else pdfnewTma = pdffontexpandratio [f ];
+  pdfnewTma = getfontautoexpandratio ( f ) ;
   if ( ( pdfnewTma != 0 ) || ( ( pdfnewTma == 0 ) && ( pdfcurTma != 0 ) ) ) 
   {
     pdfprintreal ( 1000 + pdfnewTma , 3 ) ;
-    pdfprint ( 1046 ) ;
+    pdfprint ( 1050 ) ;
     pdfprintbp ( curh - pdforiginh ) ;
     pdfh = pdforiginh + scaledout ;
     {
@@ -19634,7 +19720,7 @@ zpdfsettextmatrix ( scaled v , scaled vout , internalfontnumber f )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -19645,7 +19731,7 @@ zpdfsettextmatrix ( scaled v , scaled vout , internalfontnumber f )
     } 
     pdfprintbp ( pdforiginv - curv ) ;
     pdfv = pdforiginv - scaledout ;
-    pdfprint ( 1047 ) ;
+    pdfprint ( 1051 ) ;
     pdfcurTma = pdfnewTma ;
     pdfassert ( pdfcurTma > -1000 ) ;
   } 
@@ -19658,7 +19744,7 @@ zpdfsettextmatrix ( scaled v , scaled vout , internalfontnumber f )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -19669,7 +19755,7 @@ zpdfsettextmatrix ( scaled v , scaled vout , internalfontnumber f )
     } 
     pdfprintreal ( v , fixeddecimaldigits ) ;
     pdfv = pdfv - vout ;
-    pdfprint ( 1048 ) ;
+    pdfprint ( 1052 ) ;
   } 
   pdftjstarth = pdfh ;
   pdfdeltah = 0 ;
@@ -19689,7 +19775,7 @@ zpdfusefont ( internalfontnumber f , integer fontnum )
   pdffontnum [f ]= fontnum ;
   if ( eqtb [29345 ].cint > 0 ) 
   {
-    pdfwarning ( 0 , 1049 , true , true ) ;
+    pdfwarning ( 0 , 1053 , true , true ) ;
     eqtb [29345 ].cint = 0 ;
   } 
 } 
@@ -19704,7 +19790,7 @@ zpdfinitfont ( internalfontnumber f )
   {
     b = pdffontblink [f ];
     if ( ! isscalable ( b ) ) 
-    pdferror ( 1050 , 1051 ) ;
+    pdferror ( 1054 , 1055 ) ;
     if ( ! fontused [b ]) 
     pdfinitfont ( b ) ;
     pdffontmap [f ]= pdffontmap [b ];
@@ -19730,7 +19816,9 @@ zpdfinitfont ( internalfontnumber f )
     } 
   } 
   pdfcreateobj ( 3 , f ) ;
-  pdffonthasspacechar [f ]= hasspacechar ( f ) ;
+  pdffonthasspacechar [f ]= hasspacechar ( f ) && ( fontinfo [widthbase [f 
+  ]+ fontinfo [charbase [f ]+ effectivechar ( true , f , 32 ) ].qqqq .b0 
+  ].cint > onebp ) ;
   pdfusefont ( f , objptr ) ;
 } 
 void 
@@ -19745,6 +19833,7 @@ zpdfsetfont ( internalfontnumber f )
   /* 40 41 */ pdfsetfont_regmem 
   halfword p  ;
   internalfontnumber k  ;
+  pdff = f ;
   if ( ! fontused [f ]) 
   pdfinitfont ( f ) ;
   {
@@ -19771,7 +19860,7 @@ zpdfsetfont ( internalfontnumber f )
   } 
   lab40: if ( ( k == pdflastf ) && ( fontsize [f ]== pdflastfs ) ) 
   return ;
-  pdfprint ( 1052 ) ;
+  pdfprint ( 1056 ) ;
   pdfprintint ( k ) ;
   if ( pdfresnameprefix != 0 ) 
   pdfprint ( pdfresnameprefix ) ;
@@ -19780,7 +19869,7 @@ zpdfsetfont ( internalfontnumber f )
       if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfosgetosbuf ( 1 ) ;
       else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-      overflow ( 1015 , pdfopbufsize ) ;
+      overflow ( 1019 , pdfopbufsize ) ;
       else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfflush () ;
     } 
@@ -19790,7 +19879,7 @@ zpdfsetfont ( internalfontnumber f )
     } 
   } 
   pdfprintreal ( dividescaled ( fontsize [f ], onehundredbp , 6 ) , 4 ) ;
-  pdfprint ( 1053 ) ;
+  pdfprint ( 1057 ) ;
   pdflastf = k ;
   pdflastfs = fontsize [f ];
 } 
@@ -19800,13 +19889,13 @@ pdfbegintext ( void )
   pdfbegintext_regmem 
   pdfsetorigin ( 0 , curpageheight ) ;
   {
-    pdfprint ( 1054 ) ;
+    pdfprint ( 1058 ) ;
     {
       {
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -19829,7 +19918,7 @@ pdfreaddummyfont ( void )
   pdfreaddummyfont_regmem 
   if ( pdfdummyfont == 0 ) 
   {
-    pdfdummyfont = readfontinfo ( 513 , pdfspacefontname , 345 , -1000 ) ;
+    pdfdummyfont = readfontinfo ( 513 , pdfspacefontname , 265 , -1000 ) ;
     pdfmaplinesp () ;
     pdfmarkchar ( pdfdummyfont , 32 ) ;
   } 
@@ -19840,20 +19929,24 @@ pdfinsertinterwordspace ( void )
   pdfinsertinterwordspace_regmem 
   pdfreaddummyfont () ;
   pdfsetfont ( pdfdummyfont ) ;
-  pdfprint ( 1055 ) ;
+  pdfprint ( 1059 ) ;
 } 
 void 
 zpdfbeginstring ( internalfontnumber f ) 
 {
   pdfbeginstring_regmem 
   scaled sout, v, vout  ;
-  scaled savepdfdeltah  ;
   integer s  ;
   boolean mustendstring  ;
   boolean mustinsertspace  ;
+  boolean mustsettextpos  ;
+  boolean movelookslikeinterwordspace  ;
+  mustinsertspace = false ;
+  mustendstring = false ;
   if ( ! pdfdoingtext ) 
   pdfbegintext () ;
-  if ( f != pdff ) 
+  if ( ( ! genfakedinterwordspace && pdff != f ) || ( genfakedinterwordspace 
+  && ! ( fontused [f ]&& fontused [pdff ]) ) ) 
   {
     pdfendstring () ;
     pdfsetfont ( f ) ;
@@ -19886,28 +19979,30 @@ zpdfbeginstring ( internalfontnumber f )
     v = 0 ;
     vout = 0 ;
   } 
-  mustinsertspace = false ;
-  mustendstring = false ;
-  if ( ( f != pdff ) || ( v != 0 ) || ( abs ( s ) >= 32768L ) ) 
+  mustsettextpos = ( v != 0 ) || ( abs ( s ) >= 32768L ) || ( 
+  getfontautoexpandratio ( f ) != pdfcurTma ) || getfontautoexpandratio ( f ) 
+  != getfontautoexpandratio ( pdff ) ;
+  if ( mustsettextpos ) 
   {
     mustendstring = true ;
   } 
-  if ( genfakedinterwordspace && pdfdoingstring && ( ! mustendstring ) && ( 
-  sout > fontinfo [2 + parambase [f ]].cint - fontinfo [4 + parambase [f 
-  ]].cint ) && ( v == 0 ) ) 
+  movelookslikeinterwordspace = ( fontinfo [2 + parambase [f ]].cint > 
+  onebp ) && ( sout > fontinfo [2 + parambase [f ]].cint - fontinfo [4 + 
+  parambase [f ]].cint - onebp / 10 ) && ( v == 0 ) ;
+  if ( genfakedinterwordspace && movelookslikeinterwordspace ) 
   {
     mustinsertspace = true ;
   } 
   if ( ( mustinsertspace ) ) 
   {
-    if ( pdffonthasspacechar [f ]) 
+    if ( pdffonthasspacechar [f ]&& pdfdoingstring ) 
     {
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -19916,8 +20011,7 @@ zpdfbeginstring ( internalfontnumber f )
 	  incr ( pdfptr ) ;
 	} 
       } 
-      savepdfdeltah = pdfdeltah ;
-      advcharwidth ( f , 32 , 3 ) ;
+      advcharwidth ( f , 32 ) ;
       s = s - advcharwidths ;
       sout = sout - advcharwidthsout ;
       pdfmarkchar ( f , 32 ) ;
@@ -19930,22 +20024,26 @@ zpdfbeginstring ( internalfontnumber f )
     if ( ( mustinsertspace ) && ( ! pdffonthasspacechar [f ]) ) 
     {
       pdfinsertinterwordspace () ;
-      pdfsetfont ( f ) ;
     } 
-    pdfsettextmatrix ( v , vout , f ) ;
-    pdff = f ;
+    pdfsetfont ( f ) ;
+    pdfsettextpos ( v , vout , f ) ;
     s = 0 ;
+  } 
+  if ( genfakedinterwordspace && ( pdff != f ) ) 
+  {
+    pdfendstring () ;
+    pdfsetfont ( f ) ;
   } 
   if ( ! pdfdoingstring ) 
   {
-    pdfprint ( 1056 ) ;
+    pdfprint ( 1060 ) ;
     if ( s == 0 ) 
     {
       {
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -19963,7 +20061,7 @@ zpdfbeginstring ( internalfontnumber f )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -19978,7 +20076,7 @@ zpdfbeginstring ( internalfontnumber f )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -20001,6 +20099,7 @@ pdfinsertfakespace ( void )
   pdfreaddummyfont () ;
   pdfbeginstring ( pdfdummyfont ) ;
   pdfprint ( 32 ) ;
+  advcharwidth ( pdfdummyfont , 32 ) ;
   pdfendstringnl () ;
   genfakedinterwordspace = s ;
 } 
@@ -20012,13 +20111,13 @@ pdfendtext ( void )
   {
     pdfendstringnl () ;
     {
-      pdfprint ( 1057 ) ;
+      pdfprint ( 1061 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -20043,7 +20142,7 @@ zpdfsetrule ( scaled x , scaled y , scaled w , scaled h )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -20056,18 +20155,18 @@ zpdfsetrule ( scaled x , scaled y , scaled w , scaled h )
   if ( h <= onebp ) 
   {
     pdfsetorigintemp ( x , y - ( h + 1 ) / ((double) 2 ) ) ;
-    pdfprint ( 1058 ) ;
+    pdfprint ( 1062 ) ;
     pdfprintbp ( h ) ;
-    pdfprint ( 1059 ) ;
+    pdfprint ( 1063 ) ;
     pdfprintbp ( w ) ;
     {
-      pdfprint ( 1060 ) ;
+      pdfprint ( 1064 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -20081,18 +20180,18 @@ zpdfsetrule ( scaled x , scaled y , scaled w , scaled h )
   else if ( w <= onebp ) 
   {
     pdfsetorigintemp ( x + ( w + 1 ) / ((double) 2 ) , y ) ;
-    pdfprint ( 1058 ) ;
+    pdfprint ( 1062 ) ;
     pdfprintbp ( w ) ;
-    pdfprint ( 1061 ) ;
+    pdfprint ( 1065 ) ;
     pdfprintbp ( h ) ;
     {
-      pdfprint ( 1062 ) ;
+      pdfprint ( 1066 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -20106,14 +20205,14 @@ zpdfsetrule ( scaled x , scaled y , scaled w , scaled h )
   else {
       
     pdfsetorigintemp ( x , y ) ;
-    pdfprint ( 1063 ) ;
+    pdfprint ( 1067 ) ;
     pdfprintbp ( w ) ;
     {
       {
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -20124,13 +20223,13 @@ zpdfsetrule ( scaled x , scaled y , scaled w , scaled h )
     } 
     pdfprintbp ( h ) ;
     {
-      pdfprint ( 1064 ) ;
+      pdfprint ( 1068 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -20148,7 +20247,7 @@ zpdfsetrule ( scaled x , scaled y , scaled w , scaled h )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -20164,14 +20263,14 @@ zpdfrectangle ( scaled left , scaled top , scaled right , scaled bottom )
 {
   pdfrectangle_regmem 
   preparemag () ;
-  pdfprint ( 1065 ) ;
+  pdfprint ( 1069 ) ;
   pdfprintmagbp ( ( ( left ) - pdforiginh ) ) ;
   {
     {
       if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfosgetosbuf ( 1 ) ;
       else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-      overflow ( 1015 , pdfopbufsize ) ;
+      overflow ( 1019 , pdfopbufsize ) ;
       else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfflush () ;
     } 
@@ -20186,7 +20285,7 @@ zpdfrectangle ( scaled left , scaled top , scaled right , scaled bottom )
       if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfosgetosbuf ( 1 ) ;
       else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-      overflow ( 1015 , pdfopbufsize ) ;
+      overflow ( 1019 , pdfopbufsize ) ;
       else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfflush () ;
     } 
@@ -20201,7 +20300,7 @@ zpdfrectangle ( scaled left , scaled top , scaled right , scaled bottom )
       if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfosgetosbuf ( 1 ) ;
       else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-      overflow ( 1015 , pdfopbufsize ) ;
+      overflow ( 1019 , pdfopbufsize ) ;
       else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfflush () ;
     } 
@@ -20218,7 +20317,7 @@ zpdfrectangle ( scaled left , scaled top , scaled right , scaled bottom )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -20246,7 +20345,7 @@ zslowprintsubstr ( integer s , integer maxlen )
     } 
   } 
   if ( j < strstart [s + 1 ]) 
-  print ( 277 ) ;
+  print ( 279 ) ;
 } 
 void 
 zliteral ( strnumber s , integer literalmode , boolean warn ) 
@@ -20256,28 +20355,28 @@ zliteral ( strnumber s , integer literalmode , boolean warn )
   j = strstart [s ];
   if ( literalmode == 3 ) 
   {
-    if ( ! ( strinstr ( s , 1066 , 0 ) || strinstr ( s , 1067 , 0 ) ) ) 
+    if ( ! ( strinstr ( s , 1070 , 0 ) || strinstr ( s , 1071 , 0 ) ) ) 
     {
-      if ( warn && ! ( strinstr ( s , 1068 , 0 ) || strinstr ( s , 1069 , 0 ) 
+      if ( warn && ! ( strinstr ( s , 1072 , 0 ) || strinstr ( s , 1073 , 0 ) 
       || ( ( strstart [s + 1 ]- strstart [s ]) == 0 ) ) ) 
       {
-	printnl ( 1070 ) ;
-	printnl ( 1071 ) ;
+	printnl ( 1074 ) ;
+	printnl ( 1075 ) ;
 	slowprintsubstr ( s , 64 ) ;
 	println () ;
       } 
       return ;
     } 
-    j = j + ( strstart [1067 ]- strstart [1066 ]) ;
-    if ( strinstr ( s , 1072 , ( strstart [1067 ]- strstart [1066 ]) ) ) 
+    j = j + ( strstart [1071 ]- strstart [1070 ]) ;
+    if ( strinstr ( s , 1076 , ( strstart [1071 ]- strstart [1070 ]) ) ) 
     {
-      j = j + ( strstart [1073 ]- strstart [1072 ]) ;
+      j = j + ( strstart [1077 ]- strstart [1076 ]) ;
       literalmode = 2 ;
     } 
-    else if ( strinstr ( s , 1073 , ( strstart [1067 ]- strstart [1066 ]) 
+    else if ( strinstr ( s , 1077 , ( strstart [1071 ]- strstart [1070 ]) 
     ) ) 
     {
-      j = j + ( strstart [1074 ]- strstart [1073 ]) ;
+      j = j + ( strstart [1078 ]- strstart [1077 ]) ;
       literalmode = 1 ;
     } 
     else literalmode = 0 ;
@@ -20296,7 +20395,7 @@ zliteral ( strnumber s , integer literalmode , boolean warn )
     pdfendstringnl () ;
     break ;
     default: 
-    confusion ( 1074 ) ;
+    confusion ( 1078 ) ;
     break ;
   } 
   while ( j < strstart [s + 1 ]) {
@@ -20306,7 +20405,7 @@ zliteral ( strnumber s , integer literalmode , boolean warn )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -20322,7 +20421,7 @@ zliteral ( strnumber s , integer literalmode , boolean warn )
       if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfosgetosbuf ( 1 ) ;
       else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-      overflow ( 1015 , pdfopbufsize ) ;
+      overflow ( 1019 , pdfopbufsize ) ;
       else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfflush () ;
     } 
@@ -20347,7 +20446,7 @@ zpdfprintfwint ( longinteger n , integer w )
     if ( pdfosmode && ( k + pdfptr > pdfbufsize ) ) 
     pdfosgetosbuf ( k ) ;
     else if ( ! pdfosmode && ( k > pdfbufsize ) ) 
-    overflow ( 1015 , pdfopbufsize ) ;
+    overflow ( 1019 , pdfopbufsize ) ;
     else if ( ! pdfosmode && ( k + pdfptr > pdfbufsize ) ) 
     pdfflush () ;
   } 
@@ -20376,7 +20475,7 @@ zpdfoutbytes ( longinteger n , integer w )
     if ( pdfosmode && ( k + pdfptr > pdfbufsize ) ) 
     pdfosgetosbuf ( k ) ;
     else if ( ! pdfosmode && ( k > pdfbufsize ) ) 
-    overflow ( 1015 , pdfopbufsize ) ;
+    overflow ( 1019 , pdfopbufsize ) ;
     else if ( ! pdfosmode && ( k + pdfptr > pdfbufsize ) ) 
     pdfflush () ;
   } 
@@ -20398,7 +20497,7 @@ zpdfintentry ( strnumber s , integer v )
       if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfosgetosbuf ( 1 ) ;
       else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-      overflow ( 1015 , pdfopbufsize ) ;
+      overflow ( 1019 , pdfopbufsize ) ;
       else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfflush () ;
     } 
@@ -20413,7 +20512,7 @@ zpdfintentry ( strnumber s , integer v )
       if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfosgetosbuf ( 1 ) ;
       else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-      overflow ( 1015 , pdfopbufsize ) ;
+      overflow ( 1019 , pdfopbufsize ) ;
       else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfflush () ;
     } 
@@ -20434,7 +20533,7 @@ zpdfintentryln ( strnumber s , integer v )
       if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfosgetosbuf ( 1 ) ;
       else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-      overflow ( 1015 , pdfopbufsize ) ;
+      overflow ( 1019 , pdfopbufsize ) ;
       else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfflush () ;
     } 
@@ -20453,7 +20552,7 @@ zpdfindirect ( strnumber s , integer o )
       if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfosgetosbuf ( 1 ) ;
       else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-      overflow ( 1015 , pdfopbufsize ) ;
+      overflow ( 1019 , pdfopbufsize ) ;
       else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfflush () ;
     } 
@@ -20468,7 +20567,7 @@ zpdfindirect ( strnumber s , integer o )
       if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfosgetosbuf ( 1 ) ;
       else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-      overflow ( 1015 , pdfopbufsize ) ;
+      overflow ( 1019 , pdfopbufsize ) ;
       else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfflush () ;
     } 
@@ -20478,7 +20577,7 @@ zpdfindirect ( strnumber s , integer o )
     } 
   } 
   pdfprintint ( o ) ;
-  pdfprint ( 1084 ) ;
+  pdfprint ( 1088 ) ;
 } 
 void 
 zpdfindirectln ( strnumber s , integer o ) 
@@ -20490,7 +20589,7 @@ zpdfindirectln ( strnumber s , integer o )
       if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfosgetosbuf ( 1 ) ;
       else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-      overflow ( 1015 , pdfopbufsize ) ;
+      overflow ( 1019 , pdfopbufsize ) ;
       else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfflush () ;
     } 
@@ -20510,7 +20609,7 @@ zpdfprintstr ( strnumber s )
   j = i + ( strstart [s + 1 ]- strstart [s ]) - 1 ;
   if ( i > j ) 
   {
-    pdfprint ( 1085 ) ;
+    pdfprint ( 1089 ) ;
     return ;
   } 
   if ( ( strpool [i ]== '(' ) && ( strpool [j ]== ')' ) ) 
@@ -20545,7 +20644,7 @@ zpdfprintstr ( strnumber s )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -20560,7 +20659,7 @@ zpdfprintstr ( strnumber s )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -20581,7 +20680,7 @@ zpdfprintstrln ( strnumber s )
       if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfosgetosbuf ( 1 ) ;
       else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-      overflow ( 1015 , pdfopbufsize ) ;
+      overflow ( 1019 , pdfopbufsize ) ;
       else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfflush () ;
     } 
@@ -20602,7 +20701,7 @@ zpdfstrentry ( strnumber s , strnumber v )
       if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfosgetosbuf ( 1 ) ;
       else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-      overflow ( 1015 , pdfopbufsize ) ;
+      overflow ( 1019 , pdfopbufsize ) ;
       else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfflush () ;
     } 
@@ -20617,7 +20716,7 @@ zpdfstrentry ( strnumber s , strnumber v )
       if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfosgetosbuf ( 1 ) ;
       else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-      overflow ( 1015 , pdfopbufsize ) ;
+      overflow ( 1019 , pdfopbufsize ) ;
       else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfflush () ;
     } 
@@ -20640,7 +20739,7 @@ zpdfstrentryln ( strnumber s , strnumber v )
       if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfosgetosbuf ( 1 ) ;
       else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-      overflow ( 1015 , pdfopbufsize ) ;
+      overflow ( 1019 , pdfopbufsize ) ;
       else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfflush () ;
     } 
@@ -20788,7 +20887,7 @@ zadjustinterwordglue ( halfword p , halfword g )
   internalfontnumber f  ;
   if ( ! ( ! ( g >= himemmin ) && mem [g ].hh.b0 == 10 ) ) 
   {
-    pdfwarning ( 1087 , 1088 , true , true ) ;
+    pdfwarning ( 1091 , 1092 , true , true ) ;
     return ;
   } 
   c = 256 ;
@@ -20898,7 +20997,7 @@ zautoexpandfont ( internalfontnumber f , integer e )
   k = fontptr + 1 ;
   incr ( fontptr ) ;
   if ( ( fontptr >= fontmax ) ) 
-  overflow ( 1089 , fontmax ) ;
+  overflow ( 1093 , fontmax ) ;
   fontname [k ]= expandfontname ( f , e ) ;
   fontarea [k ]= fontarea [f ];
   hash [17626 + k ].v.RH = hash [17626 + f ].v.RH ;
@@ -20923,7 +21022,7 @@ zautoexpandfont ( internalfontnumber f , integer e )
   ni = ligkernbase [f ]- italicbase [f ];
   nk = extenbase [f ]- ( kernbase [f ]+ 256 * ( 128 ) ) ;
   if ( ( fmemptr + nw + ni + nk >= fontmemsize ) ) 
-  overflow ( 1090 , fontmemsize ) ;
+  overflow ( 1094 , fontmemsize ) ;
   widthbase [k ]= fmemptr ;
   italicbase [k ]= widthbase [k ]+ nw ;
   kernbase [k ]= italicbase [k ]+ ni - 256 * ( 128 ) ;
@@ -20986,7 +21085,7 @@ ztfmlookup ( strnumber s , scaled fs )
   {
     {register integer for_end; k = 1 ;for_end = fontptr ; if ( k <= for_end) 
     do 
-      if ( ( fontarea [k ]!= 1086 ) && streqstr ( fontname [k ], s ) && ( 
+      if ( ( fontarea [k ]!= 1090 ) && streqstr ( fontname [k ], s ) && ( 
       fontsize [k ]== fs ) ) 
       {
 	flushstr ( s ) ;
@@ -20999,7 +21098,7 @@ ztfmlookup ( strnumber s , scaled fs )
       
     {register integer for_end; k = 1 ;for_end = fontptr ; if ( k <= for_end) 
     do 
-      if ( ( fontarea [k ]!= 1086 ) && streqstr ( fontname [k ], s ) ) 
+      if ( ( fontarea [k ]!= 1090 ) && streqstr ( fontname [k ], s ) ) 
       {
 	flushstr ( s ) ;
 	Result = k ;
@@ -21022,7 +21121,7 @@ zloadexpandfont ( internalfontnumber f , integer e )
   {
     if ( pdffontautoexpand [f ]) 
     k = autoexpandfont ( f , e ) ;
-    else k = readfontinfo ( 513 , s , 345 , fontsize [f ]) ;
+    else k = readfontinfo ( 513 , s , 265 , fontsize [f ]) ;
   } 
   if ( k != 0 ) 
   copyexpandparams ( k , f , e ) ;
@@ -21095,7 +21194,7 @@ zexpandfont ( internalfontnumber f , integer e )
   if ( e == 0 ) 
   return Result ;
   if ( pdffontelink [f ]== 0 ) 
-  pdferror ( 1050 , 1091 ) ;
+  pdferror ( 1054 , 1095 ) ;
   Result = getexpandfont ( f , e ) ;
   return Result ;
 } 
@@ -21142,9 +21241,9 @@ readexpandfont ( void )
   scanfontident () ;
   f = curval ;
   if ( f == 0 ) 
-  pdferror ( 1050 , 883 ) ;
+  pdferror ( 1054 , 885 ) ;
   if ( pdffontblink [f ]!= 0 ) 
-  pdferror ( 1050 , 1092 ) ;
+  pdferror ( 1054 , 1096 ) ;
   scanoptionalequals () ;
   scanint () ;
   stretchlimit = fixint ( curval , 0 , 1000 ) ;
@@ -21153,7 +21252,7 @@ readexpandfont ( void )
   scanint () ;
   fontstep = fixint ( curval , 0 , 100 ) ;
   if ( fontstep == 0 ) 
-  pdferror ( 1050 , 1093 ) ;
+  pdferror ( 1054 , 1097 ) ;
   stretchlimit = stretchlimit - stretchlimit % fontstep ;
   if ( stretchlimit < 0 ) 
   stretchlimit = 0 ;
@@ -21161,9 +21260,9 @@ readexpandfont ( void )
   if ( shrinklimit < 0 ) 
   shrinklimit = 0 ;
   if ( ( stretchlimit == 0 ) && ( shrinklimit == 0 ) ) 
-  pdferror ( 1050 , 1094 ) ;
+  pdferror ( 1054 , 1098 ) ;
   autoexpand = false ;
-  if ( scankeyword ( 1095 ) ) 
+  if ( scankeyword ( 1099 ) ) 
   {
     autoexpand = true ;
     {
@@ -21173,26 +21272,26 @@ readexpandfont ( void )
     } 
   } 
   if ( ( pdffontexpandratio [f ]!= 0 ) ) 
-  pdferror ( 1050 , 1096 ) ;
+  pdferror ( 1054 , 1100 ) ;
   if ( ( pdffontstep [f ]!= 0 ) ) 
   {
     if ( pdffontstep [f ]!= fontstep ) 
-    pdferror ( 1050 , 1097 ) ;
+    pdferror ( 1054 , 1101 ) ;
     if ( ( ( pdffontstretch [f ]== 0 ) && ( stretchlimit != 0 ) ) || ( ( 
     pdffontstretch [f ]!= 0 ) && ( pdffontexpandratio [pdffontstretch [f ]
     ]!= stretchlimit ) ) ) 
-    pdferror ( 1050 , 1098 ) ;
+    pdferror ( 1054 , 1102 ) ;
     if ( ( ( pdffontshrink [f ]== 0 ) && ( shrinklimit != 0 ) ) || ( ( 
     pdffontshrink [f ]!= 0 ) && ( - (integer) pdffontexpandratio [
     pdffontshrink [f ]]!= shrinklimit ) ) ) 
-    pdferror ( 1050 , 1099 ) ;
+    pdferror ( 1054 , 1103 ) ;
     if ( pdffontautoexpand [f ]!= autoexpand ) 
-    pdferror ( 1050 , 1100 ) ;
+    pdferror ( 1054 , 1104 ) ;
   } 
   else {
       
     if ( ( pdffonttype [f ]!= 0 ) && ( pdffonttype [f ]!= 1 ) ) 
-    pdfwarning ( 1050 , 1101 , true , true ) ;
+    pdfwarning ( 1054 , 1105 , true , true ) ;
     setexpandparams ( f , autoexpand , stretchlimit , shrinklimit , fontstep , 
     0 ) ;
     if ( pdffonttype [f ]== 1 ) 
@@ -21211,8 +21310,8 @@ zletterspacefont ( halfword u , internalfontnumber f , integer e )
   integer vfz  ;
   integer vfalpha  ;
   unsigned char vfbeta  ;
-  k = readfontinfo ( u , fontname [f ], 345 , fontsize [f ]) ;
-  if ( scankeyword ( 1102 ) ) 
+  k = readfontinfo ( u , fontname [f ], 265 , fontsize [f ]) ;
+  if ( scankeyword ( 1106 ) ) 
   setnoligatures ( k ) ;
   nw = heightbase [k ]- widthbase [k ];
   if ( ( fontinfo [6 + parambase [k ]].cint == 0 ) && ( fontinfo [6 + 
@@ -21220,7 +21319,7 @@ zletterspacefont ( halfword u , internalfontnumber f , integer e )
   fontinfo [6 + parambase [k ]].cint = fontinfo [6 + parambase [f ]]
   .cint ;
   if ( fontinfo [6 + parambase [k ]].cint == 0 ) 
-  pdfwarning ( 1103 , 1104 , true , true ) ;
+  pdfwarning ( 1107 , 1108 , true , true ) ;
   {register integer for_end; i = 0 ;for_end = nw - 1 ; if ( i <= for_end) do 
     fontinfo [widthbase [k ]+ i ].cint = fontinfo [widthbase [k ]+ i ]
     .cint + roundxnoverd ( fontinfo [6 + parambase [k ]].cint , e , 1000 ) 
@@ -21237,7 +21336,7 @@ zletterspacefont ( halfword u , internalfontnumber f , integer e )
   if ( e > 0 ) 
   print ( 43 ) ;
   printint ( e ) ;
-  print ( 1105 ) ;
+  print ( 1109 ) ;
   selector = oldsetting ;
   fontname [k ]= makestring () ;
   allocvffnts () ;
@@ -21371,14 +21470,14 @@ znewletterspacedfont ( smallnumber a )
   else if ( u >= 257 ) {
       
     if ( u == 513 ) 
-    t = 1106 ;
+    t = 1110 ;
     else t = u - 257 ;
   } 
   else {
       
     oldsetting = selector ;
     selector = 21 ;
-    print ( 1106 ) ;
+    print ( 1110 ) ;
     print ( u - 1 ) ;
     selector = oldsetting ;
     {
@@ -21432,15 +21531,15 @@ zcopyfontinfo ( internalfontnumber f )
   halfword lf, bc, ec, i  ;
   internalfontnumber k  ;
   if ( ( pdffontexpandratio [f ]!= 0 ) || ( pdffontstep [f ]!= 0 ) ) 
-  pdferror ( 1107 , 1108 ) ;
+  pdferror ( 1111 , 1112 ) ;
   if ( isletterspacedfont ( f ) ) 
-  pdferror ( 1107 , 1109 ) ;
+  pdferror ( 1111 , 1113 ) ;
   k = fontptr + 1 ;
   incr ( fontptr ) ;
   if ( ( fontptr >= fontmax ) ) 
-  overflow ( 1089 , fontmax ) ;
+  overflow ( 1093 , fontmax ) ;
   fontname [k ]= fontname [f ];
-  fontarea [k ]= 1086 ;
+  fontarea [k ]= 1090 ;
   hyphenchar [k ]= hyphenchar [f ];
   skewchar [k ]= skewchar [f ];
   fontbchar [k ]= fontbchar [f ];
@@ -21470,7 +21569,7 @@ zcopyfontinfo ( internalfontnumber f )
   parambase [k ]= extenbase [k ]+ ( parambase [f ]- extenbase [f ]) ;
   lf = ( parambase [f ]- charbase [f ]) + fontparams [f ]+ 1 ;
   if ( ( fmemptr + lf >= fontmemsize ) ) 
-  overflow ( 1090 , fontmemsize ) ;
+  overflow ( 1094 , fontmemsize ) ;
   {register integer for_end; i = 0 ;for_end = lf - 1 ; if ( i <= for_end) do 
     fontinfo [charbase [k ]+ bc + i ]= fontinfo [charbase [f ]+ bc + i 
     ];
@@ -21494,14 +21593,14 @@ zmakefontcopy ( smallnumber a )
   else if ( u >= 257 ) {
       
     if ( u == 513 ) 
-    t = 1106 ;
+    t = 1110 ;
     else t = u - 257 ;
   } 
   else {
       
     oldsetting = selector ;
     selector = 21 ;
-    print ( 1106 ) ;
+    print ( 1110 ) ;
     print ( u - 1 ) ;
     selector = oldsetting ;
     {
@@ -21535,7 +21634,7 @@ zvferror ( strnumber filename , strnumber msg )
   oldsetting = selector ;
   selector = 21 ;
   print ( filename ) ;
-  print ( 1110 ) ;
+  print ( 1114 ) ;
   s = makestring () ;
   selector = oldsetting ;
   pdferror ( s , msg ) ;
@@ -21547,7 +21646,7 @@ vfbyte ( void )
   integer i  ;
   i = getc ( vffile ) ;
   if ( i < 0 ) 
-  pdferror ( 1111 , 1112 ) ;
+  pdferror ( 1115 , 1116 ) ;
   Result = i ;
   return Result ;
 } 
@@ -21577,7 +21676,7 @@ zvfreadunsigned ( integer k )
   pdfassert ( ( k > 0 ) && ( k <= 4 ) ) ;
   i = vfbyte () ;
   if ( ( k == 4 ) && ( i >= 128 ) ) 
-  vferror ( fontname [f ], 1042 ) ;
+  vferror ( fontname [f ], 1046 ) ;
   decr ( k ) ;
   while ( k > 0 ) {
       
@@ -21593,11 +21692,11 @@ s )
 {
   vflocalfontwarning_regmem 
   printnl ( s ) ;
-  print ( 1113 ) ;
+  print ( 1117 ) ;
   print ( fontname [k ]) ;
-  print ( 1114 ) ;
+  print ( 1118 ) ;
   print ( fontname [f ]) ;
-  print ( 1115 ) ;
+  print ( 1119 ) ;
 } 
 internalfontnumber 
 zvfdeffont ( internalfontnumber f ) 
@@ -21638,7 +21737,7 @@ zvfdeffont ( internalfontnumber f )
   s = makestring () ;
   k = tfmlookup ( s , fs ) ;
   if ( k == 0 ) 
-  k = readfontinfo ( 513 , s , 345 , fs ) ;
+  k = readfontinfo ( 513 , s , 265 , fs ) ;
   if ( k != 0 ) 
   {
     if ( ( ( cs .b0 != 0 ) || ( cs .b1 != 0 ) || ( cs .b2 != 0 ) || ( cs .b3 
@@ -21646,9 +21745,9 @@ zvfdeffont ( internalfontnumber f )
     || ( fontcheck [k ].b2 != 0 ) || ( fontcheck [k ].b3 != 0 ) ) && ( ( 
     cs .b0 != fontcheck [k ].b0 ) || ( cs .b1 != fontcheck [k ].b1 ) || ( 
     cs .b2 != fontcheck [k ].b2 ) || ( cs .b3 != fontcheck [k ].b3 ) ) ) 
-    vflocalfontwarning ( f , k , 1116 ) ;
+    vflocalfontwarning ( f , k , 1120 ) ;
     if ( ds != fontdsize [k ]) 
-    vflocalfontwarning ( f , k , 1117 ) ;
+    vflocalfontwarning ( f , k , 1121 ) ;
     if ( ( pdffontstep [f ]!= 0 ) ) 
     setexpandparams ( k , pdffontautoexpand [f ], pdffontexpandratio [
     pdffontstretch [f ]], - (integer) pdffontexpandratio [pdffontshrink [
@@ -21671,13 +21770,13 @@ zdovf ( internalfontnumber f )
   if ( autoexpandvf ( f ) ) 
   return ;
   stacklevel = 0 ;
-  packfilename ( fontname [f ], 345 , 1110 ) ;
+  packfilename ( fontname [f ], 265 , 1114 ) ;
   if ( ! vfbopenin ( vffile ) ) 
   return ;
   if ( vfbyte () != 247 ) 
-  vferror ( fontname [f ], 1119 ) ;
+  vferror ( fontname [f ], 1123 ) ;
   if ( vfbyte () != 202 ) 
-  vferror ( fontname [f ], 1120 ) ;
+  vferror ( fontname [f ], 1124 ) ;
   cmdlength = vfbyte () ;
   {register integer for_end; k = 1 ;for_end = cmdlength ; if ( k <= for_end) 
   do 
@@ -21697,15 +21796,15 @@ zdovf ( internalfontnumber f )
   .qqqq .b1 != fontcheck [f ].b1 ) || ( tmpw .qqqq .b2 != fontcheck [f ]
   .b2 ) || ( tmpw .qqqq .b3 != fontcheck [f ].b3 ) ) ) 
   {
-    printnl ( 1121 ) ;
+    printnl ( 1125 ) ;
     print ( fontname [f ]) ;
-    print ( 1122 ) ;
+    print ( 1126 ) ;
   } 
   if ( vfreadsigned ( 4 ) / 16 != fontdsize [f ]) 
   {
-    printnl ( 1123 ) ;
+    printnl ( 1127 ) ;
     print ( fontname [f ]) ;
-    print ( 1122 ) ;
+    print ( 1126 ) ;
   } 
   fflush ( stdout ) ;
   cmd = vfbyte () ;
@@ -21729,7 +21828,7 @@ zdovf ( internalfontnumber f )
       cc = vfreadunsigned ( 4 ) ;
       if ( ! ( ( fontbc [f ]<= cc ) && ( cc <= fontec [f ]) && ( fontinfo 
       [charbase [f ]+ cc ].qqqq .b0 > 0 ) ) ) 
-      vferror ( fontname [f ], 1124 ) ;
+      vferror ( fontname [f ], 1128 ) ;
       tfmwidth = storescaledf ( vfreadsigned ( 4 ) , fontsize [f ]) ;
     } 
     else {
@@ -21738,19 +21837,19 @@ zdovf ( internalfontnumber f )
       cc = vfbyte () ;
       if ( ! ( ( fontbc [f ]<= cc ) && ( cc <= fontec [f ]) && ( fontinfo 
       [charbase [f ]+ cc ].qqqq .b0 > 0 ) ) ) 
-      vferror ( fontname [f ], 1124 ) ;
+      vferror ( fontname [f ], 1128 ) ;
       tfmwidth = storescaledf ( vfreadunsigned ( 3 ) , fontsize [f ]) ;
     } 
     if ( packetlength < 0 ) 
-    vferror ( fontname [f ], 1125 ) ;
+    vferror ( fontname [f ], 1129 ) ;
     if ( packetlength > 10000 ) 
-    vferror ( fontname [f ], 1126 ) ;
+    vferror ( fontname [f ], 1130 ) ;
     if ( tfmwidth != fontinfo [widthbase [f ]+ fontinfo [charbase [f ]+ 
     effectivechar ( true , f , cc ) ].qqqq .b0 ].cint ) 
     {
-      printnl ( 1127 ) ;
+      printnl ( 1131 ) ;
       print ( fontname [f ]) ;
-      print ( 1122 ) ;
+      print ( 1126 ) ;
     } 
     {
       if ( poolptr + packetlength > poolsize ) 
@@ -21772,12 +21871,12 @@ zdovf ( internalfontnumber f )
 	} 
 	else k = cmd - 171 ;
 	if ( k >= 256 ) 
-	vferror ( fontname [f ], 1130 ) ;
+	vferror ( fontname [f ], 1134 ) ;
 	n = 0 ;
 	while ( ( n < vflocalfontnum [f ]) && ( vfefnts [vfdefaultfont [f 
 	]+ n ]!= k ) ) incr ( n ) ;
 	if ( n == vflocalfontnum [f ]) 
-	vferror ( fontname [f ], 1131 ) ;
+	vferror ( fontname [f ], 1135 ) ;
 	if ( k <= 63 ) 
 	{
 	  strpool [poolptr ]= 171 + k ;
@@ -21858,9 +21957,9 @@ zdovf ( internalfontnumber f )
 	  cmdlength = vfreadunsigned ( cmd - 238 ) ;
 	  packetlength = packetlength - ( cmd - 238 ) ;
 	  if ( cmdlength > 10000 ) 
-	  vferror ( fontname [f ], 1126 ) ;
+	  vferror ( fontname [f ], 1130 ) ;
 	  if ( cmdlength < 0 ) 
-	  vferror ( fontname [f ], 1132 ) ;
+	  vferror ( fontname [f ], 1136 ) ;
 	  {
 	    strpool [poolptr ]= 239 ;
 	    incr ( poolptr ) ;
@@ -21886,16 +21985,16 @@ zdovf ( internalfontnumber f )
 	  if ( cmd == 141 ) {
 	      
 	    if ( stacklevel == vfstacksize ) 
-	    overflow ( 1133 , vfstacksize ) ;
+	    overflow ( 1137 , vfstacksize ) ;
 	    else incr ( stacklevel ) ;
 	  } 
 	  else if ( stacklevel == 0 ) 
-	  vferror ( fontname [f ], 1134 ) ;
+	  vferror ( fontname [f ], 1138 ) ;
 	  else decr ( stacklevel ) ;
 	} 
 	break ;
 	default: 
-	vferror ( fontname [f ], 1135 ) ;
+	vferror ( fontname [f ], 1139 ) ;
 	break ;
       } 
       if ( cmd != 138 ) 
@@ -21914,16 +22013,16 @@ zdovf ( internalfontnumber f )
       } 
     } 
     if ( stacklevel != 0 ) 
-    vferror ( fontname [f ], 1128 ) ;
+    vferror ( fontname [f ], 1132 ) ;
     if ( packetlength != 0 ) 
-    vferror ( fontname [f ], 1129 ) ;
+    vferror ( fontname [f ], 1133 ) ;
     s = makestring () ;
     storepacket ( f , cc , s ) ;
     flushstr ( s ) ;
     cmd = vfbyte () ;
   } 
   if ( cmd != 248 ) 
-  vferror ( fontname [f ], 1118 ) ;
+  vferror ( fontname [f ], 1122 ) ;
   bclose ( vffile ) ;
   pdffonttype [f ]= 1 ;
 } 
@@ -21935,7 +22034,7 @@ pdfcheckvfcurval ( void )
   f = curval ;
   dovf ( f ) ;
   if ( pdffonttype [f ]== 1 ) 
-  pdferror ( 603 , 1136 ) ;
+  pdferror ( 605 , 1140 ) ;
 } 
 boolean 
 zautoexpandvf ( internalfontnumber f ) 
@@ -21996,7 +22095,7 @@ zpacketreadunsigned ( integer k )
   pdfassert ( ( k > 0 ) && ( k <= 4 ) ) ;
   i = packetbyte () ;
   if ( ( k == 4 ) && ( i >= 128 ) ) 
-  vferror ( fontname [f ], 1042 ) ;
+  vferror ( fontname [f ], 1046 ) ;
   decr ( k ) ;
   while ( k > 0 ) {
       
@@ -22025,7 +22124,7 @@ zdovfpacket ( internalfontnumber vff , eightbits c )
   strnumber s  ;
   incr ( vfcurs ) ;
   if ( vfcurs > vfmaxrecursion ) 
-  overflow ( 1137 , vfmaxrecursion ) ;
+  overflow ( 1141 , vfmaxrecursion ) ;
   savecurv = curv ;
   savecurh = curh ;
   pushpacketstate () ;
@@ -22059,7 +22158,7 @@ zdovfpacket ( internalfontnumber vff , eightbits c )
       while ( ( n < vflocalfontnum [vff ]) && ( vfefnts [vfdefaultfont [
       vff ]+ n ]!= k ) ) incr ( n ) ;
       if ( ( n == vflocalfontnum [vff ]) ) 
-      pdferror ( 1111 , 1138 ) ;
+      pdferror ( 1115 , 1142 ) ;
       else f = vfifnts [vfdefaultfont [vff ]+ n ];
     } 
     else switch ( cmd ) 
@@ -22207,7 +22306,7 @@ zdovfpacket ( internalfontnumber vff , eightbits c )
       } 
       break ;
       default: 
-      pdferror ( 1111 , 1139 ) ;
+      pdferror ( 1115 , 1143 ) ;
       break ;
     } 
     goto lab22 ;
@@ -22222,7 +22321,7 @@ zdovfpacket ( internalfontnumber vff , eightbits c )
 	  
 	pdfbeginstring ( f ) ;
 	pdfprintchar ( f , c ) ;
-	advcharwidth ( f , c , 4 ) ;
+	advcharwidth ( f , c ) ;
       } 
     } 
     else charwarning ( f , c ) ;
@@ -22272,12 +22371,12 @@ zpdfoutliteral ( halfword p )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 711 ) ;
+	print ( 713 ) ;
       } 
       {
 	helpptr = 2 ;
-	helpline [1 ]= 1937 ;
-	helpline [0 ]= 1435 ;
+	helpline [1 ]= 1943 ;
+	helpline [0 ]= 1440 ;
       } 
       error () ;
       do {
@@ -22310,11 +22409,11 @@ zpdfoutcolorstack ( halfword p )
   stackno = mem [p + 1 ].hh .v.RH ;
   if ( stackno >= colorstackused () ) 
   {
-    printnl ( 345 ) ;
-    print ( 1140 ) ;
+    printnl ( 265 ) ;
+    print ( 1144 ) ;
     printint ( stackno ) ;
-    print ( 1141 ) ;
-    printnl ( 345 ) ;
+    print ( 1145 ) ;
+    printnl ( 265 ) ;
     return ;
   } 
   switch ( cmd ) 
@@ -22343,7 +22442,7 @@ zpdfoutcolorstack ( halfword p )
     literalmode = colorstackcurrent ( stackno ) ;
     break ;
     default: 
-    confusion ( 1142 ) ;
+    confusion ( 1146 ) ;
     break ;
   } 
   if ( ( poolptr - strstart [strptr ]) > 0 ) 
@@ -22436,7 +22535,7 @@ zpdfoutsetmatrix ( halfword p )
   } 
   else {
       
-    pdferror ( 1143 , 1144 ) ;
+    pdferror ( 1147 , 1148 ) ;
   } 
   flushstr ( s ) ;
 } 
@@ -22491,12 +22590,12 @@ zpdfspecial ( halfword p )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 711 ) ;
+	print ( 713 ) ;
       } 
       {
 	helpptr = 2 ;
-	helpline [1 ]= 1937 ;
-	helpline [0 ]= 1435 ;
+	helpline [1 ]= 1943 ;
+	helpline [0 ]= 1440 ;
       } 
       error () ;
       do {
@@ -22541,7 +22640,7 @@ zpdfprinttoksln ( halfword p )
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -22582,17 +22681,17 @@ zpdfwriteobj ( integer n )
   if ( pdfmem [objtab [n ].int4 + 3 ]> 0 ) 
   {
     curname = s ;
-    curarea = 345 ;
-    curext = 345 ;
+    curarea = 265 ;
+    curext = 265 ;
     packfilename ( curname , curarea , curext ) ;
     if ( ! texbopenin ( f ) ) 
     {
       printnl ( 264 ) ;
       print ( s ) ;
-      print ( 1175 ) ;
-      pdferror ( 1176 , 1177 ) ;
+      print ( 1179 ) ;
+      pdferror ( 1180 , 1181 ) ;
     } 
-    print ( 1080 ) ;
+    print ( 1084 ) ;
     print ( s ) ;
     if ( ! eof ( f ) ) 
     {
@@ -22602,7 +22701,7 @@ zpdfwriteobj ( integer n )
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -22618,7 +22717,7 @@ zpdfwriteobj ( integer n )
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -22628,7 +22727,7 @@ zpdfwriteobj ( integer n )
 	} 
       } 
     } 
-    print ( 1032 ) ;
+    print ( 1036 ) ;
     bclose ( f ) ;
   } 
   else if ( pdfmem [objtab [n ].int4 + 1 ]> 0 ) 
@@ -22641,7 +22740,7 @@ zpdfwriteobj ( integer n )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -22663,7 +22762,7 @@ zflushwhatsitnode ( halfword p , smallnumber s )
   mem [p ].hh.b0 = 8 ;
   mem [p ].hh.b1 = s ;
   if ( mem [p ].hh .v.RH != -268435455L ) 
-  pdferror ( 1178 , 1179 ) ;
+  pdferror ( 1182 , 1183 ) ;
   flushnodelist ( p ) ;
 } 
 void 
@@ -22693,7 +22792,7 @@ zpdfprintrectspec ( halfword r )
       if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfosgetosbuf ( 1 ) ;
       else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-      overflow ( 1015 , pdfopbufsize ) ;
+      overflow ( 1019 , pdfopbufsize ) ;
       else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfflush () ;
     } 
@@ -22708,7 +22807,7 @@ zpdfprintrectspec ( halfword r )
       if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfosgetosbuf ( 1 ) ;
       else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-      overflow ( 1015 , pdfopbufsize ) ;
+      overflow ( 1019 , pdfopbufsize ) ;
       else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfflush () ;
     } 
@@ -22723,7 +22822,7 @@ zpdfprintrectspec ( halfword r )
       if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfosgetosbuf ( 1 ) ;
       else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-      overflow ( 1015 , pdfopbufsize ) ;
+      overflow ( 1019 , pdfopbufsize ) ;
       else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfflush () ;
     } 
@@ -22740,18 +22839,18 @@ zwarndestdup ( integer id , smallnumber byname , strnumber s1 , strnumber s2 )
   warndestdup_regmem 
   if ( eqtb [29370 ].cint > 0 ) 
   return ;
-  pdfwarning ( s1 , 1856 , true , false ) ;
+  pdfwarning ( s1 , 1862 , true , false ) ;
   if ( byname > 0 ) 
   {
-    print ( 1840 ) ;
+    print ( 1846 ) ;
     printmark ( id ) ;
   } 
   else {
       
-    print ( 1205 ) ;
+    print ( 1209 ) ;
     printint ( id ) ;
   } 
-  print ( 1857 ) ;
+  print ( 1863 ) ;
   print ( s2 ) ;
   println () ;
   showcontext () ;
@@ -22767,10 +22866,10 @@ zwriteaction ( halfword p )
     pdfprinttoksln ( mem [p + 2 ].hh .v.LH ) ;
     return ;
   } 
-  pdfprint ( 1250 ) ;
+  pdfprint ( 1255 ) ;
   if ( mem [p + 1 ].hh .v.LH != -268435455L ) 
   {
-    pdfprint ( 1944 ) ;
+    pdfprint ( 1950 ) ;
     s = tokenstostring ( mem [p + 1 ].hh .v.LH ) ;
     if ( ( strpool [strstart [s ]]== 40 ) && ( strpool [strstart [s ]+ 
     ( strstart [s + 1 ]- strstart [s ]) - 1 ]== 41 ) ) 
@@ -22783,10 +22882,10 @@ zwriteaction ( halfword p )
     pdfprint ( 32 ) ;
     if ( mem [p + 1 ].hh .v.RH > 0 ) 
     {
-      pdfprint ( 1945 ) ;
+      pdfprint ( 1951 ) ;
       if ( mem [p + 1 ].hh .v.RH == 1 ) 
-      pdfprint ( 1946 ) ;
-      else pdfprint ( 1947 ) ;
+      pdfprint ( 1952 ) ;
+      else pdfprint ( 1953 ) ;
     } 
   } 
   switch ( mem [p ].hh.b0 ) 
@@ -22794,13 +22893,13 @@ zwriteaction ( halfword p )
     {
       if ( mem [p + 1 ].hh .v.LH == -268435455L ) 
       {
-	pdfprint ( 1948 ) ;
+	pdfprint ( 1954 ) ;
 	pdfprintint ( getobj ( 1 , mem [p ].hh .v.RH , false ) ) ;
-	pdfprint ( 1084 ) ;
+	pdfprint ( 1088 ) ;
       } 
       else {
 	  
-	pdfprint ( 1949 ) ;
+	pdfprint ( 1955 ) ;
 	pdfprintint ( mem [p ].hh .v.RH - 1 ) ;
       } 
       {
@@ -22808,7 +22907,7 @@ zwriteaction ( halfword p )
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -22824,7 +22923,7 @@ zwriteaction ( halfword p )
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -22839,10 +22938,10 @@ zwriteaction ( halfword p )
     {
       if ( mem [p + 1 ].hh .v.LH == -268435455L ) 
       {
-	pdfprint ( 1950 ) ;
+	pdfprint ( 1956 ) ;
 	d = getobj ( 5 , mem [p ].hh .v.RH , mem [p ].hh.b1 % 2 ) ;
       } 
-      else pdfprint ( 1951 ) ;
+      else pdfprint ( 1957 ) ;
       if ( ( mem [p ].hh.b1 % 2 ) == 1 ) 
       {
 	pdfstrentry ( 68 , tokenstostring ( mem [p ].hh .v.RH ) ) ;
@@ -22850,12 +22949,12 @@ zwriteaction ( halfword p )
       } 
       else if ( mem [p + 1 ].hh .v.LH == -268435455L ) 
       pdfindirect ( 68 , d ) ;
-      else pdferror ( 1870 , 1845 ) ;
+      else pdferror ( 1876 , 1851 ) ;
     } 
     break ;
   case 2 : 
     {
-      pdfprint ( 1952 ) ;
+      pdfprint ( 1958 ) ;
       if ( mem [p + 1 ].hh .v.LH == -268435455L ) 
       d = getobj ( 10 , mem [p ].hh .v.RH , mem [p ].hh.b1 % 2 ) ;
       if ( ( mem [p ].hh.b1 % 2 ) == 1 ) 
@@ -22876,7 +22975,7 @@ zwriteaction ( halfword p )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -22886,23 +22985,23 @@ zwriteaction ( halfword p )
       } 
     } 
     if ( mem [p + 1 ].hh .v.LH == -268435455L ) 
-    pdfindirect ( 1953 , getobj ( 6 , mem [p + 3 ].hh .v.RH , ( mem [p ]
+    pdfindirect ( 1959 , getobj ( 6 , mem [p + 3 ].hh .v.RH , ( mem [p ]
     .hh.b1 / 2 ) % 2 ) ) ;
     else {
 	
-      pdfprint ( 1954 ) ;
+      pdfprint ( 1960 ) ;
       pdfprint ( tokenstostring ( mem [p + 3 ].hh .v.RH ) ) ;
       flushstr ( lasttokensstring ) ;
     } 
   } 
   {
-    pdfprint ( 1251 ) ;
+    pdfprint ( 1256 ) ;
     {
       {
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -22947,7 +23046,7 @@ zdoannot ( halfword p , halfword parentbox , scaled x , scaled y )
 {
   doannot_regmem 
   if ( ! isshippingpage ) 
-  pdferror ( 1870 , 1955 ) ;
+  pdferror ( 1876 , 1961 ) ;
   if ( doingleaders ) 
   return ;
   if ( ( objtab [mem [p + 6 ].cint ].int2 > -2 ) ) 
@@ -22967,7 +23066,7 @@ zpushlinklevel ( halfword p )
 {
   pushlinklevel_regmem 
   if ( pdflinkstackptr >= pdfmaxlinklevel ) 
-  overflow ( 1956 , pdfmaxlinklevel ) ;
+  overflow ( 1962 , pdfmaxlinklevel ) ;
   pdfassert ( ( mem [p ].hh.b0 == 8 ) && ( mem [p ].hh.b1 == 16 ) ) ;
   incr ( pdflinkstackptr ) ;
   pdflinkstack [pdflinkstackptr ].nestinglevel = curs ;
@@ -22987,13 +23086,13 @@ zdolink ( halfword p , halfword parentbox , scaled x , scaled y )
 {
   dolink_regmem 
   if ( ! isshippingpage ) 
-  pdferror ( 1870 , 1957 ) ;
+  pdferror ( 1876 , 1963 ) ;
   pdfassert ( mem [parentbox ].hh.b0 == 0 ) ;
   if ( ( objtab [mem [p + 6 ].cint ].int2 > -2 ) ) 
   mem [p + 6 ].cint = pdfnewobjnum () ;
   pushlinklevel ( p ) ;
   setrectdimens ( p , parentbox , x , y , mem [p + 1 ].cint , mem [p + 2 ]
-  .cint , mem [p + 3 ].cint , eqtb [29925 ].cint ) ;
+  .cint , mem [p + 3 ].cint , eqtb [29927 ].cint ) ;
   objtab [mem [p + 6 ].cint ].int4 = p ;
   {
     pdfappendlistarg = mem [p + 6 ].cint ;
@@ -23008,22 +23107,22 @@ endlink ( void )
   endlink_regmem 
   halfword p  ;
   if ( pdflinkstackptr < 1 ) 
-  pdferror ( 1870 , 1958 ) ;
+  pdferror ( 1876 , 1964 ) ;
   if ( pdflinkstack [pdflinkstackptr ].nestinglevel != curs ) 
-  pdfwarning ( 0 , 1959 , true , true ) ;
+  pdfwarning ( 0 , 1965 , true , true ) ;
   if ( ( mem [pdflinkstack [pdflinkstackptr ].linknode + 1 ].cint == 
   -1073741824L ) ) 
   {
     p = pdflinkstack [pdflinkstackptr ].reflinknode ;
     if ( isshippingpage && matrixused () ) 
     {
-      matrixrecalculate ( curh + eqtb [29925 ].cint ) ;
-      mem [p + 1 ].cint = getllx () - eqtb [29925 ].cint ;
-      mem [p + 2 ].cint = curpageheight - getury () - eqtb [29925 ].cint ;
-      mem [p + 3 ].cint = geturx () + eqtb [29925 ].cint ;
-      mem [p + 4 ].cint = curpageheight - getlly () + eqtb [29925 ].cint ;
+      matrixrecalculate ( curh + eqtb [29927 ].cint ) ;
+      mem [p + 1 ].cint = getllx () - eqtb [29927 ].cint ;
+      mem [p + 2 ].cint = curpageheight - getury () - eqtb [29927 ].cint ;
+      mem [p + 3 ].cint = geturx () + eqtb [29927 ].cint ;
+      mem [p + 4 ].cint = curpageheight - getlly () + eqtb [29927 ].cint ;
     } 
-    else mem [p + 3 ].cint = curh + eqtb [29925 ].cint ;
+    else mem [p + 3 ].cint = curh + eqtb [29927 ].cint ;
   } 
   poplinklevel () ;
 } 
@@ -23038,7 +23137,7 @@ zappendlink ( halfword parentbox , scaled x , scaled y , smallnumber i )
   mem [p ].hh .v.LH = 268435455L ;
   mem [p ].hh .v.RH = -268435455L ;
   setrectdimens ( p , parentbox , x , y , mem [p + 1 ].cint , mem [p + 2 ]
-  .cint , mem [p + 3 ].cint , eqtb [29925 ].cint ) ;
+  .cint , mem [p + 3 ].cint , eqtb [29927 ].cint ) ;
   pdfcreateobj ( 0 , 0 ) ;
   objtab [objptr ].int4 = p ;
   {
@@ -23052,7 +23151,7 @@ zappendbead ( halfword p )
   appendbead_regmem 
   integer a, b, c, t  ;
   if ( ! isshippingpage ) 
-  pdferror ( 1870 , 1960 ) ;
+  pdferror ( 1876 , 1966 ) ;
   t = getobj ( 10 , mem [p + 5 ].hh .v.RH , mem [p + 5 ].hh.b1 ) ;
   b = pdfnewobjnum () ;
   objtab [b ].int4 = pdfgetmem ( 5 ) ;
@@ -23100,7 +23199,7 @@ zdothread ( halfword p , halfword parentbox , scaled x , scaled y )
     pdfthreadlevel = curs ;
   } 
   setrectdimens ( p , parentbox , x , y , mem [p + 1 ].cint , mem [p + 2 ]
-  .cint , mem [p + 3 ].cint , eqtb [29927 ].cint ) ;
+  .cint , mem [p + 3 ].cint , eqtb [29929 ].cint ) ;
   appendbead ( p ) ;
   lastthread = p ;
 } 
@@ -23124,7 +23223,7 @@ zappendthread ( halfword parentbox , scaled x , scaled y )
   } 
   else mem [p + 5 ].hh.b1 = 0 ;
   setrectdimens ( p , parentbox , x , y , mem [p + 1 ].cint , mem [p + 2 ]
-  .cint , mem [p + 3 ].cint , eqtb [29927 ].cint ) ;
+  .cint , mem [p + 3 ].cint , eqtb [29929 ].cint ) ;
   appendbead ( p ) ;
   lastthread = p ;
 } 
@@ -23133,9 +23232,9 @@ endthread ( void )
 {
   endthread_regmem 
   if ( pdfthreadlevel != curs ) 
-  pdferror ( 1870 , 1961 ) ;
+  pdferror ( 1876 , 1967 ) ;
   if ( ( pdfthreaddp == -1073741824L ) && ( lastthread != -268435455L ) ) 
-  mem [lastthread + 4 ].cint = curv + eqtb [29927 ].cint ;
+  mem [lastthread + 4 ].cint = curv + eqtb [29929 ].cint ;
   if ( pdflastthreadnamedid ) 
   deletetokenref ( pdflastthreadid ) ;
   lastthread = -268435455L ;
@@ -23174,7 +23273,7 @@ zdodest ( halfword p , halfword parentbox , scaled x , scaled y )
   dodest_regmem 
   integer k  ;
   if ( ! isshippingpage ) 
-  pdferror ( 1870 , 1962 ) ;
+  pdferror ( 1876 , 1968 ) ;
   if ( doingleaders ) 
   return ;
   if ( mem [p + 6 ].hh .v.RH == -268435455L ) 
@@ -23182,7 +23281,7 @@ zdodest ( halfword p , halfword parentbox , scaled x , scaled y )
   else k = getobj ( 6 , mem [p + 5 ].hh .v.RH , mem [p + 5 ].hh.b1 ) ;
   if ( objtab [k ].int4 != -268435455L ) 
   {
-    warndestdup ( mem [p + 5 ].hh .v.RH , mem [p + 5 ].hh.b1 , 1870 , 1871 
+    warndestdup ( mem [p + 5 ].hh .v.RH , mem [p + 5 ].hh.b1 , 1876 , 1877 
     ) ;
     return ;
   } 
@@ -23195,7 +23294,7 @@ zdodest ( halfword p , halfword parentbox , scaled x , scaled y )
   {case 0 : 
     if ( matrixused () ) 
     setrectdimens ( p , parentbox , x , y , mem [p + 1 ].cint , mem [p + 2 
-    ].cint , mem [p + 3 ].cint , eqtb [29926 ].cint ) ;
+    ].cint , mem [p + 3 ].cint , eqtb [29928 ].cint ) ;
     else {
 	
       mem [p + 1 ].cint = curh ;
@@ -23206,14 +23305,14 @@ zdodest ( halfword p , halfword parentbox , scaled x , scaled y )
   case 5 : 
     if ( matrixused () ) 
     setrectdimens ( p , parentbox , x , y , mem [p + 1 ].cint , mem [p + 2 
-    ].cint , mem [p + 3 ].cint , eqtb [29926 ].cint ) ;
+    ].cint , mem [p + 3 ].cint , eqtb [29928 ].cint ) ;
     else mem [p + 2 ].cint = curv ;
     break ;
   case 3 : 
   case 6 : 
     if ( matrixused () ) 
     setrectdimens ( p , parentbox , x , y , mem [p + 1 ].cint , mem [p + 2 
-    ].cint , mem [p + 3 ].cint , eqtb [29926 ].cint ) ;
+    ].cint , mem [p + 3 ].cint , eqtb [29928 ].cint ) ;
     else mem [p + 1 ].cint = curh ;
     break ;
   case 1 : 
@@ -23222,7 +23321,7 @@ zdodest ( halfword p , halfword parentbox , scaled x , scaled y )
     break ;
   case 7 : 
     setrectdimens ( p , parentbox , x , y , mem [p + 1 ].cint , mem [p + 2 
-    ].cint , mem [p + 3 ].cint , eqtb [29926 ].cint ) ;
+    ].cint , mem [p + 3 ].cint , eqtb [29928 ].cint ) ;
     break ;
   } 
 } 
@@ -23238,7 +23337,7 @@ zoutform ( halfword p )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -23255,14 +23354,14 @@ zoutform ( halfword p )
     pdfxformlist = appendptr ( pdfxformlist , pdfappendlistarg ) ;
   } 
   curv = curv + pdfmem [objtab [mem [p + 4 ].hh .v.LH ].int4 + 2 ];
-  pdfprint ( 1043 ) ;
+  pdfprint ( 1047 ) ;
   pdfprintbp ( ( ( curh ) - pdforiginh ) ) ;
   {
     {
       if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfosgetosbuf ( 1 ) ;
       else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-      overflow ( 1015 , pdfopbufsize ) ;
+      overflow ( 1019 , pdfopbufsize ) ;
       else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfflush () ;
     } 
@@ -23273,13 +23372,13 @@ zoutform ( halfword p )
   } 
   pdfprintbp ( ( pdforiginv - ( curv ) ) ) ;
   {
-    pdfprint ( 1044 ) ;
+    pdfprint ( 1048 ) ;
     {
       {
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -23289,18 +23388,18 @@ zoutform ( halfword p )
       } 
     } 
   } 
-  pdfprint ( 1159 ) ;
+  pdfprint ( 1163 ) ;
   pdfprintint ( objtab [mem [p + 4 ].hh .v.LH ].int0 ) ;
   if ( pdfresnameprefix != 0 ) 
   pdfprint ( pdfresnameprefix ) ;
   {
-    pdfprint ( 1963 ) ;
+    pdfprint ( 1969 ) ;
     {
       {
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -23317,7 +23416,7 @@ zoutform ( halfword p )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -23353,7 +23452,7 @@ zoutimage ( halfword p )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -23379,7 +23478,7 @@ zoutimage ( halfword p )
     } 
     pdfprintreal ( extxnoverd ( mem [p + 1 ].cint , tenpow [6 ], 
     onehundredbp ) , 4 ) ;
-    pdfprint ( 1154 ) ;
+    pdfprint ( 1158 ) ;
     pdfprintreal ( extxnoverd ( mem [p + 2 ].cint + mem [p + 3 ].cint , 
     tenpow [6 ], onehundredbp ) , 4 ) ;
     {
@@ -23387,7 +23486,7 @@ zoutimage ( halfword p )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -23402,7 +23501,7 @@ zoutimage ( halfword p )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -23427,7 +23526,7 @@ zoutimage ( halfword p )
     } 
     pdfprintreal ( extxnoverd ( mem [p + 1 ].cint , tenpow [6 ], imgw ) , 
     6 ) ;
-    pdfprint ( 1154 ) ;
+    pdfprint ( 1158 ) ;
     pdfprintreal ( extxnoverd ( mem [p + 2 ].cint + mem [p + 3 ].cint , 
     tenpow [6 ], imgh ) , 6 ) ;
     {
@@ -23435,7 +23534,7 @@ zoutimage ( halfword p )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -23451,7 +23550,7 @@ zoutimage ( halfword p )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -23464,13 +23563,13 @@ zoutimage ( halfword p )
     + mem [p + 3 ].cint , epdforigy ( image ) , imgh ) ) ;
   } 
   {
-    pdfprint ( 1044 ) ;
+    pdfprint ( 1048 ) ;
     {
       {
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -23480,18 +23579,18 @@ zoutimage ( halfword p )
       } 
     } 
   } 
-  pdfprint ( 1160 ) ;
+  pdfprint ( 1164 ) ;
   pdfprintint ( objtab [mem [p + 4 ].hh .v.LH ].int0 ) ;
   if ( pdfresnameprefix != 0 ) 
   pdfprint ( pdfresnameprefix ) ;
   {
-    pdfprint ( 1963 ) ;
+    pdfprint ( 1969 ) ;
     {
       {
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -23508,7 +23607,7 @@ zoutimage ( halfword p )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -23535,7 +23634,7 @@ zgapamount ( halfword p , scaled curpos )
   if ( mem [p ].hh.b1 == 37 ) 
   lastpos = pdfsnapyrefpos + snapunit * ( ( curpos - pdfsnapyrefpos ) / 
   snapunit ) ;
-  else pdferror ( 1964 , 1965 ) ;
+  else pdferror ( 1970 , 1971 ) ;
   nextpos = lastpos + snapunit ;
   g = 1073741823L ;
   g2 = 1073741823L ;
@@ -23571,7 +23670,7 @@ zgetvpos ( halfword p , halfword q , halfword b )
   while ( ( p != q ) && ( p != -268435455L ) ) {
       
     if ( ( p >= himemmin ) ) 
-    confusion ( 1974 ) ;
+    confusion ( 1980 ) ;
     else {
 	
       switch ( mem [p ].hh.b0 ) 
@@ -23641,7 +23740,7 @@ zdosnapycomp ( halfword p , halfword b )
   scaled tmpv, g, g2  ;
   if ( ! ( ! ( p >= himemmin ) && ( mem [p ].hh.b0 == 8 ) && ( mem [p ]
   .hh.b1 == 38 ) ) ) 
-  pdferror ( 1964 , 1975 ) ;
+  pdferror ( 1970 , 1981 ) ;
   q = p ;
   while ( ( q != -268435455L ) ) {
       
@@ -23757,7 +23856,7 @@ pdfhlistout ( void )
 	      
 	    pdfbeginstring ( f ) ;
 	    pdfprintchar ( f , c ) ;
-	    advcharwidth ( f , c , 4 ) ;
+	    advcharwidth ( f , c ) ;
 	  } 
 	} 
 	curh = curh + fontinfo [widthbase [f ]+ fontinfo [charbase [f ]+ 
@@ -23796,13 +23895,13 @@ pdfhlistout ( void )
 		} 
 	      } 
 	      begindiagnostic () ;
-	      printnl ( 2096 ) ;
+	      printnl ( 2103 ) ;
 	      print ( c ) ;
-	      print ( 1638 ) ;
+	      print ( 1643 ) ;
 	      print ( accentc ) ;
 	      print ( 32 ) ;
 	      print ( basec ) ;
-	      print ( 996 ) ;
+	      print ( 1000 ) ;
 	      slowprint ( fontname [f ]) ;
 	      printchar ( 33 ) ;
 	      enddiagnostic ( false ) ;
@@ -23811,10 +23910,10 @@ pdfhlistout ( void )
 	  } 
 	} 
 	begindiagnostic () ;
-	printnl ( 995 ) ;
-	print ( 2095 ) ;
+	printnl ( 999 ) ;
+	print ( 2102 ) ;
 	print ( c ) ;
-	print ( 996 ) ;
+	print ( 1000 ) ;
 	slowprint ( fontname [f ]) ;
 	printchar ( 33 ) ;
 	enddiagnostic ( false ) ;
@@ -23822,13 +23921,13 @@ pdfhlistout ( void )
 	lab40: if ( eqtb [29312 ].cint > 99 ) 
 	{
 	  begindiagnostic () ;
-	  printnl ( 2097 ) ;
+	  printnl ( 2104 ) ;
 	  print ( c ) ;
-	  print ( 1638 ) ;
+	  print ( 1643 ) ;
 	  print ( accentc ) ;
 	  print ( 32 ) ;
 	  print ( basec ) ;
-	  print ( 996 ) ;
+	  print ( 1000 ) ;
 	  slowprint ( fontname [f ]) ;
 	  printchar ( 46 ) ;
 	  enddiagnostic ( false ) ;
@@ -23857,7 +23956,7 @@ pdfhlistout ( void )
 		
 	      pdfbeginstring ( f ) ;
 	      pdfprintchar ( f , accentc ) ;
-	      advcharwidth ( f , accentc , 4 ) ;
+	      advcharwidth ( f , accentc ) ;
 	    } 
 	  } 
 	  curv = baseline ;
@@ -23873,7 +23972,7 @@ pdfhlistout ( void )
 		
 	      pdfbeginstring ( f ) ;
 	      pdfprintchar ( f , accentc ) ;
-	      advcharwidth ( f , accentc , 4 ) ;
+	      advcharwidth ( f , accentc ) ;
 	    } 
 	  } 
 	} 
@@ -23888,7 +23987,7 @@ pdfhlistout ( void )
 	      
 	    pdfbeginstring ( f ) ;
 	    pdfprintchar ( f , basec ) ;
-	    advcharwidth ( f , basec , 4 ) ;
+	    advcharwidth ( f , basec ) ;
 	  } 
 	} 
 	curh = curh + basewidth ;
@@ -23984,10 +24083,10 @@ pdfhlistout ( void )
 	dothread ( p , thisbox , leftedge , baseline ) ;
 	break ;
       case 21 : 
-	pdferror ( 1870 , 1986 ) ;
+	pdferror ( 1876 , 1992 ) ;
 	break ;
       case 22 : 
-	pdferror ( 1870 , 1987 ) ;
+	pdferror ( 1876 , 1993 ) ;
 	break ;
       case 23 : 
 	{
@@ -24321,7 +24420,7 @@ pdfvlistout ( void )
   while ( p != -268435455L ) {
       
     if ( ( p >= himemmin ) ) 
-    confusion ( 1145 ) ;
+    confusion ( 1149 ) ;
     else {
 	
       switch ( mem [p ].hh.b0 ) 
@@ -24401,10 +24500,10 @@ pdfvlistout ( void )
 	  .cint ) ;
 	  break ;
 	case 16 : 
-	  pdferror ( 1870 , 1984 ) ;
+	  pdferror ( 1876 , 1990 ) ;
 	  break ;
 	case 17 : 
-	  pdferror ( 1870 , 1985 ) ;
+	  pdferror ( 1876 , 1991 ) ;
 	  break ;
 	case 19 : 
 	  dodest ( p , thisbox , leftedge , topedge + mem [thisbox + 3 ]
@@ -24589,7 +24688,7 @@ fixpdfoutput ( void )
     fixedpdfoutputset = true ;
   } 
   else if ( fixedpdfoutput != eqtb [29342 ].cint ) 
-  pdferror ( 1025 , 1146 ) ;
+  pdferror ( 1029 , 1150 ) ;
   if ( fixedpdfoutputset ) 
   fixpdfdraftmode () ;
 } 
@@ -24603,7 +24702,7 @@ fixpdfdraftmode ( void )
     fixedpdfdraftmodeset = true ;
   } 
   else if ( fixedpdfdraftmode != eqtb [29368 ].cint ) 
-  pdferror ( 1025 , 1147 ) ;
+  pdferror ( 1029 , 1151 ) ;
   if ( fixedpdfdraftmodeset && fixedpdfdraftmode > 0 ) 
   {
     fixedpdfdraftmodeset = true ;
@@ -24652,9 +24751,9 @@ zpdfshipout ( halfword p , boolean shippingpage )
   integer pdflastresources  ;
   if ( eqtb [29311 ].cint > 0 ) 
   {
-    printnl ( 345 ) ;
+    printnl ( 265 ) ;
     println () ;
-    print ( 1000 ) ;
+    print ( 1004 ) ;
   } 
   if ( ! initpdfoutput ) 
   {
@@ -24694,10 +24793,10 @@ zpdfshipout ( halfword p , boolean shippingpage )
     printchar ( 32 ) ;
     printchar ( 91 ) ;
     j = 9 ;
-    while ( ( eqtb [29388 + j ].cint == 0 ) && ( j > 0 ) ) decr ( j ) ;
+    while ( ( eqtb [29390 + j ].cint == 0 ) && ( j > 0 ) ) decr ( j ) ;
     {register integer for_end; k = 0 ;for_end = j ; if ( k <= for_end) do 
       {
-	printint ( eqtb [29388 + k ].cint ) ;
+	printint ( eqtb [29390 + k ].cint ) ;
 	if ( k < j ) 
 	printchar ( 46 ) ;
       } 
@@ -24713,8 +24812,8 @@ zpdfshipout ( halfword p , boolean shippingpage )
     enddiagnostic ( true ) ;
   } 
   if ( ( mem [p + 3 ].cint > 1073741823L ) || ( mem [p + 2 ].cint > 
-  1073741823L ) || ( mem [p + 3 ].cint + mem [p + 2 ].cint + eqtb [29919 
-  ].cint > 1073741823L ) || ( mem [p + 1 ].cint + eqtb [29918 ].cint > 
+  1073741823L ) || ( mem [p + 3 ].cint + mem [p + 2 ].cint + eqtb [29921 
+  ].cint > 1073741823L ) || ( mem [p + 1 ].cint + eqtb [29920 ].cint > 
   1073741823L ) ) 
   {
     {
@@ -24723,28 +24822,28 @@ zpdfshipout ( halfword p , boolean shippingpage )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 1004 ) ;
+      print ( 1008 ) ;
     } 
     {
       helpptr = 2 ;
-      helpline [1 ]= 1005 ;
-      helpline [0 ]= 1006 ;
+      helpline [1 ]= 1009 ;
+      helpline [0 ]= 1010 ;
     } 
     error () ;
     if ( eqtb [29311 ].cint <= 0 ) 
     {
       begindiagnostic () ;
-      printnl ( 1007 ) ;
+      printnl ( 1011 ) ;
       showbox ( p ) ;
       enddiagnostic ( true ) ;
     } 
     goto lab30 ;
   } 
-  if ( mem [p + 3 ].cint + mem [p + 2 ].cint + eqtb [29919 ].cint > maxv 
+  if ( mem [p + 3 ].cint + mem [p + 2 ].cint + eqtb [29921 ].cint > maxv 
   ) 
-  maxv = mem [p + 3 ].cint + mem [p + 2 ].cint + eqtb [29919 ].cint ;
-  if ( mem [p + 1 ].cint + eqtb [29918 ].cint > maxh ) 
-  maxh = mem [p + 1 ].cint + eqtb [29918 ].cint ;
+  maxv = mem [p + 3 ].cint + mem [p + 2 ].cint + eqtb [29921 ].cint ;
+  if ( mem [p + 1 ].cint + eqtb [29920 ].cint > maxh ) 
+  maxh = mem [p + 1 ].cint + eqtb [29920 ].cint ;
   fixpdfoutput () ;
   tempptr = p ;
   preparemag () ;
@@ -24770,13 +24869,13 @@ zpdfshipout ( halfword p , boolean shippingpage )
   } 
   else {
       
-    curhoffset = eqtb [29921 ].cint + eqtb [29918 ].cint ;
-    curvoffset = eqtb [29922 ].cint + eqtb [29919 ].cint ;
-    if ( eqtb [29923 ].cint != 0 ) 
-    curpagewidth = eqtb [29923 ].cint ;
+    curhoffset = eqtb [29923 ].cint + eqtb [29920 ].cint ;
+    curvoffset = eqtb [29924 ].cint + eqtb [29921 ].cint ;
+    if ( eqtb [29925 ].cint != 0 ) 
+    curpagewidth = eqtb [29925 ].cint ;
     else curpagewidth = mem [p + 1 ].cint + 2 * curhoffset ;
-    if ( eqtb [29924 ].cint != 0 ) 
-    curpageheight = eqtb [29924 ].cint ;
+    if ( eqtb [29926 ].cint != 0 ) 
+    curpageheight = eqtb [29926 ].cint ;
     else curpageheight = mem [p + 3 ].cint + mem [p + 2 ].cint + 2 * 
     curvoffset ;
     pdflastpage = getobj ( 1 , totalpages + 1 , 0 ) ;
@@ -24796,13 +24895,13 @@ zpdfshipout ( halfword p , boolean shippingpage )
   if ( ! shippingpage ) 
   {
     {
-      pdfprint ( 1148 ) ;
+      pdfprint ( 1152 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -24813,13 +24912,13 @@ zpdfshipout ( halfword p , boolean shippingpage )
       } 
     } 
     {
-      pdfprint ( 1149 ) ;
+      pdfprint ( 1153 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -24837,15 +24936,15 @@ zpdfshipout ( halfword p , boolean shippingpage )
 	pdfmem [objtab [pdfcurform ].int4 + 4 ]= -268435455L ;
       } 
     } 
-    pdfprint ( 1150 ) ;
-    pdfprint ( 1063 ) ;
+    pdfprint ( 1154 ) ;
+    pdfprint ( 1067 ) ;
     pdfprintbp ( pdfxformwidth ) ;
     {
       {
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -24862,7 +24961,7 @@ zpdfshipout ( halfword p , boolean shippingpage )
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -24873,13 +24972,13 @@ zpdfshipout ( halfword p , boolean shippingpage )
       } 
     } 
     {
-      pdfprint ( 1151 ) ;
+      pdfprint ( 1155 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -24890,13 +24989,13 @@ zpdfshipout ( halfword p , boolean shippingpage )
       } 
     } 
     {
-      pdfprint ( 1152 ) ;
+      pdfprint ( 1156 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -24906,7 +25005,7 @@ zpdfshipout ( halfword p , boolean shippingpage )
 	} 
       } 
     } 
-    pdfindirectln ( 1153 , pdflastresources ) ;
+    pdfindirectln ( 1157 , pdflastresources ) ;
   } 
   pdfbeginstream () ;
   if ( shippingpage ) 
@@ -24915,16 +25014,16 @@ zpdfshipout ( halfword p , boolean shippingpage )
     if ( eqtb [29294 ].cint != 1000 ) 
     {
       pdfprintreal ( eqtb [29294 ].cint , 3 ) ;
-      pdfprint ( 1154 ) ;
+      pdfprint ( 1158 ) ;
       pdfprintreal ( eqtb [29294 ].cint , 3 ) ;
       {
-	pdfprint ( 1155 ) ;
+	pdfprint ( 1159 ) ;
 	{
 	  {
 	    if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	    pdfosgetosbuf ( 1 ) ;
 	    else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	    overflow ( 1015 , pdfopbufsize ) ;
+	    overflow ( 1019 , pdfopbufsize ) ;
 	    else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	    pdfflush () ;
 	  } 
@@ -24952,13 +25051,13 @@ zpdfshipout ( halfword p , boolean shippingpage )
   {
     pdfbegindict ( pdflastpage , 1 ) ;
     {
-      pdfprint ( 1167 ) ;
+      pdfprint ( 1171 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -24968,25 +25067,25 @@ zpdfshipout ( halfword p , boolean shippingpage )
 	} 
       } 
     } 
-    pdfindirectln ( 1168 , pdflaststream ) ;
-    pdfindirectln ( 1153 , pdflastresources ) ;
+    pdfindirectln ( 1172 , pdflaststream ) ;
+    pdfindirectln ( 1157 , pdflastresources ) ;
     mediaboxgiven = false ;
     if ( eqtb [27169 ].hh .v.RH != -268435455L ) 
     {
       s = tokenstostring ( eqtb [27169 ].hh .v.RH ) ;
-      mediaboxgiven = substrofstr ( 1169 , s ) ;
+      mediaboxgiven = substrofstr ( 1173 , s ) ;
       flushstr ( s ) ;
     } 
     if ( ! mediaboxgiven ) 
     {
-      pdfprint ( 1170 ) ;
+      pdfprint ( 1174 ) ;
       pdfprintmagbp ( curpagewidth ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -25003,7 +25102,7 @@ zpdfshipout ( halfword p , boolean shippingpage )
 	    if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	    pdfosgetosbuf ( 1 ) ;
 	    else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	    overflow ( 1015 , pdfopbufsize ) ;
+	    overflow ( 1019 , pdfopbufsize ) ;
 	    else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	    pdfflush () ;
 	  } 
@@ -25021,19 +25120,19 @@ zpdfshipout ( halfword p , boolean shippingpage )
       pdfcreateobj ( 2 , 6 ) ;
       pdflastpages = objptr ;
     } 
-    pdfindirectln ( 1172 , pdflastpages ) ;
+    pdfindirectln ( 1176 , pdflastpages ) ;
     if ( pdfpagegroupval > 0 ) 
     {
-      pdfprint ( 1171 ) ;
+      pdfprint ( 1175 ) ;
       pdfprintint ( pdfpagegroupval ) ;
       {
-	pdfprint ( 1084 ) ;
+	pdfprint ( 1088 ) ;
 	{
 	  {
 	    if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	    pdfosgetosbuf ( 1 ) ;
 	    else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	    overflow ( 1015 , pdfopbufsize ) ;
+	    overflow ( 1019 , pdfopbufsize ) ;
 	    else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	    pdfflush () ;
 	  } 
@@ -25046,19 +25145,19 @@ zpdfshipout ( halfword p , boolean shippingpage )
     } 
     if ( ( pdfannotlist != -268435455L ) || ( pdflinklist != -268435455L ) ) 
     {
-      pdfprint ( 1173 ) ;
+      pdfprint ( 1177 ) ;
       k = pdfannotlist ;
       while ( k != -268435455L ) {
 	  
 	pdfprintint ( mem [k ].hh .v.LH ) ;
-	pdfprint ( 1157 ) ;
+	pdfprint ( 1161 ) ;
 	k = mem [k ].hh .v.RH ;
       } 
       k = pdflinklist ;
       while ( k != -268435455L ) {
 	  
 	pdfprintint ( mem [k ].hh .v.LH ) ;
-	pdfprint ( 1157 ) ;
+	pdfprint ( 1161 ) ;
 	k = mem [k ].hh .v.RH ;
       } 
       {
@@ -25068,7 +25167,7 @@ zpdfshipout ( halfword p , boolean shippingpage )
 	    if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	    pdfosgetosbuf ( 1 ) ;
 	    else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	    overflow ( 1015 , pdfopbufsize ) ;
+	    overflow ( 1019 , pdfopbufsize ) ;
 	    else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	    pdfflush () ;
 	  } 
@@ -25082,11 +25181,11 @@ zpdfshipout ( halfword p , boolean shippingpage )
     if ( pdfbeadlist != -268435455L ) 
     {
       k = pdfbeadlist ;
-      pdfprint ( 1174 ) ;
+      pdfprint ( 1178 ) ;
       while ( k != -268435455L ) {
 	  
 	pdfprintint ( mem [k ].hh .v.LH ) ;
-	pdfprint ( 1157 ) ;
+	pdfprint ( 1161 ) ;
 	k = mem [k ].hh .v.RH ;
       } 
       {
@@ -25096,7 +25195,7 @@ zpdfshipout ( halfword p , boolean shippingpage )
 	    if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	    pdfosgetosbuf ( 1 ) ;
 	    else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	    overflow ( 1015 , pdfopbufsize ) ;
+	    overflow ( 1019 , pdfopbufsize ) ;
 	    else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	    pdfflush () ;
 	  } 
@@ -25174,13 +25273,13 @@ zpdfshipout ( halfword p , boolean shippingpage )
 	i = objtab [mem [k ].hh .v.LH ].int4 ;
 	pdfbegindict ( mem [k ].hh .v.LH , 1 ) ;
 	{
-	  pdfprint ( 1180 ) ;
+	  pdfprint ( 1184 ) ;
 	  {
 	    {
 	      if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	      pdfosgetosbuf ( 1 ) ;
 	      else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	      overflow ( 1015 , pdfopbufsize ) ;
+	      overflow ( 1019 , pdfopbufsize ) ;
 	      else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	      pdfflush () ;
 	    } 
@@ -25205,13 +25304,13 @@ zpdfshipout ( halfword p , boolean shippingpage )
 	i = objtab [mem [k ].hh .v.LH ].int4 ;
 	pdfbegindict ( mem [k ].hh .v.LH , 1 ) ;
 	{
-	  pdfprint ( 1180 ) ;
+	  pdfprint ( 1184 ) ;
 	  {
 	    {
 	      if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	      pdfosgetosbuf ( 1 ) ;
 	      else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	      overflow ( 1015 , pdfopbufsize ) ;
+	      overflow ( 1019 , pdfopbufsize ) ;
 	      else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	      pdfflush () ;
 	    } 
@@ -25223,13 +25322,13 @@ zpdfshipout ( halfword p , boolean shippingpage )
 	} 
 	if ( mem [mem [i + 5 ].hh .v.RH ].hh.b0 != 3 ) 
 	{
-	  pdfprint ( 1181 ) ;
+	  pdfprint ( 1185 ) ;
 	  {
 	    {
 	      if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	      pdfosgetosbuf ( 1 ) ;
 	      else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	      overflow ( 1015 , pdfopbufsize ) ;
+	      overflow ( 1019 , pdfopbufsize ) ;
 	      else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	      pdfflush () ;
 	    } 
@@ -25244,7 +25343,7 @@ zpdfshipout ( halfword p , boolean shippingpage )
 	pdfrectangle ( mem [i + 1 ].cint , mem [i + 2 ].cint , mem [i + 3 
 	].cint , mem [i + 4 ].cint ) ;
 	if ( mem [mem [i + 5 ].hh .v.RH ].hh.b0 != 3 ) 
-	pdfprint ( 1182 ) ;
+	pdfprint ( 1186 ) ;
 	writeaction ( mem [i + 5 ].hh .v.RH ) ;
 	pdfenddict () ;
 	k = mem [k ].hh .v.RH ;
@@ -25264,7 +25363,7 @@ zpdfshipout ( halfword p , boolean shippingpage )
       while ( k != -268435455L ) {
 	  
 	if ( ( objtab [mem [k ].hh .v.LH ].int2 > -1 ) ) 
-	pdferror ( 1176 , 1183 ) ;
+	pdferror ( 1180 , 1187 ) ;
 	else {
 	    
 	  i = objtab [mem [k ].hh .v.LH ].int4 ;
@@ -25272,7 +25371,7 @@ zpdfshipout ( halfword p , boolean shippingpage )
 	  -268435455L ) ) 
 	  {
 	    pdfbegindict ( mem [k ].hh .v.LH , 1 ) ;
-	    pdfprint ( 1184 ) ;
+	    pdfprint ( 1188 ) ;
 	  } 
 	  else pdfbeginobj ( mem [k ].hh .v.LH , 1 ) ;
 	  {
@@ -25280,7 +25379,7 @@ zpdfshipout ( halfword p , boolean shippingpage )
 	      if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	      pdfosgetosbuf ( 1 ) ;
 	      else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	      overflow ( 1015 , pdfopbufsize ) ;
+	      overflow ( 1019 , pdfopbufsize ) ;
 	      else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	      pdfflush () ;
 	    } 
@@ -25292,18 +25391,18 @@ zpdfshipout ( halfword p , boolean shippingpage )
 	  if ( mem [i + 6 ].hh .v.RH == -268435455L ) 
 	  pdfprintint ( pdflastpage ) ;
 	  else pdfprintint ( mem [i + 6 ].hh .v.RH ) ;
-	  pdfprint ( 1157 ) ;
+	  pdfprint ( 1161 ) ;
 	  switch ( mem [i + 5 ].hh.b0 ) 
 	  {case 0 : 
 	    {
-	      pdfprint ( 1185 ) ;
+	      pdfprint ( 1189 ) ;
 	      pdfprintmagbp ( ( ( mem [i + 1 ].cint ) - pdforiginh ) ) ;
 	      {
 		{
 		  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		  pdfosgetosbuf ( 1 ) ;
 		  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		  overflow ( 1015 , pdfopbufsize ) ;
+		  overflow ( 1019 , pdfopbufsize ) ;
 		  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		  pdfflush () ;
 		} 
@@ -25318,7 +25417,7 @@ zpdfshipout ( halfword p , boolean shippingpage )
 		  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		  pdfosgetosbuf ( 1 ) ;
 		  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		  overflow ( 1015 , pdfopbufsize ) ;
+		  overflow ( 1019 , pdfopbufsize ) ;
 		  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		  pdfflush () ;
 		} 
@@ -25328,7 +25427,7 @@ zpdfshipout ( halfword p , boolean shippingpage )
 		} 
 	      } 
 	      if ( mem [i + 6 ].hh .v.LH == -268435455L ) 
-	      pdfprint ( 1186 ) ;
+	      pdfprint ( 1190 ) ;
 	      else {
 		  
 		pdfprintint ( mem [i + 6 ].hh .v.LH / 1000 ) ;
@@ -25337,7 +25436,7 @@ zpdfshipout ( halfword p , boolean shippingpage )
 		    if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		    pdfosgetosbuf ( 1 ) ;
 		    else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		    overflow ( 1015 , pdfopbufsize ) ;
+		    overflow ( 1019 , pdfopbufsize ) ;
 		    else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		    pdfflush () ;
 		  } 
@@ -25351,43 +25450,43 @@ zpdfshipout ( halfword p , boolean shippingpage )
 	    } 
 	    break ;
 	  case 1 : 
-	    pdfprint ( 1187 ) ;
+	    pdfprint ( 1191 ) ;
 	    break ;
 	  case 2 : 
 	    {
-	      pdfprint ( 1188 ) ;
+	      pdfprint ( 1192 ) ;
 	      pdfprintmagbp ( ( pdforiginv - ( mem [i + 2 ].cint ) ) ) ;
 	    } 
 	    break ;
 	  case 3 : 
 	    {
-	      pdfprint ( 1189 ) ;
+	      pdfprint ( 1193 ) ;
 	      pdfprintmagbp ( ( ( mem [i + 1 ].cint ) - pdforiginh ) ) ;
 	    } 
 	    break ;
 	  case 4 : 
-	    pdfprint ( 1190 ) ;
+	    pdfprint ( 1194 ) ;
 	    break ;
 	  case 5 : 
 	    {
-	      pdfprint ( 1191 ) ;
+	      pdfprint ( 1195 ) ;
 	      pdfprintmagbp ( ( pdforiginv - ( mem [i + 2 ].cint ) ) ) ;
 	    } 
 	    break ;
 	  case 6 : 
 	    {
-	      pdfprint ( 1192 ) ;
+	      pdfprint ( 1196 ) ;
 	      pdfprintmagbp ( ( ( mem [i + 1 ].cint ) - pdforiginh ) ) ;
 	    } 
 	    break ;
 	  case 7 : 
 	    {
-	      pdfprint ( 1193 ) ;
+	      pdfprint ( 1197 ) ;
 	      pdfprintrectspec ( i ) ;
 	    } 
 	    break ;
 	    default: 
-	    pdferror ( 1176 , 1194 ) ;
+	    pdferror ( 1180 , 1198 ) ;
 	    break ;
 	  } 
 	  {
@@ -25397,7 +25496,7 @@ zpdfshipout ( halfword p , boolean shippingpage )
 		if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		pdfosgetosbuf ( 1 ) ;
 		else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		overflow ( 1015 , pdfopbufsize ) ;
+		overflow ( 1019 , pdfopbufsize ) ;
 		else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		pdfflush () ;
 	      } 
@@ -25426,7 +25525,7 @@ zpdfshipout ( halfword p , boolean shippingpage )
 	    if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	    pdfosgetosbuf ( 1 ) ;
 	    else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	    overflow ( 1015 , pdfopbufsize ) ;
+	    overflow ( 1019 , pdfopbufsize ) ;
 	    else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	    pdfflush () ;
 	  } 
@@ -25446,7 +25545,7 @@ zpdfshipout ( halfword p , boolean shippingpage )
 	      if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	      pdfosgetosbuf ( 1 ) ;
 	      else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	      overflow ( 1015 , pdfopbufsize ) ;
+	      overflow ( 1019 , pdfopbufsize ) ;
 	      else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	      pdfflush () ;
 	    } 
@@ -25481,11 +25580,11 @@ zpdfshipout ( halfword p , boolean shippingpage )
   } 
   if ( pdffontlist != -268435455L ) 
   {
-    pdfprint ( 1156 ) ;
+    pdfprint ( 1160 ) ;
     k = pdffontlist ;
     while ( k != -268435455L ) {
 	
-      pdfprint ( 1052 ) ;
+      pdfprint ( 1056 ) ;
       {
 	if ( pdffontnum [mem [k ].hh .v.LH ]< 0 ) 
 	ff = - (integer) pdffontnum [mem [k ].hh .v.LH ];
@@ -25499,7 +25598,7 @@ zpdfshipout ( halfword p , boolean shippingpage )
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -25509,17 +25608,17 @@ zpdfshipout ( halfword p , boolean shippingpage )
 	} 
       } 
       pdfprintint ( pdffontnum [ff ]) ;
-      pdfprint ( 1157 ) ;
+      pdfprint ( 1161 ) ;
       k = mem [k ].hh .v.RH ;
     } 
     {
-      pdfprint ( 1032 ) ;
+      pdfprint ( 1036 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -25533,11 +25632,11 @@ zpdfshipout ( halfword p , boolean shippingpage )
   } 
   if ( ( pdfxformlist != -268435455L ) || ( pdfximagelist != -268435455L ) ) 
   {
-    pdfprint ( 1158 ) ;
+    pdfprint ( 1162 ) ;
     k = pdfxformlist ;
     while ( k != -268435455L ) {
 	
-      pdfprint ( 1159 ) ;
+      pdfprint ( 1163 ) ;
       pdfprintint ( objtab [mem [k ].hh .v.LH ].int0 ) ;
       if ( pdfresnameprefix != 0 ) 
       pdfprint ( pdfresnameprefix ) ;
@@ -25546,7 +25645,7 @@ zpdfshipout ( halfword p , boolean shippingpage )
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -25556,13 +25655,13 @@ zpdfshipout ( halfword p , boolean shippingpage )
 	} 
       } 
       pdfprintint ( mem [k ].hh .v.LH ) ;
-      pdfprint ( 1157 ) ;
+      pdfprint ( 1161 ) ;
       k = mem [k ].hh .v.RH ;
     } 
     k = pdfximagelist ;
     while ( k != -268435455L ) {
 	
-      pdfprint ( 1160 ) ;
+      pdfprint ( 1164 ) ;
       pdfprintint ( objtab [mem [k ].hh .v.LH ].int0 ) ;
       if ( pdfresnameprefix != 0 ) 
       pdfprint ( pdfresnameprefix ) ;
@@ -25571,7 +25670,7 @@ zpdfshipout ( halfword p , boolean shippingpage )
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -25581,19 +25680,19 @@ zpdfshipout ( halfword p , boolean shippingpage )
 	} 
       } 
       pdfprintint ( mem [k ].hh .v.LH ) ;
-      pdfprint ( 1157 ) ;
+      pdfprint ( 1161 ) ;
       updateimageprocset ( pdfmem [objtab [mem [k ].hh .v.LH ].int4 + 4 ]
       ) ;
       k = mem [k ].hh .v.RH ;
     } 
     {
-      pdfprint ( 1032 ) ;
+      pdfprint ( 1036 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -25607,23 +25706,23 @@ zpdfshipout ( halfword p , boolean shippingpage )
   if ( ( eqtb [29377 ].cint < 0 ) || ( ( eqtb [29377 ].cint == 0 ) && ( 
   eqtb [29351 ].cint < 2 ) ) ) 
   {
-    pdfprint ( 1161 ) ;
-    if ( pdftextprocset ) 
-    pdfprint ( 1162 ) ;
-    if ( checkimageb ( pdfimageprocset ) ) 
-    pdfprint ( 1163 ) ;
-    if ( checkimagec ( pdfimageprocset ) ) 
-    pdfprint ( 1164 ) ;
-    if ( checkimagei ( pdfimageprocset ) ) 
     pdfprint ( 1165 ) ;
+    if ( pdftextprocset ) 
+    pdfprint ( 1166 ) ;
+    if ( checkimageb ( pdfimageprocset ) ) 
+    pdfprint ( 1167 ) ;
+    if ( checkimagec ( pdfimageprocset ) ) 
+    pdfprint ( 1168 ) ;
+    if ( checkimagei ( pdfimageprocset ) ) 
+    pdfprint ( 1169 ) ;
     {
-      pdfprint ( 1166 ) ;
+      pdfprint ( 1170 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -25653,18 +25752,18 @@ zpdfshipout ( halfword p , boolean shippingpage )
     {
       {
 	println () ;
-	printnl ( 2047 ) ;
+	printnl ( 2054 ) ;
 	printint ( LRproblems / 10000 ) ;
-	print ( 2048 ) ;
+	print ( 2055 ) ;
 	printint ( LRproblems % 10000 ) ;
-	print ( 2049 ) ;
+	print ( 2056 ) ;
 	LRproblems = 0 ;
       } 
       printchar ( 41 ) ;
       println () ;
     } 
     if ( ( LRptr != -268435455L ) || ( curdir != 0 ) ) 
-    confusion ( 2051 ) ;
+    confusion ( 2058 ) ;
   } 
   if ( ( eqtb [29311 ].cint <= 0 ) && shippingpage ) 
   printchar ( 93 ) ;
@@ -25674,7 +25773,7 @@ zpdfshipout ( halfword p , boolean shippingpage )
 #ifdef STAT
   if ( eqtb [29308 ].cint > 1 ) 
   {
-    printnl ( 1001 ) ;
+    printnl ( 1005 ) ;
     printint ( varused ) ;
     printchar ( 38 ) ;
     printint ( dynused ) ;
@@ -25686,11 +25785,11 @@ zpdfshipout ( halfword p , boolean shippingpage )
 #ifdef STAT
   if ( eqtb [29308 ].cint > 1 ) 
   {
-    print ( 1002 ) ;
+    print ( 1006 ) ;
     printint ( varused ) ;
     printchar ( 38 ) ;
     printint ( dynused ) ;
-    print ( 1003 ) ;
+    print ( 1007 ) ;
     printint ( himemmin - lomemmax - 1 ) ;
     println () ;
   } 
@@ -25858,19 +25957,19 @@ zpdffixdest ( integer k )
   pdffixdest_regmem 
   if ( objtab [k ].int4 != -268435455L ) 
   return ;
-  pdfwarning ( 1203 , 345 , true , false ) ;
+  pdfwarning ( 1207 , 265 , true , false ) ;
   if ( objtab [k ].int0 < 0 ) 
   {
-    print ( 1204 ) ;
+    print ( 1208 ) ;
     print ( - (integer) objtab [k ].int0 ) ;
     print ( 125 ) ;
   } 
   else {
       
-    print ( 1205 ) ;
+    print ( 1209 ) ;
     printint ( objtab [k ].int0 ) ;
   } 
-  print ( 1206 ) ;
+  print ( 1210 ) ;
   println () ;
   println () ;
   pdfbeginobj ( k , 1 ) ;
@@ -25879,7 +25978,7 @@ zpdffixdest ( integer k )
       if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfosgetosbuf ( 1 ) ;
       else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-      overflow ( 1015 , pdfopbufsize ) ;
+      overflow ( 1019 , pdfopbufsize ) ;
       else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfflush () ;
     } 
@@ -25890,13 +25989,13 @@ zpdffixdest ( integer k )
   } 
   pdfprintint ( headtab [1 ]) ;
   {
-    pdfprint ( 1207 ) ;
+    pdfprint ( 1211 ) ;
     {
       {
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -25914,19 +26013,19 @@ zpdffixstructdest ( integer k )
   pdffixstructdest_regmem 
   if ( objtab [k ].int4 != -268435455L ) 
   return ;
-  pdfwarning ( 1208 , 345 , false , false ) ;
+  pdfwarning ( 1212 , 265 , false , false ) ;
   if ( objtab [k ].int0 < 0 ) 
   {
-    print ( 1204 ) ;
+    print ( 1208 ) ;
     print ( - (integer) objtab [k ].int0 ) ;
     print ( 125 ) ;
   } 
   else {
       
-    print ( 1205 ) ;
+    print ( 1209 ) ;
     printint ( objtab [k ].int0 ) ;
   } 
-  print ( 1209 ) ;
+  print ( 1213 ) ;
   println () ;
   println () ;
 } 
@@ -25946,22 +26045,22 @@ pdfprintinfo ( void )
   if ( pdfinfotoks != -268435455L ) 
   {
     s = tokenstostring ( pdfinfotoks ) ;
-    creatorgiven = substrofstr ( 1227 , s ) ;
-    producergiven = substrofstr ( 1228 , s ) ;
-    creationdategiven = substrofstr ( 1229 , s ) ;
-    moddategiven = substrofstr ( 1230 , s ) ;
-    trappedgiven = substrofstr ( 1231 , s ) ;
+    creatorgiven = substrofstr ( 1231 , s ) ;
+    producergiven = substrofstr ( 1232 , s ) ;
+    creationdategiven = substrofstr ( 1233 , s ) ;
+    moddategiven = substrofstr ( 1234 , s ) ;
+    trappedgiven = substrofstr ( 1235 , s ) ;
   } 
   if ( ! producergiven ) 
   {
-    pdfprint ( 1236 ) ;
+    pdfprint ( 1241 ) ;
     pdfprintint ( 140 / 100 ) ;
     {
       {
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -25976,7 +26075,7 @@ pdfprintinfo ( void )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -25993,7 +26092,7 @@ pdfprintinfo ( void )
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -26015,7 +26114,7 @@ pdfprintinfo ( void )
 	    if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	    pdfosgetosbuf ( 1 ) ;
 	    else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	    overflow ( 1015 , pdfopbufsize ) ;
+	    overflow ( 1019 , pdfopbufsize ) ;
 	    else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	    pdfflush () ;
 	  } 
@@ -26033,7 +26132,7 @@ pdfprintinfo ( void )
     } 
   } 
   if ( ! creatorgiven ) 
-  pdfstrentryln ( 1232 , 1233 ) ;
+  pdfstrentryln ( 1236 , 1237 ) ;
   if ( eqtb [29373 ].cint == 0 ) 
   {
     if ( ! creationdategiven ) 
@@ -26048,13 +26147,13 @@ pdfprintinfo ( void )
   if ( ! trappedgiven ) 
   {
     {
-      pdfprint ( 1234 ) ;
+      pdfprint ( 1238 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -26067,7 +26166,9 @@ pdfprintinfo ( void )
   } 
   if ( eqtb [29374 ].cint % 2 == 0 ) 
   {
-    pdfstrentryln ( 1235 , pdftexbanner ) ;
+    if ( getptexuseunderscore () ) 
+    pdfstrentryln ( 1239 , pdftexbanner ) ;
+    else pdfstrentryln ( 1240 , pdftexbanner ) ;
   } 
   pdfenddict () ;
 } 
@@ -26079,9 +26180,9 @@ zscanspec ( groupcode c , boolean threecodes )
   unsigned char speccode  ;
   if ( threecodes ) 
   s = savestack [saveptr + 0 ].cint ;
-  if ( scankeyword ( 1254 ) ) 
+  if ( scankeyword ( 1259 ) ) 
   speccode = 0 ;
-  else if ( scankeyword ( 1255 ) ) 
+  else if ( scankeyword ( 1260 ) ) 
   speccode = 1 ;
   else {
       
@@ -26113,14 +26214,14 @@ zcheckexpandpars ( internalfontnumber f )
   if ( curfontstep < 0 ) 
   curfontstep = pdffontstep [f ];
   else if ( curfontstep != pdffontstep [f ]) 
-  pdferror ( 1050 , 1256 ) ;
+  pdferror ( 1054 , 1261 ) ;
   k = pdffontstretch [f ];
   if ( k != 0 ) 
   {
     if ( maxstretchratio < 0 ) 
     maxstretchratio = pdffontexpandratio [k ];
     else if ( maxstretchratio != pdffontexpandratio [k ]) 
-    pdferror ( 1050 , 1257 ) ;
+    pdferror ( 1054 , 1262 ) ;
   } 
   k = pdffontshrink [f ];
   if ( k != 0 ) 
@@ -26128,7 +26229,7 @@ zcheckexpandpars ( internalfontnumber f )
     if ( maxshrinkratio < 0 ) 
     maxshrinkratio = - (integer) pdffontexpandratio [k ];
     else if ( maxshrinkratio != - (integer) pdffontexpandratio [k ]) 
-    pdferror ( 1050 , 1257 ) ;
+    pdferror ( 1054 , 1262 ) ;
   } 
   Result = true ;
   return Result ;
@@ -26305,7 +26406,7 @@ zdosubstfont ( halfword p , integer exratio )
   r = p + 1 ;
   else {
       
-    pdferror ( 1050 , 1258 ) ;
+    pdferror ( 1054 , 1263 ) ;
   } 
   f = mem [r ].hh.b0 ;
   ef = getefcode ( f , mem [r ].hh.b1 ) ;
@@ -26377,7 +26478,7 @@ znewmarginkern ( scaled w , halfword p , smallnumber side )
   mem [k ].hh.b1 = side ;
   mem [k + 1 ].cint = w ;
   if ( p == -268435455L ) 
-  pdferror ( 1259 , 1260 ) ;
+  pdferror ( 1264 , 1265 ) ;
   {
     mem [k + 2 ].hh .v.LH = avail ;
     if ( mem [k + 2 ].hh .v.LH == -268435455L ) 
@@ -26438,7 +26539,7 @@ zhpack ( halfword p , scaled w , smallnumber m )
   totalshrink [2 ]= 0 ;
   totalstretch [3 ]= 0 ;
   totalshrink [3 ]= 0 ;
-  if ( ( eqtb [29387 ].cint > 0 ) ) 
+  if ( ( eqtb [29389 ].cint > 0 ) ) 
   {
     tempptr = getavail () ;
     mem [tempptr ].hh .v.LH = 0 ;
@@ -26508,7 +26609,7 @@ zhpack ( halfword p , scaled w , smallnumber m )
 	    if ( mem [p ].hh.b1 != 0 ) 
 	    {
 	      if ( preadjusttail == -268435455L ) 
-	      confusion ( 1261 ) ;
+	      confusion ( 1266 ) ;
 	      mem [preadjusttail ].hh .v.RH = mem [p + 1 ].cint ;
 	      while ( mem [preadjusttail ].hh .v.RH != -268435455L ) 
 	      preadjusttail = mem [preadjusttail ].hh .v.RH ;
@@ -26516,7 +26617,7 @@ zhpack ( halfword p , scaled w , smallnumber m )
 	    else {
 		
 	      if ( adjusttail == -268435455L ) 
-	      confusion ( 1261 ) ;
+	      confusion ( 1266 ) ;
 	      mem [adjusttail ].hh .v.RH = mem [p + 1 ].cint ;
 	      while ( mem [adjusttail ].hh .v.RH != -268435455L ) adjusttail 
 	      = mem [adjusttail ].hh .v.RH ;
@@ -26622,7 +26723,7 @@ zhpack ( halfword p , scaled w , smallnumber m )
       case 9 : 
 	{
 	  x = x + mem [p + 1 ].cint ;
-	  if ( ( eqtb [29387 ].cint > 0 ) ) {
+	  if ( ( eqtb [29389 ].cint > 0 ) ) {
 	      
 	    if ( odd ( mem [p ].hh.b1 ) ) {
 		
@@ -26730,9 +26831,9 @@ zhpack ( halfword p , scaled w , smallnumber m )
 	{
 	  println () ;
 	  if ( lastbadness > 100 ) 
-	  printnl ( 1262 ) ;
-	  else printnl ( 1263 ) ;
-	  print ( 1264 ) ;
+	  printnl ( 1267 ) ;
+	  else printnl ( 1268 ) ;
+	  print ( 1269 ) ;
 	  printint ( lastbadness ) ;
 	  goto lab50 ;
 	} 
@@ -26768,21 +26869,21 @@ zhpack ( halfword p , scaled w , smallnumber m )
     {
       lastbadness = 1000000L ;
       mem [r + 6 ].gr = 1.0 ;
-      if ( ( - (integer) x - totalshrink [0 ]> eqtb [29908 ].cint ) || ( 
+      if ( ( - (integer) x - totalshrink [0 ]> eqtb [29910 ].cint ) || ( 
       eqtb [29303 ].cint < 100 ) ) 
       {
-	if ( ( eqtb [29916 ].cint > 0 ) && ( - (integer) x - totalshrink [0 
-	]> eqtb [29908 ].cint ) ) 
+	if ( ( eqtb [29918 ].cint > 0 ) && ( - (integer) x - totalshrink [0 
+	]> eqtb [29910 ].cint ) ) 
 	{
 	  while ( mem [q ].hh .v.RH != -268435455L ) q = mem [q ].hh .v.RH 
 	  ;
 	  mem [q ].hh .v.RH = newrule () ;
-	  mem [mem [q ].hh .v.RH + 1 ].cint = eqtb [29916 ].cint ;
+	  mem [mem [q ].hh .v.RH + 1 ].cint = eqtb [29918 ].cint ;
 	} 
 	println () ;
-	printnl ( 1270 ) ;
+	printnl ( 1275 ) ;
 	printscaled ( - (integer) x - totalshrink [0 ]) ;
-	print ( 1271 ) ;
+	print ( 1276 ) ;
 	goto lab50 ;
       } 
     } 
@@ -26794,7 +26895,7 @@ zhpack ( halfword p , scaled w , smallnumber m )
 	if ( lastbadness > eqtb [29303 ].cint ) 
 	{
 	  println () ;
-	  printnl ( 1272 ) ;
+	  printnl ( 1277 ) ;
 	  printint ( lastbadness ) ;
 	  goto lab50 ;
 	} 
@@ -26803,18 +26904,18 @@ zhpack ( halfword p , scaled w , smallnumber m )
     goto lab10 ;
   } 
   lab50: if ( outputactive ) 
-  print ( 1265 ) ;
+  print ( 1270 ) ;
   else {
       
     if ( packbeginline != 0 ) 
     {
       if ( packbeginline > 0 ) 
-      print ( 1266 ) ;
-      else print ( 1267 ) ;
+      print ( 1271 ) ;
+      else print ( 1272 ) ;
       printint ( abs ( packbeginline ) ) ;
-      print ( 1268 ) ;
+      print ( 1273 ) ;
     } 
-    else print ( 1269 ) ;
+    else print ( 1274 ) ;
     printint ( line ) ;
   } 
   println () ;
@@ -26824,7 +26925,7 @@ zhpack ( halfword p , scaled w , smallnumber m )
   begindiagnostic () ;
   showbox ( r ) ;
   enddiagnostic ( true ) ;
-  lab10: if ( ( eqtb [29387 ].cint > 0 ) ) 
+  lab10: if ( ( eqtb [29389 ].cint > 0 ) ) 
   {
     if ( mem [LRptr ].hh .v.LH != 0 ) 
     {
@@ -26852,11 +26953,11 @@ zhpack ( halfword p , scaled w , smallnumber m )
     {
       {
 	println () ;
-	printnl ( 2047 ) ;
+	printnl ( 2054 ) ;
 	printint ( LRproblems / 10000 ) ;
-	print ( 2048 ) ;
+	print ( 2055 ) ;
 	printint ( LRproblems % 10000 ) ;
-	print ( 2049 ) ;
+	print ( 2056 ) ;
 	LRproblems = 0 ;
       } 
       goto lab50 ;
@@ -26874,7 +26975,7 @@ zhpack ( halfword p , scaled w , smallnumber m )
       } 
     } 
     if ( LRptr != -268435455L ) 
-    confusion ( 2046 ) ;
+    confusion ( 2053 ) ;
   } 
   if ( ( m == 2 ) && ( fontexpandratio != 0 ) ) 
   {
@@ -26915,7 +27016,7 @@ zvpackage ( halfword p , scaled h , smallnumber m , scaled l )
   while ( p != -268435455L ) {
       
     if ( ( p >= himemmin ) ) 
-    confusion ( 1273 ) ;
+    confusion ( 1278 ) ;
     else switch ( mem [p ].hh.b0 ) 
     {case 0 : 
     case 1 : 
@@ -27016,9 +27117,9 @@ zvpackage ( halfword p , scaled h , smallnumber m , scaled l )
 	{
 	  println () ;
 	  if ( lastbadness > 100 ) 
-	  printnl ( 1262 ) ;
-	  else printnl ( 1263 ) ;
-	  print ( 1274 ) ;
+	  printnl ( 1267 ) ;
+	  else printnl ( 1268 ) ;
+	  print ( 1279 ) ;
 	  printint ( lastbadness ) ;
 	  goto lab50 ;
 	} 
@@ -27049,13 +27150,13 @@ zvpackage ( halfword p , scaled h , smallnumber m , scaled l )
     {
       lastbadness = 1000000L ;
       mem [r + 6 ].gr = 1.0 ;
-      if ( ( - (integer) x - totalshrink [0 ]> eqtb [29909 ].cint ) || ( 
+      if ( ( - (integer) x - totalshrink [0 ]> eqtb [29911 ].cint ) || ( 
       eqtb [29304 ].cint < 100 ) ) 
       {
 	println () ;
-	printnl ( 1275 ) ;
+	printnl ( 1280 ) ;
 	printscaled ( - (integer) x - totalshrink [0 ]) ;
-	print ( 1276 ) ;
+	print ( 1281 ) ;
 	goto lab50 ;
       } 
     } 
@@ -27067,7 +27168,7 @@ zvpackage ( halfword p , scaled h , smallnumber m , scaled l )
 	if ( lastbadness > eqtb [29304 ].cint ) 
 	{
 	  println () ;
-	  printnl ( 1277 ) ;
+	  printnl ( 1282 ) ;
 	  printint ( lastbadness ) ;
 	  goto lab50 ;
 	} 
@@ -27076,16 +27177,16 @@ zvpackage ( halfword p , scaled h , smallnumber m , scaled l )
     goto lab10 ;
   } 
   lab50: if ( outputactive ) 
-  print ( 1265 ) ;
+  print ( 1270 ) ;
   else {
       
     if ( packbeginline != 0 ) 
     {
-      print ( 1267 ) ;
+      print ( 1272 ) ;
       printint ( abs ( packbeginline ) ) ;
-      print ( 1268 ) ;
+      print ( 1273 ) ;
     } 
-    else print ( 1269 ) ;
+    else print ( 1274 ) ;
     printint ( line ) ;
     println () ;
   } 
@@ -27101,11 +27202,11 @@ zappendtovlist ( halfword b )
   appendtovlist_regmem 
   scaled d  ;
   halfword p  ;
-  if ( curlist .auxfield .cint > eqtb [29932 ].cint ) 
+  if ( curlist .auxfield .cint > eqtb [29934 ].cint ) 
   {
     d = mem [eqtb [26629 ].hh .v.RH + 1 ].cint - curlist .auxfield .cint - 
     mem [b + 3 ].cint ;
-    if ( d < eqtb [29902 ].cint ) 
+    if ( d < eqtb [29904 ].cint ) 
     p = newparamglue ( 0 ) ;
     else {
 	
@@ -27362,7 +27463,7 @@ zvardelimiter ( halfword d , smallnumber s , scaled v )
   else {
       
     b = newnullbox () ;
-    mem [b + 1 ].cint = eqtb [29911 ].cint ;
+    mem [b + 1 ].cint = eqtb [29913 ].cint ;
   } 
   mem [b + 4 ].cint = half ( mem [b + 3 ].cint - mem [b + 2 ].cint ) - 
   fontinfo [22 + parambase [eqtb [27695 + s ].hh .v.RH ]].cint ;
@@ -27550,20 +27651,20 @@ zfetch ( halfword a )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 345 ) ;
+      print ( 265 ) ;
     } 
     printsize ( cursize ) ;
     printchar ( 32 ) ;
     printint ( mem [a ].hh.b0 ) ;
-    print ( 1303 ) ;
+    print ( 1308 ) ;
     print ( curc ) ;
     printchar ( 41 ) ;
     {
       helpptr = 4 ;
-      helpline [3 ]= 1304 ;
-      helpline [2 ]= 1305 ;
-      helpline [1 ]= 1306 ;
-      helpline [0 ]= 1307 ;
+      helpline [3 ]= 1309 ;
+      helpline [2 ]= 1310 ;
+      helpline [1 ]= 1311 ;
+      helpline [0 ]= 1312 ;
     } 
     error () ;
     curi = nullcharacter ;
@@ -27620,7 +27721,7 @@ zmakevcenter ( halfword q )
   scaled delta  ;
   v = mem [q + 1 ].hh .v.LH ;
   if ( mem [v ].hh.b0 != 1 ) 
-  confusion ( 627 ) ;
+  confusion ( 629 ) ;
   delta = mem [v + 3 ].cint + mem [v + 2 ].cint ;
   mem [v + 3 ].cint = fontinfo [22 + parambase [eqtb [27695 + cursize ]
   .hh .v.RH ]].cint + half ( delta ) ;
@@ -28100,7 +28201,7 @@ zmakescripts ( halfword q , scaled delta )
   if ( mem [q + 2 ].hh .v.RH == 0 ) 
   {
     x = cleanbox ( q + 3 , 2 * ( curstyle / 4 ) + 5 ) ;
-    mem [x + 1 ].cint = mem [x + 1 ].cint + eqtb [29912 ].cint ;
+    mem [x + 1 ].cint = mem [x + 1 ].cint + eqtb [29914 ].cint ;
     if ( shiftdown < fontinfo [16 + parambase [eqtb [27695 + cursize ].hh 
     .v.RH ]].cint ) 
     shiftdown = fontinfo [16 + parambase [eqtb [27695 + cursize ].hh .v.RH 
@@ -28115,7 +28216,7 @@ zmakescripts ( halfword q , scaled delta )
       
     {
       x = cleanbox ( q + 2 , 2 * ( curstyle / 4 ) + 4 + ( curstyle % 2 ) ) ;
-      mem [x + 1 ].cint = mem [x + 1 ].cint + eqtb [29912 ].cint ;
+      mem [x + 1 ].cint = mem [x + 1 ].cint + eqtb [29914 ].cint ;
       if ( odd ( curstyle ) ) 
       clr = fontinfo [15 + parambase [eqtb [27695 + cursize ].hh .v.RH ]]
       .cint ;
@@ -28136,7 +28237,7 @@ zmakescripts ( halfword q , scaled delta )
     else {
 	
       y = cleanbox ( q + 3 , 2 * ( curstyle / 4 ) + 5 ) ;
-      mem [y + 1 ].cint = mem [y + 1 ].cint + eqtb [29912 ].cint ;
+      mem [y + 1 ].cint = mem [y + 1 ].cint + eqtb [29914 ].cint ;
       if ( shiftdown < fontinfo [17 + parambase [eqtb [27695 + cursize ]
       .hh .v.RH ]].cint ) 
       shiftdown = fontinfo [17 + parambase [eqtb [27695 + cursize ].hh 
@@ -28192,7 +28293,7 @@ zmakeleftright ( halfword q , smallnumber style , scaled maxd , scaled maxh )
   if ( delta2 > delta1 ) 
   delta1 = delta2 ;
   delta = ( delta1 / 500 ) * eqtb [29295 ].cint ;
-  delta2 = delta1 + delta1 - eqtb [29910 ].cint ;
+  delta2 = delta1 + delta1 - eqtb [29912 ].cint ;
   if ( delta < delta2 ) 
   delta = delta2 ;
   mem [q + 1 ].cint = vardelimiter ( q + 1 , cursize , delta ) ;
@@ -28412,7 +28513,7 @@ mlisttohlist ( void )
       } 
       break ;
       default: 
-      confusion ( 1308 ) ;
+      confusion ( 1313 ) ;
       break ;
     } 
     switch ( mem [q + 1 ].hh .v.RH ) 
@@ -28460,7 +28561,7 @@ mlisttohlist ( void )
       } 
       break ;
       default: 
-      confusion ( 1309 ) ;
+      confusion ( 1314 ) ;
       break ;
     } 
     mem [q + 1 ].cint = p ;
@@ -28580,7 +28681,7 @@ mlisttohlist ( void )
       } 
       break ;
       default: 
-      confusion ( 1310 ) ;
+      confusion ( 1315 ) ;
       break ;
     } 
     if ( rtype > 0 ) 
@@ -28608,7 +28709,7 @@ mlisttohlist ( void )
 	else x = 0 ;
 	break ;
 	default: 
-	confusion ( 1312 ) ;
+	confusion ( 1317 ) ;
 	break ;
       } 
       if ( x != 0 ) 
@@ -28725,7 +28826,7 @@ getpreambletoken ( void )
     } 
   } 
   if ( curcmd == 9 ) 
-  fatalerror ( 688 ) ;
+  fatalerror ( 690 ) ;
   if ( ( curcmd == 75 ) && ( curchr == 26639 ) ) 
   {
     scanoptionalequals () ;
@@ -28754,15 +28855,15 @@ initalign ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 791 ) ;
+      print ( 793 ) ;
     } 
-    printesc ( 607 ) ;
-    print ( 1313 ) ;
+    printesc ( 609 ) ;
+    print ( 1318 ) ;
     {
       helpptr = 3 ;
-      helpline [2 ]= 1314 ;
-      helpline [1 ]= 1315 ;
-      helpline [0 ]= 1316 ;
+      helpline [2 ]= 1319 ;
+      helpline [1 ]= 1320 ;
+      helpline [0 ]= 1321 ;
     } 
     error () ;
     flushmath () ;
@@ -28808,13 +28909,13 @@ initalign ( void )
 	    if ( filelineerrorstylep ) 
 	    printfileline () ;
 	    else printnl ( 264 ) ;
-	    print ( 1322 ) ;
+	    print ( 1327 ) ;
 	  } 
 	  {
 	    helpptr = 3 ;
-	    helpline [2 ]= 1323 ;
-	    helpline [1 ]= 1324 ;
-	    helpline [0 ]= 1325 ;
+	    helpline [2 ]= 1328 ;
+	    helpline [1 ]= 1329 ;
+	    helpline [0 ]= 1330 ;
 	  } 
 	  backerror () ;
 	  goto lab31 ;
@@ -28848,13 +28949,13 @@ initalign ( void )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 264 ) ;
-	  print ( 1326 ) ;
+	  print ( 1331 ) ;
 	} 
 	{
 	  helpptr = 3 ;
-	  helpline [2 ]= 1323 ;
-	  helpline [1 ]= 1324 ;
-	  helpline [0 ]= 1327 ;
+	  helpline [2 ]= 1328 ;
+	  helpline [1 ]= 1329 ;
+	  helpline [0 ]= 1332 ;
 	} 
 	error () ;
 	goto lab22 ;
@@ -28883,7 +28984,7 @@ zinitspan ( halfword p )
   curlist .auxfield .hh .v.LH = 1000 ;
   else {
       
-    curlist .auxfield .cint = eqtb [29932 ].cint ;
+    curlist .auxfield .cint = eqtb [29934 ].cint ;
     normalparagraph () ;
   } 
   curspan = p ;
@@ -28934,12 +29035,12 @@ fincol ( void )
   glueord o  ;
   halfword n  ;
   if ( curalign == -268435455L ) 
-  confusion ( 1328 ) ;
+  confusion ( 1333 ) ;
   q = mem [curalign ].hh .v.RH ;
   if ( q == -268435455L ) 
-  confusion ( 1328 ) ;
+  confusion ( 1333 ) ;
   if ( alignstate < 500000L ) 
-  fatalerror ( 688 ) ;
+  fatalerror ( 690 ) ;
   p = mem [q ].hh .v.RH ;
   if ( ( p == -268435455L ) && ( mem [curalign + 5 ].hh .v.LH < 257 ) ) {
       
@@ -28984,14 +29085,14 @@ fincol ( void )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 1329 ) ;
+	print ( 1334 ) ;
       } 
-      printesc ( 1318 ) ;
+      printesc ( 1323 ) ;
       {
 	helpptr = 3 ;
-	helpline [2 ]= 1330 ;
-	helpline [1 ]= 1331 ;
-	helpline [0 ]= 1332 ;
+	helpline [2 ]= 1335 ;
+	helpline [1 ]= 1336 ;
+	helpline [0 ]= 1337 ;
       } 
       mem [curalign + 5 ].hh .v.LH = 257 ;
       error () ;
@@ -29027,7 +29128,7 @@ fincol ( void )
 	  q = mem [mem [q ].hh .v.RH ].hh .v.RH ;
 	} while ( ! ( q == curalign ) ) ;
 	if ( n > 255 ) 
-	confusion ( 1333 ) ;
+	confusion ( 1338 ) ;
 	q = curspan ;
 	while ( mem [mem [q ].hh .v.LH ].hh .v.RH < n ) q = mem [q ].hh 
 	.v.LH ;
@@ -29138,13 +29239,13 @@ finalign ( void )
   scaled rulesave  ;
   memoryword auxsave  ;
   if ( curgroup != 6 ) 
-  confusion ( 1334 ) ;
+  confusion ( 1339 ) ;
   unsave () ;
   if ( curgroup != 6 ) 
-  confusion ( 1335 ) ;
+  confusion ( 1340 ) ;
   unsave () ;
   if ( nest [nestptr - 1 ].modefield == 209 ) 
-  o = eqtb [29915 ].cint ;
+  o = eqtb [29917 ].cint ;
   else o = 0 ;
   q = mem [mem [memtop - 8 ].hh .v.RH ].hh .v.RH ;
   do {
@@ -29209,11 +29310,11 @@ finalign ( void )
   packbeginline = - (integer) curlist .mlfield ;
   if ( curlist .modefield == -1 ) 
   {
-    rulesave = eqtb [29916 ].cint ;
-    eqtb [29916 ].cint = 0 ;
+    rulesave = eqtb [29918 ].cint ;
+    eqtb [29918 ].cint = 0 ;
     p = hpack ( mem [memtop - 8 ].hh .v.RH , savestack [saveptr + 1 ].cint 
     , savestack [saveptr + 0 ].cint ) ;
-    eqtb [29916 ].cint = rulesave ;
+    eqtb [29918 ].cint = rulesave ;
   } 
   else {
       
@@ -29411,12 +29512,12 @@ finalign ( void )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 1596 ) ;
+	print ( 1601 ) ;
       } 
       {
 	helpptr = 2 ;
-	helpline [1 ]= 1314 ;
-	helpline [0 ]= 1315 ;
+	helpline [1 ]= 1319 ;
+	helpline [0 ]= 1320 ;
       } 
       backerror () ;
     } 
@@ -29431,12 +29532,12 @@ finalign ( void )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 264 ) ;
-	  print ( 1592 ) ;
+	  print ( 1597 ) ;
 	} 
 	{
 	  helpptr = 2 ;
-	  helpline [1 ]= 1593 ;
-	  helpline [0 ]= 1594 ;
+	  helpline [1 ]= 1598 ;
+	  helpline [0 ]= 1599 ;
 	} 
 	backerror () ;
       } 
@@ -29525,15 +29626,15 @@ zfiniteshrink ( halfword p )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 1336 ) ;
+      print ( 1341 ) ;
     } 
     {
       helpptr = 5 ;
-      helpline [4 ]= 1337 ;
-      helpline [3 ]= 1338 ;
-      helpline [2 ]= 1339 ;
-      helpline [1 ]= 1340 ;
-      helpline [0 ]= 1341 ;
+      helpline [4 ]= 1342 ;
+      helpline [3 ]= 1343 ;
+      helpline [2 ]= 1344 ;
+      helpline [1 ]= 1345 ;
+      helpline [0 ]= 1346 ;
     } 
     error () ;
 	;
@@ -29553,7 +29654,7 @@ zpushnode ( halfword p )
 {
   pushnode_regmem 
   if ( hliststacklevel > 512 ) 
-  pdferror ( 1342 , 1343 ) ;
+  pdferror ( 1347 , 1348 ) ;
   hliststack [hliststacklevel ]= p ;
   hliststacklevel = hliststacklevel + 1 ;
 } 
@@ -29563,7 +29664,7 @@ popnode ( void )
   register halfword Result; popnode_regmem 
   hliststacklevel = hliststacklevel - 1 ;
   if ( hliststacklevel < 0 ) 
-  pdferror ( 1344 , 1345 ) ;
+  pdferror ( 1349 , 1350 ) ;
   Result = hliststack [hliststacklevel ];
   return Result ;
 } 
@@ -29859,7 +29960,7 @@ ztrybreak ( integer pi , smallnumber breaktype )
 		    } 
 		    break ;
 		    default: 
-		    confusion ( 1346 ) ;
+		    confusion ( 1351 ) ;
 		    break ;
 		  } 
 		} 
@@ -29918,7 +30019,7 @@ ztrybreak ( integer pi , smallnumber breaktype )
 		    } 
 		    break ;
 		    default: 
-		    confusion ( 1347 ) ;
+		    confusion ( 1352 ) ;
 		    break ;
 		  } 
 		  s = mem [s ].hh .v.RH ;
@@ -30061,26 +30162,26 @@ ztrybreak ( integer pi , smallnumber breaktype )
 #ifdef STAT
 		if ( eqtb [29309 ].cint > 0 ) 
 		{
-		  printnl ( 1348 ) ;
+		  printnl ( 1353 ) ;
 		  printint ( mem [passive ].hh .v.LH ) ;
-		  print ( 1349 ) ;
+		  print ( 1354 ) ;
 		  printint ( mem [q + 1 ].hh .v.LH - 1 ) ;
 		  printchar ( 46 ) ;
 		  printint ( fitclass ) ;
 		  if ( breaktype == 1 ) 
 		  printchar ( 45 ) ;
-		  print ( 1350 ) ;
+		  print ( 1355 ) ;
 		  printint ( mem [q + 2 ].cint ) ;
 		  if ( dolastlinefit ) 
 		  {
-		    print ( 2087 ) ;
+		    print ( 2094 ) ;
 		    printscaled ( mem [q + 3 ].cint ) ;
 		    if ( curp == -268435455L ) 
-		    print ( 2088 ) ;
-		    else print ( 1420 ) ;
+		    print ( 2095 ) ;
+		    else print ( 1425 ) ;
 		    printscaled ( mem [q + 4 ].cint ) ;
 		  } 
-		  print ( 1351 ) ;
+		  print ( 1356 ) ;
 		  if ( mem [passive + 1 ].hh .v.LH == -268435455L ) 
 		  printchar ( 48 ) ;
 		  else printint ( mem [mem [passive + 1 ].hh .v.LH ].hh 
@@ -30240,8 +30341,8 @@ ztrybreak ( integer pi , smallnumber breaktype )
 	      aritherror = false ;
 	      g = fract ( g , mem [r + 3 ].cint , mem [r + 4 ].cint , 
 	      1073741823L ) ;
-	      if ( eqtb [29384 ].cint < 1000 ) 
-	      g = fract ( g , eqtb [29384 ].cint , 1000 , 1073741823L ) ;
+	      if ( eqtb [29385 ].cint < 1000 ) 
+	      g = fract ( g , eqtb [29385 ].cint , 1000 , 1073741823L ) ;
 	      if ( aritherror ) {
 		  
 		if ( mem [r + 3 ].cint > 0 ) 
@@ -30375,14 +30476,14 @@ ztrybreak ( integer pi , smallnumber breaktype )
       {
 	if ( printednode != curp ) 
 	{
-	  printnl ( 345 ) ;
+	  printnl ( 265 ) ;
 	  if ( curp == -268435455L ) 
 	  shortdisplay ( mem [printednode ].hh .v.RH ) ;
 	  else {
 	      
 	    savelink = mem [curp ].hh .v.RH ;
 	    mem [curp ].hh .v.RH = -268435455L ;
-	    printnl ( 345 ) ;
+	    printnl ( 265 ) ;
 	    shortdisplay ( mem [printednode ].hh .v.RH ) ;
 	    mem [curp ].hh .v.RH = savelink ;
 	  } 
@@ -30390,28 +30491,28 @@ ztrybreak ( integer pi , smallnumber breaktype )
 	} 
 	printnl ( 64 ) ;
 	if ( curp == -268435455L ) 
-	printesc ( 690 ) ;
+	printesc ( 692 ) ;
 	else if ( mem [curp ].hh.b0 != 10 ) 
 	{
 	  if ( mem [curp ].hh.b0 == 12 ) 
-	  printesc ( 619 ) ;
+	  printesc ( 621 ) ;
 	  else if ( mem [curp ].hh.b0 == 7 ) 
-	  printesc ( 358 ) ;
+	  printesc ( 359 ) ;
 	  else if ( mem [curp ].hh.b0 == 11 ) 
-	  printesc ( 322 ) ;
-	  else printesc ( 352 ) ;
+	  printesc ( 324 ) ;
+	  else printesc ( 353 ) ;
 	} 
-	print ( 1352 ) ;
+	print ( 1357 ) ;
 	if ( mem [r + 1 ].hh .v.RH == -268435455L ) 
 	printchar ( 48 ) ;
 	else printint ( mem [mem [r + 1 ].hh .v.RH ].hh .v.LH ) ;
-	print ( 1353 ) ;
+	print ( 1358 ) ;
 	if ( b > 10000 ) 
 	printchar ( 42 ) ;
 	else printint ( b ) ;
-	print ( 1354 ) ;
+	print ( 1359 ) ;
 	printint ( pi ) ;
-	print ( 1355 ) ;
+	print ( 1360 ) ;
 	if ( artificialdemerits ) 
 	printchar ( 42 ) ;
 	else printint ( d ) ;
@@ -30582,7 +30683,7 @@ zpostlinebreak ( boolean d )
   } while ( ! ( q == -268435455L ) ) ;
   curline = curlist .pgfield + 1 ;
   do {
-      if ( ( eqtb [29387 ].cint > 0 ) ) 
+      if ( ( eqtb [29389 ].cint > 0 ) ) 
     {
       q = mem [memtop - 3 ].hh .v.RH ;
       if ( LRptr != -268435455L ) 
@@ -30699,7 +30800,7 @@ zpostlinebreak ( boolean d )
 	else if ( mem [q ].hh.b0 == 9 ) 
 	{
 	  mem [q + 1 ].cint = 0 ;
-	  if ( ( eqtb [29387 ].cint > 0 ) ) {
+	  if ( ( eqtb [29389 ].cint > 0 ) ) {
 	      
 	    if ( odd ( mem [q ].hh.b1 ) ) 
 	    {
@@ -30768,7 +30869,7 @@ zpostlinebreak ( boolean d )
       mem [q ].hh .v.RH = r ;
       q = r ;
     } 
-    if ( ( eqtb [29387 ].cint > 0 ) ) {
+    if ( ( eqtb [29389 ].cint > 0 ) ) {
 	
       if ( LRptr != -268435455L ) 
       {
@@ -30833,16 +30934,16 @@ zpostlinebreak ( boolean d )
     justbox = hpack ( q , curwidth , 2 ) ;
     else justbox = hpack ( q , curwidth , 0 ) ;
     mem [justbox + 4 ].cint = curindent ;
-    if ( eqtb [29930 ].cint != eqtb [29932 ].cint ) 
-    mem [justbox + 3 ].cint = eqtb [29930 ].cint ;
-    if ( eqtb [29931 ].cint != eqtb [29932 ].cint ) 
-    mem [justbox + 2 ].cint = eqtb [29931 ].cint ;
-    if ( ( eqtb [29928 ].cint != eqtb [29932 ].cint ) && ( curline == 
+    if ( eqtb [29932 ].cint != eqtb [29934 ].cint ) 
+    mem [justbox + 3 ].cint = eqtb [29932 ].cint ;
+    if ( eqtb [29933 ].cint != eqtb [29934 ].cint ) 
+    mem [justbox + 2 ].cint = eqtb [29933 ].cint ;
+    if ( ( eqtb [29930 ].cint != eqtb [29934 ].cint ) && ( curline == 
     curlist .pgfield + 1 ) ) 
-    mem [justbox + 3 ].cint = eqtb [29928 ].cint ;
-    if ( ( eqtb [29929 ].cint != eqtb [29932 ].cint ) && ( curline + 1 == 
+    mem [justbox + 3 ].cint = eqtb [29930 ].cint ;
+    if ( ( eqtb [29931 ].cint != eqtb [29934 ].cint ) && ( curline + 1 == 
     bestline ) ) 
-    mem [justbox + 2 ].cint = eqtb [29929 ].cint ;
+    mem [justbox + 2 ].cint = eqtb [29931 ].cint ;
     if ( memtop - 14 != preadjusttail ) 
     {
       mem [curlist .tailfield ].hh .v.RH = mem [memtop - 14 ].hh .v.RH ;
@@ -30926,7 +31027,7 @@ zpostlinebreak ( boolean d )
 	  r = q ;
 	  if ( mem [q ].hh.b0 == 9 ) {
 	      
-	    if ( ( eqtb [29387 ].cint > 0 ) ) {
+	    if ( ( eqtb [29389 ].cint > 0 ) ) {
 		
 	      if ( odd ( mem [q ].hh.b1 ) ) 
 	      {
@@ -30970,7 +31071,7 @@ zpostlinebreak ( boolean d )
   } while ( ! ( curp == -268435455L ) ) ;
   if ( ( curline != bestline ) || ( mem [memtop - 3 ].hh .v.RH != 
   -268435455L ) ) 
-  confusion ( 1362 ) ;
+  confusion ( 1367 ) ;
   curlist .pgfield = bestline - 1 ;
   curlist .eTeXauxfield = LRptr ;
 } 
@@ -31580,12 +31681,12 @@ zeTeXenabled ( boolean b , quarterword j , halfword k )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 791 ) ;
+      print ( 793 ) ;
     } 
     printcmdchr ( j , k ) ;
     {
       helpptr = 1 ;
-      helpline [0 ]= 1990 ;
+      helpline [0 ]= 1996 ;
     } 
     error () ;
   } 
@@ -31613,11 +31714,11 @@ showsavegroups ( void )
   saveptr = curboundary ;
   decr ( curlevel ) ;
   a = 1 ;
-  printnl ( 345 ) ;
+  printnl ( 265 ) ;
   println () ;
   while ( true ) {
       
-    printnl ( 380 ) ;
+    printnl ( 381 ) ;
     printgroup ( true ) ;
     if ( curgroup == 0 ) 
     goto lab30 ;
@@ -31627,7 +31728,7 @@ showsavegroups ( void )
       decr ( p ) ;
       else m = 1 ;
     } while ( ! ( m != 105 ) ) ;
-    print ( 286 ) ;
+    print ( 288 ) ;
     switch ( curgroup ) 
     {case 1 : 
       {
@@ -31637,28 +31738,28 @@ showsavegroups ( void )
       break ;
     case 2 : 
     case 3 : 
-      s = 1482 ;
+      s = 1487 ;
       break ;
     case 4 : 
-      s = 1392 ;
+      s = 1397 ;
       break ;
     case 5 : 
-      s = 1481 ;
+      s = 1486 ;
       break ;
     case 6 : 
       if ( a == 0 ) 
       {
 	if ( m == -1 ) 
-	s = 607 ;
-	else s = 626 ;
+	s = 609 ;
+	else s = 628 ;
 	a = 1 ;
 	goto lab41 ;
       } 
       else {
 	  
 	if ( a == 1 ) 
-	print ( 2028 ) ;
-	else printesc ( 1318 ) ;
+	print ( 2035 ) ;
+	else printesc ( 1323 ) ;
 	if ( p >= a ) 
 	p = p - a ;
 	a = 0 ;
@@ -31669,13 +31770,13 @@ showsavegroups ( void )
       {
 	incr ( p ) ;
 	a = -1 ;
-	printesc ( 614 ) ;
+	printesc ( 616 ) ;
 	goto lab42 ;
       } 
       break ;
     case 8 : 
       {
-	printesc ( 415 ) ;
+	printesc ( 416 ) ;
 	goto lab40 ;
       } 
       break ;
@@ -31686,12 +31787,12 @@ showsavegroups ( void )
     case 13 : 
       {
 	if ( curgroup == 10 ) 
-	printesc ( 358 ) ;
-	else printesc ( 612 ) ;
+	printesc ( 359 ) ;
+	else printesc ( 614 ) ;
 	{register integer for_end; i = 1 ;for_end = 3 ; if ( i <= for_end) 
 	do 
 	  if ( i <= savestack [saveptr - 2 ].cint ) 
-	  print ( 1278 ) ;
+	  print ( 1283 ) ;
 	while ( i++ < for_end ) ;} 
 	goto lab42 ;
       } 
@@ -31699,10 +31800,10 @@ showsavegroups ( void )
     case 11 : 
       {
 	if ( savestack [saveptr - 2 ].cint == 255 ) 
-	printesc ( 361 ) ;
+	printesc ( 362 ) ;
 	else {
 	    
-	  printesc ( 337 ) ;
+	  printesc ( 339 ) ;
 	  printint ( savestack [saveptr - 2 ].cint ) ;
 	} 
 	goto lab42 ;
@@ -31710,14 +31811,14 @@ showsavegroups ( void )
       break ;
     case 12 : 
       {
-	s = 627 ;
+	s = 629 ;
 	goto lab41 ;
       } 
       break ;
     case 14 : 
       {
 	incr ( p ) ;
-	printesc ( 596 ) ;
+	printesc ( 598 ) ;
 	goto lab40 ;
       } 
       break ;
@@ -31737,8 +31838,8 @@ showsavegroups ( void )
     case 16 : 
       {
 	if ( mem [nest [p + 1 ].eTeXauxfield ].hh.b0 == 30 ) 
-	printesc ( 1294 ) ;
-	else printesc ( 1296 ) ;
+	printesc ( 1299 ) ;
+	else printesc ( 1301 ) ;
 	goto lab40 ;
       } 
       break ;
@@ -31755,16 +31856,16 @@ showsavegroups ( void )
 	printcmdchr ( j , 0 ) ;
 	else printcmdchr ( j , 1 ) ;
 	printscaled ( abs ( i ) ) ;
-	print ( 312 ) ;
+	print ( 314 ) ;
       } 
       else if ( i < 1073807360L ) 
       {
 	if ( i >= 1073774592L ) 
 	{
-	  printesc ( 1599 ) ;
+	  printesc ( 1604 ) ;
 	  i = i - ( 32768L ) ;
 	} 
-	printesc ( 624 ) ;
+	printesc ( 626 ) ;
 	printint ( i - 1073741824L ) ;
 	printchar ( 61 ) ;
       } 
@@ -31775,10 +31876,10 @@ showsavegroups ( void )
     {
       printchar ( 32 ) ;
       if ( savestack [saveptr - 3 ].cint == 0 ) 
-      print ( 1254 ) ;
-      else print ( 1255 ) ;
+      print ( 1259 ) ;
+      else print ( 1260 ) ;
       printscaled ( savestack [saveptr - 2 ].cint ) ;
-      print ( 312 ) ;
+      print ( 314 ) ;
     } 
     lab42: printchar ( 123 ) ;
     lab40: printchar ( 41 ) ;
@@ -31820,7 +31921,7 @@ zprunepagetop ( halfword p , boolean s )
       if ( ( mem [p ].hh.b0 == 8 ) && ( ( mem [p ].hh.b1 == 37 ) || ( mem 
       [p ].hh.b1 == 38 ) ) ) 
       {
-	print ( 1382 ) ;
+	print ( 1387 ) ;
 	goto lab60 ;
       } 
       prevp = p ;
@@ -31846,7 +31947,7 @@ zprunepagetop ( halfword p , boolean s )
     } 
     break ;
     default: 
-    confusion ( 1384 ) ;
+    confusion ( 1389 ) ;
     break ;
   } 
   Result = mem [memtop - 3 ].hh .v.RH ;
@@ -31921,7 +32022,7 @@ zvertbreak ( halfword p , scaled h , scaled d )
       goto lab45 ;
       break ;
       default: 
-      confusion ( 1385 ) ;
+      confusion ( 1390 ) ;
       break ;
     } 
     if ( pi < 10000 ) 
@@ -31965,22 +32066,35 @@ zvertbreak ( halfword p , scaled h , scaled d )
       activewidth [6 ]= activewidth [6 ]+ mem [q + 3 ].cint ;
       if ( ( mem [q ].hh.b1 != 0 ) && ( mem [q + 3 ].cint != 0 ) ) 
       {
+	if ( isbitset ( eqtb [29388 ].cint , 1 ) ) 
 	{
 	  if ( interaction == 3 ) 
 	  ;
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
-	  else printnl ( 264 ) ;
-	  print ( 1386 ) ;
+	  else printnl ( 265 ) ;
+	  print ( 266 ) ;
+	  print ( 1391 ) ;
 	} 
-	{
-	  helpptr = 4 ;
-	  helpline [3 ]= 1387 ;
-	  helpline [2 ]= 1388 ;
-	  helpline [1 ]= 1389 ;
-	  helpline [0 ]= 1341 ;
+	else {
+	    
+	  {
+	    if ( interaction == 3 ) 
+	    ;
+	    if ( filelineerrorstylep ) 
+	    printfileline () ;
+	    else printnl ( 264 ) ;
+	    print ( 1391 ) ;
+	  } 
+	  {
+	    helpptr = 4 ;
+	    helpline [3 ]= 1392 ;
+	    helpline [2 ]= 1393 ;
+	    helpline [1 ]= 1394 ;
+	    helpline [0 ]= 1346 ;
+	  } 
+	  error () ;
 	} 
-	error () ;
 	r = newspec ( q ) ;
 	mem [r ].hh.b1 = 0 ;
 	deleteglueref ( q ) ;
@@ -32045,21 +32159,21 @@ zvsplit ( halfword n , scaled h )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 345 ) ;
+      print ( 265 ) ;
     } 
-    printesc ( 1390 ) ;
-    print ( 1391 ) ;
-    printesc ( 1392 ) ;
+    printesc ( 1395 ) ;
+    print ( 1396 ) ;
+    printesc ( 1397 ) ;
     {
       helpptr = 2 ;
-      helpline [1 ]= 1393 ;
-      helpline [0 ]= 1394 ;
+      helpline [1 ]= 1398 ;
+      helpline [0 ]= 1399 ;
     } 
     error () ;
     Result = -268435455L ;
     return Result ;
   } 
-  q = vertbreak ( mem [v + 5 ].hh .v.RH , h , eqtb [29906 ].cint ) ;
+  q = vertbreak ( mem [v + 5 ].hh .v.RH , h , eqtb [29908 ].cint ) ;
   p = mem [v + 5 ].hh .v.RH ;
   if ( p == q ) 
   mem [v + 5 ].hh .v.RH = -268435455L ;
@@ -32101,7 +32215,7 @@ zvsplit ( halfword n , scaled h )
     p = mem [p ].hh .v.RH ;
   } 
   lab30: ;
-  q = prunepagetop ( q , eqtb [29385 ].cint > 0 ) ;
+  q = prunepagetop ( q , eqtb [29386 ].cint > 0 ) ;
   p = mem [v + 5 ].hh .v.RH ;
   freenode ( v , 7 ) ;
   if ( q != -268435455L ) 
@@ -32118,7 +32232,7 @@ zvsplit ( halfword n , scaled h )
       deletesaref ( curptr ) ;
     } 
   } 
-  Result = vpackage ( p , h , 0 , eqtb [29906 ].cint ) ;
+  Result = vpackage ( p , h , 0 , eqtb [29908 ].cint ) ;
   return Result ;
 } 
 void 
@@ -32128,31 +32242,31 @@ printtotals ( void )
   printscaled ( pagesofar [1 ]) ;
   if ( pagesofar [2 ]!= 0 ) 
   {
-    print ( 317 ) ;
+    print ( 319 ) ;
     printscaled ( pagesofar [2 ]) ;
-    print ( 345 ) ;
+    print ( 265 ) ;
   } 
   if ( pagesofar [3 ]!= 0 ) 
   {
-    print ( 317 ) ;
+    print ( 319 ) ;
     printscaled ( pagesofar [3 ]) ;
-    print ( 316 ) ;
+    print ( 318 ) ;
   } 
   if ( pagesofar [4 ]!= 0 ) 
   {
-    print ( 317 ) ;
+    print ( 319 ) ;
     printscaled ( pagesofar [4 ]) ;
-    print ( 1403 ) ;
+    print ( 1408 ) ;
   } 
   if ( pagesofar [5 ]!= 0 ) 
   {
-    print ( 317 ) ;
+    print ( 319 ) ;
     printscaled ( pagesofar [5 ]) ;
-    print ( 1404 ) ;
+    print ( 1409 ) ;
   } 
   if ( pagesofar [6 ]!= 0 ) 
   {
-    print ( 318 ) ;
+    print ( 320 ) ;
     printscaled ( pagesofar [6 ]) ;
   } 
 } 
@@ -32161,8 +32275,8 @@ zfreezepagespecs ( smallnumber s )
 {
   freezepagespecs_regmem 
   pagecontents = s ;
-  pagesofar [0 ]= eqtb [29904 ].cint ;
-  pagemaxdepth = eqtb [29905 ].cint ;
+  pagesofar [0 ]= eqtb [29906 ].cint ;
+  pagemaxdepth = eqtb [29907 ].cint ;
   pagesofar [7 ]= 0 ;
   pagesofar [1 ]= 0 ;
   pagesofar [2 ]= 0 ;
@@ -32176,9 +32290,9 @@ zfreezepagespecs ( smallnumber s )
   if ( eqtb [29310 ].cint > 0 ) 
   {
     begindiagnostic () ;
-    printnl ( 1412 ) ;
+    printnl ( 1417 ) ;
     printscaled ( pagesofar [0 ]) ;
-    print ( 1413 ) ;
+    print ( 1418 ) ;
     printscaled ( pagemaxdepth ) ;
     enddiagnostic ( false ) ;
   } 
@@ -32190,7 +32304,7 @@ zboxerror ( eightbits n )
   boxerror_regmem 
   error () ;
   begindiagnostic () ;
-  printnl ( 1007 ) ;
+  printnl ( 1011 ) ;
   showbox ( eqtb [27433 + n ].hh .v.RH ) ;
   enddiagnostic ( true ) ;
   flushnodelist ( eqtb [27433 + n ].hh .v.RH ) ;
@@ -32212,13 +32326,13 @@ zensurevbox ( eightbits n )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 1414 ) ;
+	print ( 1419 ) ;
       } 
       {
 	helpptr = 3 ;
-	helpline [2 ]= 1415 ;
-	helpline [1 ]= 1416 ;
-	helpline [0 ]= 1417 ;
+	helpline [2 ]= 1420 ;
+	helpline [1 ]= 1421 ;
+	helpline [0 ]= 1422 ;
       } 
       boxerror ( n ) ;
     } 
@@ -32265,14 +32379,14 @@ zfireup ( halfword c )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 345 ) ;
+      print ( 265 ) ;
     } 
-    printesc ( 430 ) ;
-    print ( 1427 ) ;
+    printesc ( 431 ) ;
+    print ( 1432 ) ;
     {
       helpptr = 2 ;
-      helpline [1 ]= 1428 ;
-      helpline [0 ]= 1417 ;
+      helpline [1 ]= 1433 ;
+      helpline [0 ]= 1422 ;
     } 
     boxerror ( 255 ) ;
   } 
@@ -32416,12 +32530,12 @@ zfireup ( halfword c )
   } 
   savevbadness = eqtb [29304 ].cint ;
   eqtb [29304 ].cint = 10000 ;
-  savevfuzz = eqtb [29909 ].cint ;
-  eqtb [29909 ].cint = 1073741823L ;
+  savevfuzz = eqtb [29911 ].cint ;
+  eqtb [29911 ].cint = 1073741823L ;
   eqtb [27688 ].hh .v.RH = vpackage ( mem [memtop - 2 ].hh .v.RH , 
   bestsize , 0 , pagemaxdepth ) ;
   eqtb [29304 ].cint = savevbadness ;
-  eqtb [29909 ].cint = savevfuzz ;
+  eqtb [29911 ].cint = savevfuzz ;
   if ( lastglue != 268435455L ) 
   deleteglueref ( lastglue ) ;
   pagecontents = 0 ;
@@ -32466,15 +32580,15 @@ zfireup ( halfword c )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 1429 ) ;
+	print ( 1434 ) ;
       } 
       printint ( deadcycles ) ;
-      print ( 1430 ) ;
+      print ( 1435 ) ;
       {
 	helpptr = 3 ;
-	helpline [2 ]= 1431 ;
-	helpline [1 ]= 1432 ;
-	helpline [0 ]= 1433 ;
+	helpline [2 ]= 1436 ;
+	helpline [1 ]= 1437 ;
+	helpline [0 ]= 1438 ;
       } 
       error () ;
     } 
@@ -32484,7 +32598,7 @@ zfireup ( halfword c )
       incr ( deadcycles ) ;
       pushnest () ;
       curlist .modefield = -1 ;
-      curlist .auxfield .cint = eqtb [29932 ].cint ;
+      curlist .auxfield .cint = eqtb [29934 ].cint ;
       curlist .mlfield = - (integer) line ;
       begintokenlist ( eqtb [27159 ].hh .v.RH , 6 ) ;
       newsavelevel ( 8 ) ;
@@ -32575,7 +32689,7 @@ buildpage ( void )
       if ( ( pagecontents < 2 ) && ( ( mem [p ].hh.b1 == 37 ) || ( mem [p ]
       .hh.b1 == 38 ) ) ) 
       {
-	print ( 1382 ) ;
+	print ( 1387 ) ;
 	goto lab31 ;
       } 
       else {
@@ -32637,9 +32751,9 @@ buildpage ( void )
 	  .cint + mem [eqtb [27433 + n ].hh .v.RH + 2 ].cint ;
 	  mem [r + 2 ].hh .v.LH = -268435455L ;
 	  q = eqtb [26646 + n ].hh .v.RH ;
-	  if ( eqtb [29388 + n ].cint == 1000 ) 
+	  if ( eqtb [29390 + n ].cint == 1000 ) 
 	  h = mem [r + 3 ].cint ;
-	  else h = xovern ( mem [r + 3 ].cint , 1000 ) * eqtb [29388 + n ]
+	  else h = xovern ( mem [r + 3 ].cint , 1000 ) * eqtb [29390 + n ]
 	  .cint ;
 	  pagesofar [0 ]= pagesofar [0 ]- h - mem [q + 1 ].cint ;
 	  pagesofar [2 + mem [q ].hh.b0 ]= pagesofar [2 + mem [q ]
@@ -32653,15 +32767,15 @@ buildpage ( void )
 	      if ( filelineerrorstylep ) 
 	      printfileline () ;
 	      else printnl ( 264 ) ;
-	      print ( 1422 ) ;
+	      print ( 1427 ) ;
 	    } 
-	    printesc ( 413 ) ;
+	    printesc ( 414 ) ;
 	    printint ( n ) ;
 	    {
 	      helpptr = 3 ;
-	      helpline [2 ]= 1423 ;
-	      helpline [1 ]= 1424 ;
-	      helpline [0 ]= 1341 ;
+	      helpline [2 ]= 1428 ;
+	      helpline [1 ]= 1429 ;
+	      helpline [0 ]= 1346 ;
 	    } 
 	    error () ;
 	  } 
@@ -32673,28 +32787,28 @@ buildpage ( void )
 	  mem [r + 2 ].hh .v.RH = p ;
 	  delta = pagesofar [0 ]- pagesofar [1 ]- pagesofar [7 ]+ 
 	  pagesofar [6 ];
-	  if ( eqtb [29388 + n ].cint == 1000 ) 
+	  if ( eqtb [29390 + n ].cint == 1000 ) 
 	  h = mem [p + 3 ].cint ;
-	  else h = xovern ( mem [p + 3 ].cint , 1000 ) * eqtb [29388 + n ]
+	  else h = xovern ( mem [p + 3 ].cint , 1000 ) * eqtb [29390 + n ]
 	  .cint ;
 	  if ( ( ( h <= 0 ) || ( h <= delta ) ) && ( mem [p + 3 ].cint + mem 
-	  [r + 3 ].cint <= eqtb [29934 + n ].cint ) ) 
+	  [r + 3 ].cint <= eqtb [29936 + n ].cint ) ) 
 	  {
 	    pagesofar [0 ]= pagesofar [0 ]- h ;
 	    mem [r + 3 ].cint = mem [r + 3 ].cint + mem [p + 3 ].cint ;
 	  } 
 	  else {
 	      
-	    if ( eqtb [29388 + n ].cint <= 0 ) 
+	    if ( eqtb [29390 + n ].cint <= 0 ) 
 	    w = 1073741823L ;
 	    else {
 		
 	      w = pagesofar [0 ]- pagesofar [1 ]- pagesofar [7 ];
-	      if ( eqtb [29388 + n ].cint != 1000 ) 
-	      w = xovern ( w , eqtb [29388 + n ].cint ) * 1000 ;
+	      if ( eqtb [29390 + n ].cint != 1000 ) 
+	      w = xovern ( w , eqtb [29390 + n ].cint ) * 1000 ;
 	    } 
-	    if ( w > eqtb [29934 + n ].cint - mem [r + 3 ].cint ) 
-	    w = eqtb [29934 + n ].cint - mem [r + 3 ].cint ;
+	    if ( w > eqtb [29936 + n ].cint - mem [r + 3 ].cint ) 
+	    w = eqtb [29936 + n ].cint - mem [r + 3 ].cint ;
 	    q = vertbreak ( mem [p + 4 ].hh .v.LH , w , mem [p + 2 ].cint 
 	    ) ;
 	    mem [r + 3 ].cint = mem [r + 3 ].cint + bestheightplusdepth ;
@@ -32703,13 +32817,13 @@ buildpage ( void )
 	    if ( eqtb [29310 ].cint > 0 ) 
 	    {
 	      begindiagnostic () ;
-	      printnl ( 1425 ) ;
+	      printnl ( 1430 ) ;
 	      printint ( n ) ;
-	      print ( 1426 ) ;
+	      print ( 1431 ) ;
 	      printscaled ( w ) ;
 	      printchar ( 44 ) ;
 	      printscaled ( bestheightplusdepth ) ;
-	      print ( 1354 ) ;
+	      print ( 1359 ) ;
 	      if ( q == -268435455L ) 
 	      printint ( -10000 ) ;
 	      else if ( mem [q ].hh.b0 == 12 ) 
@@ -32718,9 +32832,9 @@ buildpage ( void )
 	      enddiagnostic ( false ) ;
 	    } 
 #endif /* STAT */
-	    if ( eqtb [29388 + n ].cint != 1000 ) 
+	    if ( eqtb [29390 + n ].cint != 1000 ) 
 	    bestheightplusdepth = xovern ( bestheightplusdepth , 1000 ) * eqtb 
-	    [29388 + n ].cint ;
+	    [29390 + n ].cint ;
 	    pagesofar [0 ]= pagesofar [0 ]- bestheightplusdepth ;
 	    mem [r ].hh.b0 = 1 ;
 	    mem [r + 1 ].hh .v.RH = q ;
@@ -32735,7 +32849,7 @@ buildpage ( void )
       } 
       break ;
       default: 
-      confusion ( 899 ) ;
+      confusion ( 901 ) ;
       break ;
     } 
     if ( pi < 10000 ) 
@@ -32769,17 +32883,17 @@ buildpage ( void )
       {
 	begindiagnostic () ;
 	printnl ( 37 ) ;
-	print ( 1350 ) ;
+	print ( 1355 ) ;
 	printtotals () ;
-	print ( 1420 ) ;
+	print ( 1425 ) ;
 	printscaled ( pagesofar [0 ]) ;
-	print ( 1353 ) ;
+	print ( 1358 ) ;
 	if ( b == 1073741823L ) 
 	printchar ( 42 ) ;
 	else printint ( b ) ;
-	print ( 1354 ) ;
+	print ( 1359 ) ;
 	printint ( pi ) ;
-	print ( 1421 ) ;
+	print ( 1426 ) ;
 	if ( c == 1073741823L ) 
 	printchar ( 42 ) ;
 	else printint ( c ) ;
@@ -32826,14 +32940,14 @@ buildpage ( void )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 264 ) ;
-	  print ( 1418 ) ;
+	  print ( 1423 ) ;
 	} 
 	{
 	  helpptr = 4 ;
-	  helpline [3 ]= 1419 ;
-	  helpline [2 ]= 1388 ;
-	  helpline [1 ]= 1389 ;
-	  helpline [0 ]= 1341 ;
+	  helpline [3 ]= 1424 ;
+	  helpline [2 ]= 1393 ;
+	  helpline [1 ]= 1394 ;
+	  helpline [0 ]= 1346 ;
 	} 
 	error () ;
 	r = newspec ( q ) ;
@@ -32858,7 +32972,7 @@ buildpage ( void )
     goto lab30 ;
     lab31: mem [memtop - 1 ].hh .v.RH = mem [p ].hh .v.RH ;
     mem [p ].hh .v.RH = -268435455L ;
-    if ( eqtb [29385 ].cint > 0 ) 
+    if ( eqtb [29386 ].cint > 0 ) 
     {
       if ( discptr [2 ]== -268435455L ) 
       discptr [2 ]= p ;
@@ -32923,12 +33037,12 @@ insertdollarsign ( void )
     if ( filelineerrorstylep ) 
     printfileline () ;
     else printnl ( 264 ) ;
-    print ( 1440 ) ;
+    print ( 1445 ) ;
   } 
   {
     helpptr = 2 ;
-    helpline [1 ]= 1441 ;
-    helpline [0 ]= 1442 ;
+    helpline [1 ]= 1446 ;
+    helpline [0 ]= 1447 ;
   } 
   inserror () ;
 } 
@@ -32942,7 +33056,7 @@ youcant ( void )
     if ( filelineerrorstylep ) 
     printfileline () ;
     else printnl ( 264 ) ;
-    print ( 796 ) ;
+    print ( 798 ) ;
   } 
   printcmdchr ( curcmd , curchr ) ;
   printinmode ( curlist .modefield ) ;
@@ -32954,10 +33068,10 @@ reportillegalcase ( void )
   youcant () ;
   {
     helpptr = 4 ;
-    helpline [3 ]= 1443 ;
-    helpline [2 ]= 1444 ;
-    helpline [1 ]= 1445 ;
-    helpline [0 ]= 1446 ;
+    helpline [3 ]= 1448 ;
+    helpline [2 ]= 1449 ;
+    helpline [1 ]= 1450 ;
+    helpline [0 ]= 1451 ;
   } 
   error () ;
 } 
@@ -32992,7 +33106,7 @@ itsallover ( void )
       mem [curlist .tailfield ].hh .v.RH = newnullbox () ;
       curlist .tailfield = mem [curlist .tailfield ].hh .v.RH ;
     } 
-    mem [curlist .tailfield + 1 ].cint = eqtb [29903 ].cint ;
+    mem [curlist .tailfield + 1 ].cint = eqtb [29905 ].cint ;
     {
       prevtail = curlist .tailfield ;
       mem [curlist .tailfield ].hh .v.RH = newglue ( membot + 8 ) ;
@@ -33073,12 +33187,12 @@ offsave ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 943 ) ;
+      print ( 945 ) ;
     } 
     printcmdchr ( curcmd , curchr ) ;
     {
       helpptr = 1 ;
-      helpline [0 ]= 1464 ;
+      helpline [0 ]= 1469 ;
     } 
     error () ;
   } 
@@ -33093,13 +33207,13 @@ offsave ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 722 ) ;
+      print ( 724 ) ;
     } 
     switch ( curgroup ) 
     {case 14 : 
       {
 	mem [p ].hh .v.LH = 19611 ;
-	printesc ( 601 ) ;
+	printesc ( 603 ) ;
       } 
       break ;
     case 15 : 
@@ -33114,7 +33228,7 @@ offsave ( void )
 	mem [p ].hh .v.RH = getavail () ;
 	p = mem [p ].hh .v.RH ;
 	mem [p ].hh .v.LH = 3118 ;
-	printesc ( 1463 ) ;
+	printesc ( 1468 ) ;
       } 
       break ;
       default: 
@@ -33124,15 +33238,15 @@ offsave ( void )
       } 
       break ;
     } 
-    print ( 723 ) ;
+    print ( 725 ) ;
     begintokenlist ( mem [memtop - 3 ].hh .v.RH , 4 ) ;
     {
       helpptr = 5 ;
-      helpline [4 ]= 1458 ;
-      helpline [3 ]= 1459 ;
-      helpline [2 ]= 1460 ;
-      helpline [1 ]= 1461 ;
-      helpline [0 ]= 1462 ;
+      helpline [4 ]= 1463 ;
+      helpline [3 ]= 1464 ;
+      helpline [2 ]= 1465 ;
+      helpline [1 ]= 1466 ;
+      helpline [0 ]= 1467 ;
     } 
     error () ;
   } 
@@ -33147,26 +33261,26 @@ extrarightbrace ( void )
     if ( filelineerrorstylep ) 
     printfileline () ;
     else printnl ( 264 ) ;
-    print ( 1469 ) ;
+    print ( 1474 ) ;
   } 
   switch ( curgroup ) 
   {case 14 : 
-    printesc ( 601 ) ;
+    printesc ( 603 ) ;
     break ;
   case 15 : 
     printchar ( 36 ) ;
     break ;
   case 16 : 
-    printesc ( 1295 ) ;
+    printesc ( 1300 ) ;
     break ;
   } 
   {
     helpptr = 5 ;
-    helpline [4 ]= 1470 ;
-    helpline [3 ]= 1471 ;
-    helpline [2 ]= 1472 ;
-    helpline [1 ]= 1473 ;
-    helpline [0 ]= 1474 ;
+    helpline [4 ]= 1475 ;
+    helpline [3 ]= 1476 ;
+    helpline [2 ]= 1477 ;
+    helpline [1 ]= 1478 ;
+    helpline [0 ]= 1479 ;
   } 
   error () ;
   incr ( alignstate ) ;
@@ -33177,8 +33291,8 @@ normalparagraph ( void )
   normalparagraph_regmem 
   if ( eqtb [29296 ].cint != 0 ) 
   eqworddefine ( 29296 , 0 ) ;
-  if ( eqtb [29917 ].cint != 0 ) 
-  eqworddefine ( 29917 , 0 ) ;
+  if ( eqtb [29919 ].cint != 0 ) 
+  eqworddefine ( 29919 , 0 ) ;
   if ( eqtb [29318 ].cint != 1 ) 
   eqworddefine ( 29318 , 1 ) ;
   if ( eqtb [27158 ].hh .v.RH != -268435455L ) 
@@ -33287,13 +33401,13 @@ zboxend ( integer boxcontext )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 264 ) ;
-	  print ( 1487 ) ;
+	  print ( 1492 ) ;
 	} 
 	{
 	  helpptr = 3 ;
-	  helpline [2 ]= 1488 ;
-	  helpline [1 ]= 1489 ;
-	  helpline [0 ]= 1490 ;
+	  helpline [2 ]= 1493 ;
+	  helpline [1 ]= 1494 ;
+	  helpline [0 ]= 1495 ;
 	} 
 	backerror () ;
 	flushnodelist ( curbox ) ;
@@ -33363,7 +33477,7 @@ zbeginbox ( integer boxcontext )
 	youcant () ;
 	{
 	  helpptr = 1 ;
-	  helpline [0 ]= 1492 ;
+	  helpline [0 ]= 1497 ;
 	} 
 	error () ;
       } 
@@ -33373,8 +33487,8 @@ zbeginbox ( integer boxcontext )
 	youcant () ;
 	{
 	  helpptr = 2 ;
-	  helpline [1 ]= 1493 ;
-	  helpline [0 ]= 1494 ;
+	  helpline [1 ]= 1498 ;
+	  helpline [0 ]= 1499 ;
 	} 
 	error () ;
       } 
@@ -33426,7 +33540,7 @@ zbeginbox ( integer boxcontext )
 	    if ( q == -268435455L ) {
 		
 	      if ( fm ) 
-	      confusion ( 1491 ) ;
+	      confusion ( 1496 ) ;
 	      else curlist .tailfield = p ;
 	    } 
 	    else if ( fm ) 
@@ -33447,7 +33561,7 @@ zbeginbox ( integer boxcontext )
     {
       scanregisternum () ;
       n = curval ;
-      if ( ! scankeyword ( 1254 ) ) 
+      if ( ! scankeyword ( 1259 ) ) 
       {
 	{
 	  if ( interaction == 3 ) 
@@ -33455,12 +33569,12 @@ zbeginbox ( integer boxcontext )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 264 ) ;
-	  print ( 1495 ) ;
+	  print ( 1500 ) ;
 	} 
 	{
 	  helpptr = 2 ;
-	  helpline [1 ]= 1496 ;
-	  helpline [0 ]= 1497 ;
+	  helpline [1 ]= 1501 ;
+	  helpline [0 ]= 1502 ;
 	} 
 	error () ;
       } 
@@ -33494,7 +33608,7 @@ zbeginbox ( integer boxcontext )
       curlist .modefield = - (integer) k ;
       if ( k == 1 ) 
       {
-	curlist .auxfield .cint = eqtb [29932 ].cint ;
+	curlist .auxfield .cint = eqtb [29934 ].cint ;
 	if ( eqtb [27164 ].hh .v.RH != -268435455L ) 
 	begintokenlist ( eqtb [27164 ].hh .v.RH , 11 ) ;
       } 
@@ -33533,13 +33647,13 @@ zscanbox ( integer boxcontext )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 1498 ) ;
+      print ( 1503 ) ;
     } 
     {
       helpptr = 3 ;
-      helpline [2 ]= 1499 ;
-      helpline [1 ]= 1500 ;
-      helpline [0 ]= 1501 ;
+      helpline [2 ]= 1504 ;
+      helpline [1 ]= 1505 ;
+      helpline [0 ]= 1506 ;
     } 
     backerror () ;
   } 
@@ -33551,7 +33665,7 @@ zpackage ( smallnumber c )
   scaled h  ;
   halfword p  ;
   scaled d  ;
-  d = eqtb [29907 ].cint ;
+  d = eqtb [29909 ].cint ;
   unsave () ;
   saveptr = saveptr - 3 ;
   if ( curlist .modefield == -105 ) 
@@ -33616,7 +33730,7 @@ znewgraf ( boolean indented )
   {
     curlist .tailfield = newnullbox () ;
     mem [curlist .headfield ].hh .v.RH = curlist .tailfield ;
-    mem [curlist .tailfield + 1 ].cint = eqtb [29900 ].cint ;
+    mem [curlist .tailfield + 1 ].cint = eqtb [29902 ].cint ;
     if ( ( insertsrcspecialeverypar ) ) 
     insertsrcspecial () ;
   } 
@@ -33633,7 +33747,7 @@ indentinhmode ( void )
   if ( curchr > 0 ) 
   {
     p = newnullbox () ;
-    mem [p + 1 ].cint = eqtb [29900 ].cint ;
+    mem [p + 1 ].cint = eqtb [29902 ].cint ;
     if ( abs ( curlist .modefield ) == 105 ) 
     curlist .auxfield .hh .v.LH = 1000 ;
     else {
@@ -33666,14 +33780,14 @@ headforvmode ( void )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 796 ) ;
+	print ( 798 ) ;
       } 
-      printesc ( 608 ) ;
-      print ( 1505 ) ;
+      printesc ( 610 ) ;
+      print ( 1510 ) ;
       {
 	helpptr = 2 ;
-	helpline [1 ]= 1506 ;
-	helpline [0 ]= 1507 ;
+	helpline [1 ]= 1511 ;
+	helpline [0 ]= 1512 ;
       } 
       error () ;
     } 
@@ -33721,20 +33835,20 @@ begininsertoradjust ( void )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 1508 ) ;
+	print ( 1513 ) ;
       } 
-      printesc ( 337 ) ;
+      printesc ( 339 ) ;
       printint ( 255 ) ;
       {
 	helpptr = 1 ;
-	helpline [0 ]= 1509 ;
+	helpline [0 ]= 1514 ;
       } 
       error () ;
       curval = 0 ;
     } 
   } 
   savestack [saveptr + 0 ].cint = curval ;
-  if ( ( curcmd == 38 ) && scankeyword ( 1510 ) ) 
+  if ( ( curcmd == 38 ) && scankeyword ( 1515 ) ) 
   savestack [saveptr + 1 ].cint = 1 ;
   else savestack [saveptr + 1 ].cint = 0 ;
   saveptr = saveptr + 2 ;
@@ -33743,7 +33857,7 @@ begininsertoradjust ( void )
   normalparagraph () ;
   pushnest () ;
   curlist .modefield = -1 ;
-  curlist .auxfield .cint = eqtb [29932 ].cint ;
+  curlist .auxfield .cint = eqtb [29934 ].cint ;
 } 
 void 
 makemark ( void ) 
@@ -33797,13 +33911,13 @@ deletelast ( void )
       youcant () ;
       {
 	helpptr = 2 ;
-	helpline [1 ]= 1493 ;
-	helpline [0 ]= 1511 ;
+	helpline [1 ]= 1498 ;
+	helpline [0 ]= 1516 ;
       } 
       if ( curchr == 11 ) 
-      helpline [0 ]= ( 1512 ) ;
+      helpline [0 ]= ( 1517 ) ;
       else if ( curchr != 10 ) 
-      helpline [0 ]= ( 1513 ) ;
+      helpline [0 ]= ( 1518 ) ;
       error () ;
     } 
   } 
@@ -33854,7 +33968,7 @@ deletelast ( void )
 	if ( q == -268435455L ) {
 	    
 	  if ( fm ) 
-	  confusion ( 1491 ) ;
+	  confusion ( 1496 ) ;
 	  else curlist .tailfield = p ;
 	} 
 	else if ( fm ) 
@@ -33904,13 +34018,13 @@ unpackage ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 1521 ) ;
+      print ( 1526 ) ;
     } 
     {
       helpptr = 3 ;
-      helpline [2 ]= 1522 ;
-      helpline [1 ]= 1523 ;
-      helpline [0 ]= 1524 ;
+      helpline [2 ]= 1527 ;
+      helpline [1 ]= 1528 ;
+      helpline [0 ]= 1529 ;
     } 
     error () ;
     return ;
@@ -34053,15 +34167,15 @@ builddiscretionary ( void )
 	      if ( filelineerrorstylep ) 
 	      printfileline () ;
 	      else printnl ( 264 ) ;
-	      print ( 1531 ) ;
+	      print ( 1536 ) ;
 	    } 
 	    {
 	      helpptr = 1 ;
-	      helpline [0 ]= 1532 ;
+	      helpline [0 ]= 1537 ;
 	    } 
 	    error () ;
 	    begindiagnostic () ;
-	    printnl ( 1533 ) ;
+	    printnl ( 1538 ) ;
 	    showbox ( p ) ;
 	    enddiagnostic ( true ) ;
 	    flushnodelist ( p ) ;
@@ -34095,13 +34209,13 @@ builddiscretionary ( void )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 264 ) ;
-	  print ( 1525 ) ;
+	  print ( 1530 ) ;
 	} 
-	printesc ( 358 ) ;
+	printesc ( 359 ) ;
 	{
 	  helpptr = 2 ;
-	  helpline [1 ]= 1526 ;
-	  helpline [0 ]= 1527 ;
+	  helpline [1 ]= 1531 ;
+	  helpline [0 ]= 1532 ;
 	} 
 	flushnodelist ( p ) ;
 	n = 0 ;
@@ -34118,12 +34232,12 @@ builddiscretionary ( void )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 264 ) ;
-	  print ( 1528 ) ;
+	  print ( 1533 ) ;
 	} 
 	{
 	  helpptr = 2 ;
-	  helpline [1 ]= 1529 ;
-	  helpline [0 ]= 1530 ;
+	  helpline [1 ]= 1534 ;
+	  helpline [0 ]= 1535 ;
 	} 
 	error () ;
       } 
@@ -34209,30 +34323,30 @@ alignerror ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 1538 ) ;
+      print ( 1543 ) ;
     } 
     printcmdchr ( curcmd , curchr ) ;
     if ( curtok == 1062 ) 
     {
       {
 	helpptr = 6 ;
-	helpline [5 ]= 1539 ;
-	helpline [4 ]= 1540 ;
-	helpline [3 ]= 1541 ;
-	helpline [2 ]= 1542 ;
-	helpline [1 ]= 1543 ;
-	helpline [0 ]= 1544 ;
+	helpline [5 ]= 1544 ;
+	helpline [4 ]= 1545 ;
+	helpline [3 ]= 1546 ;
+	helpline [2 ]= 1547 ;
+	helpline [1 ]= 1548 ;
+	helpline [0 ]= 1549 ;
       } 
     } 
     else {
 	
       {
 	helpptr = 5 ;
-	helpline [4 ]= 1539 ;
-	helpline [3 ]= 1545 ;
-	helpline [2 ]= 1542 ;
-	helpline [1 ]= 1543 ;
-	helpline [0 ]= 1544 ;
+	helpline [4 ]= 1544 ;
+	helpline [3 ]= 1550 ;
+	helpline [2 ]= 1547 ;
+	helpline [1 ]= 1548 ;
+	helpline [0 ]= 1549 ;
       } 
     } 
     error () ;
@@ -34248,7 +34362,7 @@ alignerror ( void )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 754 ) ;
+	print ( 756 ) ;
       } 
       incr ( alignstate ) ;
       curtok = 379 ;
@@ -34261,16 +34375,16 @@ alignerror ( void )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 1534 ) ;
+	print ( 1539 ) ;
       } 
       decr ( alignstate ) ;
       curtok = 637 ;
     } 
     {
       helpptr = 3 ;
-      helpline [2 ]= 1535 ;
-      helpline [1 ]= 1536 ;
-      helpline [0 ]= 1537 ;
+      helpline [2 ]= 1540 ;
+      helpline [1 ]= 1541 ;
+      helpline [0 ]= 1542 ;
     } 
     inserror () ;
   } 
@@ -34285,13 +34399,13 @@ noalignerror ( void )
     if ( filelineerrorstylep ) 
     printfileline () ;
     else printnl ( 264 ) ;
-    print ( 1538 ) ;
+    print ( 1543 ) ;
   } 
-  printesc ( 614 ) ;
+  printesc ( 616 ) ;
   {
     helpptr = 2 ;
-    helpline [1 ]= 1546 ;
-    helpline [0 ]= 1547 ;
+    helpline [1 ]= 1551 ;
+    helpline [0 ]= 1552 ;
   } 
   error () ;
 } 
@@ -34305,13 +34419,13 @@ omiterror ( void )
     if ( filelineerrorstylep ) 
     printfileline () ;
     else printnl ( 264 ) ;
-    print ( 1538 ) ;
+    print ( 1543 ) ;
   } 
-  printesc ( 617 ) ;
+  printesc ( 619 ) ;
   {
     helpptr = 2 ;
-    helpline [1 ]= 1548 ;
-    helpline [0 ]= 1547 ;
+    helpline [1 ]= 1553 ;
+    helpline [0 ]= 1552 ;
   } 
   error () ;
 } 
@@ -34326,7 +34440,7 @@ doendv ( void )
   == 0 ) ) decr ( baseptr ) ;
   if ( ( inputstack [baseptr ].indexfield != 2 ) || ( inputstack [baseptr ]
   .locfield != -268435455L ) || ( inputstack [baseptr ].statefield != 0 ) ) 
-  fatalerror ( 688 ) ;
+  fatalerror ( 690 ) ;
   if ( curgroup == 6 ) 
   {
     endgraf () ;
@@ -34347,12 +34461,12 @@ cserror ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 943 ) ;
+      print ( 945 ) ;
     } 
-    printesc ( 600 ) ;
+    printesc ( 602 ) ;
     {
       helpptr = 1 ;
-      helpline [0 ]= 1550 ;
+      helpline [0 ]= 1555 ;
     } 
   } 
   else {
@@ -34363,12 +34477,12 @@ cserror ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 943 ) ;
+      print ( 945 ) ;
     } 
-    printesc ( 589 ) ;
+    printesc ( 591 ) ;
     {
       helpptr = 1 ;
-      helpline [0 ]= 1551 ;
+      helpline [0 ]= 1556 ;
     } 
   } 
   error () ;
@@ -34594,7 +34708,7 @@ zjustcopy ( halfword p , halfword h , halfword t )
 	r = getnode ( 2 ) ;
 	break ;
 	default: 
-	confusion ( 1926 ) ;
+	confusion ( 1932 ) ;
 	break ;
       } 
       break ;
@@ -34784,7 +34898,7 @@ initmath ( void )
       } 
       v = v + 2 * fontinfo [6 + parambase [eqtb [27689 ].hh .v.RH ]]
       .cint ;
-      if ( ( eqtb [29387 ].cint > 0 ) ) 
+      if ( ( eqtb [29389 ].cint > 0 ) ) 
       {
 	tempptr = getavail () ;
 	mem [tempptr ].hh .v.LH = 0 ;
@@ -34826,7 +34940,7 @@ initmath ( void )
 	case 9 : 
 	  {
 	    d = mem [p + 1 ].cint ;
-	    if ( ( eqtb [29387 ].cint > 0 ) ) {
+	    if ( ( eqtb [29389 ].cint > 0 ) ) {
 		
 	      if ( odd ( mem [p ].hh.b1 ) ) 
 	      {
@@ -34923,7 +35037,7 @@ initmath ( void )
 	} 
 	lab45: p = mem [p ].hh .v.RH ;
       } 
-      lab30: if ( ( eqtb [29387 ].cint > 0 ) ) 
+      lab30: if ( ( eqtb [29389 ].cint > 0 ) ) 
       {
 	while ( LRptr != -268435455L ) {
 	    
@@ -34949,18 +35063,18 @@ initmath ( void )
     } 
     if ( eqtb [27158 ].hh .v.RH == -268435455L ) {
 	
-      if ( ( eqtb [29917 ].cint != 0 ) && ( ( ( eqtb [29318 ].cint >= 0 ) 
+      if ( ( eqtb [29919 ].cint != 0 ) && ( ( ( eqtb [29318 ].cint >= 0 ) 
       && ( curlist .pgfield + 2 > eqtb [29318 ].cint ) ) || ( curlist 
       .pgfield + 1 < - (integer) eqtb [29318 ].cint ) ) ) 
       {
-	l = eqtb [29903 ].cint - abs ( eqtb [29917 ].cint ) ;
-	if ( eqtb [29917 ].cint > 0 ) 
-	s = eqtb [29917 ].cint ;
+	l = eqtb [29905 ].cint - abs ( eqtb [29919 ].cint ) ;
+	if ( eqtb [29919 ].cint > 0 ) 
+	s = eqtb [29919 ].cint ;
 	else s = 0 ;
       } 
       else {
 	  
-	l = eqtb [29903 ].cint ;
+	l = eqtb [29905 ].cint ;
 	s = 0 ;
       } 
     } 
@@ -34976,12 +35090,12 @@ initmath ( void )
     pushmath ( 15 ) ;
     curlist .modefield = 209 ;
     eqworddefine ( 29321 , -1 ) ;
-    eqworddefine ( 29913 , w ) ;
+    eqworddefine ( 29915 , w ) ;
     curlist .eTeXauxfield = j ;
     if ( ( eTeXmode == 1 ) ) 
-    eqworddefine ( 29383 , x ) ;
-    eqworddefine ( 29914 , l ) ;
-    eqworddefine ( 29915 , s ) ;
+    eqworddefine ( 29384 , x ) ;
+    eqworddefine ( 29916 , l ) ;
+    eqworddefine ( 29917 , s ) ;
     if ( eqtb [27162 ].hh .v.RH != -268435455L ) 
     begintokenlist ( eqtb [27162 ].hh .v.RH , 9 ) ;
     if ( nestptr == 1 ) 
@@ -35132,11 +35246,11 @@ mathlimitswitch ( void )
     if ( filelineerrorstylep ) 
     printfileline () ;
     else printnl ( 264 ) ;
-    print ( 1555 ) ;
+    print ( 1560 ) ;
   } 
   {
     helpptr = 1 ;
-    helpline [0 ]= 1556 ;
+    helpline [0 ]= 1561 ;
   } 
   error () ;
 } 
@@ -35154,7 +35268,7 @@ zscandelimiter ( halfword p , boolean r )
     switch ( curcmd ) 
     {case 11 : 
     case 12 : 
-      curval = eqtb [29644 + curchr ].cint ;
+      curval = eqtb [29646 + curchr ].cint ;
       break ;
     case 15 : 
       scantwentysevenbitint () ;
@@ -35172,16 +35286,16 @@ zscandelimiter ( halfword p , boolean r )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 1557 ) ;
+      print ( 1562 ) ;
     } 
     {
       helpptr = 6 ;
-      helpline [5 ]= 1558 ;
-      helpline [4 ]= 1559 ;
-      helpline [3 ]= 1560 ;
-      helpline [2 ]= 1561 ;
-      helpline [1 ]= 1562 ;
-      helpline [0 ]= 1563 ;
+      helpline [5 ]= 1563 ;
+      helpline [4 ]= 1564 ;
+      helpline [3 ]= 1565 ;
+      helpline [2 ]= 1566 ;
+      helpline [1 ]= 1567 ;
+      helpline [0 ]= 1568 ;
     } 
     backerror () ;
     curval = 0 ;
@@ -35220,14 +35334,14 @@ mathac ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 1564 ) ;
+      print ( 1569 ) ;
     } 
-    printesc ( 610 ) ;
-    print ( 1565 ) ;
+    printesc ( 612 ) ;
+    print ( 1570 ) ;
     {
       helpptr = 2 ;
-      helpline [1 ]= 1566 ;
-      helpline [0 ]= 1567 ;
+      helpline [1 ]= 1571 ;
+      helpline [0 ]= 1572 ;
     } 
     error () ;
   } 
@@ -35281,7 +35395,7 @@ zfinmlist ( halfword p )
       q = mem [curlist .auxfield .cint + 2 ].hh .v.LH ;
       if ( ( mem [q ].hh.b0 != 30 ) || ( curlist .eTeXauxfield == 
       -268435455L ) ) 
-      confusion ( 1295 ) ;
+      confusion ( 1300 ) ;
       mem [curlist .auxfield .cint + 2 ].hh .v.LH = mem [curlist 
       .eTeXauxfield ].hh .v.RH ;
       mem [curlist .eTeXauxfield ].hh .v.RH = curlist .auxfield .cint ;
@@ -35361,11 +35475,11 @@ subsup ( void )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 264 ) ;
-	  print ( 1568 ) ;
+	  print ( 1573 ) ;
 	} 
 	{
 	  helpptr = 1 ;
-	  helpline [0 ]= 1569 ;
+	  helpline [0 ]= 1574 ;
 	} 
       } 
       else {
@@ -35376,11 +35490,11 @@ subsup ( void )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 264 ) ;
-	  print ( 1570 ) ;
+	  print ( 1575 ) ;
 	} 
 	{
 	  helpptr = 1 ;
-	  helpline [0 ]= 1571 ;
+	  helpline [0 ]= 1576 ;
 	} 
       } 
       error () ;
@@ -35409,13 +35523,13 @@ mathfraction ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 1578 ) ;
+      print ( 1583 ) ;
     } 
     {
       helpptr = 3 ;
-      helpline [2 ]= 1579 ;
-      helpline [1 ]= 1580 ;
-      helpline [0 ]= 1581 ;
+      helpline [2 ]= 1584 ;
+      helpline [1 ]= 1585 ;
+      helpline [0 ]= 1586 ;
     } 
     error () ;
   } 
@@ -35472,22 +35586,22 @@ mathleftright ( void )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 943 ) ;
+	print ( 945 ) ;
       } 
       if ( t == 1 ) 
       {
-	printesc ( 1296 ) ;
+	printesc ( 1301 ) ;
 	{
 	  helpptr = 1 ;
-	  helpline [0 ]= 1582 ;
+	  helpline [0 ]= 1587 ;
 	} 
       } 
       else {
 	  
-	printesc ( 1295 ) ;
+	printesc ( 1300 ) ;
 	{
 	  helpptr = 1 ;
-	  helpline [0 ]= 1583 ;
+	  helpline [0 ]= 1588 ;
 	} 
       } 
       error () ;
@@ -35540,13 +35654,13 @@ zappdisplay ( halfword j , halfword b , scaled d )
   scaled e  ;
   integer x  ;
   halfword p, q, r, t, u  ;
-  s = eqtb [29915 ].cint ;
-  x = eqtb [29383 ].cint ;
+  s = eqtb [29917 ].cint ;
+  x = eqtb [29384 ].cint ;
   if ( x == 0 ) 
   mem [b + 4 ].cint = s + d ;
   else {
       
-    z = eqtb [29914 ].cint ;
+    z = eqtb [29916 ].cint ;
     p = b ;
     if ( x > 0 ) 
     e = z - d - mem [p + 1 ].cint ;
@@ -35571,7 +35685,7 @@ zappdisplay ( halfword j , halfword b , scaled d )
       r = mem [p + 5 ].hh .v.RH ;
       freenode ( p , 7 ) ;
       if ( r == -268435455L ) 
-      confusion ( 2052 ) ;
+      confusion ( 2059 ) ;
       if ( x > 0 ) 
       {
 	p = r ;
@@ -35685,13 +35799,13 @@ aftermath ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 1584 ) ;
+      print ( 1589 ) ;
     } 
     {
       helpptr = 3 ;
-      helpline [2 ]= 1585 ;
-      helpline [1 ]= 1586 ;
-      helpline [0 ]= 1587 ;
+      helpline [2 ]= 1590 ;
+      helpline [1 ]= 1591 ;
+      helpline [0 ]= 1592 ;
     } 
     error () ;
     flushmath () ;
@@ -35707,13 +35821,13 @@ aftermath ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 1588 ) ;
+      print ( 1593 ) ;
     } 
     {
       helpptr = 3 ;
-      helpline [2 ]= 1589 ;
-      helpline [1 ]= 1590 ;
-      helpline [0 ]= 1591 ;
+      helpline [2 ]= 1594 ;
+      helpline [1 ]= 1595 ;
+      helpline [0 ]= 1596 ;
     } 
     error () ;
     flushmath () ;
@@ -35734,12 +35848,12 @@ aftermath ( void )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 264 ) ;
-	  print ( 1592 ) ;
+	  print ( 1597 ) ;
 	} 
 	{
 	  helpptr = 2 ;
-	  helpline [1 ]= 1593 ;
-	  helpline [0 ]= 1594 ;
+	  helpline [1 ]= 1598 ;
+	  helpline [0 ]= 1599 ;
 	} 
 	backerror () ;
       } 
@@ -35767,13 +35881,13 @@ aftermath ( void )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 1584 ) ;
+	print ( 1589 ) ;
       } 
       {
 	helpptr = 3 ;
-	helpline [2 ]= 1585 ;
-	helpline [1 ]= 1586 ;
-	helpline [0 ]= 1587 ;
+	helpline [2 ]= 1590 ;
+	helpline [1 ]= 1591 ;
+	helpline [0 ]= 1592 ;
       } 
       error () ;
       flushmath () ;
@@ -35789,13 +35903,13 @@ aftermath ( void )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 1588 ) ;
+	print ( 1593 ) ;
       } 
       {
 	helpptr = 3 ;
-	helpline [2 ]= 1589 ;
-	helpline [1 ]= 1590 ;
-	helpline [0 ]= 1591 ;
+	helpline [2 ]= 1594 ;
+	helpline [1 ]= 1595 ;
+	helpline [0 ]= 1596 ;
       } 
       error () ;
       flushmath () ;
@@ -35809,7 +35923,7 @@ aftermath ( void )
   {
     {
       prevtail = curlist .tailfield ;
-      mem [curlist .tailfield ].hh .v.RH = newmath ( eqtb [29901 ].cint , 
+      mem [curlist .tailfield ].hh .v.RH = newmath ( eqtb [29903 ].cint , 
       0 ) ;
       curlist .tailfield = mem [curlist .tailfield ].hh .v.RH ;
     } 
@@ -35822,7 +35936,7 @@ aftermath ( void )
     .tailfield = mem [curlist .tailfield ].hh .v.RH ;
     {
       prevtail = curlist .tailfield ;
-      mem [curlist .tailfield ].hh .v.RH = newmath ( eqtb [29901 ].cint , 
+      mem [curlist .tailfield ].hh .v.RH = newmath ( eqtb [29903 ].cint , 
       1 ) ;
       curlist .tailfield = mem [curlist .tailfield ].hh .v.RH ;
     } 
@@ -35842,12 +35956,12 @@ aftermath ( void )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 264 ) ;
-	  print ( 1592 ) ;
+	  print ( 1597 ) ;
 	} 
 	{
 	  helpptr = 2 ;
-	  helpline [1 ]= 1593 ;
-	  helpline [0 ]= 1594 ;
+	  helpline [1 ]= 1598 ;
+	  helpline [0 ]= 1599 ;
 	} 
 	backerror () ;
       } 
@@ -35866,9 +35980,9 @@ aftermath ( void )
     pret = preadjusttail ;
     preadjusttail = -268435455L ;
     w = mem [b + 1 ].cint ;
-    z = eqtb [29914 ].cint ;
-    s = eqtb [29915 ].cint ;
-    if ( eqtb [29383 ].cint < 0 ) 
+    z = eqtb [29916 ].cint ;
+    s = eqtb [29917 ].cint ;
+    if ( eqtb [29384 ].cint < 0 ) 
     s = - (integer) s - z ;
     if ( ( a == -268435455L ) || danger ) 
     {
@@ -35920,7 +36034,7 @@ aftermath ( void )
       ) ;
       curlist .tailfield = mem [curlist .tailfield ].hh .v.RH ;
     } 
-    if ( ( d + s <= eqtb [29913 ].cint ) || l ) 
+    if ( ( d + s <= eqtb [29915 ].cint ) || l ) 
     {
       g1 = 3 ;
       g2 = 4 ;
@@ -36004,7 +36118,7 @@ resumeafterdisplay ( void )
 {
   resumeafterdisplay_regmem 
   if ( curgroup != 15 ) 
-  confusion ( 1595 ) ;
+  confusion ( 1600 ) ;
   unsave () ;
   curlist .pgfield = curlist .pgfield + 3 ;
   pushnest () ;
@@ -36034,7 +36148,7 @@ getrtoken ( void )
       gettoken () ;
   } while ( ! ( curtok != 2592 ) ) ;
   if ( ( curcs == 0 ) || ( curcs > eqtbtop ) || ( ( curcs > 15514 ) && ( curcs 
-  <= 30189 ) ) ) 
+  <= 30191 ) ) ) 
   {
     {
       if ( interaction == 3 ) 
@@ -36042,15 +36156,15 @@ getrtoken ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 1613 ) ;
+      print ( 1618 ) ;
     } 
     {
       helpptr = 5 ;
-      helpline [4 ]= 1614 ;
-      helpline [3 ]= 1615 ;
-      helpline [2 ]= 1616 ;
-      helpline [1 ]= 1617 ;
-      helpline [0 ]= 1618 ;
+      helpline [4 ]= 1619 ;
+      helpline [3 ]= 1620 ;
+      helpline [2 ]= 1621 ;
+      helpline [1 ]= 1622 ;
+      helpline [0 ]= 1623 ;
     } 
     if ( curcs == 0 ) 
     backinput () ;
@@ -36099,14 +36213,14 @@ zdoregistercommand ( smallnumber a )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 264 ) ;
-	  print ( 796 ) ;
+	  print ( 798 ) ;
 	} 
 	printcmdchr ( curcmd , curchr ) ;
-	print ( 797 ) ;
+	print ( 799 ) ;
 	printcmdchr ( q , 0 ) ;
 	{
 	  helpptr = 1 ;
-	  helpline [0 ]= 1652 ;
+	  helpline [0 ]= 1657 ;
 	} 
 	error () ;
 	return ;
@@ -36130,10 +36244,10 @@ zdoregistercommand ( smallnumber a )
       } 
       else switch ( p ) 
       {case 0 : 
-	l = curval + 29388 ;
+	l = curval + 29390 ;
 	break ;
       case 1 : 
-	l = curval + 29934 ;
+	l = curval + 29936 ;
 	break ;
       case 2 : 
 	l = curval + 26646 ;
@@ -36155,7 +36269,7 @@ zdoregistercommand ( smallnumber a )
   else s = eqtb [l ].hh .v.RH ;
   if ( q == 89 ) 
   scanoptionalequals () ;
-  else if ( scankeyword ( 1648 ) ) 
+  else if ( scankeyword ( 1653 ) ) 
   ;
   aritherror = false ;
   if ( q < 91 ) {
@@ -36243,12 +36357,12 @@ zdoregistercommand ( smallnumber a )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 1649 ) ;
+      print ( 1654 ) ;
     } 
     {
       helpptr = 2 ;
-      helpline [1 ]= 1650 ;
-      helpline [0 ]= 1651 ;
+      helpline [1 ]= 1655 ;
+      helpline [0 ]= 1656 ;
     } 
     if ( p >= 2 ) 
     deleteglueref ( curval ) ;
@@ -36308,11 +36422,11 @@ alteraux ( void )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 264 ) ;
-	  print ( 1655 ) ;
+	  print ( 1660 ) ;
 	} 
 	{
 	  helpptr = 1 ;
-	  helpline [0 ]= 1656 ;
+	  helpline [0 ]= 1661 ;
 	} 
 	interror ( curval ) ;
       } 
@@ -36338,12 +36452,12 @@ alterprevgraf ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 1378 ) ;
+      print ( 1383 ) ;
     } 
-    printesc ( 620 ) ;
+    printesc ( 622 ) ;
     {
       helpptr = 1 ;
-      helpline [0 ]= 1657 ;
+      helpline [0 ]= 1662 ;
     } 
     interror ( curval ) ;
   } 
@@ -36383,12 +36497,12 @@ alterinteger ( void )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 2037 ) ;
+	print ( 2044 ) ;
       } 
       {
 	helpptr = 2 ;
-	helpline [1 ]= 2038 ;
-	helpline [0 ]= 2039 ;
+	helpline [1 ]= 2045 ;
+	helpline [0 ]= 2046 ;
       } 
       interror ( curval ) ;
     } 
@@ -36440,14 +36554,14 @@ znewfont ( smallnumber a )
   else if ( u >= 257 ) {
       
     if ( u == 513 ) 
-    t = 1106 ;
+    t = 1110 ;
     else t = u - 257 ;
   } 
   else {
       
     oldsetting = selector ;
     selector = 21 ;
-    print ( 1106 ) ;
+    print ( 1110 ) ;
     print ( u - 1 ) ;
     selector = oldsetting ;
     {
@@ -36462,7 +36576,7 @@ znewfont ( smallnumber a )
   scanoptionalequals () ;
   scanfilename () ;
   nameinprogress = true ;
-  if ( scankeyword ( 1671 ) ) 
+  if ( scankeyword ( 1676 ) ) 
   {
     scandimen ( false , false , false ) ;
     s = curval ;
@@ -36474,20 +36588,20 @@ znewfont ( smallnumber a )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 1673 ) ;
+	print ( 1678 ) ;
       } 
       printscaled ( s ) ;
-      print ( 1674 ) ;
+      print ( 1679 ) ;
       {
 	helpptr = 2 ;
-	helpline [1 ]= 1675 ;
-	helpline [0 ]= 1676 ;
+	helpline [1 ]= 1680 ;
+	helpline [0 ]= 1681 ;
       } 
       error () ;
       s = 10 * 65536L ;
     } 
   } 
-  else if ( scankeyword ( 1672 ) ) 
+  else if ( scankeyword ( 1677 ) ) 
   {
     scanint () ;
     s = - (integer) curval ;
@@ -36499,11 +36613,11 @@ znewfont ( smallnumber a )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 644 ) ;
+	print ( 646 ) ;
       } 
       {
 	helpptr = 1 ;
-	helpline [0 ]= 645 ;
+	helpline [0 ]= 647 ;
       } 
       interror ( curval ) ;
       s = -1000 ;
@@ -36523,9 +36637,16 @@ znewfont ( smallnumber a )
 	  if ( s == fontsize [f ]) 
 	  goto lab50 ;
 	} 
-	else if ( fontsize [f ]== xnoverd ( fontdsize [f ], - (integer) s 
-	, 1000 ) ) 
-	goto lab50 ;
+	else {
+	    
+	  aritherror = false ;
+	  if ( fontsize [f ]== xnoverd ( fontdsize [f ], - (integer) s , 
+	  1000 ) ) {
+	      
+	    if ( ! aritherror ) 
+	    goto lab50 ;
+	  } 
+	} 
       } 
     } 
   while ( f++ < for_end ) ;} 
@@ -36633,7 +36754,7 @@ issuemessage ( void )
       if ( filelineerrorstylep ) 
       printfileline () ;
       else printnl ( 264 ) ;
-      print ( 345 ) ;
+      print ( 265 ) ;
     } 
     print ( s ) ;
     if ( eqtb [27167 ].hh .v.RH != -268435455L ) 
@@ -36641,7 +36762,7 @@ issuemessage ( void )
     else if ( longhelpseen ) 
     {
       helpptr = 1 ;
-      helpline [0 ]= 1683 ;
+      helpline [0 ]= 1688 ;
     } 
     else {
 	
@@ -36649,10 +36770,10 @@ issuemessage ( void )
       longhelpseen = true ;
       {
 	helpptr = 4 ;
-	helpline [3 ]= 1684 ;
-	helpline [2 ]= 1685 ;
-	helpline [1 ]= 1686 ;
-	helpline [0 ]= 1687 ;
+	helpline [3 ]= 1689 ;
+	helpline [2 ]= 1690 ;
+	helpline [1 ]= 1691 ;
+	helpline [0 ]= 1692 ;
       } 
     } 
     error () ;
@@ -36730,11 +36851,11 @@ showwhatever ( void )
       writeopen [eqtb [29337 ].cint ]) 
       selector = eqtb [29337 ].cint ;
       begindiagnostic () ;
-      printnl ( 1703 ) ;
+      printnl ( 1708 ) ;
       printint ( curval ) ;
       printchar ( 61 ) ;
       if ( p == -268435455L ) 
-      print ( 431 ) ;
+      print ( 432 ) ;
       else showbox ( p ) ;
     } 
     break ;
@@ -36746,7 +36867,7 @@ showwhatever ( void )
       selector = eqtb [29337 ].cint ;
       if ( interaction == 3 ) 
       ;
-      printnl ( 1699 ) ;
+      printnl ( 1704 ) ;
       if ( curcs != 0 ) 
       {
 	sprintcs ( curcs ) ;
@@ -36771,12 +36892,12 @@ showwhatever ( void )
       writeopen [eqtb [29337 ].cint ]) 
       selector = eqtb [29337 ].cint ;
       begindiagnostic () ;
-      printnl ( 345 ) ;
+      printnl ( 265 ) ;
       println () ;
       if ( condptr == -268435455L ) 
       {
-	printnl ( 380 ) ;
-	print ( 2034 ) ;
+	printnl ( 381 ) ;
+	print ( 2041 ) ;
       } 
       else {
 	  
@@ -36791,15 +36912,15 @@ showwhatever ( void )
 	l = ifline ;
 	m = iflimit ;
 	do {
-	    printnl ( 2035 ) ;
+	    printnl ( 2042 ) ;
 	  printint ( n ) ;
-	  print ( 659 ) ;
+	  print ( 661 ) ;
 	  printcmdchr ( 108 , t ) ;
 	  if ( m == 2 ) 
-	  printesc ( 942 ) ;
+	  printesc ( 944 ) ;
 	  if ( l != 0 ) 
 	  {
-	    print ( 2033 ) ;
+	    print ( 2040 ) ;
 	    printint ( l ) ;
 	  } 
 	  decr ( n ) ;
@@ -36819,7 +36940,7 @@ showwhatever ( void )
       selector = eqtb [29337 ].cint ;
       if ( interaction == 3 ) 
       ;
-      printnl ( 1699 ) ;
+      printnl ( 1704 ) ;
       tokenshow ( memtop - 3 ) ;
       flushlist ( mem [memtop - 3 ].hh .v.RH ) ;
       goto lab50 ;
@@ -36833,14 +36954,14 @@ showwhatever ( void )
     if ( filelineerrorstylep ) 
     printfileline () ;
     else printnl ( 264 ) ;
-    print ( 1704 ) ;
+    print ( 1709 ) ;
   } 
   if ( selector == 19 ) {
       
     if ( eqtb [29306 ].cint <= 0 ) 
     {
       selector = 17 ;
-      print ( 1705 ) ;
+      print ( 1710 ) ;
       selector = 19 ;
     } 
   } 
@@ -36864,20 +36985,20 @@ showwhatever ( void )
     {
       {
 	helpptr = 3 ;
-	helpline [2 ]= 1694 ;
-	helpline [1 ]= 1695 ;
-	helpline [0 ]= 1696 ;
+	helpline [2 ]= 1699 ;
+	helpline [1 ]= 1700 ;
+	helpline [0 ]= 1701 ;
       } 
     } 
     else {
 	
       {
 	helpptr = 5 ;
-	helpline [4 ]= 1694 ;
-	helpline [3 ]= 1695 ;
-	helpline [2 ]= 1696 ;
-	helpline [1 ]= 1697 ;
-	helpline [0 ]= 1698 ;
+	helpline [4 ]= 1699 ;
+	helpline [3 ]= 1700 ;
+	helpline [2 ]= 1701 ;
+	helpline [1 ]= 1702 ;
+	helpline [0 ]= 1703 ;
       } 
     } 
     error () ;
@@ -36923,8 +37044,8 @@ zcheckpdfoutput ( strnumber s , boolean iserror )
   if ( eqtb [29342 ].cint <= 0 ) 
   {
     if ( iserror ) 
-    pdferror ( s , 1789 ) ;
-    else pdfwarning ( s , 1790 , true , true ) ;
+    pdferror ( s , 1794 ) ;
+    else pdfwarning ( s , 1795 , true , true ) ;
   } 
 } 
 void 
@@ -37021,10 +37142,21 @@ zscaleimage ( integer n )
   {
     xr = 0 ;
     yr = 0 ;
-    pdfwarning ( 1788 , 1819 , true , true ) ;
+    pdfwarning ( 1793 , 1824 , true , true ) ;
   } 
   if ( ( x <= 0 ) || ( y <= 0 ) || ( xr < 0 ) || ( yr < 0 ) ) 
-  pdferror ( 1788 , 1820 ) ;
+  pdferror ( 1793 , 1825 ) ;
+  if ( ( xr == 0 ) && ( yr == 0 ) ) 
+  {
+    ;
+  } 
+  else if ( ( x / ((double) oneinch ) >= xr ) || ( y / ((double) oneinch ) >= 
+  yr ) ) 
+  {
+    xr = 0 ;
+    yr = 0 ;
+    pdfwarning ( 1793 , 1826 , true , true ) ;
+  } 
   if ( ispdfimage ( image ) ) 
   {
     w = x ;
@@ -37107,15 +37239,15 @@ scanpdfboxspec ( void )
 {
   register integer Result; scanpdfboxspec_regmem 
   Result = 0 ;
-  if ( scankeyword ( 1821 ) ) 
+  if ( scankeyword ( 1827 ) ) 
   Result = pdfboxspecmedia ;
-  else if ( scankeyword ( 1822 ) ) 
+  else if ( scankeyword ( 1828 ) ) 
   Result = pdfboxspeccrop ;
-  else if ( scankeyword ( 1823 ) ) 
+  else if ( scankeyword ( 1829 ) ) 
   Result = pdfboxspecbleed ;
-  else if ( scankeyword ( 1824 ) ) 
+  else if ( scankeyword ( 1830 ) ) 
   Result = pdfboxspectrim ;
-  else if ( scankeyword ( 1825 ) ) 
+  else if ( scankeyword ( 1831 ) ) 
   Result = pdfboxspecart ;
   return Result ;
 } 
@@ -37128,19 +37260,19 @@ scanaltrule ( void )
   mem [altrule + 1 ].cint = -1073741824L ;
   mem [altrule + 3 ].cint = -1073741824L ;
   mem [altrule + 2 ].cint = -1073741824L ;
-  lab21: if ( scankeyword ( 846 ) ) 
+  lab21: if ( scankeyword ( 848 ) ) 
   {
     scandimen ( false , false , false ) ;
     mem [altrule + 1 ].cint = curval ;
     goto lab21 ;
   } 
-  if ( scankeyword ( 847 ) ) 
+  if ( scankeyword ( 849 ) ) 
   {
     scandimen ( false , false , false ) ;
     mem [altrule + 3 ].cint = curval ;
     goto lab21 ;
   } 
-  if ( scankeyword ( 848 ) ) 
+  if ( scankeyword ( 850 ) ) 
   {
     scandimen ( false , false , false ) ;
     mem [altrule + 2 ].cint = curval ;
@@ -37163,26 +37295,26 @@ scanimage ( void )
   pdfmem [objtab [k ].int4 + 0 ]= mem [altrule + 1 ].cint ;
   pdfmem [objtab [k ].int4 + 1 ]= mem [altrule + 3 ].cint ;
   pdfmem [objtab [k ].int4 + 2 ]= mem [altrule + 2 ].cint ;
-  if ( scankeyword ( 1812 ) ) 
+  if ( scankeyword ( 1817 ) ) 
   {
     scanpdfexttoks () ;
     pdfmem [objtab [k ].int4 + 3 ]= defref ;
   } 
   else pdfmem [objtab [k ].int4 + 3 ]= -268435455L ;
   named = 0 ;
-  if ( scankeyword ( 1826 ) ) 
+  if ( scankeyword ( 1832 ) ) 
   {
     scanpdfexttoks () ;
     named = tokenstostring ( defref ) ;
     deletetokenref ( defref ) ;
   } 
-  else if ( scankeyword ( 899 ) ) 
+  else if ( scankeyword ( 901 ) ) 
   {
     scanint () ;
     page = curval ;
   } 
   else page = 1 ;
-  if ( scankeyword ( 1827 ) ) 
+  if ( scankeyword ( 1833 ) ) 
   {
     scanint () ;
     colorspace = curval ;
@@ -37196,14 +37328,14 @@ scanimage ( void )
   deletetokenref ( defref ) ;
   if ( eqtb [29349 ].cint != 0 ) 
   {
-    pdfwarning ( 1828 , 1829 , true , true ) ;
+    pdfwarning ( 1834 , 1835 , true , true ) ;
     eqtb [29353 ].cint = eqtb [29349 ].cint ;
     eqtb [29349 ].cint = 0 ;
     warnpdfpagebox = false ;
   } 
   if ( eqtb [29350 ].cint != 0 ) 
   {
-    pdfwarning ( 1828 , 1830 , true , true ) ;
+    pdfwarning ( 1834 , 1836 , true , true ) ;
     eqtb [29355 ].cint = eqtb [29350 ].cint ;
     eqtb [29350 ].cint = 0 ;
   } 
@@ -37211,7 +37343,7 @@ scanimage ( void )
   {
     if ( warnpdfpagebox ) 
     {
-      pdfwarning ( 1828 , 1831 , true , true ) ;
+      pdfwarning ( 1834 , 1837 , true , true ) ;
       warnpdfpagebox = false ;
     } 
     pagebox = eqtb [29353 ].cint ;
@@ -37239,13 +37371,13 @@ scanaction ( void )
   Result = p ;
   mem [p + 1 ].hh .v.LH = -268435455L ;
   mem [p + 2 ].hh .v.RH = -268435455L ;
-  if ( scankeyword ( 1834 ) ) 
+  if ( scankeyword ( 1840 ) ) 
   mem [p ].hh.b0 = 3 ;
-  else if ( scankeyword ( 1835 ) ) 
+  else if ( scankeyword ( 1841 ) ) 
   mem [p ].hh.b0 = 1 ;
-  else if ( scankeyword ( 1836 ) ) 
+  else if ( scankeyword ( 1842 ) ) 
   mem [p ].hh.b0 = 2 ;
-  else pdferror ( 1788 , 1837 ) ;
+  else pdferror ( 1793 , 1843 ) ;
   if ( mem [p ].hh.b0 == 3 ) 
   {
     scanpdfexttoks () ;
@@ -37253,67 +37385,67 @@ scanaction ( void )
     return Result ;
   } 
   mem [p ].hh.b1 = 0 ;
-  if ( scankeyword ( 888 ) ) 
+  if ( scankeyword ( 890 ) ) 
   {
     scanpdfexttoks () ;
     mem [p + 1 ].hh .v.LH = defref ;
   } 
-  if ( scankeyword ( 1838 ) ) 
+  if ( scankeyword ( 1844 ) ) 
   {
     if ( mem [p ].hh.b0 != 1 ) 
-    pdferror ( 1788 , 1839 ) ;
+    pdferror ( 1793 , 1845 ) ;
     if ( mem [p + 1 ].hh .v.LH != -268435455L ) 
     {
       scanpdfexttoks () ;
       mem [p ].hh.b1 = mem [p ].hh.b1 + 2 ;
       mem [p + 3 ].hh .v.RH = defref ;
     } 
-    else if ( scankeyword ( 1840 ) ) 
+    else if ( scankeyword ( 1846 ) ) 
     {
       scanpdfexttoks () ;
       mem [p ].hh.b1 = mem [p ].hh.b1 + 2 ;
       mem [p + 3 ].hh .v.RH = defref ;
     } 
-    else if ( scankeyword ( 1205 ) ) 
+    else if ( scankeyword ( 1209 ) ) 
     {
       scanint () ;
       if ( curval <= 0 ) 
-      pdferror ( 1788 , 1841 ) ;
+      pdferror ( 1793 , 1847 ) ;
       mem [p + 3 ].hh .v.RH = curval ;
     } 
-    else pdferror ( 1788 , 1842 ) ;
+    else pdferror ( 1793 , 1848 ) ;
   } 
   else mem [p + 3 ].hh .v.RH = -268435455L ;
-  if ( scankeyword ( 899 ) ) 
+  if ( scankeyword ( 901 ) ) 
   {
     if ( mem [p ].hh.b0 != 1 ) 
-    pdferror ( 1788 , 1843 ) ;
+    pdferror ( 1793 , 1849 ) ;
     mem [p ].hh.b0 = 0 ;
     scanint () ;
     if ( curval <= 0 ) 
-    pdferror ( 1788 , 1844 ) ;
+    pdferror ( 1793 , 1850 ) ;
     mem [p ].hh .v.RH = curval ;
     scanpdfexttoks () ;
     mem [p + 2 ].hh .v.LH = defref ;
   } 
-  else if ( scankeyword ( 1840 ) ) 
+  else if ( scankeyword ( 1846 ) ) 
   {
     scanpdfexttoks () ;
     mem [p ].hh.b1 = mem [p ].hh.b1 + 1 ;
     mem [p ].hh .v.RH = defref ;
   } 
-  else if ( scankeyword ( 1205 ) ) 
+  else if ( scankeyword ( 1209 ) ) 
   {
     if ( ( mem [p ].hh.b0 == 1 ) && ( mem [p + 1 ].hh .v.LH != -268435455L 
     ) ) 
-    pdferror ( 1788 , 1845 ) ;
+    pdferror ( 1793 , 1851 ) ;
     scanint () ;
     if ( curval <= 0 ) 
-    pdferror ( 1788 , 1841 ) ;
+    pdferror ( 1793 , 1847 ) ;
     mem [p ].hh .v.RH = curval ;
   } 
-  else pdferror ( 1788 , 1842 ) ;
-  if ( scankeyword ( 1846 ) ) 
+  else pdferror ( 1793 , 1848 ) ;
+  if ( scankeyword ( 1852 ) ) 
   {
     mem [p + 1 ].hh .v.RH = 1 ;
     {
@@ -37322,7 +37454,7 @@ scanaction ( void )
       backinput () ;
     } 
   } 
-  else if ( scankeyword ( 1847 ) ) 
+  else if ( scankeyword ( 1853 ) ) 
   {
     mem [p + 1 ].hh .v.RH = 2 ;
     {
@@ -37334,7 +37466,7 @@ scanaction ( void )
   else mem [p + 1 ].hh .v.RH = 0 ;
   if ( ( mem [p + 1 ].hh .v.RH > 0 ) && ( ( ( mem [p ].hh.b0 != 1 ) && ( 
   mem [p ].hh.b0 != 0 ) ) || ( mem [p + 1 ].hh .v.LH == -268435455L ) ) ) 
-  pdferror ( 1788 , 1848 ) ;
+  pdferror ( 1793 , 1854 ) ;
   return Result ;
 } 
 void 
@@ -37348,7 +37480,7 @@ znewannotwhatsit ( smallnumber w , smallnumber s )
   mem [curlist .tailfield + 3 ].cint = mem [altrule + 2 ].cint ;
   if ( ( w == 16 ) ) 
   {
-    if ( scankeyword ( 1812 ) ) 
+    if ( scankeyword ( 1817 ) ) 
     {
       scanpdfexttoks () ;
       mem [curlist .tailfield + 5 ].hh .v.LH = defref ;
@@ -37357,7 +37489,7 @@ znewannotwhatsit ( smallnumber w , smallnumber s )
   } 
   if ( ( w == 20 ) || ( w == 21 ) ) 
   {
-    if ( scankeyword ( 1812 ) ) 
+    if ( scankeyword ( 1817 ) ) 
     {
       scanpdfexttoks () ;
       mem [curlist .tailfield + 6 ].hh .v.LH = defref ;
@@ -37383,23 +37515,23 @@ void
 scanthreadid ( void ) 
 {
   scanthreadid_regmem 
-  if ( scankeyword ( 1205 ) ) 
+  if ( scankeyword ( 1209 ) ) 
   {
     scanint () ;
     if ( curval <= 0 ) 
-    pdferror ( 1788 , 1841 ) ;
+    pdferror ( 1793 , 1847 ) ;
     if ( curval > 268435455L ) 
-    pdferror ( 1788 , 1042 ) ;
+    pdferror ( 1793 , 1046 ) ;
     mem [curlist .tailfield + 5 ].hh .v.RH = curval ;
     mem [curlist .tailfield + 5 ].hh.b1 = 0 ;
   } 
-  else if ( scankeyword ( 1840 ) ) 
+  else if ( scankeyword ( 1846 ) ) 
   {
     scanpdfexttoks () ;
     mem [curlist .tailfield + 5 ].hh .v.RH = defref ;
     mem [curlist .tailfield + 5 ].hh.b1 = 1 ;
   } 
-  else pdferror ( 1788 , 1842 ) ;
+  else pdferror ( 1793 , 1848 ) ;
 } 
 halfword 
 znewsnapnode ( smallnumber s ) 
@@ -37408,7 +37540,7 @@ znewsnapnode ( smallnumber s )
   halfword p  ;
   scanglue ( 2 ) ;
   if ( mem [curval + 1 ].cint < 0 ) 
-  pdferror ( 1788 , 1876 ) ;
+  pdferror ( 1793 , 1882 ) ;
   p = getnode ( 3 ) ;
   mem [p ].hh.b0 = 8 ;
   mem [p ].hh.b1 = s ;
@@ -37452,7 +37584,7 @@ pdfincludechars ( void )
   scanfontident () ;
   f = curval ;
   if ( f == 0 ) 
-  pdferror ( 603 , 883 ) ;
+  pdferror ( 605 , 885 ) ;
   pdfcheckvfcurval () ;
   if ( ! fontused [f ]) 
   pdfinitfont ( f ) ;
@@ -37486,7 +37618,7 @@ void
 zthreadtitle ( integer thread ) 
 {
   threadtitle_regmem 
-  pdfprint ( 1896 ) ;
+  pdfprint ( 1902 ) ;
   if ( objtab [thread ].int0 < 0 ) 
   pdfprint ( - (integer) objtab [thread ].int0 ) ;
   else pdfprintint ( objtab [thread ].int0 ) ;
@@ -37497,7 +37629,7 @@ zthreadtitle ( integer thread )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -37513,19 +37645,19 @@ zpdffixthread ( integer thread )
 {
   pdffixthread_regmem 
   halfword a  ;
-  pdfwarning ( 1836 , 1897 , true , false ) ;
+  pdfwarning ( 1842 , 1903 , true , false ) ;
   if ( objtab [thread ].int0 < 0 ) 
   {
-    print ( 1204 ) ;
+    print ( 1208 ) ;
     print ( - (integer) objtab [thread ].int0 ) ;
     print ( 125 ) ;
   } 
   else {
       
-    print ( 1205 ) ;
+    print ( 1209 ) ;
     printint ( objtab [thread ].int0 ) ;
   } 
-  print ( 1206 ) ;
+  print ( 1210 ) ;
   println () ;
   println () ;
   pdfnewdict ( 0 , 0 , 0 ) ;
@@ -37534,14 +37666,14 @@ zpdffixthread ( integer thread )
   pdfindirectln ( 86 , a ) ;
   pdfindirectln ( 78 , a ) ;
   pdfindirectln ( 80 , headtab [1 ]) ;
-  pdfprint ( 1898 ) ;
-  pdfprintbp ( eqtb [29923 ].cint ) ;
+  pdfprint ( 1904 ) ;
+  pdfprintbp ( eqtb [29925 ].cint ) ;
   {
     {
       if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfosgetosbuf ( 1 ) ;
       else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-      overflow ( 1015 , pdfopbufsize ) ;
+      overflow ( 1019 , pdfopbufsize ) ;
       else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
       pdfflush () ;
     } 
@@ -37550,7 +37682,7 @@ zpdffixthread ( integer thread )
       incr ( pdfptr ) ;
     } 
   } 
-  pdfprintbp ( eqtb [29924 ].cint ) ;
+  pdfprintbp ( eqtb [29926 ].cint ) ;
   {
     pdfprint ( 93 ) ;
     {
@@ -37558,7 +37690,7 @@ zpdffixthread ( integer thread )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -37571,13 +37703,13 @@ zpdffixthread ( integer thread )
   pdfenddict () ;
   pdfbegindict ( thread , 1 ) ;
   {
-    pdfprint ( 1899 ) ;
+    pdfprint ( 1905 ) ;
     {
       {
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -37589,13 +37721,13 @@ zpdffixthread ( integer thread )
   } 
   threadtitle ( thread ) ;
   {
-    pdfprint ( 1032 ) ;
+    pdfprint ( 1036 ) ;
     {
       {
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -37636,7 +37768,7 @@ zoutthread ( integer thread )
 	if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfosgetosbuf ( 1 ) ;
 	else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	overflow ( 1015 , pdfopbufsize ) ;
+	overflow ( 1019 , pdfopbufsize ) ;
 	else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	pdfflush () ;
       } 
@@ -37649,13 +37781,13 @@ zoutthread ( integer thread )
   else {
       
     {
-      pdfprint ( 1899 ) ;
+      pdfprint ( 1905 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -37667,13 +37799,13 @@ zoutthread ( integer thread )
     } 
     threadtitle ( thread ) ;
     {
-      pdfprint ( 1032 ) ;
+      pdfprint ( 1036 ) ;
       {
 	{
 	  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfosgetosbuf ( 1 ) ;
 	  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-	  overflow ( 1015 , pdfopbufsize ) ;
+	  overflow ( 1019 , pdfopbufsize ) ;
 	  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 	  pdfflush () ;
 	} 
@@ -37732,7 +37864,7 @@ doextension ( void )
     break ;
   case 3 : 
     {
-      if ( scankeyword ( 1483 ) ) 
+      if ( scankeyword ( 1488 ) ) 
       {
 	newwhatsit ( 4 , 2 ) ;
 	if ( eqtb [29341 ].cint + 64 < 0 ) 
@@ -37803,7 +37935,7 @@ doextension ( void )
 	  {
 	    doextension () ;
 	    if ( objtab [pdflastobj ].int4 == 0 ) 
-	    pdferror ( 1788 , 1942 ) ;
+	    pdferror ( 1793 , 1948 ) ;
 	    pdfwriteobj ( pdflastobj ) ;
 	  } 
 	  break ;
@@ -37850,8 +37982,8 @@ doextension ( void )
     break ;
   case 15 : 
     {
-      checkpdfoutput ( 1849 , true ) ;
-      if ( scankeyword ( 1809 ) ) 
+      checkpdfoutput ( 1855 , true ) ;
+      if ( scankeyword ( 1814 ) ) 
       {
 	pdflastannot = pdfnewobjnum () ;
 	{
@@ -37862,12 +37994,12 @@ doextension ( void )
       } 
       else {
 	  
-	if ( scankeyword ( 1810 ) ) 
+	if ( scankeyword ( 1815 ) ) 
 	{
 	  scanint () ;
 	  k = curval ;
 	  if ( ( k <= 0 ) || ( k > objptr ) || ( objtab [k ].int4 != 0 ) ) 
-	  pdferror ( 1788 , 1850 ) ;
+	  pdferror ( 1793 , 1856 ) ;
 	} 
 	else k = pdfnewobjnum () ;
 	newannotwhatsit ( 15 , 7 ) ;
@@ -37880,14 +38012,14 @@ doextension ( void )
     break ;
   case 25 : 
     {
-      checkpdfoutput ( 1880 , false ) ;
+      checkpdfoutput ( 1886 , false ) ;
       scanpdfexttoks () ;
       if ( eqtb [29342 ].cint > 0 ) 
       pdfcatalogtoks = concattokens ( pdfcatalogtoks , defref ) ;
-      if ( scankeyword ( 1881 ) ) 
+      if ( scankeyword ( 1887 ) ) 
       {
 	if ( pdfcatalogopenaction != 0 ) 
-	pdferror ( 1788 , 1882 ) ;
+	pdferror ( 1793 , 1888 ) ;
 	else {
 	    
 	  p = scanaction () ;
@@ -37922,14 +38054,14 @@ doextension ( void )
     break ;
   case 19 : 
     {
-      checkpdfoutput ( 1858 , true ) ;
+      checkpdfoutput ( 1864 , true ) ;
       q = curlist .tailfield ;
       newwhatsit ( 19 , 7 ) ;
-      if ( scankeyword ( 1838 ) ) 
+      if ( scankeyword ( 1844 ) ) 
       {
 	scanint () ;
 	if ( curval <= 0 ) 
-	pdferror ( 1788 , 1859 ) ;
+	pdferror ( 1793 , 1865 ) ;
 	mem [curlist .tailfield + 6 ].hh .v.RH = curval ;
 	j = 6 ;
       } 
@@ -37938,50 +38070,50 @@ doextension ( void )
 	mem [curlist .tailfield + 6 ].hh .v.RH = -268435455L ;
 	j = 5 ;
       } 
-      if ( scankeyword ( 1205 ) ) 
+      if ( scankeyword ( 1209 ) ) 
       {
 	scanint () ;
 	if ( curval <= 0 ) 
-	pdferror ( 1788 , 1841 ) ;
+	pdferror ( 1793 , 1847 ) ;
 	if ( curval > 268435455L ) 
-	pdferror ( 1788 , 1042 ) ;
+	pdferror ( 1793 , 1046 ) ;
 	mem [curlist .tailfield + 5 ].hh .v.RH = curval ;
 	mem [curlist .tailfield + 5 ].hh.b1 = 0 ;
       } 
-      else if ( scankeyword ( 1840 ) ) 
+      else if ( scankeyword ( 1846 ) ) 
       {
 	scanpdfexttoks () ;
 	mem [curlist .tailfield + 5 ].hh .v.RH = defref ;
 	mem [curlist .tailfield + 5 ].hh.b1 = 1 ;
       } 
-      else pdferror ( 1788 , 1842 ) ;
-      if ( scankeyword ( 1860 ) ) 
+      else pdferror ( 1793 , 1848 ) ;
+      if ( scankeyword ( 1866 ) ) 
       {
 	mem [curlist .tailfield + 5 ].hh.b0 = 0 ;
-	if ( scankeyword ( 1861 ) ) 
+	if ( scankeyword ( 1867 ) ) 
 	{
 	  scanint () ;
 	  if ( curval > 268435455L ) 
-	  pdferror ( 1788 , 1042 ) ;
+	  pdferror ( 1793 , 1046 ) ;
 	  mem [curlist .tailfield + 6 ].hh .v.LH = curval ;
 	} 
 	else mem [curlist .tailfield + 6 ].hh .v.LH = -268435455L ;
       } 
-      else if ( scankeyword ( 1862 ) ) 
-      mem [curlist .tailfield + 5 ].hh.b0 = 5 ;
-      else if ( scankeyword ( 1863 ) ) 
-      mem [curlist .tailfield + 5 ].hh.b0 = 6 ;
-      else if ( scankeyword ( 1864 ) ) 
-      mem [curlist .tailfield + 5 ].hh.b0 = 4 ;
-      else if ( scankeyword ( 1865 ) ) 
-      mem [curlist .tailfield + 5 ].hh.b0 = 2 ;
-      else if ( scankeyword ( 1866 ) ) 
-      mem [curlist .tailfield + 5 ].hh.b0 = 3 ;
-      else if ( scankeyword ( 1867 ) ) 
-      mem [curlist .tailfield + 5 ].hh.b0 = 7 ;
       else if ( scankeyword ( 1868 ) ) 
+      mem [curlist .tailfield + 5 ].hh.b0 = 5 ;
+      else if ( scankeyword ( 1869 ) ) 
+      mem [curlist .tailfield + 5 ].hh.b0 = 6 ;
+      else if ( scankeyword ( 1870 ) ) 
+      mem [curlist .tailfield + 5 ].hh.b0 = 4 ;
+      else if ( scankeyword ( 1871 ) ) 
+      mem [curlist .tailfield + 5 ].hh.b0 = 2 ;
+      else if ( scankeyword ( 1872 ) ) 
+      mem [curlist .tailfield + 5 ].hh.b0 = 3 ;
+      else if ( scankeyword ( 1873 ) ) 
+      mem [curlist .tailfield + 5 ].hh.b0 = 7 ;
+      else if ( scankeyword ( 1874 ) ) 
       mem [curlist .tailfield + 5 ].hh.b0 = 1 ;
-      else pdferror ( 1788 , 1869 ) ;
+      else pdferror ( 1793 , 1875 ) ;
       {
 	getxtoken () ;
 	if ( curcmd != 10 ) 
@@ -38005,7 +38137,7 @@ doextension ( void )
       if ( ( k != 0 ) && ( objtab [k ].int4 != -268435455L ) ) 
       {
 	warndestdup ( mem [curlist .tailfield + 5 ].hh .v.RH , mem [curlist 
-	.tailfield + 5 ].hh.b1 , 1870 , 1871 ) ;
+	.tailfield + 5 ].hh.b1 , 1876 , 1877 ) ;
 	flushnodelist ( curlist .tailfield ) ;
 	curlist .tailfield = q ;
 	mem [q ].hh .v.RH = -268435455L ;
@@ -38014,25 +38146,25 @@ doextension ( void )
     break ;
   case 17 : 
     {
-      checkpdfoutput ( 1853 , true ) ;
+      checkpdfoutput ( 1859 , true ) ;
       if ( abs ( curlist .modefield ) == 1 ) 
-      pdferror ( 1788 , 1854 ) ;
+      pdferror ( 1793 , 1860 ) ;
       newwhatsit ( 17 , 2 ) ;
     } 
     break ;
   case 22 : 
     {
-      checkpdfoutput ( 1874 , true ) ;
+      checkpdfoutput ( 1880 , true ) ;
       newwhatsit ( 22 , 2 ) ;
     } 
     break ;
   case 27 : 
     {
-      checkpdfoutput ( 1212 , true ) ;
+      checkpdfoutput ( 1216 , true ) ;
       scanfontident () ;
       k = curval ;
       if ( k == 0 ) 
-      pdferror ( 603 , 883 ) ;
+      pdferror ( 605 , 885 ) ;
       scanpdfexttoks () ;
       pdffontattr [k ]= tokenstostring ( defref ) ;
     } 
@@ -38042,13 +38174,13 @@ doextension ( void )
     break ;
   case 28 : 
     {
-      checkpdfoutput ( 1886 , true ) ;
+      checkpdfoutput ( 1892 , true ) ;
       pdfincludechars () ;
     } 
     break ;
   case 24 : 
     {
-      checkpdfoutput ( 1879 , false ) ;
+      checkpdfoutput ( 1885 , false ) ;
       scanpdfexttoks () ;
       if ( eqtb [29342 ].cint > 0 ) 
       pdfinfotoks = concattokens ( pdfinfotoks , defref ) ;
@@ -38056,14 +38188,14 @@ doextension ( void )
     break ;
   case 7 : 
     {
-      checkpdfoutput ( 1791 , true ) ;
-      if ( scankeyword ( 1483 ) ) 
+      checkpdfoutput ( 1796 , true ) ;
+      if ( scankeyword ( 1488 ) ) 
       k = 8 ;
       else k = 7 ;
       newwhatsit ( k , 2 ) ;
-      if ( scankeyword ( 900 ) ) 
+      if ( scankeyword ( 902 ) ) 
       mem [curlist .tailfield + 1 ].hh .v.LH = 2 ;
-      else if ( scankeyword ( 899 ) ) 
+      else if ( scankeyword ( 901 ) ) 
       mem [curlist .tailfield + 1 ].hh .v.LH = 1 ;
       else mem [curlist .tailfield + 1 ].hh .v.LH = 0 ;
       if ( k == 7 ) 
@@ -38074,7 +38206,7 @@ doextension ( void )
     break ;
   case 40 : 
     {
-      checkpdfoutput ( 1792 , true ) ;
+      checkpdfoutput ( 1797 , true ) ;
       scanint () ;
       if ( curval >= colorstackused () ) 
       {
@@ -38084,14 +38216,14 @@ doextension ( void )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 264 ) ;
-	  print ( 1793 ) ;
+	  print ( 1798 ) ;
 	} 
 	printint ( curval ) ;
 	{
 	  helpptr = 3 ;
-	  helpline [2 ]= 1794 ;
-	  helpline [1 ]= 1795 ;
-	  helpline [0 ]= 1796 ;
+	  helpline [2 ]= 1799 ;
+	  helpline [1 ]= 1800 ;
+	  helpline [0 ]= 1801 ;
 	} 
 	error () ;
 	curval = 0 ;
@@ -38104,32 +38236,32 @@ doextension ( void )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 264 ) ;
-	  print ( 1797 ) ;
+	  print ( 1802 ) ;
 	} 
 	{
 	  helpptr = 2 ;
-	  helpline [1 ]= 1795 ;
-	  helpline [0 ]= 1796 ;
+	  helpline [1 ]= 1800 ;
+	  helpline [0 ]= 1801 ;
 	} 
 	error () ;
 	curval = 0 ;
       } 
-      if ( scankeyword ( 1798 ) ) 
+      if ( scankeyword ( 1803 ) ) 
       {
 	i = 0 ;
 	j = 3 ;
       } 
-      else if ( scankeyword ( 1799 ) ) 
+      else if ( scankeyword ( 1804 ) ) 
       {
 	i = 1 ;
 	j = 3 ;
       } 
-      else if ( scankeyword ( 1800 ) ) 
+      else if ( scankeyword ( 1805 ) ) 
       {
 	i = 2 ;
 	j = 2 ;
       } 
-      else if ( scankeyword ( 1801 ) ) 
+      else if ( scankeyword ( 1806 ) ) 
       {
 	i = 3 ;
 	j = 2 ;
@@ -38157,13 +38289,13 @@ doextension ( void )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 264 ) ;
-	  print ( 1802 ) ;
+	  print ( 1807 ) ;
 	} 
 	{
 	  helpptr = 3 ;
-	  helpline [2 ]= 1803 ;
-	  helpline [1 ]= 1804 ;
-	  helpline [0 ]= 1805 ;
+	  helpline [2 ]= 1808 ;
+	  helpline [1 ]= 1809 ;
+	  helpline [0 ]= 1810 ;
 	} 
 	error () ;
       } 
@@ -38171,7 +38303,7 @@ doextension ( void )
     break ;
   case 41 : 
     {
-      checkpdfoutput ( 1143 , true ) ;
+      checkpdfoutput ( 1147 , true ) ;
       newwhatsit ( 41 , 2 ) ;
       scanpdfexttoks () ;
       mem [curlist .tailfield + 1 ].hh .v.RH = defref ;
@@ -38179,19 +38311,19 @@ doextension ( void )
     break ;
   case 42 : 
     {
-      checkpdfoutput ( 1806 , true ) ;
+      checkpdfoutput ( 1811 , true ) ;
       newwhatsit ( 42 , 2 ) ;
     } 
     break ;
   case 43 : 
     {
-      checkpdfoutput ( 1807 , true ) ;
+      checkpdfoutput ( 1812 , true ) ;
       newwhatsit ( 43 , 2 ) ;
     } 
     break ;
   case 29 : 
     {
-      checkpdfoutput ( 1887 , true ) ;
+      checkpdfoutput ( 1893 , true ) ;
       scanpdfexttoks () ;
       pdfmapfile ( defref ) ;
       deletetokenref ( defref ) ;
@@ -38199,7 +38331,7 @@ doextension ( void )
     break ;
   case 30 : 
     {
-      checkpdfoutput ( 1888 , true ) ;
+      checkpdfoutput ( 1894 , true ) ;
       scanpdfexttoks () ;
       pdfmapline ( defref ) ;
       deletetokenref ( defref ) ;
@@ -38207,15 +38339,15 @@ doextension ( void )
     break ;
   case 26 : 
     {
-      checkpdfoutput ( 1883 , true ) ;
+      checkpdfoutput ( 1889 , true ) ;
       scanpdfexttoks () ;
       pdfnamestoks = concattokens ( pdfnamestoks , defref ) ;
     } 
     break ;
   case 9 : 
     {
-      checkpdfoutput ( 1808 , true ) ;
-      if ( scankeyword ( 1809 ) ) 
+      checkpdfoutput ( 1813 , true ) ;
+      if ( scankeyword ( 1814 ) ) 
       {
 	{
 	  getxtoken () ;
@@ -38229,13 +38361,13 @@ doextension ( void )
       else {
 	  
 	k = -1 ;
-	if ( scankeyword ( 1810 ) ) 
+	if ( scankeyword ( 1815 ) ) 
 	{
 	  scanint () ;
 	  k = curval ;
 	  if ( ( k <= 0 ) || ( k > objptr ) || ( objtab [k ].int4 != 0 ) ) 
 	  {
-	    pdfwarning ( 1808 , 1811 , true , true ) ;
+	    pdfwarning ( 1813 , 1816 , true , true ) ;
 	    pdfretval = -1 ;
 	    k = -1 ;
 	  } 
@@ -38247,10 +38379,10 @@ doextension ( void )
 	  k = objptr ;
 	} 
 	objtab [k ].int4 = pdfgetmem ( 4 ) ;
-	if ( scankeyword ( 1033 ) ) 
+	if ( scankeyword ( 1037 ) ) 
 	{
 	  pdfmem [objtab [k ].int4 + 1 ]= 1 ;
-	  if ( scankeyword ( 1812 ) ) 
+	  if ( scankeyword ( 1817 ) ) 
 	  {
 	    scanpdfexttoks () ;
 	    pdfmem [objtab [k ].int4 + 2 ]= defref ;
@@ -38258,7 +38390,7 @@ doextension ( void )
 	  else pdfmem [objtab [k ].int4 + 2 ]= -268435455L ;
 	} 
 	else pdfmem [objtab [k ].int4 + 1 ]= 0 ;
-	if ( scankeyword ( 888 ) ) 
+	if ( scankeyword ( 890 ) ) 
 	pdfmem [objtab [k ].int4 + 3 ]= 1 ;
 	else pdfmem [objtab [k ].int4 + 3 ]= 0 ;
 	scanpdfexttoks () ;
@@ -38269,15 +38401,15 @@ doextension ( void )
     break ;
   case 18 : 
     {
-      checkpdfoutput ( 1855 , true ) ;
-      if ( scankeyword ( 1812 ) ) 
+      checkpdfoutput ( 1861 , true ) ;
+      if ( scankeyword ( 1817 ) ) 
       {
 	scanpdfexttoks () ;
 	r = defref ;
       } 
       else r = 0 ;
       p = scanaction () ;
-      if ( scankeyword ( 545 ) ) 
+      if ( scankeyword ( 547 ) ) 
       {
 	scanint () ;
 	i = curval ;
@@ -38366,7 +38498,7 @@ doextension ( void )
     break ;
   case 10 : 
     {
-      checkpdfoutput ( 1814 , true ) ;
+      checkpdfoutput ( 1819 , true ) ;
       scanint () ;
       pdfcheckobj ( 7 , curval ) ;
       newwhatsit ( 10 , 2 ) ;
@@ -38375,7 +38507,7 @@ doextension ( void )
     break ;
   case 12 : 
     {
-      checkpdfoutput ( 1818 , true ) ;
+      checkpdfoutput ( 1823 , true ) ;
       scanint () ;
       pdfcheckobj ( 8 , curval ) ;
       newwhatsit ( 12 , 5 ) ;
@@ -38390,7 +38522,7 @@ doextension ( void )
     break ;
   case 14 : 
     {
-      checkpdfoutput ( 1833 , true ) ;
+      checkpdfoutput ( 1839 , true ) ;
       scanint () ;
       pdfcheckobj ( 9 , curval ) ;
       newwhatsit ( 14 , 5 ) ;
@@ -38410,13 +38542,13 @@ doextension ( void )
     break ;
   case 36 : 
     {
-      checkpdfoutput ( 1875 , true ) ;
+      checkpdfoutput ( 1881 , true ) ;
       newwhatsit ( 36 , 2 ) ;
     } 
     break ;
   case 38 : 
     {
-      checkpdfoutput ( 1878 , true ) ;
+      checkpdfoutput ( 1884 , true ) ;
       newwhatsit ( 38 , 2 ) ;
       scanint () ;
       mem [curlist .tailfield + 1 ].cint = fixint ( curval , 0 , 1000 ) ;
@@ -38424,7 +38556,7 @@ doextension ( void )
     break ;
   case 37 : 
     {
-      checkpdfoutput ( 1877 , true ) ;
+      checkpdfoutput ( 1883 , true ) ;
       {
 	prevtail = curlist .tailfield ;
 	mem [curlist .tailfield ].hh .v.RH = newsnapnode ( 37 ) ;
@@ -38434,9 +38566,9 @@ doextension ( void )
     break ;
   case 16 : 
     {
-      checkpdfoutput ( 1851 , true ) ;
+      checkpdfoutput ( 1857 , true ) ;
       if ( abs ( curlist .modefield ) == 1 ) 
-      pdferror ( 1788 , 1852 ) ;
+      pdferror ( 1793 , 1858 ) ;
       k = pdfnewobjnum () ;
       newannotwhatsit ( 16 , 7 ) ;
       mem [curlist .tailfield + 5 ].hh .v.RH = scanaction () ;
@@ -38446,21 +38578,21 @@ doextension ( void )
     break ;
   case 21 : 
     {
-      checkpdfoutput ( 1873 , true ) ;
+      checkpdfoutput ( 1879 , true ) ;
       newannotwhatsit ( 21 , 7 ) ;
       scanthreadid () ;
     } 
     break ;
   case 20 : 
     {
-      checkpdfoutput ( 1872 , true ) ;
+      checkpdfoutput ( 1878 , true ) ;
       newannotwhatsit ( 20 , 7 ) ;
       scanthreadid () ;
     } 
     break ;
   case 31 : 
     {
-      checkpdfoutput ( 1884 , false ) ;
+      checkpdfoutput ( 1890 , false ) ;
       scanpdfexttoks () ;
       if ( eqtb [29342 ].cint > 0 ) 
       pdftrailertoks = concattokens ( pdftrailertoks , defref ) ;
@@ -38468,7 +38600,7 @@ doextension ( void )
     break ;
   case 32 : 
     {
-      checkpdfoutput ( 1885 , false ) ;
+      checkpdfoutput ( 1891 , false ) ;
       scanpdfexttoks () ;
       if ( eqtb [29342 ].cint > 0 ) 
       pdftraileridtoks = concattokens ( pdftraileridtoks , defref ) ;
@@ -38476,18 +38608,18 @@ doextension ( void )
     break ;
   case 11 : 
     {
-      checkpdfoutput ( 1815 , true ) ;
+      checkpdfoutput ( 1820 , true ) ;
       incr ( pdfxformcount ) ;
       pdfcreateobj ( 8 , pdfxformcount ) ;
       k = objptr ;
       objtab [k ].int4 = pdfgetmem ( 6 ) ;
-      if ( scankeyword ( 1812 ) ) 
+      if ( scankeyword ( 1817 ) ) 
       {
 	scanpdfexttoks () ;
 	pdfmem [objtab [k ].int4 + 4 ]= defref ;
       } 
       else pdfmem [objtab [k ].int4 + 4 ]= -268435455L ;
-      if ( scankeyword ( 1816 ) ) 
+      if ( scankeyword ( 1821 ) ) 
       {
 	scanpdfexttoks () ;
 	pdfmem [objtab [k ].int4 + 5 ]= defref ;
@@ -38504,7 +38636,7 @@ doextension ( void )
 	else p = mem [curptr + 1 ].hh .v.RH ;
       } 
       if ( p == -268435455L ) 
-      pdferror ( 1788 , 1817 ) ;
+      pdferror ( 1793 , 1822 ) ;
       pdfmem [objtab [k ].int4 + 0 ]= mem [p + 1 ].cint ;
       pdfmem [objtab [k ].int4 + 1 ]= mem [p + 3 ].cint ;
       pdfmem [objtab [k ].int4 + 2 ]= mem [p + 2 ].cint ;
@@ -38526,7 +38658,7 @@ doextension ( void )
     break ;
   case 13 : 
     {
-      checkpdfoutput ( 1832 , true ) ;
+      checkpdfoutput ( 1838 , true ) ;
       checkpdfversion () ;
       scanimage () ;
     } 
@@ -38552,54 +38684,54 @@ doextension ( void )
     break ;
   case 44 : 
     {
-      checkpdfoutput ( 1889 , true ) ;
+      checkpdfoutput ( 1895 , true ) ;
       scanfontident () ;
       k = curval ;
       if ( k == 0 ) 
-      pdferror ( 603 , 883 ) ;
+      pdferror ( 605 , 885 ) ;
       pdffontnobuiltintounicode [k ]= true ;
     } 
     break ;
   case 45 : 
     {
-      checkpdfoutput ( 1890 , true ) ;
+      checkpdfoutput ( 1896 , true ) ;
       newwhatsit ( 45 , 2 ) ;
     } 
     break ;
   case 46 : 
     {
-      checkpdfoutput ( 1891 , true ) ;
+      checkpdfoutput ( 1897 , true ) ;
       newwhatsit ( 46 , 2 ) ;
     } 
     break ;
   case 47 : 
     {
-      checkpdfoutput ( 1892 , true ) ;
+      checkpdfoutput ( 1898 , true ) ;
       newwhatsit ( 47 , 2 ) ;
     } 
     break ;
   case 48 : 
     {
-      checkpdfoutput ( 1893 , true ) ;
+      checkpdfoutput ( 1899 , true ) ;
       newwhatsit ( 48 , 2 ) ;
     } 
     break ;
   case 49 : 
     {
-      checkpdfoutput ( 1894 , true ) ;
+      checkpdfoutput ( 1900 , true ) ;
       newwhatsit ( 49 , 2 ) ;
     } 
     break ;
   case 50 : 
     {
-      checkpdfoutput ( 1895 , true ) ;
+      checkpdfoutput ( 1901 , true ) ;
       scanpdfexttoks () ;
       pdfspacefontname = tokenstostring ( defref ) ;
       deletetokenref ( defref ) ;
     } 
     break ;
     default: 
-    confusion ( 1788 ) ;
+    confusion ( 1793 ) ;
     break ;
   } 
 } 
@@ -38683,12 +38815,12 @@ handlerightbrace ( void )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 1465 ) ;
+	print ( 1470 ) ;
       } 
       {
 	helpptr = 2 ;
-	helpline [1 ]= 1466 ;
-	helpline [0 ]= 1467 ;
+	helpline [1 ]= 1471 ;
+	helpline [0 ]= 1472 ;
       } 
       error () ;
     } 
@@ -38749,7 +38881,7 @@ handlerightbrace ( void )
       endgraf () ;
       q = eqtb [26638 ].hh .v.RH ;
       incr ( mem [q ].hh .v.RH ) ;
-      d = eqtb [29906 ].cint ;
+      d = eqtb [29908 ].cint ;
       f = eqtb [29319 ].cint ;
       unsave () ;
       saveptr = saveptr - 2 ;
@@ -38810,12 +38942,12 @@ handlerightbrace ( void )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 264 ) ;
-	  print ( 687 ) ;
+	  print ( 689 ) ;
 	} 
 	{
 	  helpptr = 2 ;
-	  helpline [1 ]= 1434 ;
-	  helpline [0 ]= 1435 ;
+	  helpline [1 ]= 1439 ;
+	  helpline [0 ]= 1440 ;
 	} 
 	error () ;
 	do {
@@ -38837,15 +38969,15 @@ handlerightbrace ( void )
 	  if ( filelineerrorstylep ) 
 	  printfileline () ;
 	  else printnl ( 264 ) ;
-	  print ( 1436 ) ;
+	  print ( 1441 ) ;
 	} 
-	printesc ( 430 ) ;
+	printesc ( 431 ) ;
 	printint ( 255 ) ;
 	{
 	  helpptr = 3 ;
-	  helpline [2 ]= 1437 ;
-	  helpline [1 ]= 1438 ;
-	  helpline [0 ]= 1439 ;
+	  helpline [2 ]= 1442 ;
+	  helpline [1 ]= 1443 ;
+	  helpline [0 ]= 1444 ;
 	} 
 	boxerror ( 255 ) ;
       } 
@@ -38882,13 +39014,13 @@ handlerightbrace ( void )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 722 ) ;
+	print ( 724 ) ;
       } 
-      printesc ( 1318 ) ;
-      print ( 723 ) ;
+      printesc ( 1323 ) ;
+      print ( 725 ) ;
       {
 	helpptr = 1 ;
-	helpline [0 ]= 1549 ;
+	helpline [0 ]= 1554 ;
       } 
       inserror () ;
     } 
@@ -38980,7 +39112,7 @@ handlerightbrace ( void )
     } 
     break ;
     default: 
-    confusion ( 1468 ) ;
+    confusion ( 1473 ) ;
     break ;
   } 
 } 
@@ -39155,7 +39287,7 @@ maincontrol ( void )
 	curlist .tailfield = mem [curlist .tailfield ].hh .v.RH ;
       } 
       if ( abs ( curlist .modefield ) == 1 ) 
-      curlist .auxfield .cint = eqtb [29932 ].cint ;
+      curlist .auxfield .cint = eqtb [29934 ].cint ;
       else if ( abs ( curlist .modefield ) == 105 ) 
       curlist .auxfield .hh .v.LH = 1000 ;
     } 
@@ -39331,7 +39463,7 @@ maincontrol ( void )
   case 138 : 
     if ( curchr > 0 ) 
     {
-      if ( eTeXenabled ( ( eqtb [29387 ].cint > 0 ) , curcmd , curchr ) ) 
+      if ( eTeXenabled ( ( eqtb [29389 ].cint > 0 ) , curcmd , curchr ) ) 
       {
 	prevtail = curlist .tailfield ;
 	mem [curlist .tailfield ].hh .v.RH = newmath ( 0 , curchr ) ;
@@ -39440,7 +39572,7 @@ maincontrol ( void )
       normalparagraph () ;
       pushnest () ;
       curlist .modefield = -1 ;
-      curlist .auxfield .cint = eqtb [29932 ].cint ;
+      curlist .auxfield .cint = eqtb [29934 ].cint ;
       if ( ( insertsrcspecialeveryvbox ) ) 
       insertsrcspecial () ;
       if ( eqtb [27164 ].hh .v.RH != -268435455L ) 
@@ -40335,14 +40467,14 @@ closefilesandterminate ( void )
 	if ( filelineerrorstylep ) 
 	printfileline () ;
 	else printnl ( 264 ) ;
-	print ( 1729 ) ;
+	print ( 1734 ) ;
       } 
     } 
     else {
 	
       if ( totalpages == 0 ) 
       {
-	printnl ( 1008 ) ;
+	printnl ( 1012 ) ;
 	if ( pdfgone > 0 ) 
 	garbagewarning () ;
       } 
@@ -40357,9 +40489,9 @@ closefilesandterminate ( void )
 	  k = headtab [1 ];
 	  while ( objtab [k ].int4 == 0 ) {
 	      
-	    pdfwarning ( 1203 , 1210 , true , false ) ;
+	    pdfwarning ( 1207 , 1214 , true , false ) ;
 	    printint ( objtab [k ].int0 ) ;
-	    print ( 1211 ) ;
+	    print ( 1215 ) ;
 	    println () ;
 	    println () ;
 	    k = objtab [k ].int1 ;
@@ -40421,11 +40553,11 @@ closefilesandterminate ( void )
 	      + 1 ]- strstart [pdffontattr [k ]]) != 0 ) && ! streqstr ( 
 	      pdffontattr [i ], pdffontattr [k ]) ) 
 	      {
-		pdfwarning ( 1212 , 1213 , true , false ) ;
+		pdfwarning ( 1216 , 1217 , true , false ) ;
 		printfontidentifier ( i ) ;
-		print ( 1214 ) ;
+		print ( 1218 ) ;
 		printfontidentifier ( k ) ;
-		print ( 1215 ) ;
+		print ( 1219 ) ;
 		printfontidentifier ( i ) ;
 		println () ;
 		println () ;
@@ -40470,13 +40602,13 @@ closefilesandterminate ( void )
 	      } 
 	      pdfbegindict ( l , 1 ) ;
 	      {
-		pdfprint ( 1216 ) ;
+		pdfprint ( 1220 ) ;
 		{
 		  {
 		    if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		    pdfosgetosbuf ( 1 ) ;
 		    else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		    overflow ( 1015 , pdfopbufsize ) ;
+		    overflow ( 1019 , pdfopbufsize ) ;
 		    else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		    pdfflush () ;
 		  } 
@@ -40486,14 +40618,14 @@ closefilesandterminate ( void )
 		  } 
 		} 
 	      } 
-	      pdfintentryln ( 1198 , objtab [l ].int0 ) ;
+	      pdfintentryln ( 1202 , objtab [l ].int0 ) ;
 	      if ( ! isroot ) 
-	      pdfindirectln ( 1172 , pdflastpages ) ;
-	      pdfprint ( 1217 ) ;
+	      pdfindirectln ( 1176 , pdflastpages ) ;
+	      pdfprint ( 1221 ) ;
 	      j = 0 ;
 	      do {
 		  pdfprintint ( k ) ;
-		pdfprint ( 1157 ) ;
+		pdfprint ( 1161 ) ;
 		k = objtab [k ].int1 ;
 		incr ( j ) ;
 	      } while ( ! ( ( ( l < a ) && ( j == objtab [l ].int0 ) ) || ( 
@@ -40506,7 +40638,7 @@ closefilesandterminate ( void )
 		    if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		    pdfosgetosbuf ( 1 ) ;
 		    else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		    overflow ( 1015 , pdfopbufsize ) ;
+		    overflow ( 1019 , pdfopbufsize ) ;
 		    else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		    pdfflush () ;
 		  } 
@@ -40547,13 +40679,13 @@ closefilesandterminate ( void )
 	      l = pdfmem [objtab [l ].int4 + 3 ];
 	    } while ( ! ( l == 0 ) ) ;
 	    {
-	      pdfprint ( 1195 ) ;
+	      pdfprint ( 1199 ) ;
 	      {
 		{
 		  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		  pdfosgetosbuf ( 1 ) ;
 		  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		  overflow ( 1015 , pdfopbufsize ) ;
+		  overflow ( 1019 , pdfopbufsize ) ;
 		  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		  pdfflush () ;
 		} 
@@ -40563,9 +40695,9 @@ closefilesandterminate ( void )
 		} 
 	      } 
 	    } 
-	    pdfindirectln ( 1196 , pdffirstoutline ) ;
-	    pdfindirectln ( 1197 , pdflastoutline ) ;
-	    pdfintentryln ( 1198 , k ) ;
+	    pdfindirectln ( 1200 , pdffirstoutline ) ;
+	    pdfindirectln ( 1201 , pdflastoutline ) ;
+	    pdfintentryln ( 1202 , k ) ;
 	    pdfenddict () ;
 	    k = headtab [4 ];
 	    while ( k != 0 ) {
@@ -40578,20 +40710,20 @@ closefilesandterminate ( void )
 		pdflastoutline = k ;
 	      } 
 	      pdfbegindict ( k , 1 ) ;
-	      pdfindirectln ( 1199 , pdfmem [objtab [k ].int4 ]) ;
+	      pdfindirectln ( 1203 , pdfmem [objtab [k ].int4 ]) ;
 	      pdfindirectln ( 65 , pdfmem [objtab [k ].int4 + 6 ]) ;
 	      if ( pdfmem [objtab [k ].int4 + 1 ]!= 0 ) 
-	      pdfindirectln ( 1172 , pdfmem [objtab [k ].int4 + 1 ]) ;
+	      pdfindirectln ( 1176 , pdfmem [objtab [k ].int4 + 1 ]) ;
 	      if ( pdfmem [objtab [k ].int4 + 2 ]!= 0 ) 
-	      pdfindirectln ( 1200 , pdfmem [objtab [k ].int4 + 2 ]) ;
+	      pdfindirectln ( 1204 , pdfmem [objtab [k ].int4 + 2 ]) ;
 	      if ( pdfmem [objtab [k ].int4 + 3 ]!= 0 ) 
-	      pdfindirectln ( 1201 , pdfmem [objtab [k ].int4 + 3 ]) ;
+	      pdfindirectln ( 1205 , pdfmem [objtab [k ].int4 + 3 ]) ;
 	      if ( pdfmem [objtab [k ].int4 + 4 ]!= 0 ) 
-	      pdfindirectln ( 1196 , pdfmem [objtab [k ].int4 + 4 ]) ;
+	      pdfindirectln ( 1200 , pdfmem [objtab [k ].int4 + 4 ]) ;
 	      if ( pdfmem [objtab [k ].int4 + 5 ]!= 0 ) 
-	      pdfindirectln ( 1197 , pdfmem [objtab [k ].int4 + 5 ]) ;
+	      pdfindirectln ( 1201 , pdfmem [objtab [k ].int4 + 5 ]) ;
 	      if ( objtab [k ].int0 != 0 ) 
-	      pdfintentryln ( 1198 , objtab [k ].int0 ) ;
+	      pdfintentryln ( 1202 , objtab [k ].int0 ) ;
 	      if ( pdfmem [objtab [k ].int4 + 7 ]!= 0 ) 
 	      {
 		pdfprinttoksln ( pdfmem [objtab [k ].int4 + 7 ]) ;
@@ -40637,7 +40769,7 @@ closefilesandterminate ( void )
 	      if ( isnames ) 
 	      {
 		objtab [l ].int0 = destnames [k ].objname ;
-		pdfprint ( 1219 ) ;
+		pdfprint ( 1223 ) ;
 		do {
 		    pdfprintstr ( destnames [k ].objname ) ;
 		  {
@@ -40645,7 +40777,7 @@ closefilesandterminate ( void )
 		      if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		      pdfosgetosbuf ( 1 ) ;
 		      else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		      overflow ( 1015 , pdfopbufsize ) ;
+		      overflow ( 1019 , pdfopbufsize ) ;
 		      else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		      pdfflush () ;
 		    } 
@@ -40655,7 +40787,7 @@ closefilesandterminate ( void )
 		    } 
 		  } 
 		  pdfprintint ( destnames [k ].objnum ) ;
-		  pdfprint ( 1157 ) ;
+		  pdfprint ( 1161 ) ;
 		  incr ( j ) ;
 		  incr ( k ) ;
 		} while ( ! ( ( j == 6 ) || ( k == pdfdestnamesptr ) ) ) ;
@@ -40667,7 +40799,7 @@ closefilesandterminate ( void )
 		      if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		      pdfosgetosbuf ( 1 ) ;
 		      else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		      overflow ( 1015 , pdfopbufsize ) ;
+		      overflow ( 1019 , pdfopbufsize ) ;
 		      else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		      pdfflush () ;
 		    } 
@@ -40688,10 +40820,10 @@ closefilesandterminate ( void )
 	      else {
 		  
 		objtab [l ].int0 = objtab [k ].int0 ;
-		pdfprint ( 1217 ) ;
+		pdfprint ( 1221 ) ;
 		do {
 		    pdfprintint ( k ) ;
-		  pdfprint ( 1157 ) ;
+		  pdfprint ( 1161 ) ;
 		  incr ( j ) ;
 		  objtab [l ].int4 = objtab [k ].int4 ;
 		  k = objtab [k ].int1 ;
@@ -40705,7 +40837,7 @@ closefilesandterminate ( void )
 		      if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		      pdfosgetosbuf ( 1 ) ;
 		      else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		      overflow ( 1015 , pdfopbufsize ) ;
+		      overflow ( 1019 , pdfopbufsize ) ;
 		      else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		      pdfflush () ;
 		    } 
@@ -40718,14 +40850,14 @@ closefilesandterminate ( void )
 		if ( k == b ) 
 		b = 0 ;
 	      } 
-	      pdfprint ( 1220 ) ;
+	      pdfprint ( 1224 ) ;
 	      pdfprintstr ( objtab [l ].int0 ) ;
 	      {
 		{
 		  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		  pdfosgetosbuf ( 1 ) ;
 		  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		  overflow ( 1015 , pdfopbufsize ) ;
+		  overflow ( 1019 , pdfopbufsize ) ;
 		  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		  pdfflush () ;
 		} 
@@ -40742,7 +40874,7 @@ closefilesandterminate ( void )
 		    if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		    pdfosgetosbuf ( 1 ) ;
 		    else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		    overflow ( 1015 , pdfopbufsize ) ;
+		    overflow ( 1019 , pdfopbufsize ) ;
 		    else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		    pdfflush () ;
 		  } 
@@ -40764,7 +40896,7 @@ closefilesandterminate ( void )
 	  {
 	    pdfnewdict ( 0 , 0 , 1 ) ;
 	    if ( ( dests != 0 ) ) 
-	    pdfindirectln ( 1218 , dests ) ;
+	    pdfindirectln ( 1222 , dests ) ;
 	    if ( pdfnamestoks != -268435455L ) 
 	    {
 	      pdfprinttoksln ( pdfnamestoks ) ;
@@ -40786,7 +40918,7 @@ closefilesandterminate ( void )
 		if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		pdfosgetosbuf ( 1 ) ;
 		else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		overflow ( 1015 , pdfopbufsize ) ;
+		overflow ( 1019 , pdfopbufsize ) ;
 		else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		pdfflush () ;
 	      } 
@@ -40799,7 +40931,7 @@ closefilesandterminate ( void )
 	    while ( k != 0 ) {
 		
 	      pdfprintint ( k ) ;
-	      pdfprint ( 1157 ) ;
+	      pdfprint ( 1161 ) ;
 	      k = objtab [k ].int1 ;
 	    } 
 	    removelastspace () ;
@@ -40810,7 +40942,7 @@ closefilesandterminate ( void )
 		  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		  pdfosgetosbuf ( 1 ) ;
 		  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		  overflow ( 1015 , pdfopbufsize ) ;
+		  overflow ( 1019 , pdfopbufsize ) ;
 		  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		  pdfflush () ;
 		} 
@@ -40832,13 +40964,13 @@ closefilesandterminate ( void )
 	  pdfnewdict ( 0 , 0 , 1 ) ;
 	  root = objptr ;
 	  {
-	    pdfprint ( 1221 ) ;
+	    pdfprint ( 1225 ) ;
 	    {
 	      {
 		if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		pdfosgetosbuf ( 1 ) ;
 		else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		overflow ( 1015 , pdfopbufsize ) ;
+		overflow ( 1019 , pdfopbufsize ) ;
 		else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		pdfflush () ;
 	      } 
@@ -40848,13 +40980,13 @@ closefilesandterminate ( void )
 	      } 
 	    } 
 	  } 
-	  pdfindirectln ( 1222 , pdflastpages ) ;
+	  pdfindirectln ( 1226 , pdflastpages ) ;
 	  if ( threads != 0 ) 
-	  pdfindirectln ( 1223 , threads ) ;
+	  pdfindirectln ( 1227 , threads ) ;
 	  if ( outlines != 0 ) 
-	  pdfindirectln ( 1224 , outlines ) ;
+	  pdfindirectln ( 1228 , outlines ) ;
 	  if ( namestree != 0 ) 
-	  pdfindirectln ( 1225 , namestree ) ;
+	  pdfindirectln ( 1229 , namestree ) ;
 	  if ( pdfcatalogtoks != -268435455L ) 
 	  {
 	    pdfprinttoksln ( pdfcatalogtoks ) ;
@@ -40864,7 +40996,7 @@ closefilesandterminate ( void )
 	    } 
 	  } 
 	  if ( pdfcatalogopenaction != 0 ) 
-	  pdfindirectln ( 1226 , pdfcatalogopenaction ) ;
+	  pdfindirectln ( 1230 , pdfcatalogopenaction ) ;
 	  pdfenddict () ;
 	  if ( eqtb [29376 ].cint == 0 ) 
 	  pdfprintinfo () ;
@@ -40895,13 +41027,13 @@ closefilesandterminate ( void )
 	    while ( k++ < for_end ) ;} 
 	    objtab [l ].int1 = 0 ;
 	    {
-	      pdfprint ( 1242 ) ;
+	      pdfprint ( 1247 ) ;
 	      {
 		{
 		  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		  pdfosgetosbuf ( 1 ) ;
 		  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		  overflow ( 1015 , pdfopbufsize ) ;
+		  overflow ( 1019 , pdfopbufsize ) ;
 		  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		  pdfflush () ;
 		} 
@@ -40911,7 +41043,7 @@ closefilesandterminate ( void )
 		} 
 	      } 
 	    } 
-	    pdfprint ( 1243 ) ;
+	    pdfprint ( 1248 ) ;
 	    pdfprintint ( objptr + 1 ) ;
 	    {
 	      pdfprint ( 93 ) ;
@@ -40920,7 +41052,7 @@ closefilesandterminate ( void )
 		  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		  pdfosgetosbuf ( 1 ) ;
 		  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		  overflow ( 1015 , pdfopbufsize ) ;
+		  overflow ( 1019 , pdfopbufsize ) ;
 		  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		  pdfflush () ;
 		} 
@@ -40930,17 +41062,17 @@ closefilesandterminate ( void )
 		} 
 	      } 
 	    } 
-	    pdfintentryln ( 1244 , objptr + 1 ) ;
-	    pdfprint ( 1245 ) ;
+	    pdfintentryln ( 1249 , objptr + 1 ) ;
+	    pdfprint ( 1250 ) ;
 	    pdfprintint ( xrefoffsetwidth ) ;
 	    {
-	      pdfprint ( 1246 ) ;
+	      pdfprint ( 1251 ) ;
 	      {
 		{
 		  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		  pdfosgetosbuf ( 1 ) ;
 		  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		  overflow ( 1015 , pdfopbufsize ) ;
+		  overflow ( 1019 , pdfopbufsize ) ;
 		  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		  pdfflush () ;
 		} 
@@ -40950,9 +41082,9 @@ closefilesandterminate ( void )
 		} 
 	      } 
 	    } 
-	    pdfindirectln ( 1247 , root ) ;
+	    pdfindirectln ( 1252 , root ) ;
 	    if ( eqtb [29376 ].cint == 0 ) 
-	    pdfindirectln ( 1248 , objptr - 1 ) ;
+	    pdfindirectln ( 1253 , objptr - 1 ) ;
 	    if ( pdftrailertoks != -268435455L ) 
 	    {
 	      pdfprinttoksln ( pdftrailertoks ) ;
@@ -40969,7 +41101,7 @@ closefilesandterminate ( void )
 		if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		pdfosgetosbuf ( 1 ) ;
 		else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		overflow ( 1015 , pdfopbufsize ) ;
+		overflow ( 1019 , pdfopbufsize ) ;
 		else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		pdfflush () ;
 	      } 
@@ -40989,7 +41121,7 @@ closefilesandterminate ( void )
 		      if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		      pdfosgetosbuf ( 1 ) ;
 		      else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		      overflow ( 1015 , pdfopbufsize ) ;
+		      overflow ( 1019 , pdfopbufsize ) ;
 		      else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		      pdfflush () ;
 		    } 
@@ -41004,7 +41136,7 @@ closefilesandterminate ( void )
 		      if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		      pdfosgetosbuf ( 1 ) ;
 		      else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		      overflow ( 1015 , pdfopbufsize ) ;
+		      overflow ( 1019 , pdfopbufsize ) ;
 		      else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		      pdfflush () ;
 		    } 
@@ -41023,7 +41155,7 @@ closefilesandterminate ( void )
 			if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 			pdfosgetosbuf ( 1 ) ;
 			else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-			overflow ( 1015 , pdfopbufsize ) ;
+			overflow ( 1019 , pdfopbufsize ) ;
 			else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 			pdfflush () ;
 		      } 
@@ -41038,7 +41170,7 @@ closefilesandterminate ( void )
 			if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 			pdfosgetosbuf ( 1 ) ;
 			else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-			overflow ( 1015 , pdfopbufsize ) ;
+			overflow ( 1019 , pdfopbufsize ) ;
 			else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 			pdfflush () ;
 		      } 
@@ -41055,7 +41187,7 @@ closefilesandterminate ( void )
 			if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 			pdfosgetosbuf ( 1 ) ;
 			else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-			overflow ( 1015 , pdfopbufsize ) ;
+			overflow ( 1019 , pdfopbufsize ) ;
 			else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 			pdfflush () ;
 		      } 
@@ -41070,7 +41202,7 @@ closefilesandterminate ( void )
 			if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 			pdfosgetosbuf ( 1 ) ;
 			else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-			overflow ( 1015 , pdfopbufsize ) ;
+			overflow ( 1019 , pdfopbufsize ) ;
 			else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 			pdfflush () ;
 		      } 
@@ -41101,13 +41233,13 @@ closefilesandterminate ( void )
 	    objtab [l ].int1 = 0 ;
 	    pdfsaveoffset = ( pdfgone + pdfptr ) ;
 	    {
-	      pdfprint ( 1237 ) ;
+	      pdfprint ( 1242 ) ;
 	      {
 		{
 		  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		  pdfosgetosbuf ( 1 ) ;
 		  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		  overflow ( 1015 , pdfopbufsize ) ;
+		  overflow ( 1019 , pdfopbufsize ) ;
 		  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		  pdfflush () ;
 		} 
@@ -41117,7 +41249,7 @@ closefilesandterminate ( void )
 		} 
 	      } 
 	    } 
-	    pdfprint ( 1238 ) ;
+	    pdfprint ( 1243 ) ;
 	    {
 	      pdfprintint ( objptr + 1 ) ;
 	      {
@@ -41125,7 +41257,7 @@ closefilesandterminate ( void )
 		  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		  pdfosgetosbuf ( 1 ) ;
 		  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		  overflow ( 1015 , pdfopbufsize ) ;
+		  overflow ( 1019 , pdfopbufsize ) ;
 		  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		  pdfflush () ;
 		} 
@@ -41137,13 +41269,13 @@ closefilesandterminate ( void )
 	    } 
 	    pdfprintfwint ( objtab [0 ].int1 , 10 ) ;
 	    {
-	      pdfprint ( 1239 ) ;
+	      pdfprint ( 1244 ) ;
 	      {
 		{
 		  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		  pdfosgetosbuf ( 1 ) ;
 		  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		  overflow ( 1015 , pdfopbufsize ) ;
+		  overflow ( 1019 , pdfopbufsize ) ;
 		  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		  pdfflush () ;
 		} 
@@ -41160,13 +41292,13 @@ closefilesandterminate ( void )
 		{
 		  pdfprintfwint ( objtab [k ].int1 , 10 ) ;
 		  {
-		    pdfprint ( 1240 ) ;
+		    pdfprint ( 1245 ) ;
 		    {
 		      {
 			if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 			pdfosgetosbuf ( 1 ) ;
 			else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-			overflow ( 1015 , pdfopbufsize ) ;
+			overflow ( 1019 , pdfopbufsize ) ;
 			else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 			pdfflush () ;
 		      } 
@@ -41181,13 +41313,13 @@ closefilesandterminate ( void )
 		    
 		  pdfprintfwint ( objtab [k ].int2 , 10 ) ;
 		  {
-		    pdfprint ( 1241 ) ;
+		    pdfprint ( 1246 ) ;
 		    {
 		      {
 			if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 			pdfosgetosbuf ( 1 ) ;
 			else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-			overflow ( 1015 , pdfopbufsize ) ;
+			overflow ( 1019 , pdfopbufsize ) ;
 			else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 			pdfflush () ;
 		      } 
@@ -41204,13 +41336,13 @@ closefilesandterminate ( void )
 	  if ( ! pdfosenable ) 
 	  {
 	    {
-	      pdfprint ( 1249 ) ;
+	      pdfprint ( 1254 ) ;
 	      {
 		{
 		  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		  pdfosgetosbuf ( 1 ) ;
 		  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		  overflow ( 1015 , pdfopbufsize ) ;
+		  overflow ( 1019 , pdfopbufsize ) ;
 		  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		  pdfflush () ;
 		} 
@@ -41220,11 +41352,11 @@ closefilesandterminate ( void )
 		} 
 	      } 
 	    } 
-	    pdfprint ( 1250 ) ;
-	    pdfintentryln ( 1244 , sysobjptr + 1 ) ;
-	    pdfindirectln ( 1247 , root ) ;
+	    pdfprint ( 1255 ) ;
+	    pdfintentryln ( 1249 , sysobjptr + 1 ) ;
+	    pdfindirectln ( 1252 , root ) ;
 	    if ( eqtb [29376 ].cint == 0 ) 
-	    pdfindirectln ( 1248 , sysobjptr ) ;
+	    pdfindirectln ( 1253 , sysobjptr ) ;
 	    if ( pdftrailertoks != -268435455L ) 
 	    {
 	      pdfprinttoksln ( pdftrailertoks ) ;
@@ -41237,13 +41369,13 @@ closefilesandterminate ( void )
 	    printIDalt ( pdftraileridtoks ) ;
 	    else printID ( outputfilename ) ;
 	    {
-	      pdfprint ( 1251 ) ;
+	      pdfprint ( 1256 ) ;
 	      {
 		{
 		  if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		  pdfosgetosbuf ( 1 ) ;
 		  else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		  overflow ( 1015 , pdfopbufsize ) ;
+		  overflow ( 1019 , pdfopbufsize ) ;
 		  else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		  pdfflush () ;
 		} 
@@ -41255,13 +41387,13 @@ closefilesandterminate ( void )
 	    } 
 	  } 
 	  {
-	    pdfprint ( 1252 ) ;
+	    pdfprint ( 1257 ) ;
 	    {
 	      {
 		if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		pdfosgetosbuf ( 1 ) ;
 		else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		overflow ( 1015 , pdfopbufsize ) ;
+		overflow ( 1019 , pdfopbufsize ) ;
 		else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		pdfflush () ;
 	      } 
@@ -41279,7 +41411,7 @@ closefilesandterminate ( void )
 		if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		pdfosgetosbuf ( 1 ) ;
 		else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		overflow ( 1015 , pdfopbufsize ) ;
+		overflow ( 1019 , pdfopbufsize ) ;
 		else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		pdfflush () ;
 	      } 
@@ -41297,7 +41429,7 @@ closefilesandterminate ( void )
 		if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		pdfosgetosbuf ( 1 ) ;
 		else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		overflow ( 1015 , pdfopbufsize ) ;
+		overflow ( 1019 , pdfopbufsize ) ;
 		else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		pdfflush () ;
 	      } 
@@ -41308,13 +41440,13 @@ closefilesandterminate ( void )
 	    } 
 	  } 
 	  {
-	    pdfprint ( 1253 ) ;
+	    pdfprint ( 1258 ) ;
 	    {
 	      {
 		if ( pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		pdfosgetosbuf ( 1 ) ;
 		else if ( ! pdfosmode && ( 1 > pdfbufsize ) ) 
-		overflow ( 1015 , pdfopbufsize ) ;
+		overflow ( 1019 , pdfopbufsize ) ;
 		else if ( ! pdfosmode && ( 1 + pdfptr > pdfbufsize ) ) 
 		pdfflush () ;
 	      } 
@@ -41325,21 +41457,21 @@ closefilesandterminate ( void )
 	    } 
 	  } 
 	  pdfflush () ;
-	  printnl ( 1009 ) ;
+	  printnl ( 1013 ) ;
 	  printfilename ( 0 , outputfilename , 0 ) ;
-	  print ( 286 ) ;
+	  print ( 288 ) ;
 	  printint ( totalpages ) ;
-	  print ( 1011 ) ;
+	  print ( 1015 ) ;
 	  if ( totalpages != 1 ) 
 	  printchar ( 115 ) ;
-	  print ( 1012 ) ;
+	  print ( 1016 ) ;
 	  printint ( ( pdfgone + pdfptr ) ) ;
-	  print ( 1013 ) ;
+	  print ( 1017 ) ;
 	} 
 	libpdffinish () ;
 	if ( fixedpdfdraftmode == 0 ) 
 	bclose ( pdffile ) ;
-	else pdfwarning ( 0 , 1202 , true , true ) ;
+	else pdfwarning ( 0 , 1206 , true , true ) ;
       } 
       if ( logopened ) 
       {
@@ -41382,7 +41514,7 @@ closefilesandterminate ( void )
       decr ( curs ) ;
     } 
     if ( totalpages == 0 ) 
-    printnl ( 1008 ) ;
+    printnl ( 1012 ) ;
     else if ( curs != -2 ) 
     {
       {
@@ -41465,20 +41597,20 @@ closefilesandterminate ( void )
       if ( dviptr > ( 2147483647L - dvioffset ) ) 
       {
 	curs = -2 ;
-	fatalerror ( 997 ) ;
+	fatalerror ( 1001 ) ;
       } 
       if ( dviptr > 0 ) 
       writedvi ( 0 , dviptr - 1 ) ;
-      printnl ( 1009 ) ;
+      printnl ( 1013 ) ;
       printfilename ( 0 , outputfilename , 0 ) ;
-      print ( 286 ) ;
+      print ( 288 ) ;
       printint ( totalpages ) ;
       if ( totalpages != 1 ) 
-      print ( 1010 ) ;
-      else print ( 1011 ) ;
-      print ( 1012 ) ;
+      print ( 1014 ) ;
+      else print ( 1015 ) ;
+      print ( 1016 ) ;
       printint ( dvioffset + dviptr ) ;
-      print ( 1013 ) ;
+      print ( 1017 ) ;
       bclose ( dvifile ) ;
     } 
   } 
@@ -41489,7 +41621,7 @@ closefilesandterminate ( void )
     selector = selector - 2 ;
     if ( selector == 17 ) 
     {
-      printnl ( 1730 ) ;
+      printnl ( 1735 ) ;
       printfilename ( 0 , texmflogname , 0 ) ;
       printchar ( 46 ) ;
     } 
@@ -41507,7 +41639,7 @@ debughelp ( void )
   while ( true ) {
       
     ;
-    printnl ( 1739 ) ;
+    printnl ( 1744 ) ;
     fflush ( stdout ) ;
     read ( stdin , m ) ;
     if ( m < 0 ) 
@@ -41638,6 +41770,6 @@ strnumber
 getnullstr ( void ) 
 {
   register strnumber Result; getnullstr_regmem 
-  Result = 345 ;
+  Result = 265 ;
   return Result ;
 } 

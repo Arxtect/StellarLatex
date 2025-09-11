@@ -172,7 +172,7 @@ EXTERN unsigned char dig[23]  ;
 EXTERN integer tally  ;
 EXTERN integer termoffset  ;
 EXTERN integer fileoffset  ;
-EXTERN UTF16code trickbuf[256]  ;
+EXTERN UnicodeScalar trickbuf[256]  ;
 EXTERN integer trickcount  ;
 EXTERN integer firstcount  ;
 EXTERN boolean doingspecial  ;
@@ -191,6 +191,7 @@ EXTERN unsigned char helpptr  ;
 EXTERN boolean useerrhelp  ;
 EXTERN integer interrupt  ;
 EXTERN boolean OKtointerrupt  ;
+EXTERN boolean savearitherror  ;
 EXTERN boolean aritherror  ;
 EXTERN scaled texremainder  ;
 EXTERN integer randoms[55]  ;
@@ -231,8 +232,8 @@ EXTERN unsigned char oldsetting  ;
 EXTERN integer systime, sysday, sysmonth, sysyear  ;
 EXTERN memoryword * zeqtb  ;
 EXTERN quarterword 
-#define xeqlevel (zzzaa -8940840)
-  zzzaa[1114733]  ;
+#define xeqlevel (zzzaa -7892264)
+  zzzaa[1114734]  ;
 EXTERN twohalves * hash  ;
 EXTERN twohalves * yhash  ;
 EXTERN halfword hashused  ;

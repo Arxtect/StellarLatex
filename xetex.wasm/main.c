@@ -20,7 +20,6 @@
 
 int ac;
 char **av;
-const char *ptexbanner = " (Arxtect XeTeX " ARXTECT_VERSION_STRING ")";
 const char *DEFAULT_FMT_NAME = " swiftlatexxetex.fmt";
 const char *DEFAULT_DUMP_NAME = "swiftlatexxetex";
 string versionstring = " (Arxtect XeTeX " ARXTECT_VERSION_STRING ")";

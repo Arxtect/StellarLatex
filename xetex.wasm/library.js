@@ -8,8 +8,5 @@ mergeInto(LibraryManager.library, {
   ctan_download_pkg_js: function(urlsuffix, _download_location) {
     return ctan_download_pkg_impl(urlsuffix, _download_location);
   }
-  // fontconfig_search_font_js: function(nameptr, varptr) {
-  //   return fontconfig_search_font_impl(nameptr, varptr);
-  // }
 });
 

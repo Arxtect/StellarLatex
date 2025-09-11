@@ -81,16 +81,16 @@ static uint32_t simpleHash(const std::string& filePath) {
 }
 char* ctan_get_file_process(cstr request_name, kpse_file_format_type type) {
 	// DEBUG: ALL FILES GO TO OLD SERVER
-	// auto _ret = kpse_find_file_js(request_name, type, false);
-	// if (_ret == nullptr) {
-	// 	fprintf(stderr, "GET FAIL: %d/%s\n", int(type), request_name);
-	// }
-	// else {
-	// 	fprintf(
-	// 		stderr, "[HASH=%08x]GET ok: %d/%s into %s\n", simpleHash(_ret), int(type),
-	// 		request_name, _ret);
-	// }
-	// return _ret;
+	auto _ret = kpse_find_file_js(request_name, type, false);
+	if (_ret == nullptr) {
+		fprintf(stderr, "GET FAIL: %d/%s\n", int(type), request_name);
+	}
+	else {
+		fprintf(
+			stderr, "[HASH=%08x]GET ok: %d/%s into %s\n", simpleHash(_ret), int(type),
+			request_name, _ret);
+	}
+	return _ret;
 	// THIS FUNCTION INVOLVES MANY HARDCODE
 	if (globalManager == nullptr) {
 		if (std::filesystem::exists("/tex/pkg/texlive.tlpdb") == false) {
@@ -183,7 +183,6 @@ extern "C" char* ctan_get_file(cstr request_name, kpse_file_format_type type) {
 		}
 		else { return nullptr; }
 	}
-	return kpse_find_file_js(request_name, type, false);
 	// END TODO
 	static unordered_map<cppstr, char*> ctan_cache;
 	static std::mutex					cache_mutex;
@@ -198,14 +197,14 @@ extern "C" char* ctan_get_file(cstr request_name, kpse_file_format_type type) {
 			auto ret = it->second;
 			// put log
 			if (ret == nullptr) {
-				fprintf(stderr, "GET FAIL: %d/%s", int(type), request_name);
+				// fprintf(stderr, "GET FAIL: %d/%s", int(type), request_name);
 			}
 			else {
 				// make a new one for future cache search
 				ctan_cache[cache_key] = strdup(ret);
-				fprintf(stderr, "GET ok: %d/%s %s", int(type), request_name, ret);
+				// fprintf(stderr, "GET ok: %d/%s %s", int(type), request_name, ret);
 			}
-			fprintf(stderr, "[CACHE] \n");
+			// fprintf(stderr, "[CACHE] \n");
 			return ret;
 		}
 	}

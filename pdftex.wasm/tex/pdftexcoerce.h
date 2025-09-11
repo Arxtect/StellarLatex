@@ -243,6 +243,9 @@ scaled zdividescaled (scaled s,scaled m,integer dd);
 scaled zroundxnoverd (scaled x,integer n,integer d);
 #define roundxnoverd(x, n, d) zroundxnoverd((scaled) (x), (integer) (n), (integer) (d))
 #define roundxnoverd_regmem
+boolean zisbitset (integer n,smallnumber s);
+#define isbitset(n, s) zisbitset((integer) (n), (smallnumber) (s))
+#define isbitset_regmem
 void zappenddestname (strnumber s,integer n);
 #define appenddestname(s, n) zappenddestname((strnumber) (s), (integer) (n))
 #define appenddestname_regmem
@@ -716,6 +719,8 @@ integer getpdfsuppressptexinfo (void);
 #define getpdfsuppressptexinfo_regmem register memoryword *eqtb=zeqtb;
 integer getpdfomitcharset (void);
 #define getpdfomitcharset_regmem register memoryword *eqtb=zeqtb;
+boolean getptexuseunderscore (void);
+#define getptexuseunderscore_regmem register memoryword *eqtb=zeqtb;
 internalfontnumber getnullfont (void);
 #define getnullfont_regmem
 internalfontnumber getfontbase (void);
@@ -767,8 +772,8 @@ void pdfbeginstream (void);
 #define pdfbeginstream_regmem register memoryword *eqtb=zeqtb;
 void pdfendstream (void);
 #define pdfendstream_regmem
-void zadvcharwidth (internalfontnumber f,eightbits c,eightbits dd);
-#define advcharwidth(f, c, dd) zadvcharwidth((internalfontnumber) (f), (eightbits) (c), (eightbits) (dd))
+void zadvcharwidth (internalfontnumber f,eightbits c);
+#define advcharwidth(f, c) zadvcharwidth((internalfontnumber) (f), (eightbits) (c))
 #define advcharwidth_regmem
 void zpdfprintreal (integer m,integer d);
 #define pdfprintreal(m, d) zpdfprintreal((integer) (m), (integer) (d))
@@ -789,9 +794,12 @@ void pdfendstring (void);
 #define pdfendstring_regmem
 void pdfendstringnl (void);
 #define pdfendstringnl_regmem
-void zpdfsettextmatrix (scaled v,scaled vout,internalfontnumber f);
-#define pdfsettextmatrix(v, vout, f) zpdfsettextmatrix((scaled) (v), (scaled) (vout), (internalfontnumber) (f))
-#define pdfsettextmatrix_regmem
+integer zgetfontautoexpandratio (internalfontnumber f);
+#define getfontautoexpandratio(f) zgetfontautoexpandratio((internalfontnumber) (f))
+#define getfontautoexpandratio_regmem
+void zpdfsettextpos (scaled v,scaled vout,internalfontnumber f);
+#define pdfsettextpos(v, vout, f) zpdfsettextpos((scaled) (v), (scaled) (vout), (internalfontnumber) (f))
+#define pdfsettextpos_regmem
 void zpdfusefont (internalfontnumber f,integer fontnum);
 #define pdfusefont(f, fontnum) zpdfusefont((internalfontnumber) (f), (integer) (fontnum))
 #define pdfusefont_regmem register memoryword *eqtb=zeqtb;
@@ -1313,7 +1321,7 @@ halfword zprunepagetop (halfword p,boolean s);
 #define prunepagetop_regmem register memoryword *mem=zmem;
 halfword zvertbreak (halfword p,scaled h,scaled d);
 #define vertbreak(p, h, d) zvertbreak((halfword) (p), (scaled) (h), (scaled) (d))
-#define vertbreak_regmem register memoryword *mem=zmem;
+#define vertbreak_regmem register memoryword *mem=zmem, *eqtb=zeqtb;
 boolean zdomarks (smallnumber a,smallnumber l,halfword q);
 #define domarks(a, l, q) zdomarks((smallnumber) (a), (smallnumber) (l), (halfword) (q))
 #define domarks_regmem register memoryword *mem=zmem;

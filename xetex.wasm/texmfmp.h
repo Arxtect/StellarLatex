@@ -176,7 +176,6 @@ extern int	loadpoolstrings(integer);
 extern void setupboundvariable(integer*, const_string, integer);
 extern void get_date_and_time(integer*, integer*, integer*, integer*);
 
-extern const char* ptexbanner;
 extern char start_time_str[];
 extern string translate_filename;
 extern string versionstring;

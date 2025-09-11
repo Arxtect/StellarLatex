@@ -2,8 +2,8 @@ void initialize (void);
 #define initialize_regmem register memoryword *mem=zmem, *eqtb=zeqtb;
 void println (void);
 #define println_regmem
-void zprintrawchar (UTF16code s,boolean incroffset);
-#define printrawchar(s, incroffset) zprintrawchar((UTF16code) (s), (boolean) (incroffset))
+void zprintrawchar (UnicodeScalar s,boolean incroffset);
+#define printrawchar(s, incroffset) zprintrawchar((UnicodeScalar) (s), (boolean) (incroffset))
 #define printrawchar_regmem
 void zprintchar (integer s);
 #define printchar(s) zprintchar((integer) (s))
@@ -220,6 +220,9 @@ halfword zprevrightmost (halfword s,halfword e);
 scaled zroundxnoverd (scaled x,integer n,integer d);
 #define roundxnoverd(x, n, d) zroundxnoverd((scaled) (x), (integer) (n), (integer) (d))
 #define roundxnoverd_regmem
+boolean zisbitset (integer n,smallnumber s);
+#define isbitset(n, s) zisbitset((integer) (n), (smallnumber) (s))
+#define isbitset_regmem
 integer getmicrointerval (void);
 #define getmicrointerval_regmem
 void zshortdisplay (integer p);
@@ -951,7 +954,7 @@ halfword zprunepagetop (halfword p,boolean s);
 #define prunepagetop_regmem register memoryword *mem=zmem, *eqtb=zeqtb;
 halfword zvertbreak (halfword p,scaled h,scaled d);
 #define vertbreak(p, h, d) zvertbreak((halfword) (p), (scaled) (h), (scaled) (d))
-#define vertbreak_regmem register memoryword *mem=zmem;
+#define vertbreak_regmem register memoryword *mem=zmem, *eqtb=zeqtb;
 boolean zdomarks (smallnumber a,smallnumber l,halfword q);
 #define domarks(a, l, q) zdomarks((smallnumber) (a), (smallnumber) (l), (halfword) (q))
 #define domarks_regmem register memoryword *mem=zmem;

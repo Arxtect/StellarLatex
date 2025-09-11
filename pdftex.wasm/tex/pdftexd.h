@@ -87,7 +87,7 @@ typedef integer halfword  ;
 typedef unsigned char twochoices  ;
 typedef unsigned char fourchoices  ;
 #include "texmfmem.h"
-typedef text wordfile  ;
+typedef gzFile wordfile  ;
 typedef unsigned char glueord  ;
 typedef struct {
     short modefield ;
@@ -243,6 +243,7 @@ EXTERN unsigned char helpptr  ;
 EXTERN boolean useerrhelp  ;
 EXTERN integer interrupt  ;
 EXTERN boolean OKtointerrupt  ;
+EXTERN boolean savearitherror  ;
 EXTERN boolean aritherror  ;
 EXTERN scaled texremainder  ;
 EXTERN integer randoms[55]  ;
@@ -280,7 +281,7 @@ EXTERN integer systime, sysday, sysmonth, sysyear  ;
 EXTERN memoryword * zeqtb  ;
 EXTERN quarterword 
 #define xeqlevel (zzzaa -29277)
-  zzzaa[913]  ;
+  zzzaa[915]  ;
 EXTERN twohalves * hash  ;
 EXTERN twohalves * yhash  ;
 EXTERN halfword hashused  ;
@@ -445,6 +446,7 @@ EXTERN integer pdfpagegroupval  ;
 EXTERN scaled onebp  ;
 EXTERN scaled onehundredbp  ;
 EXTERN scaled onehundredinch  ;
+EXTERN integer oneinch  ;
 EXTERN integer tenpow[10]  ;
 EXTERN integer scaledout  ;
 EXTERN boolean initpdfoutput  ;

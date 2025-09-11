@@ -3,7 +3,10 @@
 #include <cctype>
 #include <cstring>
 #include <ctan/ctanInterface.h>
+#include <ctan/extractFile.hpp>
 #include <dirent.h>
+#include <dlfcn.h>
+#include <fcntl.h>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -126,22 +129,12 @@ fixExtension(const cppstr& filename, kpse_file_format_type format) {
 		default: return {cppstr(), false};
 	}
 }
-#ifdef XETEXWASM
 extern char	  main_entry_file[512];
-#endif
-#ifdef PDFTEXWASM
-extern std::filesystem::path workingDir;
-#endif
 static cppstr caseExists(const cppstr& filename) {
 	if (filename.empty()) { return {}; }
 	if (std::filesystem::exists(filename)) return filename;
 	if (std::filesystem::exists("/tex/" + filename)) return "/tex/" + filename;
-#ifndef PDFTEXWASM
 	static auto	  mainWorkDir	 = fs::absolute(fs::path(main_entry_file)).parent_path();
-#endif
-#ifdef PDFTEXWASM
-	auto& mainWorkDir = workingDir;
-#endif
 	static cppstr mainWorkDirStr = mainWorkDir.string();
 	static bool	  mainIsCur		 = (mainWorkDir == fs::current_path());
 	size_t		  last_slash	 = filename.find_last_of('/');
@@ -192,14 +185,24 @@ kpse_find_file(const char* _name, kpse_file_format_type format, bool must_exist)
 	cppstr name(_name);
 	if (name.empty()) return nullptr;
 	const cppstr searchKey = name + '+' + std::to_string(format);
+	// make return value and make cache
+	auto makestr = [&searchKey](const char* value) -> char* {
+		if (value == nullptr) {
+			searchCache[searchKey] = nullptr;
+			return nullptr;
+		}
+		if (auto it = searchCache.find(searchKey);
+			it != searchCache.end() && it->second != nullptr) {
+			free(const_cast<char*>(it->second));
+		}
+		searchCache[searchKey] = strdup(value);
+		return strdup(value);
+	};
 	if (auto it = searchCache.find(searchKey); it != searchCache.end()) {
 		if (it->second != nullptr) return strdup(it->second);
 		// nullptr, check if exists in main working path
 		if (name.find('/') != cppstr::npos) return nullptr;
-		if (auto path = caseExists(name); path.size() != 0) {
-			searchCache[searchKey] = strdup(path.c_str());
-			return strdup(path.c_str());
-		}
+		if (auto path = caseExists(name); path.size() != 0) return makestr(path.c_str());
 		return nullptr;
 	}
 	cppstr no_suffix_path;
@@ -212,52 +215,34 @@ kpse_find_file(const char* _name, kpse_file_format_type format, bool must_exist)
 	};
 	// try with name
 	if (auto ci_match = caseExists(name); !ci_match.empty()) {
-		if (has_dot_in_filename(ci_match)) {
-			searchCache[searchKey] = strdup(ci_match.c_str());
-			return strdup(ci_match.c_str());
-		}
+		if (has_dot_in_filename(ci_match)) return makestr(ci_match.c_str());
 		if (no_suffix_path.empty()) no_suffix_path = std::move(ci_match);
 	}
 	// try to add suffix
 	const auto [nameFixExt, extChanged] = fixExtension(name, format);
 	if (extChanged)
 		if (auto ci_match = caseExists(nameFixExt); !ci_match.empty()) {
-			if (has_dot_in_filename(ci_match)) {
-				searchCache[searchKey] = strdup(ci_match.c_str());
-				return strdup(ci_match.c_str());
-			}
+			if (has_dot_in_filename(ci_match)) return makestr(ci_match.c_str());
 			if (no_suffix_path.empty()) no_suffix_path = std::move(ci_match);
 		}
 	// try to find in remote
-	if (char* remote = ctan_get_file(name.c_str(), format); remote != nullptr) {
-		searchCache[searchKey] = strdup(remote);
-		return remote;
-	}
+	if (char* remote = ctan_get_file(name.c_str(), format); remote != nullptr)
+		return makestr(remote);
 	// try to find in local project(not root)
 	if (const cppstr workQuert1 = workCache.query(name); workQuert1.size() != 0) {
-		if (has_dot_in_filename(workQuert1)) {
-			searchCache[searchKey] = strdup(workQuert1.c_str());
-			return strdup(workQuert1.c_str());
-		}
+		if (has_dot_in_filename(workQuert1)) return makestr(workQuert1.c_str());
 		if (no_suffix_path.empty()) no_suffix_path = std::move(workQuert1);
 	}
 	// try to find in local project with more than(not root)
 	if (extChanged)
 		if (const cppstr workQuert2 = workCache.query(nameFixExt);
 			workQuert2.size() != 0) {
-			if (has_dot_in_filename(workQuert2)) {
-				searchCache[searchKey] = strdup(workQuert2.c_str());
-				return strdup(workQuert2.c_str());
-			}
+			if (has_dot_in_filename(workQuert2)) return makestr(workQuert2.c_str());
 			if (no_suffix_path.empty()) no_suffix_path = std::move(workQuert2);
 		}
 	// finally, we use no suffix result
-	if (no_suffix_path.size() != 0) {
-		searchCache[searchKey] = strdup(no_suffix_path.c_str());
-		return strdup(no_suffix_path.c_str());
-	}
-	searchCache[searchKey] = nullptr;
-	return nullptr;
+	if (no_suffix_path.size() != 0) return makestr(no_suffix_path.c_str());
+	return makestr(nullptr);
 }
 
 // extern "C" char*
