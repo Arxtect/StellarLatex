@@ -22,6 +22,7 @@ public:
 	explicit FileQueryCache(const cppstr& work_dir = "/work")
 		: work_dir_(fs::path(work_dir).lexically_normal().string()) {
 		buildCache();
+		// listCache();
 	}
 	cppstr query(const cppstr& input) const {
 		if (input.empty()) return {};
@@ -56,6 +57,11 @@ public:
 				return abs_path;
 		}
 		return {};
+	}
+	void listCache() {
+		for (const auto& entry : file_index_) {
+			std::cerr << entry.first << " -> " << entry.second << std::endl;
+		}
 	}
 	void buildCache() {
 		file_index_.clear();

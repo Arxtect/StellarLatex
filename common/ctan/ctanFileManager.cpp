@@ -83,12 +83,12 @@ char* ctan_get_file_process(cstr request_name, kpse_file_format_type type) {
 	// DEBUG: ALL FILES GO TO OLD SERVER
 	auto _ret = kpse_find_file_js(request_name, type, false);
 	if (_ret == nullptr) {
-		fprintf(stderr, "GET FAIL: %d/%s\n", int(type), request_name);
+		// fprintf(stderr, "GET FAIL: %d/%s\n", int(type), request_name);
 	}
 	else {
-		fprintf(
-			stderr, "[HASH=%08x]GET ok: %d/%s into %s\n", simpleHash(_ret), int(type),
-			request_name, _ret);
+		// fprintf(
+		// 	stderr, "[HASH=%08x]GET ok: %d/%s into %s\n", simpleHash(_ret), int(type),
+		// 	request_name, _ret);
 	}
 	return _ret;
 	// THIS FUNCTION INVOLVES MANY HARDCODE

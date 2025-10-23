@@ -26,14 +26,14 @@ const char *DEFAULT_FMT_NAME = " swiftlatexpdftex.fmt";
 const char *DEFAULT_DUMP_NAME = "swiftlatexpdftex";
 string versionstring = " (Arxtect PDFTeX " ARXTECT_VERSION_STRING ")";
 #define MAXMAINFILENAME 512
-char bootstrapcmd[MAXMAINFILENAME] = {0};
+unsigned char bootstrapcmd[MAXMAINFILENAME] = {0};
 int exit_code;
 jmp_buf jmpenv;
 
 void topenin(void) {
 
   buffer[first] = 0;
-  char *ptr = bootstrapcmd;
+  unsigned char *ptr = bootstrapcmd;
   int k = first;
 #ifdef XETEXWASM
   UInt32 rval;

@@ -14,3 +14,4 @@ swiftlatexdvipdfm.wasm
 3rdparty/*/repo
 build
 texlive
+test

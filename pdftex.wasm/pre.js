@@ -278,6 +278,10 @@ self['onmessage'] = function(ev) {
         self.close();
     } else if (cmd === "flushcache") {
         cleanDir(WORKROOT);
+    } else if (cmd == "stopcompiler") {
+        // my api
+    } else if (cmd == "predownload") {
+        // my api
     } else {
         console.error("Unknown command " + cmd);
     }
