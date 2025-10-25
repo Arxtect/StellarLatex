@@ -1,5 +1,5 @@
-#ifndef MIN_PDFTEX_TEXMFMP
-#define MIN_PDFTEX_TEXMFMP
+#ifndef MIN_XETEX_TEXMFMP
+#define MIN_XETEX_TEXMFMP
 #include "w2c/config.h"
 #include <assert.h>
 #include <errno.h>
@@ -11,12 +11,12 @@
 #include <ctype.h>
 #include <limits.h>
 #include <stddef.h>
+#include <zlib.h>
 
 // XeTeX Define
 
 #define TEXMFPOOLNAME "xetex.pool"
 #define TEXMFENGINENAME "xetex"
-typedef FILE *gzFile;
 typedef struct UFILE {
   FILE *f;
   long savedChar;
@@ -33,8 +33,6 @@ typedef void *voidpointer;
 #define FOPEN_RBIN_MODE "rb"
 #define FOPEN_WBIN_MODE "wb"
 #define recorderchangefilename recorder_change_filename
-#define ISDIRSEP IS_DIR_SEP
-#define IS_DIR_SEP(ch) ((ch) == '/')
 
 #define writedvi(a,b)  {if(nopdfoutput){WRITE_OUT(a, b)}}
 #define WRITE_OUT(a, b)             \
@@ -49,9 +47,12 @@ typedef void *voidpointer;
 #define bopenin(f) open_input(&(f), kpse_tfm_format, FOPEN_RBIN_MODE)
 #define bopenout(f) open_output(&(f), FOPEN_WBIN_MODE)
 #define bclose aclose
-#define wopenin(f) open_input(&(f), DUMP_FORMAT, FOPEN_RBIN_MODE)
-#define wopenout bopenout
-#define wclose aclose
+#define wopenin(f) (open_input ((FILE**)&(f), DUMP_FORMAT, FOPEN_RBIN_MODE) \
+                        && (f = gzdopen(fileno((FILE*)f), FOPEN_RBIN_MODE)))
+#define wopenout(f) (open_output ((FILE**)&(f), FOPEN_WBIN_MODE) \
+                        && (f = gzdopen(fileno((FILE*)f), FOPEN_WBIN_MODE)) \
+                        && (gzsetparams(f, 1, Z_DEFAULT_STRATEGY) == Z_OK))
+#define wclose(f)    gzclose(f)
 #define uopenin(f, p, m, d) u_open_in(&(f), p, FOPEN_RBIN_MODE, m, d)
 #define uclose(f) u_close_inout(&(f))
 #define Fputs(f, s) (void)fputs(s, f)
@@ -156,8 +157,8 @@ extern boolean bibopenout(FILE**, const_string name);
 extern boolean bibopenin(FILE**, int, const_string name);
 extern void	   close_file(FILE*);
 extern void	   topenin(void);
-extern void	   do_dump(char*, int, int, FILE*);
-extern void	   do_undump(char*, int, int, FILE*);
+extern void	   do_dump(char*, int, int, gzFile);
+extern void	   do_undump(char*, int, int, gzFile);
 
 // Misc Function
 extern void get_seconds_and_micros(integer *, integer *);
@@ -183,5 +184,13 @@ extern int tfmtemp, texinputtype, kpse_make_tex_discard_errors;
 extern string fullnameoffile, output_directory;
 extern void getmd5sum(integer s, boolean file);
 extern boolean texmfyesno(const_string var);
+
+/* Handle SyncTeX, if requested */
+#if defined(TeX)
+# if defined(__SyncTeX__)
+#  include "synctexdir/synctex-common.h"
+extern char *generic_synctex_get_current_name(void);
+# endif
+#endif
 
 #endif

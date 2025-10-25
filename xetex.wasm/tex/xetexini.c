@@ -67,7 +67,7 @@ initialize ( void )
   lastnodetype = -1 ;
   pagesofar [7 ]= 0 ;
   pagemaxdepth = 0 ;
-  {register integer for_end; k = 7892264L ;for_end = 9006997L ; if ( k <= 
+  {register integer for_end; k = 7892264L ;for_end = 9006998L ; if ( k <= 
   for_end) do 
     xeqlevel [k ]= 1 ;
   while ( k++ < for_end ) ;} 
@@ -315,7 +315,7 @@ initialize ( void )
 	eqtb [4549928L + k ].hh .v.RH = 999 ;
       } 
     while ( k++ < for_end ) ;} 
-    {register integer for_end; k = 7892264L ;for_end = 7892606L ; if ( k <= 
+    {register integer for_end; k = 7892264L ;for_end = 7892607L ; if ( k <= 
     for_end) do 
       eqtb [k ].cint = 0 ;
     while ( k++ < for_end ) ;} 
@@ -329,11 +329,11 @@ initialize ( void )
     eqtb [7892312L ].cint = 13 ;
     {register integer for_end; k = 0 ;for_end = 1114111L ; if ( k <= 
     for_end) do 
-      eqtb [7892607L + k ].cint = -1 ;
+      eqtb [7892608L + k ].cint = -1 ;
     while ( k++ < for_end ) ;} 
-    eqtb [7892653L ].cint = 0 ;
+    eqtb [7892654L ].cint = 0 ;
     eqtb [7892324L ].cint = -1 ;
-    {register integer for_end; k = 9006719L ;for_end = 9006997L ; if ( k <= 
+    {register integer for_end; k = 9006720L ;for_end = 9006998L ; if ( k <= 
     for_end) do 
       eqtb [k ].cint = 0 ;
     while ( k++ < for_end ) ;} 
@@ -373,6 +373,7 @@ initialize ( void )
     eqtb [7892350L ].cint = 63 ;
   } 
 #endif /* INITEX */
+  synctexoffset = 7892351L ;
 } 
 #ifdef INITEX
 boolean 
@@ -1084,10 +1085,10 @@ zlinebreak ( boolean d )
   minimaldemerits [0 ]= 1073741823L ;
   if ( eqtb [1206295L ].hh .v.RH == -268435455L ) {
       
-    if ( eqtb [9006736L ].cint == 0 ) 
+    if ( eqtb [9006737L ].cint == 0 ) 
     {
       lastspecialline = 0 ;
-      secondwidth = eqtb [9006722L ].cint ;
+      secondwidth = eqtb [9006723L ].cint ;
       secondindent = 0 ;
     } 
     else {
@@ -1095,22 +1096,22 @@ zlinebreak ( boolean d )
       lastspecialline = abs ( eqtb [7892305L ].cint ) ;
       if ( eqtb [7892305L ].cint < 0 ) 
       {
-	firstwidth = eqtb [9006722L ].cint - abs ( eqtb [9006736L ].cint ) 
+	firstwidth = eqtb [9006723L ].cint - abs ( eqtb [9006737L ].cint ) 
 	;
-	if ( eqtb [9006736L ].cint >= 0 ) 
-	firstindent = eqtb [9006736L ].cint ;
+	if ( eqtb [9006737L ].cint >= 0 ) 
+	firstindent = eqtb [9006737L ].cint ;
 	else firstindent = 0 ;
-	secondwidth = eqtb [9006722L ].cint ;
+	secondwidth = eqtb [9006723L ].cint ;
 	secondindent = 0 ;
       } 
       else {
 	  
-	firstwidth = eqtb [9006722L ].cint ;
+	firstwidth = eqtb [9006723L ].cint ;
 	firstindent = 0 ;
-	secondwidth = eqtb [9006722L ].cint - abs ( eqtb [9006736L ].cint 
+	secondwidth = eqtb [9006723L ].cint - abs ( eqtb [9006737L ].cint 
 	) ;
-	if ( eqtb [9006736L ].cint >= 0 ) 
-	secondindent = eqtb [9006736L ].cint ;
+	if ( eqtb [9006737L ].cint >= 0 ) 
+	secondindent = eqtb [9006737L ].cint ;
 	else secondindent = 0 ;
       } 
     } 
@@ -1144,7 +1145,7 @@ zlinebreak ( boolean d )
       
     threshold = eqtb [7892265L ].cint ;
     secondpass = true ;
-    finalpass = ( eqtb [9006739L ].cint <= 0 ) ;
+    finalpass = ( eqtb [9006740L ].cint <= 0 ) ;
 	;
 #ifdef STAT
     if ( eqtb [7892296L ].cint > 0 ) 
@@ -1795,7 +1796,7 @@ zlinebreak ( boolean d )
 #endif /* STAT */
       threshold = eqtb [7892265L ].cint ;
       secondpass = true ;
-      finalpass = ( eqtb [9006739L ].cint <= 0 ) ;
+      finalpass = ( eqtb [9006740L ].cint <= 0 ) ;
     } 
     else {
 	
@@ -1804,7 +1805,7 @@ zlinebreak ( boolean d )
       if ( eqtb [7892296L ].cint > 0 ) 
       printnl ( 66370L ) ;
 #endif /* STAT */
-      background [2 ]= background [2 ]+ eqtb [9006739L ].cint ;
+      background [2 ]= background [2 ]+ eqtb [9006740L ].cint ;
       finalpass = true ;
     } 
   } 
@@ -2407,13 +2408,13 @@ prefixedcommand ( void )
 	  else switch ( n ) 
 	  {case 2 : 
 	    if ( ( a >= 4 ) ) 
-	    geqdefine ( p , 74 , 7892351L + curval ) ;
-	    else eqdefine ( p , 74 , 7892351L + curval ) ;
+	    geqdefine ( p , 74 , 7892352L + curval ) ;
+	    else eqdefine ( p , 74 , 7892352L + curval ) ;
 	    break ;
 	  case 3 : 
 	    if ( ( a >= 4 ) ) 
-	    geqdefine ( p , 75 , 9006742L + curval ) ;
-	    else eqdefine ( p , 75 , 9006742L + curval ) ;
+	    geqdefine ( p , 75 , 9006743L + curval ) ;
+	    else eqdefine ( p , 75 , 9006743L + curval ) ;
 	    break ;
 	  case 4 : 
 	    if ( ( a >= 4 ) ) 
@@ -2683,7 +2684,7 @@ prefixedcommand ( void )
 	geqdefine ( p , 123 , n ) ;
 	else eqdefine ( p , 123 , n ) ;
       } 
-      else if ( curchr == 7892607L ) 
+      else if ( curchr == 7892608L ) 
       {
 	p = curchr ;
 	scanusvnum () ;
@@ -2719,7 +2720,7 @@ prefixedcommand ( void )
       n = 32768L ;
       else if ( curchr == 4549928L ) 
       n = 32767 ;
-      else if ( curchr == 7892607L ) 
+      else if ( curchr == 7892608L ) 
       n = 16777215L ;
       else n = 1114111L ;
       p = curchr ;
@@ -2727,7 +2728,7 @@ prefixedcommand ( void )
       p = p + curval ;
       scanoptionalequals () ;
       scanint () ;
-      if ( ( ( curval < 0 ) && ( p < 7892607L ) ) || ( curval > n ) ) 
+      if ( ( ( curval < 0 ) && ( p < 7892608L ) ) || ( curval > n ) ) 
       {
 	{
 	  if ( interaction == 3 ) 
@@ -2738,7 +2739,7 @@ prefixedcommand ( void )
 	  print ( 66128L ) ;
 	} 
 	printint ( curval ) ;
-	if ( p < 7892607L ) 
+	if ( p < 7892608L ) 
 	print ( 66660L ) ;
 	else print ( 66661L ) ;
 	printint ( n ) ;
@@ -2762,7 +2763,7 @@ prefixedcommand ( void )
 	geqdefine ( p , 123 , curval ) ;
 	else eqdefine ( p , 123 , curval ) ;
       } 
-      else if ( p < 7892607L ) 
+      else if ( p < 7892608L ) 
       {
 	if ( curval == 32768L ) 
 	curval = 2097151L ;
@@ -3050,14 +3051,14 @@ storefmtfile ( void )
   dumpint ( x ) ;
   dumpthings ( formatengine [0 ], x ) ;
   libcfree ( formatengine ) ;
-  dumpint ( 253331536L ) ;
+  dumpint ( 428388002L ) ;
   dumpint ( 1073741823L ) ;
   dumpint ( hashhigh ) ;
   dumpint ( eTeXmode ) ;
   while ( pseudofiles != -268435455L ) pseudoclose () ;
   dumpint ( membot ) ;
   dumpint ( memtop ) ;
-  dumpint ( 9006997L ) ;
+  dumpint ( 9006998L ) ;
   dumpint ( 8501 ) ;
   dumpint ( 607 ) ;
   dumpint ( 1296847960L ) ;
@@ -3142,17 +3143,17 @@ storefmtfile ( void )
   } while ( ! ( k == 7892264L ) ) ;
   do {
       j = k ;
-    while ( j < 9006997L ) {
+    while ( j < 9006998L ) {
 	
       if ( eqtb [j ].cint == eqtb [j + 1 ].cint ) 
       goto lab42 ;
       incr ( j ) ;
     } 
-    l = 9006998L ;
+    l = 9006999L ;
     goto lab32 ;
     lab42: incr ( j ) ;
     l = j ;
-    while ( j < 9006997L ) {
+    while ( j < 9006998L ) {
 	
       if ( eqtb [j ].cint != eqtb [j + 1 ].cint ) 
       goto lab32 ;
@@ -3162,9 +3163,9 @@ storefmtfile ( void )
     dumpthings ( eqtb [k ], l - k ) ;
     k = j + 1 ;
     dumpint ( k - l ) ;
-  } while ( ! ( k > 9006997L ) ) ;
+  } while ( ! ( k > 9006998L ) ) ;
   if ( hashhigh > 0 ) 
-  dumpthings ( eqtb [9006998L ], hashhigh ) ;
+  dumpthings ( eqtb [9006999L ], hashhigh ) ;
   dumpint ( parloc ) ;
   dumpint ( writeloc ) ;
   {register integer for_end; p = 0 ;for_end = 2100 ; if ( p <= for_end) do 
@@ -3183,7 +3184,7 @@ storefmtfile ( void )
   while ( p++ < for_end ) ;} 
   dumpthings ( hash [hashused + 1 ], 1205762L - hashused ) ;
   if ( hashhigh > 0 ) 
-  dumpthings ( hash [9006998L ], hashhigh ) ;
+  dumpthings ( hash [9006999L ], hashhigh ) ;
   dumpint ( cscount ) ;
   println () ;
   printint ( cscount ) ;
@@ -3368,7 +3369,7 @@ loadfmtfile ( void )
     fprintf ( stderr , "%s%s",  "fmtdebug:" , "string pool checksum" ) ;
     fprintf ( stderr , "%s%ld\n",  " = " , (long)x ) ;
   } 
-  if ( x != 253331536L ) 
+  if ( x != 428388002L ) 
   {
     ;
     fprintf ( stdout , "%s%s%s\n",  "---! " , stringcast ( nameoffile + 1 ) ,     " made by different executable version, strings are different" ) ;
@@ -3382,7 +3383,7 @@ loadfmtfile ( void )
   goto lab6666 ;
   if ( hashextra < hashhigh ) 
   hashextra = hashhigh ;
-  eqtbtop = 9006997L + hashextra ;
+  eqtbtop = 9006998L + hashextra ;
   if ( hashextra == 0 ) 
   hashtop = 1205763L ;
   else hashtop = eqtbtop ;
@@ -3399,7 +3400,7 @@ loadfmtfile ( void )
   eqtb [1205763L ].hh.b0 = 104 ;
   eqtb [1205763L ].hh .v.RH = -268435455L ;
   eqtb [1205763L ].hh.b1 = 0 ;
-  {register integer for_end; x = 9006998L ;for_end = eqtbtop ; if ( x <= 
+  {register integer for_end; x = 9006999L ;for_end = eqtbtop ; if ( x <= 
   for_end) do 
     eqtb [x ]= eqtb [1205763L ];
   while ( x++ < for_end ) ;} 
@@ -3444,7 +3445,7 @@ loadfmtfile ( void )
   zmem = yzmem - memmin ;
   mem = zmem ;
   undumpint ( x ) ;
-  if ( x != 9006997L ) 
+  if ( x != 9006998L ) 
   goto lab6666 ;
   undumpint ( x ) ;
   if ( x != 8501 ) 
@@ -3570,21 +3571,21 @@ loadfmtfile ( void )
   k = 1 ;
   do {
       undumpint ( x ) ;
-    if ( ( x < 1 ) || ( k + x > 9006998L ) ) 
+    if ( ( x < 1 ) || ( k + x > 9006999L ) ) 
     goto lab6666 ;
     undumpthings ( eqtb [k ], x ) ;
     k = k + x ;
     undumpint ( x ) ;
-    if ( ( x < 0 ) || ( k + x > 9006998L ) ) 
+    if ( ( x < 0 ) || ( k + x > 9006999L ) ) 
     goto lab6666 ;
     {register integer for_end; j = k ;for_end = k + x - 1 ; if ( j <= 
     for_end) do 
       eqtb [j ]= eqtb [k - 1 ];
     while ( j++ < for_end ) ;} 
     k = k + x ;
-  } while ( ! ( k > 9006997L ) ) ;
+  } while ( ! ( k > 9006998L ) ) ;
   if ( hashhigh > 0 ) 
-  undumpthings ( eqtb [9006998L ], hashhigh ) ;
+  undumpthings ( eqtb [9006999L ], hashhigh ) ;
   undumpint ( parloc ) ;
   partoken = 33554431L + parloc ;
   {
@@ -3620,10 +3621,10 @@ loadfmtfile ( void )
   } 
   if ( hashhigh > 0 ) 
   {
-    undumpthings ( hash [9006998L ], hashhigh ) ;
+    undumpthings ( hash [9006999L ], hashhigh ) ;
     if ( debugformatfile ) 
     {
-      printcsnames ( 9006998L , hashhigh - ( 9006998L ) ) ;
+      printcsnames ( 9006999L , hashhigh - ( 9006999L ) ) ;
     } 
   } 
   undumpint ( cscount ) ;
@@ -4103,29 +4104,29 @@ initprim ( void )
   primitive ( 65781L , 74 , 7892324L ) ;
   primitive ( 65782L , 74 , 7892337L ) ;
   primitive ( 65783L , 74 , 7892338L ) ;
-  primitive ( 65788L , 75 , 9006719L ) ;
-  primitive ( 65789L , 75 , 9006720L ) ;
-  primitive ( 65790L , 75 , 9006721L ) ;
-  primitive ( 65791L , 75 , 9006722L ) ;
-  primitive ( 65792L , 75 , 9006723L ) ;
-  primitive ( 65793L , 75 , 9006724L ) ;
-  primitive ( 65794L , 75 , 9006725L ) ;
-  primitive ( 65795L , 75 , 9006726L ) ;
-  primitive ( 65796L , 75 , 9006727L ) ;
-  primitive ( 65797L , 75 , 9006728L ) ;
-  primitive ( 65798L , 75 , 9006729L ) ;
-  primitive ( 65799L , 75 , 9006730L ) ;
-  primitive ( 65800L , 75 , 9006731L ) ;
-  primitive ( 65801L , 75 , 9006732L ) ;
-  primitive ( 65802L , 75 , 9006733L ) ;
-  primitive ( 65803L , 75 , 9006734L ) ;
-  primitive ( 65804L , 75 , 9006735L ) ;
-  primitive ( 65805L , 75 , 9006736L ) ;
-  primitive ( 65806L , 75 , 9006737L ) ;
-  primitive ( 65807L , 75 , 9006738L ) ;
-  primitive ( 65808L , 75 , 9006739L ) ;
-  primitive ( 65809L , 75 , 9006740L ) ;
-  primitive ( 65810L , 75 , 9006741L ) ;
+  primitive ( 65788L , 75 , 9006720L ) ;
+  primitive ( 65789L , 75 , 9006721L ) ;
+  primitive ( 65790L , 75 , 9006722L ) ;
+  primitive ( 65791L , 75 , 9006723L ) ;
+  primitive ( 65792L , 75 , 9006724L ) ;
+  primitive ( 65793L , 75 , 9006725L ) ;
+  primitive ( 65794L , 75 , 9006726L ) ;
+  primitive ( 65795L , 75 , 9006727L ) ;
+  primitive ( 65796L , 75 , 9006728L ) ;
+  primitive ( 65797L , 75 , 9006729L ) ;
+  primitive ( 65798L , 75 , 9006730L ) ;
+  primitive ( 65799L , 75 , 9006731L ) ;
+  primitive ( 65800L , 75 , 9006732L ) ;
+  primitive ( 65801L , 75 , 9006733L ) ;
+  primitive ( 65802L , 75 , 9006734L ) ;
+  primitive ( 65803L , 75 , 9006735L ) ;
+  primitive ( 65804L , 75 , 9006736L ) ;
+  primitive ( 65805L , 75 , 9006737L ) ;
+  primitive ( 65806L , 75 , 9006738L ) ;
+  primitive ( 65807L , 75 , 9006739L ) ;
+  primitive ( 65808L , 75 , 9006740L ) ;
+  primitive ( 65809L , 75 , 9006741L ) ;
+  primitive ( 65810L , 75 , 9006742L ) ;
   primitive ( 32 , 64 , 0 ) ;
   primitive ( 47 , 44 , 0 ) ;
   primitive ( 65822L , 45 , 0 ) ;
@@ -4384,11 +4385,11 @@ initprim ( void )
   primitive ( 65718L , 86 , 3435816L ) ;
   primitive ( 65719L , 86 , 4549928L ) ;
   primitive ( 66655L , 87 , 4549928L ) ;
-  primitive ( 65787L , 86 , 7892607L ) ;
-  primitive ( 66656L , 87 , 7892607L ) ;
-  primitive ( 66657L , 87 , 7892607L ) ;
-  primitive ( 66658L , 87 , 7892608L ) ;
-  primitive ( 66659L , 87 , 7892608L ) ;
+  primitive ( 65787L , 86 , 7892608L ) ;
+  primitive ( 66656L , 87 , 7892608L ) ;
+  primitive ( 66657L , 87 , 7892608L ) ;
+  primitive ( 66658L , 87 , 7892609L ) ;
+  primitive ( 66659L , 87 , 7892609L ) ;
   primitive ( 65713L , 88 , 1206824L ) ;
   primitive ( 65714L , 88 , 1207080L ) ;
   primitive ( 65715L , 88 , 1207336L ) ;
@@ -4423,6 +4424,7 @@ initprim ( void )
   primitive ( 66753L , 59 , 6 ) ;
   primitive ( 66754L , 59 , 33 ) ;
   primitive ( 66755L , 59 , 35 ) ;
+  primitive ( 66978L , 74 , 7892351L ) ;
   nonewcontrolsequence = true ;
 } 
 #endif /* INITEX */
@@ -4667,7 +4669,7 @@ mainbody ( void )
   {
     yzmem = xmallocarray ( memoryword , memtop - membot + 1 ) ;
     zmem = yzmem - membot ;
-    eqtbtop = 9006997L + hashextra ;
+    eqtbtop = 9006998L + hashextra ;
     if ( hashextra == 0 ) 
     hashtop = 1205763L ;
     else hashtop = eqtbtop ;
@@ -4730,7 +4732,7 @@ mainbody ( void )
   bad = 18 ;
   if ( 65535L < 65535L ) 
   bad = 19 ;
-  if ( 42561428L + hashextra > 1073741823L ) 
+  if ( 42561429L + hashextra > 1073741823L ) 
   bad = 21 ;
   if ( ( hashoffset < 0 ) || ( hashoffset > 1179650L ) ) 
   bad = 42 ;
@@ -5089,6 +5091,7 @@ mainbody ( void )
     startinput () ;
   } 
   history = 0 ;
+  synctexinitcommand () ;
   maincontrol () ;
   finalcleanup () ;
   closefilesandterminate () ;

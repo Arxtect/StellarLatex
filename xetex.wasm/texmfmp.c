@@ -630,3 +630,19 @@ find_input_file(integer s)
     return kpse_find_tex(filename);
 }
 #endif
+
+char * generic_synctex_get_current_name (void)
+{
+  char *pwdbuf, *ret;
+  if (!fullnameoffile) {
+    ret = xstrdup("");
+    return ret;
+  }
+  if (kpse_absolute_p(fullnameoffile, false)) {
+     return xstrdup(fullnameoffile);
+  }
+  pwdbuf = xgetcwd();
+  ret = concat3(pwdbuf, DIR_SEP_STRING, fullnameoffile);
+  free(pwdbuf) ;
+  return ret;
+}

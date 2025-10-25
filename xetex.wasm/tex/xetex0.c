@@ -335,7 +335,7 @@ zprintcs ( integer p )
     printesc ( 65820L ) ;
     else printchar ( p - 1 ) ;
   } 
-  else if ( ( ( p >= 1205763L ) && ( p <= 9006997L ) ) || ( p > eqtbtop ) ) 
+  else if ( ( ( p >= 1205763L ) && ( p <= 9006998L ) ) || ( p > eqtbtop ) ) 
   printesc ( 65820L ) ;
   else if ( ( hash [p ].v.RH >= strptr ) ) 
   printesc ( 65821L ) ;
@@ -2177,6 +2177,11 @@ zgetnode ( integer s )
 #ifdef STAT
   varused = varused + s ;
 #endif /* STAT */
+  if ( s >= 3 ) 
+  {
+    mem [r + s - 1 ].hh .v.LH = curinput .synctextagfield ;
+    mem [r + s - 1 ].hh .v.RH = line ;
+  } 
   Result = r ;
   return Result ;
 } 
@@ -2202,7 +2207,7 @@ newnullbox ( void )
 {
   register halfword Result; newnullbox_regmem 
   halfword p  ;
-  p = getnode ( 7 ) ;
+  p = getnode ( 8 ) ;
   mem [p ].hh.b0 = 0 ;
   mem [p ].hh.b1 = 0 ;
   mem [p + 1 ].cint = 0 ;
@@ -2221,7 +2226,7 @@ newrule ( void )
 {
   register halfword Result; newrule_regmem 
   halfword p  ;
-  p = getnode ( 4 ) ;
+  p = getnode ( 5 ) ;
   mem [p ].hh.b0 = 2 ;
   mem [p ].hh.b1 = 0 ;
   mem [p + 1 ].cint = -1073741824L ;
@@ -2287,7 +2292,7 @@ znewmath ( scaled w , smallnumber s )
 {
   register halfword Result; newmath_regmem 
   halfword p  ;
-  p = getnode ( 2 ) ;
+  p = getnode ( 3 ) ;
   mem [p ].hh.b0 = 9 ;
   mem [p ].hh.b1 = s ;
   mem [p + 1 ].cint = w ;
@@ -2314,7 +2319,7 @@ znewparamglue ( smallnumber n )
   register halfword Result; newparamglue_regmem 
   halfword p  ;
   halfword q  ;
-  p = getnode ( 2 ) ;
+  p = getnode ( 3 ) ;
   mem [p ].hh.b0 = 10 ;
   mem [p ].hh.b1 = n + 1 ;
   mem [p + 1 ].hh .v.RH = -268435455L ;
@@ -2329,7 +2334,7 @@ znewglue ( halfword q )
 {
   register halfword Result; newglue_regmem 
   halfword p  ;
-  p = getnode ( 2 ) ;
+  p = getnode ( 3 ) ;
   mem [p ].hh.b0 = 10 ;
   mem [p ].hh.b1 = 0 ;
   mem [p + 1 ].hh .v.RH = -268435455L ;
@@ -2355,7 +2360,7 @@ znewkern ( scaled w )
 {
   register halfword Result; newkern_regmem 
   halfword p  ;
-  p = getnode ( 2 ) ;
+  p = getnode ( 3 ) ;
   mem [p ].hh.b0 = 11 ;
   mem [p ].hh.b1 = 0 ;
   mem [p + 1 ].cint = w ;
@@ -2367,7 +2372,7 @@ znewpenalty ( integer m )
 {
   register halfword Result; newpenalty_regmem 
   halfword p  ;
-  p = getnode ( 2 ) ;
+  p = getnode ( 3 ) ;
   mem [p ].hh.b0 = 12 ;
   mem [p ].hh.b1 = 0 ;
   mem [p + 1 ].cint = m ;
@@ -3700,13 +3705,13 @@ zflushnodelist ( halfword p )
       case 13 : 
 	{
 	  flushnodelist ( mem [p + 5 ].hh .v.RH ) ;
-	  freenode ( p , 7 ) ;
+	  freenode ( p , 8 ) ;
 	  goto lab30 ;
 	} 
 	break ;
       case 2 : 
 	{
-	  freenode ( p , 4 ) ;
+	  freenode ( p , 5 ) ;
 	  goto lab30 ;
 	} 
 	break ;
@@ -3778,12 +3783,17 @@ zflushnodelist ( halfword p )
 	  } 
 	  if ( mem [p + 1 ].hh .v.RH != -268435455L ) 
 	  flushnodelist ( mem [p + 1 ].hh .v.RH ) ;
+	  freenode ( p , 3 ) ;
+	  goto lab30 ;
 	} 
 	break ;
       case 11 : 
       case 9 : 
       case 12 : 
-	;
+	{
+	  freenode ( p , 3 ) ;
+	  goto lab30 ;
+	} 
 	break ;
       case 40 : 
 	{
@@ -3895,7 +3905,9 @@ zcopynodelist ( halfword p )
     case 1 : 
     case 13 : 
       {
-	r = getnode ( 7 ) ;
+	r = getnode ( 8 ) ;
+	mem [r + 7 ].hh .v.LH = mem [p + 7 ].hh .v.LH ;
+	mem [r + 7 ].hh .v.RH = mem [p + 7 ].hh .v.RH ;
 	mem [r + 6 ]= mem [p + 6 ];
 	mem [r + 5 ]= mem [p + 5 ];
 	mem [r + 5 ].hh .v.RH = copynodelist ( mem [p + 5 ].hh .v.RH ) ;
@@ -3904,7 +3916,7 @@ zcopynodelist ( halfword p )
       break ;
     case 2 : 
       {
-	r = getnode ( 4 ) ;
+	r = getnode ( 5 ) ;
 	words = 4 ;
       } 
       break ;
@@ -3980,8 +3992,10 @@ zcopynodelist ( halfword p )
       break ;
     case 10 : 
       {
-	r = getnode ( 2 ) ;
+	r = getnode ( 3 ) ;
 	incr ( mem [mem [p + 1 ].hh .v.LH ].hh .v.RH ) ;
+	mem [r + 2 ].hh .v.LH = mem [p + 2 ].hh .v.LH ;
+	mem [r + 2 ].hh .v.RH = mem [p + 2 ].hh .v.RH ;
 	mem [r + 1 ].hh .v.LH = mem [p + 1 ].hh .v.LH ;
 	mem [r + 1 ].hh .v.RH = copynodelist ( mem [p + 1 ].hh .v.RH ) ;
       } 
@@ -3990,8 +4004,8 @@ zcopynodelist ( halfword p )
     case 9 : 
     case 12 : 
       {
-	r = getnode ( 2 ) ;
-	words = 2 ;
+	r = getnode ( 3 ) ;
+	words = 3 ;
       } 
       break ;
     case 40 : 
@@ -4204,9 +4218,9 @@ showactivities ( void )
 	      t = mem [r ].hh.b1 ;
 	      printint ( t ) ;
 	      print ( 66421L ) ;
-	      if ( eqtb [7892351L + t ].cint == 1000 ) 
+	      if ( eqtb [7892352L + t ].cint == 1000 ) 
 	      t = mem [r + 3 ].cint ;
-	      else t = xovern ( mem [r + 3 ].cint , 1000 ) * eqtb [7892351L 
+	      else t = xovern ( mem [r + 3 ].cint , 1000 ) * eqtb [7892352L 
 	      + t ].cint ;
 	      printscaled ( t ) ;
 	      if ( mem [r ].hh.b0 == 1 ) 
@@ -4466,6 +4480,9 @@ zprintparam ( integer n )
     break ;
   case 74 : 
     printesc ( 65783L ) ;
+    break ;
+  case 87 : 
+    printesc ( 66978L ) ;
     break ;
   case 61 : 
     printesc ( 66863L ) ;
@@ -4786,21 +4803,21 @@ zprintcmdchr ( quarterword cmd , halfword chrcode )
     } 
     break ;
   case 74 : 
-    if ( chrcode < 7892351L ) 
+    if ( chrcode < 7892352L ) 
     printparam ( chrcode - 7892264L ) ;
     else {
 	
       printesc ( 65786L ) ;
-      printint ( chrcode - 7892351L ) ;
+      printint ( chrcode - 7892352L ) ;
     } 
     break ;
   case 75 : 
-    if ( chrcode < 9006742L ) 
-    printlengthparam ( chrcode - 9006719L ) ;
+    if ( chrcode < 9006743L ) 
+    printlengthparam ( chrcode - 9006720L ) ;
     else {
 	
       printesc ( 65812L ) ;
-      printint ( chrcode - 9006742L ) ;
+      printint ( chrcode - 9006743L ) ;
     } 
     break ;
   case 45 : 
@@ -5767,7 +5784,7 @@ zprintcmdchr ( quarterword cmd , halfword chrcode )
     printesc ( 66652L ) ;
     else if ( chrcode == 5664041L ) 
     printesc ( 66654L ) ;
-    else if ( chrcode == 7892607L ) 
+    else if ( chrcode == 7892608L ) 
     printesc ( 66657L ) ;
     else printesc ( 66659L ) ;
     break ;
@@ -6038,7 +6055,7 @@ zshoweqtb ( halfword n )
   showeqtb_regmem 
   if ( n < 1 ) 
   printchar ( 63 ) ;
-  else if ( ( n < 1205764L ) || ( ( n > 9006997L ) && ( n <= eqtbtop ) ) ) 
+  else if ( ( n < 1205764L ) || ( ( n > 9006998L ) && ( n <= eqtbtop ) ) ) 
   {
     sprintcs ( n ) ;
     printchar ( 61 ) ;
@@ -6179,31 +6196,31 @@ zshoweqtb ( halfword n )
       printint ( eqtb [n ].hh .v.RH ) ;
     } 
   } 
-  else if ( n < 9006719L ) 
+  else if ( n < 9006720L ) 
   {
-    if ( n < 7892351L ) 
+    if ( n < 7892352L ) 
     printparam ( n - 7892264L ) ;
-    else if ( n < 7892607L ) 
+    else if ( n < 7892608L ) 
     {
       printesc ( 65786L ) ;
-      printint ( n - 7892351L ) ;
+      printint ( n - 7892352L ) ;
     } 
     else {
 	
       printesc ( 65787L ) ;
-      printint ( n - 7892607L ) ;
+      printint ( n - 7892608L ) ;
     } 
     printchar ( 61 ) ;
     printint ( eqtb [n ].cint ) ;
   } 
-  else if ( n <= 9006997L ) 
+  else if ( n <= 9006998L ) 
   {
-    if ( n < 9006742L ) 
-    printlengthparam ( n - 9006719L ) ;
+    if ( n < 9006743L ) 
+    printlengthparam ( n - 9006720L ) ;
     else {
 	
       printesc ( 65812L ) ;
-      printint ( n - 9006742L ) ;
+      printint ( n - 9006743L ) ;
     } 
     printchar ( 61 ) ;
     printscaled ( eqtb [n ].cint ) ;
@@ -6256,8 +6273,8 @@ zidlookup ( integer j , integer l )
 	  if ( hashhigh < hashextra ) 
 	  {
 	    incr ( hashhigh ) ;
-	    hash [p ].v.LH = hashhigh + 9006997L ;
-	    p = hashhigh + 9006997L ;
+	    hash [p ].v.LH = hashhigh + 9006998L ;
+	    p = hashhigh + 9006998L ;
 	  } 
 	  else {
 	      
@@ -7310,7 +7327,7 @@ unsave ( void )
 	  decr ( saveptr ) ;
 	} 
 	else savestack [saveptr ]= eqtb [1205763L ];
-	if ( ( p < 7892264L ) || ( p > 9006997L ) ) {
+	if ( ( p < 7892264L ) || ( p > 9006998L ) ) {
 	    
 	  if ( eqtb [p ].hh.b1 == 1 ) 
 	  {
@@ -7870,6 +7887,7 @@ beginfilereading ( void )
   curinput .startfield = first ;
   curinput .statefield = 1 ;
   curinput .namefield = 0 ;
+  curinput .synctextagfield = 0 ;
 } 
 void 
 endfilereading ( void ) 
@@ -10192,9 +10210,9 @@ zscansomethinginternal ( smallnumber level , boolean negative )
 	  curvallevel = 0 ;
 	} 
       } 
-      else if ( m == 7892607L ) 
+      else if ( m == 7892608L ) 
       {
-	curval1 = eqtb [7892607L + curval ].cint ;
+	curval1 = eqtb [7892608L + curval ].cint ;
 	if ( curval1 >= 1073741824L ) 
 	{
 	  {
@@ -10279,10 +10297,10 @@ zscansomethinginternal ( smallnumber level , boolean negative )
 	  curvallevel = 0 ;
 	} 
       } 
-      else if ( m == 7892607L ) 
+      else if ( m == 7892608L ) 
       {
 	{
-	  curval = eqtb [7892607L + curval ].cint ;
+	  curval = eqtb [7892608L + curval ].cint ;
 	  curvallevel = 0 ;
 	} 
       } 
@@ -10605,10 +10623,10 @@ zscansomethinginternal ( smallnumber level , boolean negative )
 	} 
 	else switch ( curvallevel ) 
 	{case 0 : 
-	  curval = eqtb [7892351L + curval ].cint ;
+	  curval = eqtb [7892352L + curval ].cint ;
 	  break ;
 	case 1 : 
-	  curval = eqtb [9006742L + curval ].cint ;
+	  curval = eqtb [9006743L + curval ].cint ;
 	  break ;
 	case 2 : 
 	  curval = eqtb [1205783L + curval ].hh .v.RH ;
@@ -12543,7 +12561,11 @@ pseudostart ( void )
     incr ( openparens ) ;
     fflush ( stdout ) ;
   } 
-  else curinput .namefield = 18 ;
+  else {
+      
+    curinput .namefield = 18 ;
+    curinput .synctextagfield = 0 ;
+  } 
 } 
 halfword 
 zstrtokscat ( poolpointer b , smallnumber cat ) 
@@ -14972,6 +14994,7 @@ startinput ( void )
     enddiagnostic ( false ) ;
   } 
   curinput .statefield = 33 ;
+  synctexstartinput () ;
   {
     line = 1 ;
     if ( inputln ( inputfile [curinput .indexfield ], false ) ) 
@@ -17383,7 +17406,7 @@ zzreverse ( halfword thisbox , halfword t , scaled * curg , real * curglue )
 		decr ( m ) ;
 		else {
 		    
-		  freenode ( p , 2 ) ;
+		  freenode ( p , 3 ) ;
 		  mem [t ].hh .v.RH = q ;
 		  mem [t + 1 ].cint = rulewd ;
 		  mem [t + 2 ].cint = - (integer) curh - rulewd ;
@@ -17428,7 +17451,7 @@ zzreverse ( halfword thisbox , halfword t , scaled * curg , real * curglue )
 	  
 	if ( ( rulewd == 0 ) || ( l == -268435455L ) ) 
 	{
-	  freenode ( p , 2 ) ;
+	  freenode ( p , 3 ) ;
 	  p = l ;
 	} 
       } 
@@ -17709,6 +17732,7 @@ hlistout ( void )
       saveh = curh ;
       tempptr = p ;
       p = newkern ( 0 ) ;
+      mem [p + 2 ].hh .v.LH = 0 ;
       mem [prevp ].hh .v.RH = p ;
       curh = 0 ;
       mem [p ].hh .v.RH = reverse ( thisbox , -268435455L , curg , curglue ) 
@@ -17719,6 +17743,7 @@ hlistout ( void )
     } 
   } 
   leftedge = curh ;
+  synctexhlist ( thisbox ) ;
   while ( p != -268435455L ) lab21: if ( ( p >= himemmin ) ) 
   {
     if ( curh != dvih ) 
@@ -17976,6 +18001,7 @@ hlistout ( void )
       lab22: prevp = mem [prevp ].hh .v.RH ;
       p = mem [p ].hh .v.RH ;
     } while ( ! ( ! ( p >= himemmin ) ) ) ;
+    synctexcurrent () ;
     dvih = curh ;
   } 
   else {
@@ -17984,7 +18010,17 @@ hlistout ( void )
     {case 0 : 
     case 1 : 
       if ( mem [p + 5 ].hh .v.RH == -268435455L ) 
-      curh = curh + mem [p + 1 ].cint ;
+      {
+	if ( mem [p ].hh.b0 == 1 ) 
+	{
+	  synctexvoidvlist ( p , thisbox ) ;
+	} 
+	else {
+	    
+	  synctexvoidhlist ( p , thisbox ) ;
+	} 
+	curh = curh + mem [p + 1 ].cint ;
+      } 
       else {
 	  
 	saveh = dvih ;
@@ -18321,64 +18357,70 @@ hlistout ( void )
       } 
       break ;
     case 11 : 
-      curh = curh + mem [p + 1 ].cint ;
+      {
+	synctexkern ( p , thisbox ) ;
+	curh = curh + mem [p + 1 ].cint ;
+      } 
       break ;
     case 9 : 
       {
-	if ( ( eTeXmode == 1 ) ) 
+	synctexmath ( p , thisbox ) ;
 	{
-	  if ( odd ( mem [p ].hh.b1 ) ) {
-	      
-	    if ( mem [LRptr ].hh .v.LH == ( 4 * ( mem [p ].hh.b1 / 4 ) + 3 
-	    ) ) 
-	    {
-	      tempptr = LRptr ;
-	      LRptr = mem [tempptr ].hh .v.RH ;
+	  if ( ( eTeXmode == 1 ) ) 
+	  {
+	    if ( odd ( mem [p ].hh.b1 ) ) {
+		
+	      if ( mem [LRptr ].hh .v.LH == ( 4 * ( mem [p ].hh.b1 / 4 ) + 
+	      3 ) ) 
 	      {
-		mem [tempptr ].hh .v.RH = avail ;
-		avail = tempptr ;
+		tempptr = LRptr ;
+		LRptr = mem [tempptr ].hh .v.RH ;
+		{
+		  mem [tempptr ].hh .v.RH = avail ;
+		  avail = tempptr ;
 	;
 #ifdef STAT
-		decr ( dynused ) ;
+		  decr ( dynused ) ;
 #endif /* STAT */
+		} 
+	      } 
+	      else {
+		  
+		if ( mem [p ].hh.b1 > 4 ) 
+		incr ( LRproblems ) ;
 	      } 
 	    } 
 	    else {
 		
-	      if ( mem [p ].hh.b1 > 4 ) 
-	      incr ( LRproblems ) ;
+	      {
+		tempptr = getavail () ;
+		mem [tempptr ].hh .v.LH = ( 4 * ( mem [p ].hh.b1 / 4 ) + 3 
+		) ;
+		mem [tempptr ].hh .v.RH = LRptr ;
+		LRptr = tempptr ;
+	      } 
+	      if ( ( mem [p ].hh.b1 / 8 ) != curdir ) 
+	      {
+		saveh = curh ;
+		tempptr = mem [p ].hh .v.RH ;
+		rulewd = mem [p + 1 ].cint ;
+		freenode ( p , 3 ) ;
+		curdir = 1 - curdir ;
+		p = newedge ( curdir , rulewd ) ;
+		mem [prevp ].hh .v.RH = p ;
+		curh = curh - leftedge + rulewd ;
+		mem [p ].hh .v.RH = reverse ( thisbox , newedge ( 1 - curdir 
+		, 0 ) , curg , curglue ) ;
+		mem [p + 2 ].cint = curh ;
+		curdir = 1 - curdir ;
+		curh = saveh ;
+		goto lab21 ;
+	      } 
 	    } 
+	    mem [p ].hh.b0 = 11 ;
 	  } 
-	  else {
-	      
-	    {
-	      tempptr = getavail () ;
-	      mem [tempptr ].hh .v.LH = ( 4 * ( mem [p ].hh.b1 / 4 ) + 3 ) 
-	      ;
-	      mem [tempptr ].hh .v.RH = LRptr ;
-	      LRptr = tempptr ;
-	    } 
-	    if ( ( mem [p ].hh.b1 / 8 ) != curdir ) 
-	    {
-	      saveh = curh ;
-	      tempptr = mem [p ].hh .v.RH ;
-	      rulewd = mem [p + 1 ].cint ;
-	      freenode ( p , 2 ) ;
-	      curdir = 1 - curdir ;
-	      p = newedge ( curdir , rulewd ) ;
-	      mem [prevp ].hh .v.RH = p ;
-	      curh = curh - leftedge + rulewd ;
-	      mem [p ].hh .v.RH = reverse ( thisbox , newedge ( 1 - curdir , 
-	      0 ) , curg , curglue ) ;
-	      mem [p + 2 ].cint = curh ;
-	      curdir = 1 - curdir ;
-	      curh = saveh ;
-	      goto lab21 ;
-	    } 
-	  } 
-	  mem [p ].hh.b0 = 11 ;
+	  curh = curh + mem [p + 1 ].cint ;
 	} 
-	curh = curh + mem [p + 1 ].cint ;
       } 
       break ;
     case 6 : 
@@ -18431,10 +18473,15 @@ hlistout ( void )
       curv = baseline ;
       dvih = dvih + rulewd ;
     } 
-    lab13: curh = curh + rulewd ;
+    lab13: {
+	
+      curh = curh + rulewd ;
+      synctexhorizontalruleorglue ( p , thisbox ) ;
+    } 
     lab15: prevp = p ;
     p = mem [p ].hh .v.RH ;
   } 
+  synctextsilh ( thisbox ) ;
   if ( ( eTeXmode == 1 ) ) 
   {
     {
@@ -18516,6 +18563,7 @@ vlistout ( void )
   maxpush = curs ;
   saveloc = dvioffset + dviptr ;
   leftedge = curh ;
+  synctexvlist ( thisbox ) ;
   if ( upwards ) 
   curv = curv + mem [thisbox + 2 ].cint ;
   else curv = curv - mem [thisbox + 3 ].cint ;
@@ -18532,8 +18580,19 @@ vlistout ( void )
 	if ( mem [p + 5 ].hh .v.RH == -268435455L ) 
 	{
 	  if ( upwards ) 
-	  curv = curv - mem [p + 2 ].cint - mem [p + 3 ].cint ;
-	  else curv = curv + mem [p + 3 ].cint + mem [p + 2 ].cint ;
+	  curv = curv - mem [p + 2 ].cint ;
+	  else curv = curv + mem [p + 3 ].cint ;
+	  if ( mem [p ].hh.b0 == 1 ) 
+	  {
+	    synctexvoidvlist ( p , thisbox ) ;
+	  } 
+	  else {
+	      
+	    synctexvoidhlist ( p , thisbox ) ;
+	  } 
+	  if ( upwards ) 
+	  curv = curv - mem [p + 3 ].cint ;
+	  else curv = curv + mem [p + 2 ].cint ;
 	} 
 	else {
 	    
@@ -18831,6 +18890,7 @@ vlistout ( void )
     } 
     lab15: p = mem [p ].hh .v.RH ;
   } 
+  synctextsilv ( thisbox ) ;
   prunemovements ( saveloc ) ;
   if ( curs > 0 ) 
   dvipop ( saveloc ) ;
@@ -18844,302 +18904,309 @@ zshipout ( halfword p )
   unsigned char j, k  ;
   poolpointer s  ;
   unsigned char oldsetting  ;
-  if ( jobname == 0 ) 
-  openlogfile () ;
-  if ( eqtb [7892298L ].cint > 0 ) 
-  {
-    printnl ( 65545L ) ;
-    println () ;
-    print ( 66230L ) ;
-  } 
-  if ( termoffset > maxprintline - 9 ) 
-  println () ;
-  else if ( ( termoffset > 0 ) || ( fileoffset > 0 ) ) 
-  printchar ( 32 ) ;
-  printchar ( 91 ) ;
-  j = 9 ;
-  while ( ( eqtb [7892351L + j ].cint == 0 ) && ( j > 0 ) ) decr ( j ) ;
-  {register integer for_end; k = 0 ;for_end = j ; if ( k <= for_end) do 
-    {
-      printint ( eqtb [7892351L + k ].cint ) ;
-      if ( k < j ) 
-      printchar ( 46 ) ;
-    } 
-  while ( k++ < for_end ) ;} 
-  fflush ( stdout ) ;
-  if ( eqtb [7892298L ].cint > 0 ) 
-  {
-    printchar ( 93 ) ;
-    begindiagnostic () ;
-    showbox ( p ) ;
-    enddiagnostic ( true ) ;
-  } 
-  if ( ( mem [p + 3 ].cint > 1073741823L ) || ( mem [p + 2 ].cint > 
-  1073741823L ) || ( mem [p + 3 ].cint + mem [p + 2 ].cint + eqtb [
-  9006738L ].cint > 1073741823L ) || ( mem [p + 1 ].cint + eqtb [9006737L 
-  ].cint > 1073741823L ) ) 
-  {
-    {
-      if ( interaction == 3 ) 
-      ;
-      if ( filelineerrorstylep ) 
-      printfileline () ;
-      else printnl ( 65544L ) ;
-      print ( 66236L ) ;
-    } 
-    {
-      helpptr = 2 ;
-      helpline [1 ]= 66237L ;
-      helpline [0 ]= 66238L ;
-    } 
-    error () ;
-    if ( eqtb [7892298L ].cint <= 0 ) 
-    {
-      begindiagnostic () ;
-      printnl ( 66239L ) ;
-      showbox ( p ) ;
-      enddiagnostic ( true ) ;
-    } 
-    goto lab30 ;
-  } 
-  if ( mem [p + 3 ].cint + mem [p + 2 ].cint + eqtb [9006738L ].cint > 
-  maxv ) 
-  maxv = mem [p + 3 ].cint + mem [p + 2 ].cint + eqtb [9006738L ].cint ;
-  if ( mem [p + 1 ].cint + eqtb [9006737L ].cint > maxh ) 
-  maxh = mem [p + 1 ].cint + eqtb [9006737L ].cint ;
-  dvih = 0 ;
-  dviv = 0 ;
-  curh = eqtb [9006737L ].cint ;
-  dvif = 0 ;
-  curhoffset = eqtb [9006737L ].cint + ( 65536L * 7227 ) / ((double) 100 ) ;
-  curvoffset = eqtb [9006738L ].cint + ( 65536L * 7227 ) / ((double) 100 ) ;
-  if ( eqtb [9006740L ].cint != 0 ) 
-  curpagewidth = eqtb [9006740L ].cint ;
-  else curpagewidth = mem [p + 1 ].cint + 2 * curhoffset ;
-  if ( eqtb [9006741L ].cint != 0 ) 
-  curpageheight = eqtb [9006741L ].cint ;
-  else curpageheight = mem [p + 3 ].cint + mem [p + 2 ].cint + 2 * 
-  curvoffset ;
-  if ( outputfilename == 0 ) 
+  synctexsheet ( eqtb [7892281L ].cint ) ;
   {
     if ( jobname == 0 ) 
     openlogfile () ;
-    packjobname ( outputfileextension ) ;
-    while ( ! dviopenout ( dvifile ) ) promptfilename ( 66185L , 
-    outputfileextension ) ;
-    outputfilename = bmakenamestring ( dvifile ) ;
-  } 
-  if ( totalpages == 0 ) 
-  {
+    if ( eqtb [7892298L ].cint > 0 ) 
     {
-      dvibuf [dviptr ]= 247 ;
-      incr ( dviptr ) ;
-      if ( dviptr == dvilimit ) 
-      dviswap () ;
+      printnl ( 65545L ) ;
+      println () ;
+      print ( 66230L ) ;
     } 
-    {
-      dvibuf [dviptr ]= 7 ;
-      incr ( dviptr ) ;
-      if ( dviptr == dvilimit ) 
-      dviswap () ;
-    } 
-    dvifour ( 25400000L ) ;
-    dvifour ( 473628672L ) ;
-    preparemag () ;
-    dvifour ( eqtb [7892281L ].cint ) ;
-    if ( outputcomment ) 
-    {
-      l = strlen ( outputcomment ) ;
+    if ( termoffset > maxprintline - 9 ) 
+    println () ;
+    else if ( ( termoffset > 0 ) || ( fileoffset > 0 ) ) 
+    printchar ( 32 ) ;
+    printchar ( 91 ) ;
+    j = 9 ;
+    while ( ( eqtb [7892352L + j ].cint == 0 ) && ( j > 0 ) ) decr ( j ) ;
+    {register integer for_end; k = 0 ;for_end = j ; if ( k <= for_end) do 
       {
-	dvibuf [dviptr ]= l ;
+	printint ( eqtb [7892352L + k ].cint ) ;
+	if ( k < j ) 
+	printchar ( 46 ) ;
+      } 
+    while ( k++ < for_end ) ;} 
+    fflush ( stdout ) ;
+    if ( eqtb [7892298L ].cint > 0 ) 
+    {
+      printchar ( 93 ) ;
+      begindiagnostic () ;
+      showbox ( p ) ;
+      enddiagnostic ( true ) ;
+    } 
+    if ( ( mem [p + 3 ].cint > 1073741823L ) || ( mem [p + 2 ].cint > 
+    1073741823L ) || ( mem [p + 3 ].cint + mem [p + 2 ].cint + eqtb [
+    9006739L ].cint > 1073741823L ) || ( mem [p + 1 ].cint + eqtb [
+    9006738L ].cint > 1073741823L ) ) 
+    {
+      {
+	if ( interaction == 3 ) 
+	;
+	if ( filelineerrorstylep ) 
+	printfileline () ;
+	else printnl ( 65544L ) ;
+	print ( 66236L ) ;
+      } 
+      {
+	helpptr = 2 ;
+	helpline [1 ]= 66237L ;
+	helpline [0 ]= 66238L ;
+      } 
+      error () ;
+      if ( eqtb [7892298L ].cint <= 0 ) 
+      {
+	begindiagnostic () ;
+	printnl ( 66239L ) ;
+	showbox ( p ) ;
+	enddiagnostic ( true ) ;
+      } 
+      goto lab30 ;
+    } 
+    if ( mem [p + 3 ].cint + mem [p + 2 ].cint + eqtb [9006739L ].cint > 
+    maxv ) 
+    maxv = mem [p + 3 ].cint + mem [p + 2 ].cint + eqtb [9006739L ].cint 
+    ;
+    if ( mem [p + 1 ].cint + eqtb [9006738L ].cint > maxh ) 
+    maxh = mem [p + 1 ].cint + eqtb [9006738L ].cint ;
+    dvih = 0 ;
+    dviv = 0 ;
+    curh = eqtb [9006738L ].cint ;
+    dvif = 0 ;
+    curhoffset = eqtb [9006738L ].cint + ( 65536L * 7227 ) / ((double) 100 ) 
+    ;
+    curvoffset = eqtb [9006739L ].cint + ( 65536L * 7227 ) / ((double) 100 ) 
+    ;
+    if ( eqtb [9006741L ].cint != 0 ) 
+    curpagewidth = eqtb [9006741L ].cint ;
+    else curpagewidth = mem [p + 1 ].cint + 2 * curhoffset ;
+    if ( eqtb [9006742L ].cint != 0 ) 
+    curpageheight = eqtb [9006742L ].cint ;
+    else curpageheight = mem [p + 3 ].cint + mem [p + 2 ].cint + 2 * 
+    curvoffset ;
+    if ( outputfilename == 0 ) 
+    {
+      if ( jobname == 0 ) 
+      openlogfile () ;
+      packjobname ( outputfileextension ) ;
+      while ( ! dviopenout ( dvifile ) ) promptfilename ( 66185L , 
+      outputfileextension ) ;
+      outputfilename = bmakenamestring ( dvifile ) ;
+    } 
+    if ( totalpages == 0 ) 
+    {
+      {
+	dvibuf [dviptr ]= 247 ;
 	incr ( dviptr ) ;
 	if ( dviptr == dvilimit ) 
 	dviswap () ;
       } 
-      {register integer for_end; s = 0 ;for_end = l - 1 ; if ( s <= for_end) 
-      do 
-	{
-	  dvibuf [dviptr ]= outputcomment [s ];
-	  incr ( dviptr ) ;
-	  if ( dviptr == dvilimit ) 
-	  dviswap () ;
-	} 
-      while ( s++ < for_end ) ;} 
-    } 
-    else {
-	
-      oldsetting = selector ;
-      selector = 21 ;
-      print ( 66228L ) ;
-      printint ( eqtb [7892287L ].cint ) ;
-      printchar ( 46 ) ;
-      printtwo ( eqtb [7892286L ].cint ) ;
-      printchar ( 46 ) ;
-      printtwo ( eqtb [7892285L ].cint ) ;
-      printchar ( 58 ) ;
-      printtwo ( eqtb [7892284L ].cint / 60 ) ;
-      printtwo ( eqtb [7892284L ].cint % 60 ) ;
-      selector = oldsetting ;
       {
-	dvibuf [dviptr ]= ( poolptr - strstart [( strptr ) - 65536L ]) ;
+	dvibuf [dviptr ]= 7 ;
 	incr ( dviptr ) ;
 	if ( dviptr == dvilimit ) 
 	dviswap () ;
       } 
-      {register integer for_end; s = strstart [( strptr ) - 65536L ];
-      for_end = poolptr - 1 ; if ( s <= for_end) do 
+      dvifour ( 25400000L ) ;
+      dvifour ( 473628672L ) ;
+      preparemag () ;
+      dvifour ( eqtb [7892281L ].cint ) ;
+      if ( outputcomment ) 
+      {
+	l = strlen ( outputcomment ) ;
 	{
-	  dvibuf [dviptr ]= strpool [s ];
+	  dvibuf [dviptr ]= l ;
 	  incr ( dviptr ) ;
 	  if ( dviptr == dvilimit ) 
 	  dviswap () ;
 	} 
-      while ( s++ < for_end ) ;} 
-      poolptr = strstart [( strptr ) - 65536L ];
+	{register integer for_end; s = 0 ;for_end = l - 1 ; if ( s <= 
+	for_end) do 
+	  {
+	    dvibuf [dviptr ]= outputcomment [s ];
+	    incr ( dviptr ) ;
+	    if ( dviptr == dvilimit ) 
+	    dviswap () ;
+	  } 
+	while ( s++ < for_end ) ;} 
+      } 
+      else {
+	  
+	oldsetting = selector ;
+	selector = 21 ;
+	print ( 66228L ) ;
+	printint ( eqtb [7892287L ].cint ) ;
+	printchar ( 46 ) ;
+	printtwo ( eqtb [7892286L ].cint ) ;
+	printchar ( 46 ) ;
+	printtwo ( eqtb [7892285L ].cint ) ;
+	printchar ( 58 ) ;
+	printtwo ( eqtb [7892284L ].cint / 60 ) ;
+	printtwo ( eqtb [7892284L ].cint % 60 ) ;
+	selector = oldsetting ;
+	{
+	  dvibuf [dviptr ]= ( poolptr - strstart [( strptr ) - 65536L ]) ;
+	  incr ( dviptr ) ;
+	  if ( dviptr == dvilimit ) 
+	  dviswap () ;
+	} 
+	{register integer for_end; s = strstart [( strptr ) - 65536L ];
+	for_end = poolptr - 1 ; if ( s <= for_end) do 
+	  {
+	    dvibuf [dviptr ]= strpool [s ];
+	    incr ( dviptr ) ;
+	    if ( dviptr == dvilimit ) 
+	    dviswap () ;
+	  } 
+	while ( s++ < for_end ) ;} 
+	poolptr = strstart [( strptr ) - 65536L ];
+      } 
     } 
-  } 
-  pageloc = dvioffset + dviptr ;
-  {
-    dvibuf [dviptr ]= 139 ;
-    incr ( dviptr ) ;
-    if ( dviptr == dvilimit ) 
-    dviswap () ;
-  } 
-  {register integer for_end; k = 0 ;for_end = 9 ; if ( k <= for_end) do 
-    dvifour ( eqtb [7892351L + k ].cint ) ;
-  while ( k++ < for_end ) ;} 
-  dvifour ( lastbop ) ;
-  lastbop = pageloc ;
-  oldsetting = selector ;
-  selector = 21 ;
-  print ( 66234L ) ;
-  if ( ( eqtb [9006740L ].cint > 0 ) && ( eqtb [9006741L ].cint > 0 ) ) 
-  {
-    print ( 66094L ) ;
-    print ( 32 ) ;
-    printscaled ( eqtb [9006740L ].cint ) ;
-    print ( 65698L ) ;
-    print ( 32 ) ;
-    print ( 66095L ) ;
-    print ( 32 ) ;
-    printscaled ( eqtb [9006741L ].cint ) ;
-    print ( 65698L ) ;
-  } 
-  else print ( 66235L ) ;
-  selector = oldsetting ;
-  {
-    dvibuf [dviptr ]= 239 ;
-    incr ( dviptr ) ;
-    if ( dviptr == dvilimit ) 
-    dviswap () ;
-  } 
-  {
-    dvibuf [dviptr ]= ( poolptr - strstart [( strptr ) - 65536L ]) ;
-    incr ( dviptr ) ;
-    if ( dviptr == dvilimit ) 
-    dviswap () ;
-  } 
-  {register integer for_end; s = strstart [( strptr ) - 65536L ];for_end = 
-  poolptr - 1 ; if ( s <= for_end) do 
+    pageloc = dvioffset + dviptr ;
     {
-      dvibuf [dviptr ]= strpool [s ];
+      dvibuf [dviptr ]= 139 ;
       incr ( dviptr ) ;
       if ( dviptr == dvilimit ) 
       dviswap () ;
     } 
-  while ( s++ < for_end ) ;} 
-  poolptr = strstart [( strptr ) - 65536L ];
-  curv = mem [p + 3 ].cint + eqtb [9006738L ].cint ;
-  tempptr = p ;
-  if ( mem [p ].hh.b0 == 1 ) 
-  vlistout () ;
-  else hlistout () ;
-  {
-    dvibuf [dviptr ]= 140 ;
-    incr ( dviptr ) ;
-    if ( dviptr == dvilimit ) 
-    dviswap () ;
-  } 
-  incr ( totalpages ) ;
-  curs = -1 ;
-  if ( ! nopdfoutput ) 
-  fflush ( dvifile ) ;
+    {register integer for_end; k = 0 ;for_end = 9 ; if ( k <= for_end) do 
+      dvifour ( eqtb [7892352L + k ].cint ) ;
+    while ( k++ < for_end ) ;} 
+    dvifour ( lastbop ) ;
+    lastbop = pageloc ;
+    oldsetting = selector ;
+    selector = 21 ;
+    print ( 66234L ) ;
+    if ( ( eqtb [9006741L ].cint > 0 ) && ( eqtb [9006742L ].cint > 0 ) ) 
+    {
+      print ( 66094L ) ;
+      print ( 32 ) ;
+      printscaled ( eqtb [9006741L ].cint ) ;
+      print ( 65698L ) ;
+      print ( 32 ) ;
+      print ( 66095L ) ;
+      print ( 32 ) ;
+      printscaled ( eqtb [9006742L ].cint ) ;
+      print ( 65698L ) ;
+    } 
+    else print ( 66235L ) ;
+    selector = oldsetting ;
+    {
+      dvibuf [dviptr ]= 239 ;
+      incr ( dviptr ) ;
+      if ( dviptr == dvilimit ) 
+      dviswap () ;
+    } 
+    {
+      dvibuf [dviptr ]= ( poolptr - strstart [( strptr ) - 65536L ]) ;
+      incr ( dviptr ) ;
+      if ( dviptr == dvilimit ) 
+      dviswap () ;
+    } 
+    {register integer for_end; s = strstart [( strptr ) - 65536L ];for_end 
+    = poolptr - 1 ; if ( s <= for_end) do 
+      {
+	dvibuf [dviptr ]= strpool [s ];
+	incr ( dviptr ) ;
+	if ( dviptr == dvilimit ) 
+	dviswap () ;
+      } 
+    while ( s++ < for_end ) ;} 
+    poolptr = strstart [( strptr ) - 65536L ];
+    curv = mem [p + 3 ].cint + eqtb [9006739L ].cint ;
+    tempptr = p ;
+    if ( mem [p ].hh.b0 == 1 ) 
+    vlistout () ;
+    else hlistout () ;
+    {
+      dvibuf [dviptr ]= 140 ;
+      incr ( dviptr ) ;
+      if ( dviptr == dvilimit ) 
+      dviswap () ;
+    } 
+    incr ( totalpages ) ;
+    curs = -1 ;
+    if ( ! nopdfoutput ) 
+    fflush ( dvifile ) ;
 	;
 #ifdef IPC
-  if ( ipcon > 0 ) 
-  {
-    if ( dvilimit == halfbuf ) 
+    if ( ipcon > 0 ) 
     {
-      writedvi ( halfbuf , dvibufsize - 1 ) ;
-      flushdvi () ;
-      dvigone = dvigone + halfbuf ;
-    } 
-    if ( dviptr > ( 2147483647L - dvioffset ) ) 
-    {
-      curs = -2 ;
-      fatalerror ( 66227L ) ;
-    } 
-    if ( dviptr > 0 ) 
-    {
-      writedvi ( 0 , dviptr - 1 ) ;
-      flushdvi () ;
-      dvioffset = dvioffset + dviptr ;
-      dvigone = dvigone + dviptr ;
-    } 
-    dviptr = 0 ;
-    dvilimit = dvibufsize ;
-    ipcpage ( dvigone ) ;
-  } 
-#endif /* IPC */
-  lab30: ;
-  if ( ( eTeXmode == 1 ) ) 
-  {
-    if ( LRproblems > 0 ) 
-    {
+      if ( dvilimit == halfbuf ) 
       {
-	println () ;
-	printnl ( 66928L ) ;
-	printint ( LRproblems / 10000 ) ;
-	print ( 66929L ) ;
-	printint ( LRproblems % 10000 ) ;
-	print ( 66930L ) ;
-	LRproblems = 0 ;
+	writedvi ( halfbuf , dvibufsize - 1 ) ;
+	flushdvi () ;
+	dvigone = dvigone + halfbuf ;
       } 
-      printchar ( 41 ) ;
+      if ( dviptr > ( 2147483647L - dvioffset ) ) 
+      {
+	curs = -2 ;
+	fatalerror ( 66227L ) ;
+      } 
+      if ( dviptr > 0 ) 
+      {
+	writedvi ( 0 , dviptr - 1 ) ;
+	flushdvi () ;
+	dvioffset = dvioffset + dviptr ;
+	dvigone = dvigone + dviptr ;
+      } 
+      dviptr = 0 ;
+      dvilimit = dvibufsize ;
+      ipcpage ( dvigone ) ;
+    } 
+#endif /* IPC */
+    lab30: ;
+    if ( ( eTeXmode == 1 ) ) 
+    {
+      if ( LRproblems > 0 ) 
+      {
+	{
+	  println () ;
+	  printnl ( 66928L ) ;
+	  printint ( LRproblems / 10000 ) ;
+	  print ( 66929L ) ;
+	  printint ( LRproblems % 10000 ) ;
+	  print ( 66930L ) ;
+	  LRproblems = 0 ;
+	} 
+	printchar ( 41 ) ;
+	println () ;
+      } 
+      if ( ( LRptr != -268435455L ) || ( curdir != 0 ) ) 
+      confusion ( 66932L ) ;
+    } 
+    if ( eqtb [7892298L ].cint <= 0 ) 
+    printchar ( 93 ) ;
+    deadcycles = 0 ;
+    fflush ( stdout ) ;
+	;
+#ifdef STAT
+    if ( eqtb [7892295L ].cint > 1 ) 
+    {
+      printnl ( 66231L ) ;
+      printint ( varused ) ;
+      printchar ( 38 ) ;
+      printint ( dynused ) ;
+      printchar ( 59 ) ;
+    } 
+#endif /* STAT */
+    flushnodelist ( p ) ;
+	;
+#ifdef STAT
+    if ( eqtb [7892295L ].cint > 1 ) 
+    {
+      print ( 66232L ) ;
+      printint ( varused ) ;
+      printchar ( 38 ) ;
+      printint ( dynused ) ;
+      print ( 66233L ) ;
+      printint ( himemmin - lomemmax - 1 ) ;
       println () ;
     } 
-    if ( ( LRptr != -268435455L ) || ( curdir != 0 ) ) 
-    confusion ( 66932L ) ;
-  } 
-  if ( eqtb [7892298L ].cint <= 0 ) 
-  printchar ( 93 ) ;
-  deadcycles = 0 ;
-  fflush ( stdout ) ;
-	;
-#ifdef STAT
-  if ( eqtb [7892295L ].cint > 1 ) 
-  {
-    printnl ( 66231L ) ;
-    printint ( varused ) ;
-    printchar ( 38 ) ;
-    printint ( dynused ) ;
-    printchar ( 59 ) ;
-  } 
 #endif /* STAT */
-  flushnodelist ( p ) ;
-	;
-#ifdef STAT
-  if ( eqtb [7892295L ].cint > 1 ) 
-  {
-    print ( 66232L ) ;
-    printint ( varused ) ;
-    printchar ( 38 ) ;
-    printint ( dynused ) ;
-    print ( 66233L ) ;
-    printint ( himemmin - lomemmax - 1 ) ;
-    println () ;
   } 
-#endif /* STAT */
+  synctexteehs () ;
 } 
 void 
 zscanspec ( groupcode c , boolean threecodes ) 
@@ -19253,7 +19320,7 @@ zhpack ( halfword p , scaled w , smallnumber m )
   halfword pp, ppp  ;
   integer totalchars, k  ;
   lastbadness = 0 ;
-  r = getnode ( 7 ) ;
+  r = getnode ( 8 ) ;
   mem [r ].hh.b0 = 0 ;
   mem [r ].hh.b1 = 0 ;
   mem [r + 4 ].cint = 0 ;
@@ -19606,16 +19673,16 @@ zhpack ( halfword p , scaled w , smallnumber m )
     {
       lastbadness = 1000000L ;
       mem [r + 6 ].gr = 1.0 ;
-      if ( ( - (integer) x - totalshrink [0 ]> eqtb [9006727L ].cint ) || 
+      if ( ( - (integer) x - totalshrink [0 ]> eqtb [9006728L ].cint ) || 
       ( eqtb [7892290L ].cint < 100 ) ) 
       {
-	if ( ( eqtb [9006735L ].cint > 0 ) && ( - (integer) x - totalshrink 
-	[0 ]> eqtb [9006727L ].cint ) ) 
+	if ( ( eqtb [9006736L ].cint > 0 ) && ( - (integer) x - totalshrink 
+	[0 ]> eqtb [9006728L ].cint ) ) 
 	{
 	  while ( mem [q ].hh .v.RH != -268435455L ) q = mem [q ].hh .v.RH 
 	  ;
 	  mem [q ].hh .v.RH = newrule () ;
-	  mem [mem [q ].hh .v.RH + 1 ].cint = eqtb [9006735L ].cint ;
+	  mem [mem [q ].hh .v.RH + 1 ].cint = eqtb [9006736L ].cint ;
 	} 
 	println () ;
 	printnl ( 66263L ) ;
@@ -19727,7 +19794,7 @@ zvpackage ( halfword p , scaled h , smallnumber m , scaled l )
   halfword g  ;
   glueord o  ;
   lastbadness = 0 ;
-  r = getnode ( 7 ) ;
+  r = getnode ( 8 ) ;
   mem [r ].hh.b0 = 1 ;
   if ( ( eqtb [7892341L ].cint > 0 ) ) 
   mem [r ].hh.b1 = 1 ;
@@ -19883,7 +19950,7 @@ zvpackage ( halfword p , scaled h , smallnumber m , scaled l )
     {
       lastbadness = 1000000L ;
       mem [r + 6 ].gr = 1.0 ;
-      if ( ( - (integer) x - totalshrink [0 ]> eqtb [9006728L ].cint ) || 
+      if ( ( - (integer) x - totalshrink [0 ]> eqtb [9006729L ].cint ) || 
       ( eqtb [7892291L ].cint < 100 ) ) 
       {
 	println () ;
@@ -19944,7 +20011,7 @@ zappendtovlist ( halfword b )
     .cint - mem [b + 2 ].cint ;
     else d = mem [eqtb [1205765L ].hh .v.RH + 1 ].cint - curlist .auxfield 
     .cint - mem [b + 3 ].cint ;
-    if ( d < eqtb [9006721L ].cint ) 
+    if ( d < eqtb [9006722L ].cint ) 
     p = newparamglue ( 0 ) ;
     else {
 	
@@ -20787,7 +20854,7 @@ zvardelimiter ( halfword d , integer s , scaled v )
   else {
       
     b = newnullbox () ;
-    mem [b + 1 ].cint = eqtb [9006730L ].cint ;
+    mem [b + 1 ].cint = eqtb [9006731L ].cint ;
   } 
   mem [b + 4 ].cint = half ( mem [b + 3 ].cint - mem [b + 2 ].cint ) - 
   axisheight ( s ) ;
@@ -20816,7 +20883,7 @@ zrebox ( halfword b , scaled w )
       if ( v != mem [b + 1 ].cint ) 
       mem [p ].hh .v.RH = newkern ( mem [b + 1 ].cint - v ) ;
     } 
-    freenode ( b , 7 ) ;
+    freenode ( b , 8 ) ;
     b = newglue ( membot + 12 ) ;
     mem [b ].hh .v.RH = p ;
     while ( mem [p ].hh .v.RH != -268435455L ) p = mem [p ].hh .v.RH ;
@@ -20951,7 +21018,7 @@ zcleanbox ( halfword p , smallnumber s )
 	    
 	  if ( mem [r ].hh.b0 == 11 ) 
 	  {
-	    freenode ( r , 2 ) ;
+	    freenode ( r , 3 ) ;
 	    mem [q ].hh .v.RH = -268435455L ;
 	  } 
 	} 
@@ -21565,7 +21632,7 @@ zmakeop ( halfword q )
     curf = savef ;
     if ( mem [q + 2 ].hh .v.RH == 0 ) 
     {
-      freenode ( x , 7 ) ;
+      freenode ( x , 8 ) ;
       mem [v + 5 ].hh .v.RH = y ;
     } 
     else {
@@ -21583,7 +21650,7 @@ zmakeop ( halfword q )
       3 ].cint + mem [x + 2 ].cint + shiftup ;
     } 
     if ( mem [q + 3 ].hh .v.RH == 0 ) 
-    freenode ( z , 7 ) ;
+    freenode ( z , 8 ) ;
     else {
 	
       shiftdown = bigopspacing4 () - mem [z + 3 ].cint ;
@@ -21769,7 +21836,7 @@ zmakescripts ( halfword q , scaled delta )
     else t = 512 ;
     shiftup = mem [z + 3 ].cint - supdrop ( t ) ;
     shiftdown = mem [z + 2 ].cint + subdrop ( t ) ;
-    freenode ( z , 7 ) ;
+    freenode ( z , 8 ) ;
   } 
   if ( mem [q + 2 ].hh .v.RH == 0 ) 
   {
@@ -21868,7 +21935,7 @@ zmakescripts ( halfword q , scaled delta )
     savef = curf ;
     x = cleanbox ( q + 3 , 2 * ( curstyle / 4 ) + 5 ) ;
     curf = savef ;
-    mem [x + 1 ].cint = mem [x + 1 ].cint + eqtb [9006731L ].cint ;
+    mem [x + 1 ].cint = mem [x + 1 ].cint + eqtb [9006732L ].cint ;
     if ( shiftdown < sub1 ( cursize ) ) 
     shiftdown = sub1 ( cursize ) ;
     if ( ( ( fontarea [curf ]== 65534L ) && ( isOpenTypeMathFont ( 
@@ -21990,7 +22057,7 @@ zmakescripts ( halfword q , scaled delta )
       savef = curf ;
       x = cleanbox ( q + 2 , 2 * ( curstyle / 4 ) + 4 + ( curstyle % 2 ) ) ;
       curf = savef ;
-      mem [x + 1 ].cint = mem [x + 1 ].cint + eqtb [9006731L ].cint ;
+      mem [x + 1 ].cint = mem [x + 1 ].cint + eqtb [9006732L ].cint ;
       if ( odd ( curstyle ) ) 
       clr = sup3 ( cursize ) ;
       else if ( curstyle < 2 ) 
@@ -22120,7 +22187,7 @@ zmakescripts ( halfword q , scaled delta )
       subf = scriptf ;
       y = cleanbox ( q + 3 , 2 * ( curstyle / 4 ) + 5 ) ;
       curf = savef ;
-      mem [y + 1 ].cint = mem [y + 1 ].cint + eqtb [9006731L ].cint ;
+      mem [y + 1 ].cint = mem [y + 1 ].cint + eqtb [9006732L ].cint ;
       if ( shiftdown < sub2 ( cursize ) ) 
       shiftdown = sub2 ( cursize ) ;
       if ( ( ( fontarea [curf ]== 65534L ) && ( isOpenTypeMathFont ( 
@@ -22211,7 +22278,7 @@ zmakeleftright ( halfword q , smallnumber style , scaled maxd , scaled maxh )
   if ( delta2 > delta1 ) 
   delta1 = delta2 ;
   delta = ( delta1 / 500 ) * eqtb [7892282L ].cint ;
-  delta2 = delta1 + delta1 - eqtb [9006729L ].cint ;
+  delta2 = delta1 + delta1 - eqtb [9006730L ].cint ;
   if ( delta < delta2 ) 
   delta = delta2 ;
   mem [q + 1 ].cint = vardelimiter ( q + 1 , cursize , delta ) ;
@@ -22511,7 +22578,7 @@ mlisttohlist ( void )
     maxh = mem [z + 3 ].cint ;
     if ( mem [z + 2 ].cint > maxd ) 
     maxd = mem [z + 2 ].cint ;
-    freenode ( z , 7 ) ;
+    freenode ( z , 8 ) ;
     lab80: r = q ;
     rtype = mem [r ].hh.b0 ;
     if ( rtype == 31 ) 
@@ -23177,7 +23244,7 @@ finalign ( void )
   confusion ( 66345L ) ;
   unsave () ;
   if ( nest [nestptr - 1 ].modefield == 209 ) 
-  o = eqtb [9006734L ].cint ;
+  o = eqtb [9006735L ].cint ;
   else o = 0 ;
   q = mem [mem [memtop - 8 ].hh .v.RH ].hh .v.RH ;
   do {
@@ -23242,11 +23309,11 @@ finalign ( void )
   packbeginline = - (integer) curlist .mlfield ;
   if ( curlist .modefield == -1 ) 
   {
-    rulesave = eqtb [9006735L ].cint ;
-    eqtb [9006735L ].cint = 0 ;
+    rulesave = eqtb [9006736L ].cint ;
+    eqtb [9006736L ].cint = 0 ;
     p = hpack ( mem [memtop - 8 ].hh .v.RH , savestack [saveptr + 1 ].cint 
     , savestack [saveptr + 0 ].cint ) ;
-    eqtb [9006735L ].cint = rulesave ;
+    eqtb [9006736L ].cint = rulesave ;
   } 
   else {
       
@@ -25072,6 +25139,7 @@ hchar )
     mem [t ].hh .v.RH = newkern ( w ) ;
     t = mem [t ].hh .v.RH ;
     w = 0 ;
+    mem [t + 2 ].hh .v.LH = 0 ;
   } 
   if ( ligstack > -268435455L ) 
   {
@@ -25956,7 +26024,7 @@ zvsplit ( halfword n , scaled h )
     Result = -268435455L ;
     return Result ;
   } 
-  q = vertbreak ( mem [v + 5 ].hh .v.RH , h , eqtb [9006725L ].cint ) ;
+  q = vertbreak ( mem [v + 5 ].hh .v.RH , h , eqtb [9006726L ].cint ) ;
   p = mem [v + 5 ].hh .v.RH ;
   if ( p == q ) 
   mem [v + 5 ].hh .v.RH = -268435455L ;
@@ -26000,7 +26068,7 @@ zvsplit ( halfword n , scaled h )
   lab30: ;
   q = prunepagetop ( q , eqtb [7892332L ].cint > 0 ) ;
   p = mem [v + 5 ].hh .v.RH ;
-  freenode ( v , 7 ) ;
+  freenode ( v , 8 ) ;
   if ( q != -268435455L ) 
   q = vpackage ( q , 0 , 1 , 1073741823L ) ;
   if ( curval < 256 ) 
@@ -26015,7 +26083,7 @@ zvsplit ( halfword n , scaled h )
       deletesaref ( curptr ) ;
     } 
   } 
-  Result = vpackage ( p , h , 0 , eqtb [9006725L ].cint ) ;
+  Result = vpackage ( p , h , 0 , eqtb [9006726L ].cint ) ;
   return Result ;
 } 
 void 
@@ -26058,8 +26126,8 @@ zfreezepagespecs ( smallnumber s )
 {
   freezepagespecs_regmem 
   pagecontents = s ;
-  pagesofar [0 ]= eqtb [9006723L ].cint ;
-  pagemaxdepth = eqtb [9006724L ].cint ;
+  pagesofar [0 ]= eqtb [9006724L ].cint ;
+  pagemaxdepth = eqtb [9006725L ].cint ;
   pagesofar [7 ]= 0 ;
   pagesofar [1 ]= 0 ;
   pagesofar [2 ]= 0 ;
@@ -26232,7 +26300,7 @@ zfireup ( halfword c )
 		  1073741823L ) ;
 		  mem [p + 3 ].cint = mem [tempptr + 3 ].cint + mem [
 		  tempptr + 2 ].cint ;
-		  freenode ( tempptr , 7 ) ;
+		  freenode ( tempptr , 8 ) ;
 		  wait = true ;
 		} 
 	      } 
@@ -26240,7 +26308,7 @@ zfireup ( halfword c )
 	    mem [r + 2 ].hh .v.LH = -268435455L ;
 	    n = mem [r ].hh.b1 ;
 	    tempptr = mem [eqtb [1206567L + n ].hh .v.RH + 5 ].hh .v.RH ;
-	    freenode ( eqtb [1206567L + n ].hh .v.RH , 7 ) ;
+	    freenode ( eqtb [1206567L + n ].hh .v.RH , 8 ) ;
 	    eqtb [1206567L + n ].hh .v.RH = vpackage ( tempptr , 0 , 1 , 
 	    1073741823L ) ;
 	  } 
@@ -26313,12 +26381,12 @@ zfireup ( halfword c )
   } 
   savevbadness = eqtb [7892291L ].cint ;
   eqtb [7892291L ].cint = 10000 ;
-  savevfuzz = eqtb [9006728L ].cint ;
-  eqtb [9006728L ].cint = 1073741823L ;
+  savevfuzz = eqtb [9006729L ].cint ;
+  eqtb [9006729L ].cint = 1073741823L ;
   eqtb [1206822L ].hh .v.RH = vpackage ( mem [memtop - 2 ].hh .v.RH , 
   bestsize , 0 , pagemaxdepth ) ;
   eqtb [7892291L ].cint = savevbadness ;
-  eqtb [9006728L ].cint = savevfuzz ;
+  eqtb [9006729L ].cint = savevfuzz ;
   if ( lastglue != 1073741823L ) 
   deleteglueref ( lastglue ) ;
   pagecontents = 0 ;
@@ -26537,9 +26605,9 @@ buildpage ( void )
 	  ].cint + mem [eqtb [1206567L + n ].hh .v.RH + 2 ].cint ;
 	  mem [r + 2 ].hh .v.LH = -268435455L ;
 	  q = eqtb [1205783L + n ].hh .v.RH ;
-	  if ( eqtb [7892351L + n ].cint == 1000 ) 
+	  if ( eqtb [7892352L + n ].cint == 1000 ) 
 	  h = mem [r + 3 ].cint ;
-	  else h = xovern ( mem [r + 3 ].cint , 1000 ) * eqtb [7892351L + n 
+	  else h = xovern ( mem [r + 3 ].cint , 1000 ) * eqtb [7892352L + n 
 	  ].cint ;
 	  pagesofar [0 ]= pagesofar [0 ]- h - mem [q + 1 ].cint ;
 	  pagesofar [2 + mem [q ].hh.b0 ]= pagesofar [2 + mem [q ]
@@ -26573,28 +26641,28 @@ buildpage ( void )
 	  mem [r + 2 ].hh .v.RH = p ;
 	  delta = pagesofar [0 ]- pagesofar [1 ]- pagesofar [7 ]+ 
 	  pagesofar [6 ];
-	  if ( eqtb [7892351L + n ].cint == 1000 ) 
+	  if ( eqtb [7892352L + n ].cint == 1000 ) 
 	  h = mem [p + 3 ].cint ;
-	  else h = xovern ( mem [p + 3 ].cint , 1000 ) * eqtb [7892351L + n 
+	  else h = xovern ( mem [p + 3 ].cint , 1000 ) * eqtb [7892352L + n 
 	  ].cint ;
 	  if ( ( ( h <= 0 ) || ( h <= delta ) ) && ( mem [p + 3 ].cint + mem 
-	  [r + 3 ].cint <= eqtb [9006742L + n ].cint ) ) 
+	  [r + 3 ].cint <= eqtb [9006743L + n ].cint ) ) 
 	  {
 	    pagesofar [0 ]= pagesofar [0 ]- h ;
 	    mem [r + 3 ].cint = mem [r + 3 ].cint + mem [p + 3 ].cint ;
 	  } 
 	  else {
 	      
-	    if ( eqtb [7892351L + n ].cint <= 0 ) 
+	    if ( eqtb [7892352L + n ].cint <= 0 ) 
 	    w = 1073741823L ;
 	    else {
 		
 	      w = pagesofar [0 ]- pagesofar [1 ]- pagesofar [7 ];
-	      if ( eqtb [7892351L + n ].cint != 1000 ) 
-	      w = xovern ( w , eqtb [7892351L + n ].cint ) * 1000 ;
+	      if ( eqtb [7892352L + n ].cint != 1000 ) 
+	      w = xovern ( w , eqtb [7892352L + n ].cint ) * 1000 ;
 	    } 
-	    if ( w > eqtb [9006742L + n ].cint - mem [r + 3 ].cint ) 
-	    w = eqtb [9006742L + n ].cint - mem [r + 3 ].cint ;
+	    if ( w > eqtb [9006743L + n ].cint - mem [r + 3 ].cint ) 
+	    w = eqtb [9006743L + n ].cint - mem [r + 3 ].cint ;
 	    q = vertbreak ( mem [p + 4 ].hh .v.LH , w , mem [p + 2 ].cint 
 	    ) ;
 	    mem [r + 3 ].cint = mem [r + 3 ].cint + bestheightplusdepth ;
@@ -26618,9 +26686,9 @@ buildpage ( void )
 	      enddiagnostic ( false ) ;
 	    } 
 #endif /* STAT */
-	    if ( eqtb [7892351L + n ].cint != 1000 ) 
+	    if ( eqtb [7892352L + n ].cint != 1000 ) 
 	    bestheightplusdepth = xovern ( bestheightplusdepth , 1000 ) * eqtb 
-	    [7892351L + n ].cint ;
+	    [7892352L + n ].cint ;
 	    pagesofar [0 ]= pagesofar [0 ]- bestheightplusdepth ;
 	    mem [r ].hh.b0 = 1 ;
 	    mem [r + 1 ].hh .v.RH = q ;
@@ -26891,7 +26959,7 @@ itsallover ( void )
       mem [curlist .tailfield ].hh .v.RH = newnullbox () ;
       curlist .tailfield = mem [curlist .tailfield ].hh .v.RH ;
     } 
-    mem [curlist .tailfield + 1 ].cint = eqtb [9006722L ].cint ;
+    mem [curlist .tailfield + 1 ].cint = eqtb [9006723L ].cint ;
     {
       mem [curlist .tailfield ].hh .v.RH = newglue ( membot + 8 ) ;
       curlist .tailfield = mem [curlist .tailfield ].hh .v.RH ;
@@ -27072,8 +27140,8 @@ normalparagraph ( void )
   normalparagraph_regmem 
   if ( eqtb [7892283L ].cint != 0 ) 
   eqworddefine ( 7892283L , 0 ) ;
-  if ( eqtb [9006736L ].cint != 0 ) 
-  eqworddefine ( 9006736L , 0 ) ;
+  if ( eqtb [9006737L ].cint != 0 ) 
+  eqworddefine ( 9006737L , 0 ) ;
   if ( eqtb [7892305L ].cint != 1 ) 
   eqworddefine ( 7892305L , 1 ) ;
   if ( eqtb [1206295L ].hh .v.RH != -268435455L ) 
@@ -27447,7 +27515,7 @@ zpackage ( smallnumber c )
   halfword p  ;
   scaled d  ;
   integer u, v  ;
-  d = eqtb [9006726L ].cint ;
+  d = eqtb [9006727L ].cint ;
   u = eqtb [7892341L ].cint ;
   unsave () ;
   saveptr = saveptr - 3 ;
@@ -27515,7 +27583,7 @@ znewgraf ( boolean indented )
   {
     curlist .tailfield = newnullbox () ;
     mem [curlist .headfield ].hh .v.RH = curlist .tailfield ;
-    mem [curlist .tailfield + 1 ].cint = eqtb [9006719L ].cint ;
+    mem [curlist .tailfield + 1 ].cint = eqtb [9006720L ].cint ;
     if ( ( insertsrcspecialeverypar ) ) 
     insertsrcspecial () ;
   } 
@@ -27532,7 +27600,7 @@ indentinhmode ( void )
   if ( curchr > 0 ) 
   {
     p = newnullbox () ;
-    mem [p + 1 ].cint = eqtb [9006719L ].cint ;
+    mem [p + 1 ].cint = eqtb [9006720L ].cint ;
     if ( abs ( curlist .modefield ) == 105 ) 
     curlist .auxfield .hh .v.LH = 1000 ;
     else {
@@ -27830,7 +27898,7 @@ unpackage ( void )
 	deletesaref ( curptr ) ;
       } 
     } 
-    freenode ( p , 7 ) ;
+    freenode ( p , 8 ) ;
   } 
   lab30: while ( mem [curlist .tailfield ].hh .v.RH != -268435455L ) {
       
@@ -28296,7 +28364,9 @@ zjustcopy ( halfword p , halfword h , halfword t )
     {case 0 : 
     case 1 : 
       {
-	r = getnode ( 7 ) ;
+	r = getnode ( 8 ) ;
+	mem [r + 7 ].hh .v.LH = mem [p + 7 ].hh .v.LH ;
+	mem [r + 7 ].hh .v.RH = mem [p + 7 ].hh .v.RH ;
 	mem [r + 6 ]= mem [p + 6 ];
 	mem [r + 5 ]= mem [p + 5 ];
 	words = 5 ;
@@ -28305,8 +28375,8 @@ zjustcopy ( halfword p , halfword h , halfword t )
       break ;
     case 2 : 
       {
-	r = getnode ( 4 ) ;
-	words = 4 ;
+	r = getnode ( 5 ) ;
+	words = 5 ;
       } 
       break ;
     case 6 : 
@@ -28319,14 +28389,16 @@ zjustcopy ( halfword p , halfword h , halfword t )
     case 11 : 
     case 9 : 
       {
-	r = getnode ( 2 ) ;
-	words = 2 ;
+	words = 3 ;
+	r = getnode ( words ) ;
       } 
       break ;
     case 10 : 
       {
-	r = getnode ( 2 ) ;
+	r = getnode ( 3 ) ;
 	incr ( mem [mem [p + 1 ].hh .v.LH ].hh .v.RH ) ;
+	mem [r + 2 ].hh .v.LH = mem [p + 2 ].hh .v.LH ;
+	mem [r + 2 ].hh .v.RH = mem [p + 2 ].hh .v.RH ;
 	mem [r + 1 ].hh .v.LH = mem [p + 1 ].hh .v.LH ;
 	mem [r + 1 ].hh .v.RH = -268435455L ;
       } 
@@ -28410,7 +28482,7 @@ zjustcopy ( halfword p , halfword h , halfword t )
 void 
 zjustreverse ( halfword p ) 
 {
-  /* 40 30 */ justreverse_regmem 
+  /* 30 */ justreverse_regmem 
   halfword l  ;
   halfword t  ;
   halfword q  ;
@@ -28474,7 +28546,13 @@ zjustreverse ( halfword p )
 	      
 	    if ( m > -268435455L ) 
 	    decr ( m ) ;
-	    else goto lab40 ;
+	    else {
+		
+	      mem [t + 1 ].cint = mem [p + 1 ].cint ;
+	      mem [t ].hh .v.RH = q ;
+	      freenode ( p , 3 ) ;
+	      goto lab30 ;
+	    } 
 	    mem [p ].hh.b0 = 11 ;
 	  } 
 	} 
@@ -28503,7 +28581,7 @@ zjustreverse ( halfword p )
     l = p ;
   } 
   goto lab30 ;
-  lab40: mem [t + 1 ].cint = mem [p + 1 ].cint ;
+  mem [t + 1 ].cint = mem [p + 1 ].cint ;
   mem [t ].hh .v.RH = q ;
   freenode ( p , 2 ) ;
   lab30: mem [memtop - 3 ].hh .v.RH = l ;
@@ -28749,18 +28827,18 @@ initmath ( void )
     } 
     if ( eqtb [1206295L ].hh .v.RH == -268435455L ) {
 	
-      if ( ( eqtb [9006736L ].cint != 0 ) && ( ( ( eqtb [7892305L ].cint 
+      if ( ( eqtb [9006737L ].cint != 0 ) && ( ( ( eqtb [7892305L ].cint 
       >= 0 ) && ( curlist .pgfield + 2 > eqtb [7892305L ].cint ) ) || ( 
       curlist .pgfield + 1 < - (integer) eqtb [7892305L ].cint ) ) ) 
       {
-	l = eqtb [9006722L ].cint - abs ( eqtb [9006736L ].cint ) ;
-	if ( eqtb [9006736L ].cint > 0 ) 
-	s = eqtb [9006736L ].cint ;
+	l = eqtb [9006723L ].cint - abs ( eqtb [9006737L ].cint ) ;
+	if ( eqtb [9006737L ].cint > 0 ) 
+	s = eqtb [9006737L ].cint ;
 	else s = 0 ;
       } 
       else {
 	  
-	l = eqtb [9006722L ].cint ;
+	l = eqtb [9006723L ].cint ;
 	s = 0 ;
       } 
     } 
@@ -28776,12 +28854,12 @@ initmath ( void )
     pushmath ( 15 ) ;
     curlist .modefield = 209 ;
     eqworddefine ( 7892308L , -1 ) ;
-    eqworddefine ( 9006732L , w ) ;
+    eqworddefine ( 9006733L , w ) ;
     curlist .eTeXauxfield = j ;
     if ( ( eTeXmode == 1 ) ) 
     eqworddefine ( 7892330L , x ) ;
-    eqworddefine ( 9006733L , l ) ;
-    eqworddefine ( 9006734L , s ) ;
+    eqworddefine ( 9006734L , l ) ;
+    eqworddefine ( 9006735L , s ) ;
     if ( eqtb [1206299L ].hh .v.RH != -268435455L ) 
     begintokenlist ( eqtb [1206299L ].hh .v.RH , 10 ) ;
     if ( nestptr == 1 ) 
@@ -29006,7 +29084,7 @@ zscandelimiter ( halfword p , boolean r )
     {case 11 : 
     case 12 : 
       {
-	curval = eqtb [7892607L + curchr ].cint ;
+	curval = eqtb [7892608L + curchr ].cint ;
       } 
       break ;
     case 15 : 
@@ -29437,13 +29515,13 @@ zappdisplay ( halfword j , halfword b , scaled d )
   scaled e  ;
   integer x  ;
   halfword p, q, r, t, u  ;
-  s = eqtb [9006734L ].cint ;
+  s = eqtb [9006735L ].cint ;
   x = eqtb [7892330L ].cint ;
   if ( x == 0 ) 
   mem [b + 4 ].cint = s + d ;
   else {
       
-    z = eqtb [9006733L ].cint ;
+    z = eqtb [9006734L ].cint ;
     p = b ;
     if ( x > 0 ) 
     e = z - d - mem [p + 1 ].cint ;
@@ -29466,7 +29544,7 @@ zappdisplay ( halfword j , halfword b , scaled d )
     else {
 	
       r = mem [p + 5 ].hh .v.RH ;
-      freenode ( p , 7 ) ;
+      freenode ( p , 8 ) ;
       if ( r == -268435455L ) 
       confusion ( 66933L ) ;
       if ( x > 0 ) 
@@ -29731,7 +29809,7 @@ aftermath ( void )
   if ( m < 0 ) 
   {
     {
-      mem [curlist .tailfield ].hh .v.RH = newmath ( eqtb [9006720L ].cint 
+      mem [curlist .tailfield ].hh .v.RH = newmath ( eqtb [9006721L ].cint 
       , 0 ) ;
       curlist .tailfield = mem [curlist .tailfield ].hh .v.RH ;
     } 
@@ -29743,7 +29821,7 @@ aftermath ( void )
     while ( mem [curlist .tailfield ].hh .v.RH != -268435455L ) curlist 
     .tailfield = mem [curlist .tailfield ].hh .v.RH ;
     {
-      mem [curlist .tailfield ].hh .v.RH = newmath ( eqtb [9006720L ].cint 
+      mem [curlist .tailfield ].hh .v.RH = newmath ( eqtb [9006721L ].cint 
       , 1 ) ;
       curlist .tailfield = mem [curlist .tailfield ].hh .v.RH ;
     } 
@@ -29787,8 +29865,8 @@ aftermath ( void )
     pret = preadjusttail ;
     preadjusttail = -268435455L ;
     w = mem [b + 1 ].cint ;
-    z = eqtb [9006733L ].cint ;
-    s = eqtb [9006734L ].cint ;
+    z = eqtb [9006734L ].cint ;
+    s = eqtb [9006735L ].cint ;
     if ( eqtb [7892330L ].cint < 0 ) 
     s = - (integer) s - z ;
     if ( ( a == -268435455L ) || danger ) 
@@ -29807,7 +29885,7 @@ aftermath ( void )
       [1 ]!= 0 ) || ( totalshrink [2 ]!= 0 ) || ( totalshrink [3 ]!= 0 ) 
       ) ) 
       {
-	freenode ( b , 7 ) ;
+	freenode ( b , 8 ) ;
 	b = hpack ( p , z - q , 0 ) ;
       } 
       else {
@@ -29815,7 +29893,7 @@ aftermath ( void )
 	e = 0 ;
 	if ( w > z ) 
 	{
-	  freenode ( b , 7 ) ;
+	  freenode ( b , 8 ) ;
 	  b = hpack ( p , z , 0 ) ;
 	} 
       } 
@@ -29840,7 +29918,7 @@ aftermath ( void )
       .cint ) ;
       curlist .tailfield = mem [curlist .tailfield ].hh .v.RH ;
     } 
-    if ( ( d + s <= eqtb [9006732L ].cint ) || l ) 
+    if ( ( d + s <= eqtb [9006733L ].cint ) || l ) 
     {
       g1 = 3 ;
       g2 = 4 ;
@@ -29949,7 +30027,7 @@ getrtoken ( void )
       gettoken () ;
   } while ( ! ( curtok != 20971552L ) ) ;
   if ( ( curcs == 0 ) || ( curcs > eqtbtop ) || ( ( curcs > 1194650L ) && ( 
-  curcs <= 9006997L ) ) ) 
+  curcs <= 9006998L ) ) ) 
   {
     {
       if ( interaction == 3 ) 
@@ -30045,10 +30123,10 @@ zdoregistercommand ( smallnumber a )
       } 
       else switch ( p ) 
       {case 0 : 
-	l = curval + 7892351L ;
+	l = curval + 7892352L ;
 	break ;
       case 1 : 
-	l = curval + 9006742L ;
+	l = curval + 9006743L ;
 	break ;
       case 2 : 
 	l = curval + 1205783L ;
@@ -31569,7 +31647,7 @@ handlerightbrace ( void )
       endgraf () ;
       q = eqtb [1205774L ].hh .v.RH ;
       incr ( mem [q ].hh .v.RH ) ;
-      d = eqtb [9006725L ].cint ;
+      d = eqtb [9006726L ].cint ;
       f = eqtb [7892306L ].cint ;
       unsave () ;
       saveptr = saveptr - 2 ;
@@ -31602,7 +31680,7 @@ handlerightbrace ( void )
 	mem [curlist .tailfield + 1 ].cint = mem [p + 5 ].hh .v.RH ;
 	deleteglueref ( q ) ;
       } 
-      freenode ( p , 7 ) ;
+      freenode ( p , 8 ) ;
       if ( nestptr == 0 ) 
       buildpage () ;
     } 
@@ -33638,6 +33716,7 @@ closefilesandterminate ( void )
       history = 4 ;
     } 
   } 
+  synctexterminate ( logopened ) ;
   if ( logopened ) 
   {
     putc ('\n',  logfile );

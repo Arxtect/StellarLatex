@@ -119,7 +119,7 @@ char* replace_extension(const char* aux_file, const char* new_ext) {
     snprintf(result, new_len, "%.*s%s", (int)base_len, aux_file, new_ext);
     return result;
 }
-int makeindex_main(const char* aux_file) {
+int makeindex_main(char* aux_file) {
 	if (aux_file == NULL) return 0;
 	char* log_file = replace_extension(aux_file, ".ilg");
 	// if log file is seen, stop
@@ -130,20 +130,20 @@ int makeindex_main(const char* aux_file) {
 	free(log_file);
 	// makeindex main.aux
 	if (aux_file != NULL && access(aux_file, F_OK) != -1) {
-		const char* _argv[] = {"makeindex", aux_file};
+		char* _argv[] = {"makeindex", aux_file};
 		_makeindex_main(sizeof(_argv)/sizeof(_argv[0]), _argv);
 	}
 	// makeindex main.idx
 	char* idx_file = replace_extension(aux_file, ".idx");
 	if (idx_file != NULL && access(idx_file, F_OK) != -1) {
-		const char* _argv[] = {"makeindex", idx_file};
+		char* _argv[] = {"makeindex", idx_file};
 		_makeindex_main(sizeof(_argv)/sizeof(_argv[0]), _argv);
 	}
 	free(idx_file);
 	// makeindex main.glo
 	char* glo_file = replace_extension(aux_file, ".glo");
 	if (glo_file != NULL && access(glo_file, F_OK) != -1) {
-		const char* _argv[] = {"makeindex", glo_file};
+		char* _argv[] = {"makeindex", glo_file};
 		_makeindex_main(sizeof(_argv)/sizeof(_argv[0]), _argv);
 	}
 	free(glo_file);
@@ -151,7 +151,7 @@ int makeindex_main(const char* aux_file) {
 	char* nlo_file = replace_extension(aux_file, ".nlo");
 	if (nlo_file != NULL && access(nlo_file, F_OK) != -1) {
 		char* nls_file = replace_extension(aux_file, ".nls");
-		const char* _argv[] = {"makeindex", nlo_file, "-s", "nomencl.ist", "-o", nls_file};
+		char* _argv[] = {"makeindex", nlo_file, "-s", "nomencl.ist", "-o", nls_file};
 		_makeindex_main(sizeof(_argv)/sizeof(_argv[0]), _argv);
 		free(nls_file);
 	}

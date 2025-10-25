@@ -133,6 +133,7 @@ int _compile() {
   memcpy(TEXformatdefault, DEFAULT_FMT_NAME, fmtstrlen);
   formatdefaultlength = strlen(TEXformatdefault + 1);
   interactionoption = 1;
+  synctexoption = 1;
   filelineerrorstylep = 0;
   parsefirstlinep = 0;
   // Go

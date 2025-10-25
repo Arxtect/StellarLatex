@@ -1858,6 +1858,7 @@ static const char *poolfilearr[] = {
   "substitution for ",
   "Missing character: Incomplete substitution ",
   "Using character substitution: ",
+  "synctex",
   NULL };
 int loadpoolstrings (integer spare_size) {
   const char *s;

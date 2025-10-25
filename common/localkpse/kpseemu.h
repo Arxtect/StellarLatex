@@ -14,6 +14,10 @@
 #define kpsepkformat kpse_pk_format
 #define kpsesrccompile kpse_src_compile
 #define kpsemaketexdiscarderrors kpse_make_tex_discard_errors
+#define DIR_SEP '/'
+#define DIR_SEP_STRING "/"
+#define ISDIRSEP IS_DIR_SEP
+#define IS_DIR_SEP(ch) ((ch) == DIR_SEP)
 extern string kpse_program_name;
 extern boolean kpse_in_name_ok(const_string fname);
 extern boolean kpse_out_name_ok(const_string fname);

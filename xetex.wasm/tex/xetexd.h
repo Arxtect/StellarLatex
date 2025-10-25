@@ -86,6 +86,7 @@ typedef unsigned char groupcode  ;
 typedef struct {
     quarterword statefield, indexfield ;
   halfword startfield, locfield, limitfield, namefield ;
+  integer synctextagfield ;
 } instaterecord  ;
 typedef integer internalfontnumber  ;
 typedef integer fontindex  ;
@@ -233,7 +234,7 @@ EXTERN integer systime, sysday, sysmonth, sysyear  ;
 EXTERN memoryword * zeqtb  ;
 EXTERN quarterword 
 #define xeqlevel (zzzaa -7892264)
-  zzzaa[1114734]  ;
+  zzzaa[1114735]  ;
 EXTERN twohalves * hash  ;
 EXTERN twohalves * yhash  ;
 EXTERN halfword hashused  ;
@@ -575,5 +576,7 @@ EXTERN scaled basexheight  ;
 EXTERN scaled basewidth, baseheight  ;
 EXTERN scaled accentwidth, accentheight  ;
 EXTERN scaled delta  ;
+EXTERN integer synctexoption  ;
+EXTERN integer synctexoffset  ;
 
 #include "xetexcoerce.h"

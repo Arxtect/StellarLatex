@@ -5,6 +5,7 @@ extern void *xmalloc(size_t sizeofitem);
 extern void *xcalloc(size_t num, size_t size);
 extern void xfree(void *ptr);
 extern char *xstrdup(const char *s);
+extern string xgetcwd (void);
 #define libcfree free
 #define xmallocarray(type, size) ((type *)xmalloc((size + 1) * sizeof(type)))
 #define xreallocarray(ptr, type, size)                                         \

@@ -7,6 +7,9 @@ set(COMMON_FLAGS
     -O3
     -Wno-parentheses-equality
     -Wno-pointer-sign
+    -D__SyncTeX__
+    -DSYNCTEX_ENGINE_H='"synctex-pdftex.h"'
+    -DPDF_PARSER_ONLY
     -DWEBASSEMBLY_BUILD
     -DPDFTEXWASM
     -sUSE_ZLIB
@@ -56,6 +59,7 @@ file(GLOB_RECURSE COMMONSOURCES
     ${COMMON_CODE_DIR}/memory/xmemory.c
     ${COMMON_CODE_DIR}/makeindexk/*.c
     ${COMMON_CODE_DIR}/tree/*.c
+    ${COMMON_CODE_DIR}/synctexdir/synctex.c
 )
 ## pdftex
 file(GLOB_RECURSE PDFTEXSOURCES
@@ -92,6 +96,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${THIRD_PARTY_DIR}/libxpdf/repo/goo
     ${THIRD_PARTY_DIR}/libxpdf/repo/xpdf
     ${COMMON_CODE_DIR}
+    ${COMMON_CODE_DIR}/synctexdir
     ${COMMON_CODE_DIR}/memory
     ${COMMON_CODE_DIR}/md5
     ${COMMON_CODE_DIR}/makeindexk

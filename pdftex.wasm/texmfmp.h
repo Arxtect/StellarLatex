@@ -23,8 +23,6 @@
 #define FOPEN_RBIN_MODE "rb"
 #define FOPEN_WBIN_MODE "wb"
 #define recorderchangefilename recorder_change_filename
-#define ISDIRSEP IS_DIR_SEP
-#define IS_DIR_SEP(ch) ((ch) == '/')
 #define WRITE_OUT(a, b)             \
   if ((size_t) fwrite ((char *) &OUT_BUF[a], sizeof (OUT_BUF[a]),       \
                     (size_t) ((size_t)(b) - (size_t)(a) + 1), OUT_FILE) \
@@ -37,9 +35,12 @@
 #define bopenin(f) open_input(&(f), kpse_tfm_format, FOPEN_RBIN_MODE)
 #define bopenout(f) open_output(&(f), FOPEN_WBIN_MODE)
 #define bclose aclose
-#define wopenin(f) open_input(&(f), DUMP_FORMAT, FOPEN_RBIN_MODE)
-#define wopenout bopenout
-#define wclose aclose
+#define wopenin(f) (open_input ((FILE**)&(f), DUMP_FORMAT, FOPEN_RBIN_MODE) \
+                        && (f = gzdopen(fileno((FILE*)f), FOPEN_RBIN_MODE)))
+#define wopenout(f) (open_output ((FILE**)&(f), FOPEN_WBIN_MODE) \
+                        && (f = gzdopen(fileno((FILE*)f), FOPEN_WBIN_MODE)) \
+                        && (gzsetparams(f, 1, Z_DEFAULT_STRATEGY) == Z_OK))
+#define wclose(f)    gzclose(f)
 #define Fputs(f, s) (void)fputs(s, f)
 #define inputln(stream, flag) input_line(stream)
 
@@ -150,8 +151,8 @@ extern boolean bibopenin(FILE**, int, const_string name);
 extern void	   close_file(FILE*);
 extern void	   topenin(void);
 extern boolean eof(FILE*);
-extern void	   do_dump(char*, int, int, FILE*);
-extern void	   do_undump(char*, int, int, FILE*);
+extern void	   do_dump(char*, int, int, gzFile);
+extern void	   do_undump(char*, int, int, gzFile);
 
 // Misc Function
 extern void get_seconds_and_micros(integer *, integer *);
@@ -179,5 +180,13 @@ extern string fullnameoffile, output_directory;
 extern boolean texmfyesno(const_string var);
 extern void convertStringToHexString(const char *in, char *out, int lin);
 extern string find_input_file(integer s);
-#define DIR_SEP_STRING "/"
+
+/* Handle SyncTeX, if requested */
+#if defined(TeX)
+# if defined(__SyncTeX__)
+#  include "synctexdir/synctex-common.h"
+extern char *generic_synctex_get_current_name(void);
+# endif
+#endif
+
 #endif

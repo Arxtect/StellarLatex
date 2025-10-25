@@ -136,16 +136,16 @@ boolean open_output(FILE **f_ptr, const_string fopen_mode) {
   return *f_ptr != NULL;
 }
 
-void do_undump(char *p, int item_size, int nitems, FILE *in_file) {
-  if (fread(p, item_size, nitems, in_file) != (size_t)nitems) {
+void do_undump(char *p, int item_size, int nitems, gzFile in_file) {
+  if (gzread (in_file, p, item_size * nitems) != item_size * nitems) {
     fprintf(stderr, "Could not undump %d %d-byte item(s) from %s", nitems,
             item_size, nameoffile + 1);
     abort();
   }
 }
 
-void do_dump(char *p, int item_size, int nitems, FILE *out_file) {
-  if (fwrite(p, item_size, nitems, out_file) != nitems) {
+void do_dump(char *p, int item_size, int nitems, gzFile out_file) {
+  if (gzwrite (out_file, p, item_size * nitems) != item_size * nitems) {
     fprintf(stderr, "! Could not write %d %d-byte item(s) to %s.\n", nitems,
             item_size, nameoffile + 1);
     abort();

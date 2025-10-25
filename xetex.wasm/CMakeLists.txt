@@ -7,6 +7,8 @@ set(COMMON_FLAGS
     -O3
     -Wno-parentheses-equality
     -Wno-pointer-sign
+    -D__SyncTeX__
+    -DSYNCTEX_ENGINE_H='"synctex-xetex.h"'
     -DWEBASSEMBLY_BUILD
     -DXETEXWASM
     -DHAVE_CONFIG_H
@@ -59,6 +61,7 @@ file(GLOB_RECURSE COMMONSOURCES
     ${COMMON_CODE_DIR}/teckit/Engine.cpp
     ${COMMON_CODE_DIR}/makeindexk/*.c
     ${COMMON_CODE_DIR}/tree/*.c
+    ${COMMON_CODE_DIR}/synctexdir/synctex.c
 )
 ## xetex
 file(GLOB_RECURSE XETEXSOURCES
@@ -91,6 +94,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${THIRD_PARTY_DIR}/libxpdf/repo/xpdf
     ${THIRD_PARTY_DIR}/libpplib/repo/src
     ${COMMON_CODE_DIR}
+    ${COMMON_CODE_DIR}/synctexdir
     ${COMMON_CODE_DIR}/memory
     ${COMMON_CODE_DIR}/teckit
     ${COMMON_CODE_DIR}/teckit/Public-headers

@@ -10,6 +10,6 @@
 #ifdef __cplusplus
 extern "C"
 #endif
-int makeindex_main(const char* aux_file);
+int makeindex_main(char* aux_file);
 
 #endif

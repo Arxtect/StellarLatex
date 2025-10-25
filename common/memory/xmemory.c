@@ -1,4 +1,5 @@
 #include "texmfmp.h"
+#include <limits.h>
 // char *backup_pool = 0;
 // unsigned int backupptr = 0;
 // void*  dlmalloc(size_t);
@@ -41,4 +42,13 @@ void xfree(void* ptr) {
 string xstrdup(const_string s) {
 	string new_string = (string)malloc(strlen(s) + 1);
 	return strcpy(new_string, s);
+}
+
+string xgetcwd (void)
+{
+    char path[PATH_MAX + 1];
+    if (getcwd (path, PATH_MAX + 1) == NULL) {
+        return NULL;
+    }
+    return xstrdup (path);
 }
