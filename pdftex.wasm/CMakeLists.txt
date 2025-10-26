@@ -31,7 +31,7 @@ set(PRE_JS ${CMAKE_CURRENT_SOURCE_DIR}/pre.js)
 set(LINKER_FLAGS
     --js-library=${LIBRARY_JS}
     --pre-js=${PRE_JS}
-    -sEXPORTED_FUNCTIONS='["_compileBibLatex","_compileLaTeX","_compileFormat","_main","_setMainEntry","_malloc"]'
+    -sEXPORTED_FUNCTIONS='["_compileBibLatex","_compileLaTeX","_compileFormat","_main","_setMainEntry","_malloc","_synctex_view","_synctex_edit"]'
     -sNO_EXIT_RUNTIME=1
     -sEXPORTED_RUNTIME_METHODS=["cwrap"]
     -sALLOW_MEMORY_GROWTH=1
@@ -59,7 +59,7 @@ file(GLOB_RECURSE COMMONSOURCES
     ${COMMON_CODE_DIR}/memory/xmemory.c
     ${COMMON_CODE_DIR}/makeindexk/*.c
     ${COMMON_CODE_DIR}/tree/*.c
-    ${COMMON_CODE_DIR}/synctexdir/synctex.c
+    ${COMMON_CODE_DIR}/synctexdir/*.c
 )
 ## pdftex
 file(GLOB_RECURSE PDFTEXSOURCES

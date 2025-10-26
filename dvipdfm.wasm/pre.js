@@ -131,8 +131,15 @@ function compilePDFRoutine() {
 
 function mkdirRoutine(dirname) {
     try {
-        //console.log("removing " + item);
-        FS.mkdir(WORKROOT + "/" + dirname);
+        const targetDir = WORKROOT + "/" + dirname;
+        if (FS.analyzePath(targetDir).exists) {
+            self.postMessage({
+                'result': 'ok',
+                'cmd': 'mkdir'
+            });
+            return;
+        }
+        FS.mkdir(targetDir);
         self.postMessage({
             'result': 'ok',
             'cmd': 'mkdir'

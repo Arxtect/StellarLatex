@@ -33,7 +33,7 @@ set(LINKER_FLAGS
     --js-library=${LIBRARY_JS}
     --pre-js=${PRE_JS}
     -sENVIRONMENT=web
-    -sEXPORTED_FUNCTIONS='["_compileBibLatex","_compileLaTeX","_compileFormat","_main","_setMainEntry","_malloc"]'
+    -sEXPORTED_FUNCTIONS='["_compileBibLatex","_compileLaTeX","_compileFormat","_main","_setMainEntry","_malloc","_synctex_view","_synctex_edit"]'
     -sNO_EXIT_RUNTIME=1
     -sWASM=1
     -sEXPORTED_RUNTIME_METHODS=["cwrap"]
@@ -61,7 +61,7 @@ file(GLOB_RECURSE COMMONSOURCES
     ${COMMON_CODE_DIR}/teckit/Engine.cpp
     ${COMMON_CODE_DIR}/makeindexk/*.c
     ${COMMON_CODE_DIR}/tree/*.c
-    ${COMMON_CODE_DIR}/synctexdir/synctex.c
+    ${COMMON_CODE_DIR}/synctexdir/*.c
 )
 ## xetex
 file(GLOB_RECURSE XETEXSOURCES

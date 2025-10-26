@@ -17,6 +17,7 @@
 #include <cbiber.h>
 #include <makeindexk/makeindex.h>
 #include <tree/tree.h>
+#include <synctex_parser.h>
 
 int ac;
 char **av;
@@ -229,6 +230,67 @@ int setMainEntry(const char *p) {
     strncpy(main_entry_file, p, MAXMAINFILENAME);
     main_entry_file[MAXMAINFILENAME - 1] = 0;
     // fprintf(stderr,"setting main entry from c %s\n", main_entry_file);
+    return 0;
+}
+
+/**
+ * synctex_view: Forward search — from .tex (file, line) to PDF location.
+ */
+int synctex_view(const char* pdf_path, const char* tex_path, int line, int column) {
+    synctex_scanner_p scanner = synctex_scanner_new_with_output_file(pdf_path, NULL, 1);
+    if (!scanner) {
+        fprintf(stderr, "Error: Failed to create SyncTeX scanner for '%s'\n", pdf_path);
+        return -1;
+    }
+
+    int status = synctex_display_query(scanner, tex_path, line, column, 0);
+    if (status <= 0) {
+        fprintf(stderr, "SyncTeX view query failed or no result (status=%d)\n", status);
+        synctex_scanner_free(scanner);
+        return -1;
+    }
+
+    synctex_node_p node;
+    while ((node = synctex_scanner_next_result(scanner)) != NULL) {
+        int page = synctex_node_page(node);
+        float x = synctex_node_box_visible_h(node);
+        float y = synctex_node_box_visible_v(node);
+        float w = synctex_node_box_visible_width(node);
+        float h = synctex_node_box_visible_height(node);
+        fprintf(stderr, "VIEW: page=%d x=%.2f y=%.2f w=%.2f h=%.2f\n", page, x, y, w, h);
+    }
+
+    synctex_scanner_free(scanner);
+    return 0;
+}
+
+/**
+ * synctex_edit: Inverse search — from PDF (page, x, y) to .tex location.
+ */
+int synctex_edit(const char* pdf_path, int page, float x, float y) {
+    synctex_scanner_p scanner = synctex_scanner_new_with_output_file(pdf_path, NULL, 1);
+    if (!scanner) {
+        fprintf(stderr, "Error: Failed to create SyncTeX scanner for '%s'\n", pdf_path);
+        return -1;
+    }
+
+    int status = synctex_edit_query(scanner, page, x, y);
+
+    if (status <= 0) {
+        fprintf(stderr, "SyncTeX edit query failed or no result (status=%d)\n", status);
+        synctex_scanner_free(scanner);
+        return -1;
+    }
+
+    synctex_node_p node;
+    while ((node = synctex_scanner_next_result(scanner)) != NULL) {
+        const char* name = synctex_scanner_get_name(scanner, synctex_node_tag(node));
+        int line = synctex_node_line(node);
+        int col = synctex_node_column(node);
+        fprintf(stderr, "EDIT: file=%s line=%d col=%d\n", name ? name : "(null)", line, col);
+    }
+
+    synctex_scanner_free(scanner);
     return 0;
 }
 

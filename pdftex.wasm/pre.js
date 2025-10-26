@@ -218,8 +218,15 @@ function compileFormatRoutine() {
 
 function mkdirRoutine(dirname) {
     try {
-        //console.log("removing " + item);
-        FS.mkdir(WORKROOT + "/" + dirname);
+        const targetDir = WORKROOT + "/" + dirname;
+        if (FS.analyzePath(targetDir).exists) {
+            self.postMessage({
+                'result': 'ok',
+                'cmd': 'mkdir'
+            });
+            return;
+        }
+        FS.mkdir(targetDir);
         self.postMessage({
             'result': 'ok',
             'cmd': 'mkdir'
@@ -245,6 +252,52 @@ function writeFileRoutine(filename, content) {
         self.postMessage({
             'result': 'failed',
             'cmd': 'writefile'
+        });
+    }
+}
+
+function synctexViewRoutine(pdf_path, tex_path, line, column) {
+    // TODO: not finished
+    try {
+        res = _synctex_view(pdf_path, tex_path, line, column);
+        self.postMessage({
+            'result': 'failed',
+            'page': -1,
+            'x': 0.0,
+            'y': 0.0,
+            'cmd': 'synctex_view'
+        });
+    } catch (err) {
+        console.error("Unable to run synctex view");
+        self.postMessage({
+            'result': 'failed',
+            'page': -1,
+            'x': 0.0,
+            'y': 0.0,
+            'cmd': 'synctex_view'
+        });
+    }
+}
+
+function synctexEditRoutine(pdf_path, page, x, y) {
+    // TODO: not finished
+    try {
+        res = _synctex_edit(pdf_path, page, x, y);
+        self.postMessage({
+            'result': 'failed',
+            'file': '(none)',
+            'line': 0,
+            'column': 0,
+            'cmd': 'synctex_edit'
+        });
+    } catch (err) {
+        console.error("Unable to run synctex edit");
+        self.postMessage({
+            'result': 'failed',
+            'file': '(none)',
+            'line': 0,
+            'column': 0,
+            'cmd': 'synctex_edit'
         });
     }
 }
@@ -280,8 +333,20 @@ self['onmessage'] = function(ev) {
         cleanDir(WORKROOT);
     } else if (cmd == "stopcompiler") {
         // my api
+        self.postMessage({
+            'result': 'failed',
+            'cmd': 'stopcompiler'
+        });
     } else if (cmd == "predownload") {
         // my api
+        self.postMessage({
+            'result': 'failed',
+            'cmd': 'predownload'
+        });
+    } else if (cmd == "synctex_view") {
+        synctexEditRoutine(data['pdf_path'], data['tex_path'], data['line'], data['column']);
+    } else if (cmd == "synctex_edit") {
+        synctexViewRoutine(data['pdf_path'], data['page'], data['x'], data['y']);
     } else {
         console.error("Unknown command " + cmd);
     }
