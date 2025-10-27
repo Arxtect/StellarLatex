@@ -32,16 +32,18 @@ extern "C" {
 }
 #endif
 
-#ifndef PRIdPTR
-#define PRIdPTR "ld"
-#endif
-#ifndef PRIxPTR
-#define PRIxPTR "lx"
-#endif
 #define LONGINTEGER_TYPE long
 #define LONGINTEGER_PRI "l"
 
+#define INTEGER_TYPE int
+#define INTEGER_MAX INT_MAX
+#define INTEGER_MIN INT_MIN
+
 // version
 #define ARXTECT_VERSION_STRING __DATE__
+#define WEB2C_NORETURN
+extern void uexitbody(int code, const char* file, int line);
+#define uexit(code) uexitbody(code, __FILE__, __LINE__)
+#define abort() uexitbody(0xbeef, __FILE__, __LINE__)
 
 #endif

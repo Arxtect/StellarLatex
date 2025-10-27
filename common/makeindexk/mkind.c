@@ -119,7 +119,7 @@ char* replace_extension(const char* aux_file, const char* new_ext) {
     snprintf(result, new_len, "%.*s%s", (int)base_len, aux_file, new_ext);
     return result;
 }
-int makeindex_main(char* aux_file) {
+int makeindex_main(const char* aux_file) {
 	if (aux_file == NULL) return 0;
 	char* log_file = replace_extension(aux_file, ".ilg");
 	// if log file is seen, stop
@@ -130,7 +130,7 @@ int makeindex_main(char* aux_file) {
 	free(log_file);
 	// makeindex main.aux
 	if (aux_file != NULL && access(aux_file, F_OK) != -1) {
-		char* _argv[] = {"makeindex", aux_file};
+		char* _argv[] = {"makeindex", xstrdup(aux_file)};
 		_makeindex_main(sizeof(_argv)/sizeof(_argv[0]), _argv);
 	}
 	// makeindex main.idx

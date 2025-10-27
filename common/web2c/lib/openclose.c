@@ -7,14 +7,17 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-
+string fullnameoffile;
+boolean recorder_enabled;
+string output_directory;
+int tfmtemp;
+int ocptemp;
+int texinputtype;
 void recorder_record_input(const_string name) {}
 
 void recorder_record_output(const_string name) {}
 
 void recorder_change_filename(string new_name) {}
-
-void readtcxfile(void) {}
 
 boolean open_input(FILE **f_ptr, int filefmt, const_string fopen_mode) {
   string fname = NULL;
@@ -141,48 +144,8 @@ boolean open_output(FILE **f_ptr, const_string fopen_mode) {
   return *f_ptr != NULL;
 }
 
-void do_undump(char *p, int item_size, int nitems, gzFile in_file) {
-  if (gzread (in_file, p, item_size * nitems) != item_size * nitems) {
-    fprintf(stderr, "Could not undump %d %d-byte item(s) from %s", nitems,
-            item_size, nameoffile + 1);
-    abort();
-  }
-}
-
-void do_dump(char *p, int item_size, int nitems, gzFile out_file) {
-  if (gzwrite (out_file, p, item_size * nitems) != item_size * nitems) {
-    fprintf(stderr, "! Could not write %d %d-byte item(s) to %s.\n", nitems,
-            item_size, nameoffile + 1);
-    abort();
-  }
-}
-
 void close_file(FILE *f) {
   if (!f)
     return;
   xfclose(f, "closefile");
-}
-
-boolean
-eof (FILE *file)
-{
-  register int c;
-
-  /* If FILE doesn't exist, return true. This happens, for example,
-     when a user does `mft foo.mf' -- there's no change file,
-     so we never open it, so we end up calling this with a null pointer. */
-  if (!file)
-    return true;
-    
-  /* Maybe we're already at the end?  */
-  if (feof (file))
-    return true;
-
-  if ((c = getc (file)) == EOF)
-    return true;
-
-  /* We weren't at the end.  Back up.  */
-  (void) ungetc (c, file);
-
-  return false;
 }

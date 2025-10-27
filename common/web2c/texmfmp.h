@@ -1,9 +1,10 @@
 #ifndef MIN_TEXMFMP
 #define MIN_TEXMFMP
 #include "w2c/config.h"
+#include "cpascal.h"
+#include "lib/lib.h"
 #include <assert.h>
 #include <errno.h>
-#include <math.h>
 #include <stdarg.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -11,6 +12,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <limits.h>
+#include <math.h>
 #include <stddef.h>
 #include <zlib.h>
 
@@ -49,51 +51,19 @@ typedef void* voidpointer;
 #define FOPEN_RBIN_MODE "rb"
 #define FOPEN_WBIN_MODE "wb"
 #define recorderchangefilename recorder_change_filename
-#define WRITE_OUT(a, b)             \
-  if ((size_t) fwrite ((char *) &OUT_BUF[a], sizeof (OUT_BUF[a]),       \
-                    (size_t) ((size_t)(b) - (size_t)(a) + 1), OUT_FILE) \
-      != (size_t) ((size_t) (b) - (size_t) (a) + 1))                    \
-    fprintf (stderr, "fwrite failed");
 
-#define aopenin(f, p) open_input(&(f), p, FOPEN_RBIN_MODE)
-#define aopenout(f) open_output(&(f), FOPEN_WBIN_MODE)
-#define aclose close_file
-#define bopenin(f) open_input(&(f), kpse_tfm_format, FOPEN_RBIN_MODE)
-#define bopenout(f) open_output(&(f), FOPEN_WBIN_MODE)
-#define bclose aclose
-#define wopenin(f) (open_input ((FILE**)&(f), DUMP_FORMAT, FOPEN_RBIN_MODE) \
-                        && (f = gzdopen(fileno((FILE*)f), FOPEN_RBIN_MODE)))
-#define wopenout(f) (open_output ((FILE**)&(f), FOPEN_WBIN_MODE) \
-                        && (f = gzdopen(fileno((FILE*)f), FOPEN_WBIN_MODE)) \
-                        && (gzsetparams(f, 1, Z_DEFAULT_STRATEGY) == Z_OK))
-#define wclose(f)    gzclose(f)
-
-#ifdef XeTeX
-#define uopenin(f, p, m, d) u_open_in(&(f), p, FOPEN_RBIN_MODE, m, d)
-#define uclose(f) u_close_inout(&(f))
-#endif
-
-#define Fputs(f, s) (void)fputs(s, f)
-
-#define dumpint(x)                                                                       \
-	do {                                                                                 \
-		integer x_val = (x);                                                             \
-		generic_dump(x_val);                                                             \
-	} while (0)
-
-#define undumpint generic_undump
-#define generic_dump(x) dumpthings(x, 1)
-#define generic_undump(x) undumpthings(x, 1)
-#define DUMP_FILE fmtfile
+/* (Un)dumping.  These are called from the change file.  */
 #define dumpthings(base, len) do_dump((char*)&(base), sizeof(base), (int)(len), DUMP_FILE)
 #define undumpthings(base, len)                                                          \
 	do_undump((char*)&(base), sizeof(base), (int)(len), DUMP_FILE)
-#define dumpwd generic_dump
-#define dumphh generic_dump
-#define dumpqqqq generic_dump
-#define undumpwd generic_undump
-#define undumphh generic_undump
-#define undumpqqqq generic_undump
+
+#ifndef PRIdPTR
+#define PRIdPTR "ld"
+#endif
+#ifndef PRIxPTR
+#define PRIxPTR "lx"
+#endif
+
 #define undumpcheckedthings(low, high, base, len)                                        \
 	do {                                                                                 \
 		unsigned i;                                                                      \
@@ -128,39 +98,13 @@ typedef void* voidpointer;
 	} while (0)
 
 // Misc
+#if !defined(Aleph)
+extern void readtcxfile (void);
+extern string translate_filename;
 #define translatefilename translate_filename
-#define promptfilenamehelpmsg "(Press Enter to retry, or Control-D to exit"
-#define stringcast(x) ((string)(x))
-#define maxint 0x3FFFFFFF
-#define ucharcast(x) ((unsigned char)(x))
-#define conststringcast(x) ((const_string)(x))
-#define printcstring(STR)                                                                \
-	do {                                                                                 \
-		const_string ch_ptr = (STR);                                                     \
-		while (*ch_ptr) printchar(*(ch_ptr++));                                          \
-	} while (0)
+#endif
 
-#define secondsandmicros(i, j) get_seconds_and_micros(&(i), &(j))
-#define WEB2C_NORETURN
-#define Xchr(x) xchr[x]
-#define incr(x) ++(x)
-#define decr(x) --(x)
-#define odd(x) ((x) & 1)
-#define ord(x) (x)
-#define chr(x) (x)
-
-#define putbyte(x, f)                                                                    \
-	do {                                                                                 \
-		if (putc((char)(x) & 255, f) == EOF)                                             \
-			fprintf(stderr, "putbyte(%ld) failed", (long)x);                             \
-	} while (0)
-#define addressof(x) (&(x))
-#define nil NULL
-#define dateandtime(i,j,k,l) get_date_and_time (&(i), &(j), &(k), &(l))
-extern void get_date_and_time (integer *, integer *, integer *, integer *);
-
-
-// Function Define
+// TODO: from here to clean it
 // File Function
 #define	inputln(stream, flag) input_line (stream)
 #ifdef XeTeX
@@ -168,46 +112,79 @@ extern boolean input_line (UFILE *);
 #else
 extern boolean input_line (FILE *);
 #endif
-extern void	   recorder_change_filename(string new_name);
-extern void	   recorder_record_input(const_string name);
-extern void	   recorder_record_output(const_string name);
-extern boolean dir_p(string fn);
-extern boolean open_output(FILE**, const_string fopen_mode);
-extern boolean open_input(FILE**, int, const_string fopen_mode);
-extern boolean bibopenout(FILE**, const_string name);
-extern boolean bibopenin(FILE**, int, const_string name);
-extern void	   close_file(FILE*);
+
+#define dateandtime(i,j,k,l) get_date_and_time (&(i), &(j), &(k), &(l))
+extern void get_date_and_time (integer *, integer *, integer *, integer *);
+
+#define secondsandmicros(i, j) get_seconds_and_micros(&(i), &(j))
+extern void get_seconds_and_micros(integer *, integer *);
+
 extern void	   topenin(void);
-extern boolean eof(FILE*);
-extern void	   do_dump(char*, int, int, gzFile);
-extern void	   do_undump(char*, int, int, gzFile);
+
+#define bopenin(f) open_input(&(f), kpse_tfm_format, FOPEN_RBIN_MODE)
+#define bopenout(f) open_output(&(f), FOPEN_WBIN_MODE)
+#define bclose aclose
+#define wopenin(f) (open_input ((FILE**)&(f), DUMP_FORMAT, FOPEN_RBIN_MODE) \
+                        && (f = gzdopen(fileno((FILE*)f), FOPEN_RBIN_MODE)))
+#define wopenout(f) (open_output ((FILE**)&(f), FOPEN_WBIN_MODE) \
+                        && (f = gzdopen(fileno((FILE*)f), FOPEN_WBIN_MODE)) \
+                        && (gzsetparams(f, 1, Z_DEFAULT_STRATEGY) == Z_OK))
+#define wclose(f)    gzclose(f)
+
+#ifdef XeTeX
+#define uopenin(f, p, m, d) u_open_in(&(f), p, FOPEN_RBIN_MODE, m, d)
+#define uclose(f) u_close_inout(&(f))
+#endif
 
 // Misc Function
-extern void get_seconds_and_micros(integer *, integer *);
+extern char start_time_str[];
+extern void initstarttime(void);
+extern string find_input_file(integer s);
+#if !defined(XeTeX)
+extern char *makecstring(integer s);
+extern char *makecfilename(integer s);
+#endif
 extern void getcreationdate(void);
 extern void getfilemoddate(integer s);
 extern void getfilesize(integer s);
 extern void getfiledump(integer s, int offset, int length);
-extern void uexit(int code);
-extern int runsystem(const char *);
-
-extern char* makecstring(integer s);
-extern char* makecfilename(integer s);
-extern void readtcxfile(void);
-extern void initstarttime(void);
-extern int	loadpoolstrings(integer);
-extern void setupboundvariable(integer*, const_string, integer);
-extern const char* ptexbanner;
-extern char start_time_str[];
-extern string translate_filename;
-extern string versionstring;
-extern int tfmtemp, texinputtype, kpse_make_tex_discard_errors;
-extern string fullnameoffile, output_directory;
 extern void convertStringToHexString(const char *in, char *out, int lin);
 extern void getmd5sum(integer s, boolean file);
-extern string find_input_file(integer s);
-extern boolean texmfyesno(const_string var);
 
+extern int runsystem(const char *);
+
+#define kpsedvipsconfigformat kpse_dvips_config_format
+#define kpsefontmapformat kpse_fontmap_format
+#define kpsemfpoolformat kpse_mfpool_format
+#define kpsempformat kpse_mp_format
+#define kpsemppoolformat kpse_mppool_format
+#define kpsetexpoolformat kpse_texpool_format
+#define kpsetexformat kpse_tex_format
+extern int tfmtemp, texinputtype;
+extern int kpse_make_tex_discard_errors;
+
+/* We define the routines to do the actual work in texmfmp.c.  */
+extern void do_dump (char *, int, int, gzFile);
+extern void do_undump (char *, int, int, gzFile);
+/* Use the above for all the other dumping and undumping.  */
+#define generic_dump(x) dumpthings(x, 1)
+#define generic_undump(x) undumpthings(x, 1)
+
+#define dumpwd generic_dump
+#define dumphh generic_dump
+#define dumpqqqq generic_dump
+#define undumpwd generic_undump
+#define undumphh generic_undump
+#define undumpqqqq generic_undump
+
+/* `dump_int' is called with constant integers, so we put them into a
+   variable first.  */
+#define dumpint(x)                                                                       \
+	do {                                                                                 \
+		integer x_val = (x);                                                             \
+		generic_dump(x_val);                                                             \
+	} while (0)
+#define undumpint generic_undump
 /* Handle SyncTeX, if requested */
 #if defined(TeX)
 # if defined(__SyncTeX__)

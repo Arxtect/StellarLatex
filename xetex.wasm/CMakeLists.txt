@@ -46,6 +46,8 @@ set(CMAKE_EXE_LINKER_FLAGS "${LINKER_FLAGS_STR}")
 ## common
 file(GLOB_RECURSE COMMONSOURCES
     ${COMMON_CODE_DIR}/web2c/*.c
+    ${COMMON_CODE_DIR}/web2c/*.cpp
+    ${COMMON_CODE_DIR}/web2c/lib/*.c
     ${COMMON_CODE_DIR}/ctan/*.cpp
     ${COMMON_CODE_DIR}/md5/md5.c
     ${COMMON_CODE_DIR}/bibtex/bibtex.c
@@ -89,6 +91,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${THIRD_PARTY_DIR}/libpplib/repo/src
     ${COMMON_CODE_DIR}
     ${COMMON_CODE_DIR}/web2c
+    ${COMMON_CODE_DIR}/web2c/lib
     ${COMMON_CODE_DIR}/synctexdir
     ${COMMON_CODE_DIR}/memory
     ${COMMON_CODE_DIR}/md5
