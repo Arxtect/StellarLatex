@@ -1,6 +1,12 @@
 #define EXTERN /* Instantiate data from pdftexd.h here.  */
 
+#ifdef XETEXWASM
 #include <xetexd.h>
+#endif
+#ifdef PDFTEXWASM
+#include <pdftexd.h>
+#include <pdftexextra.h>
+#endif
 
 #include <errno.h>
 #include <md5/md5.h>
@@ -18,12 +24,21 @@
 #include <makeindexk/makeindex.h>
 #include <tree/tree.h>
 #include <synctex_parser.h>
+#include <xmemory.h>
 
 int ac;
 char **av;
+#ifdef XeTeX
 const char *DEFAULT_FMT_NAME = " swiftlatexxetex.fmt";
 const char *DEFAULT_DUMP_NAME = "swiftlatexxetex";
 string versionstring = " (Arxtect XeTeX " ARXTECT_VERSION_STRING ")";
+#endif
+#ifdef pdfTeX
+const char *ptexbanner = BANNER;
+const char *DEFAULT_FMT_NAME = " swiftlatexpdftex.fmt";
+const char *DEFAULT_DUMP_NAME = "swiftlatexpdftex";
+string versionstring = " (Arxtect PDFTeX " ARXTECT_VERSION_STRING ")";
+#endif
 #define MAXMAINFILENAME 512
 unsigned char bootstrapcmd[MAXMAINFILENAME] = {0};
 int exit_code;
@@ -88,7 +103,12 @@ int main(int argc, char **argv) {
     switch (c) {
     case 'i':
       iniversion = 1;
+#ifdef XeTeX
       strncpy(bootstrapcmd, "*xelatex.ini", MAXMAINFILENAME);
+#endif
+#ifdef pdfTeX
+      strncpy(bootstrapcmd, "*pdflatex.ini", MAXMAINFILENAME);
+#endif
       break;
     case 'o':
       output_directory = optarg;
@@ -146,7 +166,9 @@ int _compile() {
 }
 
 int compileLaTeX() {
+#ifdef XeTeX
     nopdfoutput = 1;
+#endif
     if (strlen(main_entry_file) == 0) {
       return -1;
     }
@@ -180,7 +202,12 @@ int compileLaTeX() {
 
 int compileFormat() {
     iniversion = 1;
+#ifdef XeTeX
     strncpy(bootstrapcmd, "*xelatex.ini", MAXMAINFILENAME);
+#endif
+#ifdef pdfTeX
+    strncpy(bootstrapcmd, "*pdflatex.ini", MAXMAINFILENAME);
+#endif
     return _compile();
 }
 
@@ -232,66 +259,66 @@ int setMainEntry(const char *p) {
     // fprintf(stderr,"setting main entry from c %s\n", main_entry_file);
     return 0;
 }
+char* synctex_view(const char* pdf_path, const char* tex_path, int line, int column) {
+	if (tex_path == NULL) return NULL;
+	char synctex_tex_path[512] = {0};
+	if (tex_path[0] == '.') {
+		snprintf(synctex_tex_path, sizeof(synctex_tex_path), "/work/%s", tex_path);
+	}
+	else if (tex_path[0] == '/') {
+		if (memcmp(tex_path, "/work/", 6) == 0 && memcmp(tex_path, "/work/./", 8) != 0) {
+			snprintf(synctex_tex_path, sizeof(synctex_tex_path), "/work/./%s", tex_path + 6);
+		}
+		else { snprintf(synctex_tex_path, sizeof(synctex_tex_path), "%s", tex_path); }
+	}
+	else { snprintf(synctex_tex_path, sizeof(synctex_tex_path), "/work/./%s", tex_path); }
+	synctex_scanner_p scanner = synctex_scanner_new_with_output_file(pdf_path, NULL, 1);
+	if (!scanner) return NULL;
 
-/**
- * synctex_view: Forward search — from .tex (file, line) to PDF location.
- */
-int synctex_view(const char* pdf_path, const char* tex_path, int line, int column) {
-    synctex_scanner_p scanner = synctex_scanner_new_with_output_file(pdf_path, NULL, 1);
-    if (!scanner) {
-        fprintf(stderr, "Error: Failed to create SyncTeX scanner for '%s'\n", pdf_path);
-        return -1;
-    }
+	int status = synctex_display_query(scanner, synctex_tex_path, line, column, 0);
+	if (status <= 0) {
+		synctex_scanner_free(scanner);
+		return NULL;
+	}
 
-    int status = synctex_display_query(scanner, tex_path, line, column, 0);
-    if (status <= 0) {
-        fprintf(stderr, "SyncTeX view query failed or no result (status=%d)\n", status);
-        synctex_scanner_free(scanner);
-        return -1;
-    }
+	synctex_node_p node;
+	if ((node = synctex_scanner_next_result(scanner)) == NULL) return NULL;
 
-    synctex_node_p node;
-    while ((node = synctex_scanner_next_result(scanner)) != NULL) {
-        int page = synctex_node_page(node);
-        float x = synctex_node_box_visible_h(node);
-        float y = synctex_node_box_visible_v(node);
-        float w = synctex_node_box_visible_width(node);
-        float h = synctex_node_box_visible_height(node);
-        fprintf(stderr, "VIEW: page=%d x=%.2f y=%.2f w=%.2f h=%.2f\n", page, x, y, w, h);
-    }
-
-    synctex_scanner_free(scanner);
-    return 0;
+	char  buffer[512];
+	int	  page = synctex_node_page(node);
+	float x	   = synctex_node_visible_h(node);
+	float y	   = synctex_node_visible_v(node);
+	float h	   = synctex_node_box_visible_h(node);
+	float v	   = synctex_node_box_visible_v(node) + synctex_node_box_visible_depth(node);
+	float W	   = synctex_node_box_visible_width(node);
+	float H    = synctex_node_box_visible_height(node) + synctex_node_box_visible_depth(node);
+	snprintf(buffer, sizeof(buffer), "%d\x1F%.2f\x1F%.2f\x1F%.2f\x1F%.2f\x1F%.2f\x1F%.2f",
+		page, x, y, h, v, W, H);
+	synctex_scanner_free(scanner);
+	return xstrdup(buffer);
 }
 
-/**
- * synctex_edit: Inverse search — from PDF (page, x, y) to .tex location.
- */
-int synctex_edit(const char* pdf_path, int page, float x, float y) {
-    synctex_scanner_p scanner = synctex_scanner_new_with_output_file(pdf_path, NULL, 1);
-    if (!scanner) {
-        fprintf(stderr, "Error: Failed to create SyncTeX scanner for '%s'\n", pdf_path);
-        return -1;
-    }
+char* synctex_edit(const char* pdf_path, int page, float x, float y) {
+	synctex_scanner_p scanner = synctex_scanner_new_with_output_file(pdf_path, NULL, 1);
+	if (!scanner) return NULL;
 
-    int status = synctex_edit_query(scanner, page, x, y);
+	int status = synctex_edit_query(scanner, page, x, y);
+	if (status <= 0) {
+		synctex_scanner_free(scanner);
+		return NULL;
+	}
 
-    if (status <= 0) {
-        fprintf(stderr, "SyncTeX edit query failed or no result (status=%d)\n", status);
-        synctex_scanner_free(scanner);
-        return -1;
-    }
+	synctex_node_p node;
+	if ((node = synctex_scanner_next_result(scanner)) == NULL) return NULL;
 
-    synctex_node_p node;
-    while ((node = synctex_scanner_next_result(scanner)) != NULL) {
-        const char* name = synctex_scanner_get_name(scanner, synctex_node_tag(node));
-        int line = synctex_node_line(node);
-        int col = synctex_node_column(node);
-        fprintf(stderr, "EDIT: file=%s line=%d col=%d\n", name ? name : "(null)", line, col);
-    }
-
-    synctex_scanner_free(scanner);
-    return 0;
+	// now we only use the first one
+	char		buffer[256];
+	const char* name = synctex_scanner_get_name(scanner, synctex_node_tag(node));
+	int			line = synctex_node_line(node);
+	int			col	 = synctex_node_column(node);
+	snprintf(buffer, sizeof(buffer), "%s\x1F%d\x1F%d", name, line, col);
+	synctex_scanner_free(scanner);
+	return xstrdup(buffer);
 }
 
 int main(int argc, char **argv) {

@@ -257,46 +257,69 @@ function writeFileRoutine(filename, content) {
 }
 
 function synctexViewRoutine(pdf_path, tex_path, line, column) {
-    // TODO: not finished
+    const synctexViewFunction = cwrap('synctex_view', 'string', ['string', 'string', 'number', 'number']);
     try {
-        res = _synctex_view(pdf_path, tex_path, line, column);
+        let res = synctexViewFunction(pdf_path, tex_path, line, column);
+        if (res) { 
+            let parts = res.split('\x1F');
+            if (parts.length === 7) {
+                self.postMessage({
+                    'result': 'ok',
+                    'page': parseInt(parts[0]),
+                    'x': parseFloat(parts[1]),
+                    'y': parseFloat(parts[2]),
+                    'h': parseFloat(parts[3]),
+                    'v': parseFloat(parts[4]),
+                    'W': parseFloat(parts[5]),
+                    'H': parseFloat(parts[6]),
+                    'cmd': 'synctex_view'
+                });
+                return;
+            }
+        }
         self.postMessage({
             'result': 'failed',
-            'page': -1,
-            'x': 0.0,
-            'y': 0.0,
             'cmd': 'synctex_view'
         });
+        return;
     } catch (err) {
         console.error("Unable to run synctex view");
         self.postMessage({
             'result': 'failed',
-            'page': -1,
-            'x': 0.0,
-            'y': 0.0,
             'cmd': 'synctex_view'
         });
     }
 }
 
 function synctexEditRoutine(pdf_path, page, x, y) {
-    // TODO: not finished
+    const synctexEditFunction = cwrap('synctex_edit', 'string', ['string', 'number', 'number', 'number']);
     try {
-        res = _synctex_edit(pdf_path, page, x, y);
+        let res = synctexEditFunction(pdf_path, page, x, y);
+        if (res) {
+            let parts = res.split('\x1F');
+            if (parts.length === 3) {
+                let file = parts[0];
+                let line = parseInt(parts[1]);
+                let column = parseInt(parts[2]);
+                self.postMessage({
+                    'result': 'ok',
+                    'file': file,
+                    'line': line,
+                    'column': column,
+                    'cmd': 'synctex_edit'
+                });
+                return;
+            }
+        }
         self.postMessage({
             'result': 'failed',
-            'file': '(none)',
-            'line': 0,
-            'column': 0,
             'cmd': 'synctex_edit'
         });
+        return;
     } catch (err) {
         console.error("Unable to run synctex edit");
         self.postMessage({
             'result': 'failed',
-            'file': '(none)',
-            'line': 0,
-            'column': 0,
             'cmd': 'synctex_edit'
         });
     }
@@ -344,9 +367,9 @@ self['onmessage'] = function(ev) {
             'cmd': 'predownload'
         });
     } else if (cmd == "synctex_view") {
-        synctexEditRoutine(data['pdf_path'], data['tex_path'], data['line'], data['column']);
+        synctexViewRoutine(data['pdf_path'], data['tex_path'], data['line'], data['column']);
     } else if (cmd == "synctex_edit") {
-        synctexViewRoutine(data['pdf_path'], data['page'], data['x'], data['y']);
+        synctexEditRoutine(data['pdf_path'], data['page'], data['x'], data['y']);
     } else {
         console.error("Unknown command " + cmd);
     }

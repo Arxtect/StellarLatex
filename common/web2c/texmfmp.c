@@ -646,3 +646,42 @@ char * generic_synctex_get_current_name (void)
   free(pwdbuf) ;
   return ret;
 }
+#ifdef pdfTeX
+boolean input_line(FILE *f) {
+  // printf("%p\n", f);
+  int i = EOF;
+
+  /* Recognize either LF or CR as a line terminator.  */
+
+  last = first;
+  while (last < bufsize && (i = getc(f)) != EOF && i != '\n' && i != '\r')
+    buffer[last++] = i;
+
+  if (i == EOF && errno != EINTR && last == first)
+    return false;
+
+  /* We didn't get the whole line because our buffer was too small.  */
+  if (i != EOF && i != '\n' && i != '\r') {
+    fprintf(stderr, "! Unable to read an entire line---bufsize=%u.\n",
+            (unsigned)bufsize);
+    abort();
+  }
+
+  buffer[last] = ' ';
+  if (last >= maxbufstack)
+    maxbufstack = last;
+
+  /* If next char is LF of a CRLF, read it.  */
+  if (i == '\r') {
+    while ((i = getc(f)) == EOF && errno == EINTR)
+      ;
+    if (i != '\n')
+      ungetc(i, f);
+  }
+
+  while (last > first && buffer[last - 1] == ' ')
+    --last;
+
+  return true;
+}
+#endif

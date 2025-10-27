@@ -170,15 +170,14 @@ char* ctan_get_file_process(cstr request_name, kpse_file_format_type type) {
 extern "C" char* ctan_get_file(cstr request_name, kpse_file_format_type type) {
 	// TODO: DEBUG: all files go to old server
 	namespace fs = std::filesystem;
-	if (strcmp(request_name, "swiftlatexxetex.fmt") == 0 ||
-		strcmp(request_name, "swiftlatexpdftex.fmt") == 0 ||
-		strcmp(request_name, "xetexfontlist.txt") == 0) {
+	// xz compressed file
+	if (strcmp(request_name, "xetexfontlist.txt") == 0) {
 		char* remote = kpse_find_file_js(request_name, type, false);
 		if (remote != nullptr) {
-			fs::rename(remote, "/tmp/swiftlatex.xz");
-			bool res = extractor::xz("/tmp/swiftlatex.xz", remote);
+			fs::rename(remote, "/tmp/comp.xz");
+			bool res = extractor::xz("/tmp/comp.xz", remote);
 			if (res == false) return nullptr;
-			fs::remove("/tmp/swiftlatex.xz");
+			fs::remove("/tmp/comp.xz");
 			return remote;
 		}
 		else { return nullptr; }

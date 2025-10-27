@@ -10,7 +10,6 @@
 #define kpsetexformat kpse_tex_format
 #define kpsebibformat kpse_bib_format
 #define kpsebstformat kpse_bst_format
-#define DUMP_FORMAT kpse_fmt_format
 #define kpsepkformat kpse_pk_format
 #define kpsesrccompile kpse_src_compile
 #define kpsemaketexdiscarderrors kpse_make_tex_discard_errors

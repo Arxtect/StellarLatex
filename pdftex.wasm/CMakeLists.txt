@@ -42,15 +42,9 @@ string(REPLACE ";" " " LINKER_FLAGS_STR "${LINKER_FLAGS}")
 set(CMAKE_EXE_LINKER_FLAGS "${LINKER_FLAGS_STR}")
 
 #  SOURCES
-## tex
-file(GLOB_RECURSE TEXSOURCES
-    tex/*.c
-    texfile.c
-    texmfmp.c
-    main.c
-)
 ## common
 file(GLOB_RECURSE COMMONSOURCES
+    ${COMMON_CODE_DIR}/web2c/*.c
     ${COMMON_CODE_DIR}/ctan/*.cpp
     ${COMMON_CODE_DIR}/md5/md5.c
     ${COMMON_CODE_DIR}/bibtex/bibtex.c
@@ -63,6 +57,7 @@ file(GLOB_RECURSE COMMONSOURCES
 )
 ## pdftex
 file(GLOB_RECURSE PDFTEXSOURCES
+    tex/*.c
     pdftexdir/avl.c
     pdftexdir/utils.c
     pdftexdir/writejbig2.c
@@ -86,7 +81,7 @@ file(GLOB_RECURSE PDFTEXSOURCES
 )
 
 #  SET CMAKE PROJECT
-add_executable(${PROJECT_NAME} ${TEXSOURCES} ${COMMONSOURCES} ${PDFTEXSOURCES})
+add_executable(${PROJECT_NAME} ${COMMONSOURCES} ${PDFTEXSOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/tex
@@ -96,15 +91,17 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${THIRD_PARTY_DIR}/libxpdf/repo/goo
     ${THIRD_PARTY_DIR}/libxpdf/repo/xpdf
     ${COMMON_CODE_DIR}
+    ${COMMON_CODE_DIR}/web2c
     ${COMMON_CODE_DIR}/synctexdir
     ${COMMON_CODE_DIR}/memory
     ${COMMON_CODE_DIR}/md5
     ${COMMON_CODE_DIR}/makeindexk
 )
+target_link_directories(${PROJECT_NAME} PRIVATE ${THIRD_PARTY_DIR}/emsdk/upstream/emscripten/cache/sysroot/lib)
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    ${THIRD_PARTY_DIR}/libxpdf/build/libxpdf.a
-    ${THIRD_PARTY_DIR}/libarchive/build/libarchive/libarchive.a
-    ${THIRD_PARTY_DIR}/liblzma/build/liblzma.a
-    ${THIRD_PARTY_DIR}/libtinyxml2/build/libtinyxml2.a
-    ${THIRD_PARTY_DIR}/libcbiber/build/libcbiber.a
+    libxpdf.a
+    libarchive.a
+    liblzma.a
+    libtinyxml2.a
+    libcb.a
 )

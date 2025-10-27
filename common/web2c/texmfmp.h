@@ -1,5 +1,5 @@
-#ifndef MIN_PDFTEX_TEXMFMP
-#define MIN_PDFTEX_TEXMFMP
+#ifndef MIN_TEXMFMP
+#define MIN_TEXMFMP
 #include "w2c/config.h"
 #include <assert.h>
 #include <errno.h>
@@ -14,8 +14,34 @@
 #include <stddef.h>
 #include <zlib.h>
 
+#ifdef TeX
+#if defined (pdfTeX)
+#define TEXMFPOOLNAME "pdftex.pool"
+#define TEXMFENGINENAME "pdftex"
+#elif defined (XeTeX)
+#define TEXMFPOOLNAME "xetex.pool"
+#define TEXMFENGINENAME "xetex"
+#endif
+#define DUMP_FILE fmtfile
+#define DUMP_FORMAT kpse_fmt_format
+#define writedvi WRITE_OUT
+#define flushdvi flush_out
+#define OUT_FILE dvifile
+#define OUT_BUF dvibuf
+#endif
 
-
+#ifdef XeTeX
+#define XETEX_UNICODE_FILE_DEFINED	1
+typedef struct {
+  FILE *f;
+  long  savedChar;
+  short skipNextLF;
+  short encodingMode;
+  void *conversionData;
+} UFILE;
+typedef UFILE* unicodefile;
+typedef void* voidpointer;
+#endif
 
 // File
 #define FOPEN_W_MODE "wb"
@@ -41,8 +67,13 @@
                         && (f = gzdopen(fileno((FILE*)f), FOPEN_WBIN_MODE)) \
                         && (gzsetparams(f, 1, Z_DEFAULT_STRATEGY) == Z_OK))
 #define wclose(f)    gzclose(f)
+
+#ifdef XeTeX
+#define uopenin(f, p, m, d) u_open_in(&(f), p, FOPEN_RBIN_MODE, m, d)
+#define uclose(f) u_close_inout(&(f))
+#endif
+
 #define Fputs(f, s) (void)fputs(s, f)
-#define inputln(stream, flag) input_line(stream)
 
 #define dumpint(x)                                                                       \
 	do {                                                                                 \
@@ -63,15 +94,6 @@
 #define undumpwd generic_undump
 #define undumphh generic_undump
 #define undumpqqqq generic_undump
-#ifndef PRIdPTR
-#define PRIdPTR "ld"
-#endif
-#ifndef PRIxPTR
-#define PRIxPTR "lx"
-#endif
-#define LONGINTEGER_TYPE long
-#define LONGINTEGER_PRI "l"
-
 #define undumpcheckedthings(low, high, base, len)                                        \
 	do {                                                                                 \
 		unsigned i;                                                                      \
@@ -117,15 +139,15 @@
 		const_string ch_ptr = (STR);                                                     \
 		while (*ch_ptr) printchar(*(ch_ptr++));                                          \
 	} while (0)
-#define OUT_FILE dvifile
-#define OUT_BUF dvibuf
-#define writedvi WRITE_OUT
+
 #define secondsandmicros(i, j) get_seconds_and_micros(&(i), &(j))
 #define WEB2C_NORETURN
 #define Xchr(x) xchr[x]
 #define incr(x) ++(x)
 #define decr(x) --(x)
 #define odd(x) ((x) & 1)
+#define ord(x) (x)
+#define chr(x) (x)
 
 #define putbyte(x, f)                                                                    \
 	do {                                                                                 \
@@ -134,12 +156,18 @@
 	} while (0)
 #define addressof(x) (&(x))
 #define nil NULL
-#define chr(x)		(x)
-#define TEXMFENGINENAME "pdftex"
-#define	dateandtime(i,j,k,l) get_date_and_time (&(i), &(j), &(k), &(l))
+#define dateandtime(i,j,k,l) get_date_and_time (&(i), &(j), &(k), &(l))
+extern void get_date_and_time (integer *, integer *, integer *, integer *);
+
+
 // Function Define
 // File Function
-extern boolean input_line(FILE*);
+#define	inputln(stream, flag) input_line (stream)
+#ifdef XeTeX
+extern boolean input_line (UFILE *);
+#else
+extern boolean input_line (FILE *);
+#endif
 extern void	   recorder_change_filename(string new_name);
 extern void	   recorder_record_input(const_string name);
 extern void	   recorder_record_output(const_string name);
@@ -169,17 +197,16 @@ extern void readtcxfile(void);
 extern void initstarttime(void);
 extern int	loadpoolstrings(integer);
 extern void setupboundvariable(integer*, const_string, integer);
-extern void get_date_and_time(integer*, integer*, integer*, integer*);
-extern string	   xstrdup(const_string s);
 extern const char* ptexbanner;
 extern char start_time_str[];
 extern string translate_filename;
 extern string versionstring;
 extern int tfmtemp, texinputtype, kpse_make_tex_discard_errors;
 extern string fullnameoffile, output_directory;
-extern boolean texmfyesno(const_string var);
 extern void convertStringToHexString(const char *in, char *out, int lin);
+extern void getmd5sum(integer s, boolean file);
 extern string find_input_file(integer s);
+extern boolean texmfyesno(const_string var);
 
 /* Handle SyncTeX, if requested */
 #if defined(TeX)
