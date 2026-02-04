@@ -1,0 +1,15 @@
+#! /bin/sh -vx
+# $Id: pdftex.test 804 2018-05-17 22:29:15Z karl $
+# Copyright 2017-2018 Karl Berry <tex-live@tug.org>
+# Copyright 2010 Peter Breitenlohner <tex-live@tug.org>
+# You may freely use, modify and/or distribute this file.
+
+# Make sure the program executes.
+
+BinDir=${BinDir:-.}
+ExeExt=${ExeExt:-}
+_pdftex=$BinDir/pdftex$ExeExt
+
+$_pdftex --version || exit 1
+$_pdftex --help || exit 1
+exit 0
