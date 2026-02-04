@@ -1,0 +1,11 @@
+*.o
+*.bak
+*.Identifier
+.DS_Store
+.vscode
+3rdparty/emsdk
+3rdparty/*/repo
+build
+texlive
+test
+todo.md
