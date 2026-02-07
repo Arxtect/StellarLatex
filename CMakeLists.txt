@@ -18,6 +18,7 @@ endif()
 set(CMAKE_TOOLCHAIN_FILE "${EMSDK_PATH}/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake")
 set(THIRD_PARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty)
 set(COMMON_CODE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/common)
+add_definitions(-DWEBASSEMBLY_BUILD)
 
 # then, we need some 3rd libraries
 ExternalProject_Add(
@@ -34,7 +35,7 @@ ExternalProject_Add(
 ExternalProject_Add(
     libharfbuzz
     GIT_REPOSITORY git@github.com:harfbuzz/harfbuzz.git
-    GIT_TAG        main # e41dc20c1cec30a168028947fdbd90071f6c2967 is possible
+    GIT_TAG        e41dc20c1cec30a168028947fdbd90071f6c2967
     SOURCE_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/libharfbuzz/repo
     BINARY_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/libharfbuzz/build
     CONFIGURE_COMMAND ${CMAKE_COMMAND} -S <SOURCE_DIR>/.. -B <BINARY_DIR> -DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
@@ -111,19 +112,23 @@ add_subdirectory(pdftex.wasm)
 add_custom_command(
     OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/build/xetex.wasm/xetex.js.prettier
     COMMAND prettier --tab-width=2 --semi --trailing-comma es5 --write stellarlatexxetex.js
-    COMMAND sed -i "1i/* eslint-disable */" stellarlatexxetex.js
+    COMMAND sed -i "" "1s#^#/* eslint-disable */ #" stellarlatexxetex.js
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build/xetex.wasm
     DEPENDS stellarlatexxetex
     COMMENT "Running prettier on stellarlatexxetex.js"
+    VERBATIM
 )
+
 add_custom_command(
     OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/build/pdftex.wasm/pdftex.js.prettier
     COMMAND prettier --tab-width=2 --semi --trailing-comma es5 --write stellarlatexpdftex.js
-    COMMAND sed -i "1i/* eslint-disable */" stellarlatexpdftex.js
+    COMMAND sed -i "" "1s#^#/* eslint-disable */ #" stellarlatexpdftex.js
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build/pdftex.wasm
     DEPENDS stellarlatexpdftex
     COMMENT "Running prettier on stellarlatexpdftex.js"
+    VERBATIM
 )
+
 add_custom_target(post_build_commands ALL
     DEPENDS
         ${CMAKE_CURRENT_SOURCE_DIR}/build/xetex.wasm/xetex.js.prettier

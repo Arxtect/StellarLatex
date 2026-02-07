@@ -9,4 +9,4 @@
 #include <pdftexd.h>
 
 /* Hand-coded routines for TeX or Metafont in C.  */
-#include <lib/texmfmp.c>
+#include <texmfmp.c>

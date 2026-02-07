@@ -28,6 +28,8 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <kpathsea/getopt.h>
 */
 #include <kpathsea/kpathsea.h>
+#include <unistd.h>
+#include <limits.h>
 #include <time.h>
 #include <pdftexdir/ptexmac.h>
 #include <pdftexdir/writettf.h>
@@ -280,8 +282,13 @@ static void read_encoding(char *encname)
 {
     char buf[ENC_BUF_SIZE], *q, *r;
     int i;
+    int fd;
     cur_file_name = encname;
-    if ((encfile = kpse_open_file(encname, kpse_enc_format)) == NULL)
+    fd = kpse_open_file(encname, kpse_enc_format);
+    if (fd < 0)
+        ttf_fail("can't open encoding file for reading");
+    encfile = fdopen(fd, "r");
+    if (!encfile)
         ttf_fail("can't open encoding file for reading");
     enc_getline();
     if (*enc_line != '/' || (r = strchr(enc_line, '[')) == 0)
@@ -1106,9 +1113,15 @@ int main(int argc, char **argv)
         if ((s = strrchr(bname, '.')) != NULL)
             *s = 0;
     }
-    if ((fontfile =
-         kpse_open_file(cur_file_name, kpse_truetype_format)) == NULL)
-        ttf_fail("can't open font file for reading");
+    {
+        int fd;
+        fd = kpse_open_file(cur_file_name, kpse_truetype_format);
+        if (fd < 0)
+            ttf_fail("can't open font file for reading");
+        fontfile = fdopen(fd, "rb");
+        if (!fontfile)
+            ttf_fail("can't open font file for reading");
+    }
     read_font();
     if (outfile == NULL)
         outfile = stdout;

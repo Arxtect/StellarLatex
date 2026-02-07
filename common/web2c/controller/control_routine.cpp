@@ -1,6 +1,5 @@
 #include "control_utils.hpp"
 #include <bibtex/bibtex.h>
-#include <cbiber.h>
 #include <chrono>
 #include <fstream>
 #include <iostream>

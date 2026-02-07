@@ -1,3 +1,4 @@
+#pragma once
 #undef TRIP
 #undef TRAP
 #define STAT

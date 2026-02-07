@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
         exit(1);
     }
     fileName = new GString(argv[1]);
-    globalParams = new GlobalParams();
+    globalParams = new GlobalParams(nullptr);
     doc = new PDFDoc(fileName);
     if (!doc->isOk()) {
         fprintf(stderr, "Invalid PDF file\n");

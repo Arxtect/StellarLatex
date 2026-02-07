@@ -1,44 +1,87 @@
 cmake_minimum_required(VERSION 3.10)
 project(stellarlatexxetex)
 
-find_package(ZLIB REQUIRED)
-find_package(PNG REQUIRED)
+# =============================================================
+# 1. 路径定义 (根据你的目录结构调整)
+# =============================================================
+# 假设 3rdparty 文件夹在当前 CMakeLists.txt 同级目录
+set(THIRD_PARTY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty")
+set(COMMON_CODE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../common") # 假设 common 在上一级，请根据实际情况调整
 
-#  COMPILE FLAGS
-## set flags
+# =============================================================
+# 2. 查找并定义第三方库 (基于你提供的 find 结果)
+# =============================================================
+set(LIB_HARFBUZZ    "${THIRD_PARTY_DIR}/libharfbuzz/build/libharfbuzz.a")
+set(LIB_GRAPHITE2   "${THIRD_PARTY_DIR}/libgraphite2/build/src/libgraphite2.a") # 注意是 src 下的
+set(LIB_XPDF        "${THIRD_PARTY_DIR}/libxpdf/build/libxpdf.a")
+set(LIB_TINYXML2    "${THIRD_PARTY_DIR}/libtinyxml2/build/libtinyxml2.a")
+set(LIB_LZMA        "${THIRD_PARTY_DIR}/liblzma/build/liblzma.a")
+set(LIB_ARCHIVE     "${THIRD_PARTY_DIR}/libarchive/build/libarchive/libarchive.a") # 注意路径层级
+
+# PPlib 分成了三个库
+set(LIB_PPLIB_CORE  "${THIRD_PARTY_DIR}/libpplib/build/libpplib.a")
+set(LIB_PPLIB_UTIL  "${THIRD_PARTY_DIR}/libpplib/build/libpplib_utils.a")
+set(LIB_PPLIB_FILT  "${THIRD_PARTY_DIR}/libpplib/build/libpplib_filters.a")
+
+# 检查文件是否存在，避免编译到一半才报错
+if(NOT EXISTS "${LIB_HARFBUZZ}")
+    message(WARNING "Library not found: ${LIB_HARFBUZZ} \nDid you build the 3rdparty dependencies?")
+endif()
+
+# =============================================================
+# 3. 编译选项 (Compile Flags)
+# =============================================================
+# 移除 find_package(ZLIB/PNG)，直接用 Emscripten 内置支持
 set(COMMON_FLAGS
     -O3
     -Wno-parentheses-equality
     -Wno-pointer-sign
+    -D__SyncTeX__
+    -DSYNCTEX_ENGINE_H='"synctex-xetex.h"'
+    -DWEBASSEMBLY_BUILD
+    -DXETEXWASM
+    -DHAVE_CONFIG_H
     -sUSE_FREETYPE
     -sUSE_ICU
+    -sUSE_LIBPNG
     -fno-rtti
-    -fexceptions
+    -fexceptions      # 允许异常
 )
-## convert to string
+
+# 转换为字符串
 string(REPLACE ";" " " COMMON_FLAGS_STR "${COMMON_FLAGS}")
-## set to cmake variable
 set(CMAKE_C_FLAGS "${COMMON_FLAGS_STR}")
 set(CMAKE_CXX_FLAGS "${COMMON_FLAGS_STR}")
 
-#  LINK FLAGS
-## set js path
+# =============================================================
+# 4. 链接选项 (Link Flags)
+# =============================================================
 set(LIBRARY_JS ${CMAKE_CURRENT_SOURCE_DIR}/library.js)
 set(PRE_JS ${CMAKE_CURRENT_SOURCE_DIR}/pre.js)
-## set link flag
+
 set(LINKER_FLAGS
     --js-library=${LIBRARY_JS}
     --pre-js=${PRE_JS}
     -sENVIRONMENT=web
     -sEXPORTED_FUNCTIONS='["_compileLaTeX","_main","_malloc","_synctex_view","_synctex_edit"]'
     -sNO_EXIT_RUNTIME=1
+    -sWASM=1
     -sEXPORTED_RUNTIME_METHODS=["cwrap"]
     -sALLOW_MEMORY_GROWTH=1
+    -sINITIAL_MEMORY=268435456  # 建议设置初始内存 256MB，防止启动 OOM
+    -sSTACK_SIZE=5242880        # 5MB 栈
+
+    -sEXPORTED_RUNTIME_METHODS='["ccall","cwrap"]' # 建议加上这个以便调试
+
+    -fno-rtti
 )
+
 string(REPLACE ";" " " LINKER_FLAGS_STR "${LINKER_FLAGS}")
 set(CMAKE_EXE_LINKER_FLAGS "${LINKER_FLAGS_STR}")
 
-#  SOURCES
+# =============================================================
+# 5. 源文件定义
+# =============================================================
 ## common
 file(GLOB_RECURSE COMMONSOURCES
     ${COMMON_CODE_DIR}/web2c/*.c
@@ -56,6 +99,7 @@ file(GLOB_RECURSE COMMONSOURCES
     ${COMMON_CODE_DIR}/synctexdir/*.c
     ${COMMON_CODE_DIR}/teckit/Engine.cpp
 )
+
 ## xetex
 file(GLOB_RECURSE XETEXSOURCES
     tex/*.c
@@ -72,14 +116,13 @@ file(GLOB_RECURSE XETEXSOURCES
     xetexdir/image/jpegimage.c
     xetexdir/image/pngimage.c
     xetexdir/trans.c
+    xetexdir/xetex-shim.cpp
 )
 
-#  SET CMAKE PROJECT
+# =============================================================
+# 6. 构建目标 (Target)
+# =============================================================
 add_executable(${PROJECT_NAME} ${COMMONSOURCES} ${XETEXSOURCES})
-target_compile_definitions(${PROJECT_NAME} PRIVATE HAVE_CONFIG_H)
-target_compile_definitions(${PROJECT_NAME} PRIVATE __SyncTeX__)
-target_compile_definitions(${PROJECT_NAME} PRIVATE SYNCTEX_ENGINE_H="synctex-xetex.h")
-target_compile_definitions(${PROJECT_NAME} PRIVATE XETEXWASM)
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/tex
@@ -100,19 +143,21 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${COMMON_CODE_DIR}/teckit
     ${COMMON_CODE_DIR}/teckit/Public-headers
 )
-target_link_directories(${PROJECT_NAME} PRIVATE ${THIRD_PARTY_DIR}/emsdk/upstream/emscripten/cache/sysroot/lib)
+
+# 链接第三方库 (使用上面定义的绝对路径变量)
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    ${ZLIB_LIBRARIES}
-    ${PNG_LIBRARIES}
-    libxpdf.a
-    libarchive.a
-    liblzma.a
-    libtinyxml2.a
-    libcb.a
-    libpplib.a
-    libpplib_utils.a
-    libpplib_filters.a
-    libdvi.a
-    libgraphite2.a
-    libharfbuzz.a
+    ${LIB_XPDF}
+    ${LIB_ARCHIVE}
+    ${LIB_LZMA}
+    ${LIB_TINYXML2}
+    ${LIB_PPLIB_CORE}
+    ${LIB_PPLIB_UTIL}
+    ${LIB_PPLIB_FILT}
+    ${LIB_GRAPHITE2}
+    ${LIB_HARFBUZZ}
+    
+    # [说明] libcb 和 libdvi 通常是 TeX 内部库。
+    # 既然你上面 GLOB 了 web2c/lib/*.c 和 tex/*.c，
+    # 这些代码应该已经包含在 executable 里了，不需要额外链接 libcb.a / libdvi.a。
+    # 如果编译报错 undefined symbol，请检查 COMMONSOURCES 是否漏了文件。
 )

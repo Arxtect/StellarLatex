@@ -27,6 +27,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>   // for CHAR_BIT
+#include <stddef.h>   // for size_t
+#include <stdint.h>   // for uint32_t etc
 
 #if defined(__MINGW32_VERSION) || defined(_MSC_VER)
 #define strcasecmp stricmp
